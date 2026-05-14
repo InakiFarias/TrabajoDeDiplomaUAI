@@ -1,8 +1,8 @@
 namespace UI
 {
-    public partial class Form1 : Form
+    public partial class FrmVenta : Form
     {
-        public Form1()
+        public FrmVenta()
         {
             InitializeComponent();
         }
