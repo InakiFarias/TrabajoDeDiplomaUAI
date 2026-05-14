@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BE\BE.csproj" />
+    <ProjectReference Include="..\MAP\MAP.csproj" />
+    <ProjectReference Include="..\Servicios\Servicios.csproj" />
+  </ItemGroup>
+
 </Project>
