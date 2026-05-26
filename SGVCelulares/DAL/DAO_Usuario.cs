@@ -3,14 +3,13 @@ using System.Data;
 
 namespace DAL
 {
-    public class DAO_Usuario : IABMC
+    public class DAO_Usuario : Conexion,IABMC
     {
-        SqlConnection con;
+        
         SqlCommand cm;
 
-        public DAO_Usuario()
+        public DAO_Usuario():base()
         {
-            con = new SqlConnection("Data Source=.;Initial Catalog=bd_sgvcelulares;Integrated Security=true;Trust Server Certificate=true");
             cm = new SqlCommand("select * from usuarios", con);
         }
         public void Agregar(params object[] T)
