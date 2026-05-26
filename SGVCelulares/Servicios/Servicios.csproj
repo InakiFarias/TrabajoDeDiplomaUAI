@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="SER_Usuario.cs" />
+  </ItemGroup>
+
 </Project>

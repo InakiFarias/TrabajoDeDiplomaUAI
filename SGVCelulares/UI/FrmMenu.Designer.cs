@@ -28,244 +28,242 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlTopbar = new System.Windows.Forms.Panel();
-            this.lblUsuario = new System.Windows.Forms.Label();
-            this.lblTituloTopbar = new System.Windows.Forms.Label();
-            this.pnlSidebar = new System.Windows.Forms.Panel();
-            this.btnCerrarSesion = new System.Windows.Forms.Button();
-            this.btnAyuda = new System.Windows.Forms.Button();
-            this.btnClientes = new System.Windows.Forms.Button();
-            this.btnInventario = new System.Windows.Forms.Button();
-            this.btnReportes = new System.Windows.Forms.Button();
-            this.btnVentas = new System.Windows.Forms.Button();
-            this.btnUsuarios = new System.Windows.Forms.Button();
-            this.lblSeccionNav = new System.Windows.Forms.Label();
-            this.pnlContenido = new System.Windows.Forms.Panel();
-
-            this.pnlTopbar.SuspendLayout();
-            this.pnlSidebar.SuspendLayout();
-            this.SuspendLayout();
-
-            // ──────────────────────────────────────────────────────
+            pnlTopbar = new Panel();
+            lblUsuario = new Label();
+            lblTituloTopbar = new Label();
+            pnlSidebar = new Panel();
+            btnCerrarSesion = new Button();
+            btnAyuda = new Button();
+            btnClientes = new Button();
+            btnInventario = new Button();
+            btnReportes = new Button();
+            btnVentas = new Button();
+            btnUsuarios = new Button();
+            lblSeccionNav = new Label();
+            pnlContenido = new Panel();
+            pnlTopbar.SuspendLayout();
+            pnlSidebar.SuspendLayout();
+            SuspendLayout();
+            // 
             // pnlTopbar
-            // ──────────────────────────────────────────────────────
-            this.pnlTopbar.Controls.Add(this.lblUsuario);
-            this.pnlTopbar.Controls.Add(this.lblTituloTopbar);
-            this.pnlTopbar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTopbar.BackColor = System.Drawing.Color.FromArgb(21, 32, 48);
-            this.pnlTopbar.Height = 48;
-            this.pnlTopbar.Name = "pnlTopbar";
-            this.pnlTopbar.TabIndex = 0;
-
-            // ──────────────────────────────────────────────────────
-            // lblTituloTopbar
-            // ──────────────────────────────────────────────────────
-            this.lblTituloTopbar.AutoSize = true;
-            this.lblTituloTopbar.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular);
-            this.lblTituloTopbar.ForeColor = System.Drawing.Color.FromArgb(226, 232, 240);
-            this.lblTituloTopbar.Location = new System.Drawing.Point(16, 14);
-            this.lblTituloTopbar.Name = "lblTituloTopbar";
-            this.lblTituloTopbar.TabIndex = 0;
-            this.lblTituloTopbar.Text = "Sistema de Gestión";
-
-            // ──────────────────────────────────────────────────────
+            // 
+            pnlTopbar.BackColor = Color.FromArgb(21, 32, 48);
+            pnlTopbar.Controls.Add(lblUsuario);
+            pnlTopbar.Controls.Add(lblTituloTopbar);
+            pnlTopbar.Dock = DockStyle.Top;
+            pnlTopbar.Location = new Point(0, 0);
+            pnlTopbar.Name = "pnlTopbar";
+            pnlTopbar.Size = new Size(960, 48);
+            pnlTopbar.TabIndex = 0;
+            // 
             // lblUsuario
-            // ──────────────────────────────────────────────────────
-            this.lblUsuario.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblUsuario.ForeColor = System.Drawing.Color.FromArgb(148, 163, 184);
-            this.lblUsuario.Location = new System.Drawing.Point(840, 16);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.TabIndex = 1;
-            this.lblUsuario.Text = "● Admin";
-
-            // ──────────────────────────────────────────────────────
+            // 
+            lblUsuario.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblUsuario.AutoSize = true;
+            lblUsuario.Font = new Font("Segoe UI", 9F);
+            lblUsuario.ForeColor = Color.FromArgb(148, 163, 184);
+            lblUsuario.Location = new Point(1600, 16);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(53, 15);
+            lblUsuario.TabIndex = 1;
+            lblUsuario.Text = "● Admin";
+            // 
+            // lblTituloTopbar
+            // 
+            lblTituloTopbar.AutoSize = true;
+            lblTituloTopbar.Font = new Font("Segoe UI", 11F);
+            lblTituloTopbar.ForeColor = Color.FromArgb(226, 232, 240);
+            lblTituloTopbar.Location = new Point(16, 14);
+            lblTituloTopbar.Name = "lblTituloTopbar";
+            lblTituloTopbar.Size = new Size(136, 20);
+            lblTituloTopbar.TabIndex = 0;
+            lblTituloTopbar.Text = "Sistema de Gestión";
+            // 
             // pnlSidebar
-            // ──────────────────────────────────────────────────────
-            this.pnlSidebar.Controls.Add(this.btnCerrarSesion);
-            this.pnlSidebar.Controls.Add(this.btnAyuda);
-            this.pnlSidebar.Controls.Add(this.btnClientes);
-            this.pnlSidebar.Controls.Add(this.btnInventario);
-            this.pnlSidebar.Controls.Add(this.btnReportes);
-            this.pnlSidebar.Controls.Add(this.btnVentas);
-            this.pnlSidebar.Controls.Add(this.btnUsuarios);
-            this.pnlSidebar.Controls.Add(this.lblSeccionNav);
-            this.pnlSidebar.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlSidebar.BackColor = System.Drawing.Color.FromArgb(25, 37, 53);
-            this.pnlSidebar.Width = 190;
-            this.pnlSidebar.Name = "pnlSidebar";
-            this.pnlSidebar.TabIndex = 1;
-
-            // ──────────────────────────────────────────────────────
-            // lblSeccionNav
-            // ──────────────────────────────────────────────────────
-            this.lblSeccionNav.AutoSize = true;
-            this.lblSeccionNav.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
-            this.lblSeccionNav.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
-            this.lblSeccionNav.Location = new System.Drawing.Point(12, 8);
-            this.lblSeccionNav.Name = "lblSeccionNav";
-            this.lblSeccionNav.TabIndex = 0;
-            this.lblSeccionNav.Text = "MÓDULOS";
-
-            // ──────────────────────────────────────────────────────
-            // btnUsuarios
-            // ──────────────────────────────────────────────────────
-            this.btnUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUsuarios.FlatAppearance.BorderSize = 0;
-            this.btnUsuarios.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 60, 82);
-            this.btnUsuarios.BackColor = System.Drawing.Color.FromArgb(25, 37, 53);
-            this.btnUsuarios.ForeColor = System.Drawing.Color.FromArgb(148, 163, 184);
-            this.btnUsuarios.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnUsuarios.Location = new System.Drawing.Point(4, 30);
-            this.btnUsuarios.Size = new System.Drawing.Size(174, 38);
-            this.btnUsuarios.Name = "btnUsuarios";
-            this.btnUsuarios.TabIndex = 1;
-            this.btnUsuarios.Text = "👤  Gestión de Usuarios";
-            this.btnUsuarios.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUsuarios.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
-
-            // ──────────────────────────────────────────────────────
-            // btnVentas
-            // ──────────────────────────────────────────────────────
-            this.btnVentas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVentas.FlatAppearance.BorderSize = 0;
-            this.btnVentas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 60, 82);
-            this.btnVentas.BackColor = System.Drawing.Color.FromArgb(25, 37, 53);
-            this.btnVentas.ForeColor = System.Drawing.Color.FromArgb(148, 163, 184);
-            this.btnVentas.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnVentas.Location = new System.Drawing.Point(4, 72);
-            this.btnVentas.Size = new System.Drawing.Size(174, 38);
-            this.btnVentas.Name = "btnVentas";
-            this.btnVentas.TabIndex = 2;
-            this.btnVentas.Text = "🛒  Ventas";
-            this.btnVentas.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVentas.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnVentas.Cursor = System.Windows.Forms.Cursors.Hand;
-
-            // ──────────────────────────────────────────────────────
-            // btnReportes
-            // ──────────────────────────────────────────────────────
-            this.btnReportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReportes.FlatAppearance.BorderSize = 0;
-            this.btnReportes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 60, 82);
-            this.btnReportes.BackColor = System.Drawing.Color.FromArgb(25, 37, 53);
-            this.btnReportes.ForeColor = System.Drawing.Color.FromArgb(148, 163, 184);
-            this.btnReportes.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnReportes.Location = new System.Drawing.Point(4, 114);
-            this.btnReportes.Size = new System.Drawing.Size(174, 38);
-            this.btnReportes.Name = "btnReportes";
-            this.btnReportes.TabIndex = 3;
-            this.btnReportes.Text = "📊  Reportes";
-            this.btnReportes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReportes.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnReportes.Cursor = System.Windows.Forms.Cursors.Hand;
-
-            // ──────────────────────────────────────────────────────
-            // btnInventario
-            // ──────────────────────────────────────────────────────
-            this.btnInventario.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInventario.FlatAppearance.BorderSize = 0;
-            this.btnInventario.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 60, 82);
-            this.btnInventario.BackColor = System.Drawing.Color.FromArgb(25, 37, 53);
-            this.btnInventario.ForeColor = System.Drawing.Color.FromArgb(148, 163, 184);
-            this.btnInventario.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnInventario.Location = new System.Drawing.Point(4, 156);
-            this.btnInventario.Size = new System.Drawing.Size(174, 38);
-            this.btnInventario.Name = "btnInventario";
-            this.btnInventario.TabIndex = 4;
-            this.btnInventario.Text = "📦  Inventario";
-            this.btnInventario.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnInventario.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnInventario.Cursor = System.Windows.Forms.Cursors.Hand;
-
-            // ──────────────────────────────────────────────────────
-            // btnClientes
-            // ──────────────────────────────────────────────────────
-            this.btnClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClientes.FlatAppearance.BorderSize = 0;
-            this.btnClientes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 60, 82);
-            this.btnClientes.BackColor = System.Drawing.Color.FromArgb(25, 37, 53);
-            this.btnClientes.ForeColor = System.Drawing.Color.FromArgb(148, 163, 184);
-            this.btnClientes.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnClientes.Location = new System.Drawing.Point(4, 198);
-            this.btnClientes.Size = new System.Drawing.Size(174, 38);
-            this.btnClientes.Name = "btnClientes";
-            this.btnClientes.TabIndex = 5;
-            this.btnClientes.Text = "🙍  Clientes";
-            this.btnClientes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClientes.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnClientes.Cursor = System.Windows.Forms.Cursors.Hand;
-
-            // ──────────────────────────────────────────────────────
-            // btnAyuda
-            // ──────────────────────────────────────────────────────
-            this.btnAyuda.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAyuda.FlatAppearance.BorderSize = 0;
-            this.btnAyuda.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 60, 82);
-            this.btnAyuda.BackColor = System.Drawing.Color.FromArgb(25, 37, 53);
-            this.btnAyuda.ForeColor = System.Drawing.Color.FromArgb(148, 163, 184);
-            this.btnAyuda.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnAyuda.Location = new System.Drawing.Point(4, 240);
-            this.btnAyuda.Size = new System.Drawing.Size(174, 38);
-            this.btnAyuda.Name = "btnAyuda";
-            this.btnAyuda.TabIndex = 6;
-            this.btnAyuda.Text = "❓  Ayuda";
-            this.btnAyuda.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAyuda.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnAyuda.Cursor = System.Windows.Forms.Cursors.Hand;
-
-            // ──────────────────────────────────────────────────────
+            // 
+            pnlSidebar.BackColor = Color.FromArgb(25, 37, 53);
+            pnlSidebar.Controls.Add(btnCerrarSesion);
+            pnlSidebar.Controls.Add(btnAyuda);
+            pnlSidebar.Controls.Add(btnClientes);
+            pnlSidebar.Controls.Add(btnInventario);
+            pnlSidebar.Controls.Add(btnReportes);
+            pnlSidebar.Controls.Add(btnVentas);
+            pnlSidebar.Controls.Add(btnUsuarios);
+            pnlSidebar.Controls.Add(lblSeccionNav);
+            pnlSidebar.Dock = DockStyle.Left;
+            pnlSidebar.Location = new Point(0, 48);
+            pnlSidebar.Name = "pnlSidebar";
+            pnlSidebar.Size = new Size(190, 572);
+            pnlSidebar.TabIndex = 1;
+            // 
             // btnCerrarSesion
-            // ──────────────────────────────────────────────────────
-            this.btnCerrarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrarSesion.FlatAppearance.BorderSize = 0;
-            this.btnCerrarSesion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 60, 82);
-            this.btnCerrarSesion.BackColor = System.Drawing.Color.FromArgb(25, 37, 53);
-            this.btnCerrarSesion.ForeColor = System.Drawing.Color.FromArgb(148, 163, 184);
-            this.btnCerrarSesion.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnCerrarSesion.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnCerrarSesion.Height = 38;
-            this.btnCerrarSesion.Name = "btnCerrarSesion";
-            this.btnCerrarSesion.TabIndex = 7;
-            this.btnCerrarSesion.Text = "⇠  Cerrar sesión";
-            this.btnCerrarSesion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCerrarSesion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnCerrarSesion.Cursor = System.Windows.Forms.Cursors.Hand;
-
-            // ──────────────────────────────────────────────────────
+            // 
+            btnCerrarSesion.BackColor = Color.FromArgb(25, 37, 53);
+            btnCerrarSesion.Cursor = Cursors.Hand;
+            btnCerrarSesion.Dock = DockStyle.Bottom;
+            btnCerrarSesion.FlatAppearance.BorderSize = 0;
+            btnCerrarSesion.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnCerrarSesion.FlatStyle = FlatStyle.Flat;
+            btnCerrarSesion.Font = new Font("Segoe UI", 9.5F);
+            btnCerrarSesion.ForeColor = Color.FromArgb(148, 163, 184);
+            btnCerrarSesion.Location = new Point(0, 534);
+            btnCerrarSesion.Name = "btnCerrarSesion";
+            btnCerrarSesion.Padding = new Padding(10, 0, 0, 0);
+            btnCerrarSesion.Size = new Size(190, 38);
+            btnCerrarSesion.TabIndex = 7;
+            btnCerrarSesion.Text = "⇠  Cerrar sesión";
+            btnCerrarSesion.TextAlign = ContentAlignment.MiddleLeft;
+            btnCerrarSesion.UseVisualStyleBackColor = false;
+            // 
+            // btnAyuda
+            // 
+            btnAyuda.BackColor = Color.FromArgb(25, 37, 53);
+            btnAyuda.Cursor = Cursors.Hand;
+            btnAyuda.FlatAppearance.BorderSize = 0;
+            btnAyuda.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnAyuda.FlatStyle = FlatStyle.Flat;
+            btnAyuda.Font = new Font("Segoe UI", 9.5F);
+            btnAyuda.ForeColor = Color.FromArgb(148, 163, 184);
+            btnAyuda.Location = new Point(4, 240);
+            btnAyuda.Name = "btnAyuda";
+            btnAyuda.Padding = new Padding(10, 0, 0, 0);
+            btnAyuda.Size = new Size(174, 38);
+            btnAyuda.TabIndex = 6;
+            btnAyuda.Text = "❓  Ayuda";
+            btnAyuda.TextAlign = ContentAlignment.MiddleLeft;
+            btnAyuda.UseVisualStyleBackColor = false;
+            // 
+            // btnClientes
+            // 
+            btnClientes.BackColor = Color.FromArgb(25, 37, 53);
+            btnClientes.Cursor = Cursors.Hand;
+            btnClientes.FlatAppearance.BorderSize = 0;
+            btnClientes.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnClientes.FlatStyle = FlatStyle.Flat;
+            btnClientes.Font = new Font("Segoe UI", 9.5F);
+            btnClientes.ForeColor = Color.FromArgb(148, 163, 184);
+            btnClientes.Location = new Point(4, 198);
+            btnClientes.Name = "btnClientes";
+            btnClientes.Padding = new Padding(10, 0, 0, 0);
+            btnClientes.Size = new Size(174, 38);
+            btnClientes.TabIndex = 5;
+            btnClientes.Text = "🙍  Clientes";
+            btnClientes.TextAlign = ContentAlignment.MiddleLeft;
+            btnClientes.UseVisualStyleBackColor = false;
+            // 
+            // btnInventario
+            // 
+            btnInventario.BackColor = Color.FromArgb(25, 37, 53);
+            btnInventario.Cursor = Cursors.Hand;
+            btnInventario.FlatAppearance.BorderSize = 0;
+            btnInventario.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnInventario.FlatStyle = FlatStyle.Flat;
+            btnInventario.Font = new Font("Segoe UI", 9.5F);
+            btnInventario.ForeColor = Color.FromArgb(148, 163, 184);
+            btnInventario.Location = new Point(4, 156);
+            btnInventario.Name = "btnInventario";
+            btnInventario.Padding = new Padding(10, 0, 0, 0);
+            btnInventario.Size = new Size(174, 38);
+            btnInventario.TabIndex = 4;
+            btnInventario.Text = "📦  Inventario";
+            btnInventario.TextAlign = ContentAlignment.MiddleLeft;
+            btnInventario.UseVisualStyleBackColor = false;
+            // 
+            // btnReportes
+            // 
+            btnReportes.BackColor = Color.FromArgb(25, 37, 53);
+            btnReportes.Cursor = Cursors.Hand;
+            btnReportes.FlatAppearance.BorderSize = 0;
+            btnReportes.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnReportes.FlatStyle = FlatStyle.Flat;
+            btnReportes.Font = new Font("Segoe UI", 9.5F);
+            btnReportes.ForeColor = Color.FromArgb(148, 163, 184);
+            btnReportes.Location = new Point(4, 114);
+            btnReportes.Name = "btnReportes";
+            btnReportes.Padding = new Padding(10, 0, 0, 0);
+            btnReportes.Size = new Size(174, 38);
+            btnReportes.TabIndex = 3;
+            btnReportes.Text = "📊  Reportes";
+            btnReportes.TextAlign = ContentAlignment.MiddleLeft;
+            btnReportes.UseVisualStyleBackColor = false;
+            // 
+            // btnVentas
+            // 
+            btnVentas.BackColor = Color.FromArgb(25, 37, 53);
+            btnVentas.Cursor = Cursors.Hand;
+            btnVentas.FlatAppearance.BorderSize = 0;
+            btnVentas.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnVentas.FlatStyle = FlatStyle.Flat;
+            btnVentas.Font = new Font("Segoe UI", 9.5F);
+            btnVentas.ForeColor = Color.FromArgb(148, 163, 184);
+            btnVentas.Location = new Point(4, 72);
+            btnVentas.Name = "btnVentas";
+            btnVentas.Padding = new Padding(10, 0, 0, 0);
+            btnVentas.Size = new Size(174, 38);
+            btnVentas.TabIndex = 2;
+            btnVentas.Text = "\U0001f6d2  Ventas";
+            btnVentas.TextAlign = ContentAlignment.MiddleLeft;
+            btnVentas.UseVisualStyleBackColor = false;
+            // 
+            // btnUsuarios
+            // 
+            btnUsuarios.BackColor = Color.FromArgb(25, 37, 53);
+            btnUsuarios.Cursor = Cursors.Hand;
+            btnUsuarios.FlatAppearance.BorderSize = 0;
+            btnUsuarios.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnUsuarios.FlatStyle = FlatStyle.Flat;
+            btnUsuarios.Font = new Font("Segoe UI", 9.5F);
+            btnUsuarios.ForeColor = Color.FromArgb(148, 163, 184);
+            btnUsuarios.Location = new Point(4, 30);
+            btnUsuarios.Name = "btnUsuarios";
+            btnUsuarios.Padding = new Padding(10, 0, 0, 0);
+            btnUsuarios.Size = new Size(174, 38);
+            btnUsuarios.TabIndex = 1;
+            btnUsuarios.Text = "👤  Gestión de Usuarios";
+            btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
+            btnUsuarios.UseVisualStyleBackColor = false;
+            btnUsuarios.Click += btnUsuarios_Click;
+            // 
+            // lblSeccionNav
+            // 
+            lblSeccionNav.AutoSize = true;
+            lblSeccionNav.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            lblSeccionNav.ForeColor = Color.FromArgb(71, 85, 105);
+            lblSeccionNav.Location = new Point(12, 8);
+            lblSeccionNav.Name = "lblSeccionNav";
+            lblSeccionNav.Size = new Size(56, 12);
+            lblSeccionNav.TabIndex = 0;
+            lblSeccionNav.Text = "MÓDULOS";
+            // 
             // pnlContenido
-            // ──────────────────────────────────────────────────────
-            this.pnlContenido.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlContenido.BackColor = System.Drawing.Color.FromArgb(30, 42, 58);
-            this.pnlContenido.Padding = new System.Windows.Forms.Padding(24);
-            this.pnlContenido.Name = "pnlContenido";
-            this.pnlContenido.TabIndex = 2;
-
-            // ──────────────────────────────────────────────────────
-            // FrmMenuPrincipal
-            // ──────────────────────────────────────────────────────
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(30, 42, 58);
-            this.ClientSize = new System.Drawing.Size(960, 620);
-            this.MinimumSize = new System.Drawing.Size(800, 500);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.Name = "FrmMenuPrincipal";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Sistema de Gestión";
-
-            // Orden de Dock importa: Top primero, Left después, Fill al final
-            this.Controls.Add(this.pnlContenido);
-            this.Controls.Add(this.pnlSidebar);
-            this.Controls.Add(this.pnlTopbar);
-
-            this.pnlTopbar.ResumeLayout(false);
-            this.pnlTopbar.PerformLayout();
-            this.pnlSidebar.ResumeLayout(false);
-            this.pnlSidebar.PerformLayout();
-            this.ResumeLayout(false);
+            // 
+            pnlContenido.BackColor = Color.FromArgb(30, 42, 58);
+            pnlContenido.Dock = DockStyle.Fill;
+            pnlContenido.Location = new Point(190, 48);
+            pnlContenido.Name = "pnlContenido";
+            pnlContenido.Padding = new Padding(24);
+            pnlContenido.Size = new Size(770, 572);
+            pnlContenido.TabIndex = 2;
+            // 
+            // FrmMenu
+            // 
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(30, 42, 58);
+            ClientSize = new Size(960, 620);
+            Controls.Add(pnlContenido);
+            Controls.Add(pnlSidebar);
+            Controls.Add(pnlTopbar);
+            Font = new Font("Segoe UI", 9.5F);
+            MinimumSize = new Size(800, 500);
+            Name = "FrmMenu";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Sistema de Gestión";
+            pnlTopbar.ResumeLayout(false);
+            pnlTopbar.PerformLayout();
+            pnlSidebar.ResumeLayout(false);
+            pnlSidebar.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
