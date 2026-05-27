@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            grillaUsuarios = new DataGridView();
             label1 = new Label();
             btnCrearUsuario = new Button();
             btnDesbloquearUsuario = new Button();
@@ -50,19 +50,19 @@
             label5 = new Label();
             txtNombreUsuario = new TextBox();
             label6 = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)grillaUsuarios).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // grillaUsuarios
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(32, 102);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(426, 197);
-            dataGridView1.TabIndex = 0;
+            grillaUsuarios.AllowUserToAddRows = false;
+            grillaUsuarios.AllowUserToDeleteRows = false;
+            grillaUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            grillaUsuarios.Location = new Point(32, 102);
+            grillaUsuarios.Name = "grillaUsuarios";
+            grillaUsuarios.ReadOnly = true;
+            grillaUsuarios.Size = new Size(787, 197);
+            grillaUsuarios.TabIndex = 0;
             // 
             // label1
             // 
@@ -76,7 +76,7 @@
             // 
             // btnCrearUsuario
             // 
-            btnCrearUsuario.Location = new Point(497, 102);
+            btnCrearUsuario.Location = new Point(839, 104);
             btnCrearUsuario.Name = "btnCrearUsuario";
             btnCrearUsuario.Size = new Size(148, 23);
             btnCrearUsuario.TabIndex = 2;
@@ -86,7 +86,7 @@
             // 
             // btnDesbloquearUsuario
             // 
-            btnDesbloquearUsuario.Location = new Point(497, 131);
+            btnDesbloquearUsuario.Location = new Point(839, 133);
             btnDesbloquearUsuario.Name = "btnDesbloquearUsuario";
             btnDesbloquearUsuario.Size = new Size(148, 23);
             btnDesbloquearUsuario.TabIndex = 3;
@@ -95,7 +95,7 @@
             // 
             // btnModificarUsuario
             // 
-            btnModificarUsuario.Location = new Point(497, 160);
+            btnModificarUsuario.Location = new Point(839, 162);
             btnModificarUsuario.Name = "btnModificarUsuario";
             btnModificarUsuario.Size = new Size(148, 23);
             btnModificarUsuario.TabIndex = 4;
@@ -104,7 +104,7 @@
             // 
             // btnActivarUsuario
             // 
-            btnActivarUsuario.Location = new Point(497, 189);
+            btnActivarUsuario.Location = new Point(839, 191);
             btnActivarUsuario.Name = "btnActivarUsuario";
             btnActivarUsuario.Size = new Size(148, 23);
             btnActivarUsuario.TabIndex = 5;
@@ -113,7 +113,7 @@
             // 
             // btnAplicarCambios
             // 
-            btnAplicarCambios.Location = new Point(497, 218);
+            btnAplicarCambios.Location = new Point(839, 220);
             btnAplicarCambios.Name = "btnAplicarCambios";
             btnAplicarCambios.Size = new Size(148, 23);
             btnAplicarCambios.TabIndex = 6;
@@ -122,7 +122,7 @@
             // 
             // btnCancelarCambios
             // 
-            btnCancelarCambios.Location = new Point(497, 247);
+            btnCancelarCambios.Location = new Point(839, 249);
             btnCancelarCambios.Name = "btnCancelarCambios";
             btnCancelarCambios.Size = new Size(148, 23);
             btnCancelarCambios.TabIndex = 7;
@@ -131,7 +131,7 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(497, 276);
+            btnSalir.Location = new Point(839, 278);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(148, 23);
             btnSalir.TabIndex = 8;
@@ -141,7 +141,7 @@
             // lblNumeroUsuarios
             // 
             lblNumeroUsuarios.AutoSize = true;
-            lblNumeroUsuarios.Location = new Point(528, 61);
+            lblNumeroUsuarios.Location = new Point(839, 63);
             lblNumeroUsuarios.Name = "lblNumeroUsuarios";
             lblNumeroUsuarios.Size = new Size(117, 15);
             lblNumeroUsuarios.TabIndex = 9;
@@ -150,7 +150,7 @@
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(250, 53);
+            radioButton1.Location = new Point(413, 77);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(64, 19);
             radioButton1.TabIndex = 10;
@@ -161,7 +161,7 @@
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(350, 53);
+            radioButton2.Location = new Point(483, 77);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(57, 19);
             radioButton2.TabIndex = 11;
@@ -253,7 +253,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(689, 543);
+            ClientSize = new Size(1026, 484);
             Controls.Add(txtNombreUsuario);
             Controls.Add(label6);
             Controls.Add(txtCorreo);
@@ -275,18 +275,18 @@
             Controls.Add(btnDesbloquearUsuario);
             Controls.Add(btnCrearUsuario);
             Controls.Add(label1);
-            Controls.Add(dataGridView1);
+            Controls.Add(grillaUsuarios);
             Name = "FrmUsuarios";
             Text = "FrmUsuarios";
             Load += FrmUsuarios_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)grillaUsuarios).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView grillaUsuarios;
         private Label label1;
         private Button btnCrearUsuario;
         private Button btnDesbloquearUsuario;

@@ -11,12 +11,12 @@
         public string Password { get; set; }
         public bool Bloqueo { get; set; }
         public bool Activo { get; set; }
-
+        public SER_Usuario() { }
         public SER_Usuario(string dni)
         {
             Dni = dni;
         }
-        public SER_Usuario() { }
+        
         public SER_Usuario(string dni, string nombre, string apellido, string correo, string nombreUsuario, string password, bool bloqueo, bool activo)
         {
             Dni = dni;
@@ -27,6 +27,28 @@
             Password = password;
             Bloqueo = bloqueo;
             Activo = activo;
+        }
+        public SER_Usuario(string dni, string nombre, string apellido, string correo, string nombreUsuario, bool bloqueo, bool activo)
+        {
+            Dni = dni;
+            Nombre = nombre;
+            Apellido = apellido;
+            Correo = correo;
+            NombreUsuario = nombreUsuario;
+            Password = dni+apellido.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
+            Bloqueo = bloqueo;
+            Activo = activo;
+        }
+        public SER_Usuario(object[] datos)
+        {
+            Dni = Convert.ToString(datos[0]);
+            Nombre = Convert.ToString(datos[1]);
+            Apellido = Convert.ToString(datos[2]);
+            Correo = Convert.ToString(datos[3]);
+            NombreUsuario = Convert.ToString(datos[4]);
+            Password = Convert.ToString(datos[5]);
+            Bloqueo = Convert.ToBoolean(datos[6]);
+            Activo = Convert.ToBoolean(datos[7]);
         }
     }
 }
