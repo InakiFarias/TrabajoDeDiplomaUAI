@@ -37,7 +37,10 @@ namespace DAL
 
         public SqlDataReader Consultar()
         {
-            throw new NotImplementedException();
+            cm.Parameters.Clear();
+            cm.CommandText = "SELECT * FROM usuarios";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
         public SqlDataReader ConsultarPorId(string id)
