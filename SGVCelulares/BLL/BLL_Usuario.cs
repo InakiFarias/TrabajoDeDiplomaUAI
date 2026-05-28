@@ -57,7 +57,8 @@ namespace BLL
 
         public SER_Usuario ConsultarPorId(SER_Usuario usuario)
         {
-            throw new NotImplementedException();
+            return map_usuario.ConsultarPorId(usuario);
+
         }
         public bool Login(SER_Usuario usuario)
         {
@@ -106,6 +107,21 @@ namespace BLL
             bool rdo = false;
             if (usuario.Activo) rdo = true;
             return rdo;
+        }
+        public void Desbloquear(SER_Usuario usuario)
+        {
+            try
+            {
+                if (!EstaBloqueado(usuario)) throw new Exception("El usuario no está bloqueado!");
+                map_usuario.Desbloquear(usuario);
+                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Desbloquear usuario", "Usuario", 3);
+                bll_bitacora.RegistrarBitacora(bitacora);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
     }
 }

@@ -73,5 +73,6 @@ namespace MAP
         public void SumarCantidadIntento(SER_Usuario usuario) => dao_usuario.SumarCantidadIntento(usuario.Dni);
         public void Bloquear(SER_Usuario usuario) => dao_usuario.Bloquear(usuario.Dni);
         public void ReiniciarIntentos(SER_Usuario usuario) => dao_usuario.ReiniciarIntentos(usuario.Dni);
+        public void Desbloquear(SER_Usuario usuario) => dao_usuario.Desbloquear(usuario.Dni);
     }
 }

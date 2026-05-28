@@ -19,8 +19,19 @@ namespace UI
 
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
-            FrmUsuarios frmUsuarios = new FrmUsuarios();
-            frmUsuarios.Show();
+            Form frm = Application.OpenForms["FrmUsuarios"];
+
+            if (frm == null)
+            {
+                FrmUsuarios frmUsuarios = new FrmUsuarios();
+                frmUsuarios.Show();
+            }
+            else
+            {
+                frm.WindowState = FormWindowState.Normal;
+                frm.BringToFront();
+                frm.Focus();
+            }
         }
     }
 }

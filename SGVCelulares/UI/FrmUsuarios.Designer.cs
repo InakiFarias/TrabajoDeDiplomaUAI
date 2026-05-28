@@ -92,6 +92,7 @@
             btnDesbloquearUsuario.TabIndex = 3;
             btnDesbloquearUsuario.Text = "Desbloquear";
             btnDesbloquearUsuario.UseVisualStyleBackColor = true;
+            btnDesbloquearUsuario.Click += btnDesbloquearUsuario_Click;
             // 
             // btnModificarUsuario
             // 

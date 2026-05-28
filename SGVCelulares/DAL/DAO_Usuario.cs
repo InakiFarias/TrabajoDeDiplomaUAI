@@ -64,7 +64,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
-            cm.CommandText = "SELECT * FROM usuarios WHERE id=@id";
+            cm.CommandText = "SELECT * FROM usuarios WHERE dni=@dni";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
@@ -129,6 +129,15 @@ namespace DAL
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
             cm.CommandText = "UPDATE usuarios SET bloqueo=1 WHERE dni=@dni";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
+        public void Desbloquear(string dni)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
+            cm.CommandText = "UPDATE usuarios SET bloqueo=0 WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
