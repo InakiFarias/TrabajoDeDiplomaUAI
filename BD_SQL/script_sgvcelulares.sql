@@ -10,6 +10,7 @@ CREATE TABLE usuarios (
     password VARCHAR(64) NOT NULL,
     bloqueo BIT NOT NULL,
     activo BIT NOT NULL,
+    cantIntentos TINYINT not null,
     CONSTRAINT PK_usuarios PRIMARY KEY (dni)
 );
 
@@ -26,3 +27,5 @@ CREATE TABLE bitacora (
 
 select * from usuarios;
 select * from bitacora;
+
+update usuarios set cantIntentos=2 where dni=46502064

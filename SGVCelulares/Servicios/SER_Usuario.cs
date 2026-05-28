@@ -11,10 +11,16 @@
         public string Password { get; set; }
         public bool Bloqueo { get; set; }
         public bool Activo { get; set; }
+        public int CantIntentos { get; set; }
         public SER_Usuario() { }
         public SER_Usuario(string dni)
         {
             Dni = dni;
+        }
+        public SER_Usuario(string nombreUsuario, string password)
+        {
+            NombreUsuario = nombreUsuario;
+            Password = password;
         }
         
         public SER_Usuario(string dni, string nombre, string apellido, string correo, string nombreUsuario, string password, bool bloqueo, bool activo)
@@ -38,6 +44,7 @@
             Password = dni+apellido.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
             Bloqueo = bloqueo;
             Activo = activo;
+            CantIntentos = 0;
         }
         public SER_Usuario(object[] datos)
         {
@@ -49,6 +56,7 @@
             Password = Convert.ToString(datos[5]);
             Bloqueo = Convert.ToBoolean(datos[6]);
             Activo = Convert.ToBoolean(datos[7]);
+            CantIntentos = Convert.ToInt16(datos[8]);
         }
     }
 }

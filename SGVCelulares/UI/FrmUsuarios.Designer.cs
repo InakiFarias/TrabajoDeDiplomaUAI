@@ -277,7 +277,7 @@
             Controls.Add(label1);
             Controls.Add(grillaUsuarios);
             Name = "FrmUsuarios";
-            Text = "FrmUsuarios";
+            Text = "Usuarios";
             Load += FrmUsuarios_Load;
             ((System.ComponentModel.ISupportInitialize)grillaUsuarios).EndInit();
             ResumeLayout(false);

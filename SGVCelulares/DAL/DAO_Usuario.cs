@@ -23,8 +23,9 @@ namespace DAL
             cm.Parameters.Add("@password", SqlDbType.VarChar).Value = T[5];
             cm.Parameters.Add("@bloqueo", SqlDbType.VarChar).Value = T[6];
             cm.Parameters.Add("@activo", SqlDbType.VarChar).Value = T[7];
+            cm.Parameters.Add("@cantIntentos", SqlDbType.Int).Value = T[8];
 
-            cm.CommandText = "INSERT INTO usuarios(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo) values (@dni,@nombre,@apellido,@correo,@nombreUsuario,@password,@bloqueo,@activo)";
+            cm.CommandText = "INSERT INTO usuarios(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo,cantIntentos) values (@dni,@nombre,@apellido,@correo,@nombreUsuario,@password,@bloqueo,@activo,@cantIntentos)";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -34,7 +35,23 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
-
+        public void Modificar(string id, params object[] T)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
+            cm.Parameters.Add("@nombre", SqlDbType.VarChar).Value = T[1];
+            cm.Parameters.Add("@apellido", SqlDbType.VarChar).Value = T[2];
+            cm.Parameters.Add("@correo", SqlDbType.VarChar).Value = T[3];
+            cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = T[4];
+            cm.Parameters.Add("@password", SqlDbType.VarChar).Value = T[5];
+            cm.Parameters.Add("@bloqueo", SqlDbType.VarChar).Value = T[6];
+            cm.Parameters.Add("@activo", SqlDbType.VarChar).Value = T[7];
+            cm.Parameters.Add("@cantIntentos", SqlDbType.Int).Value = T[8];
+            cm.CommandText = "UPDATE usuarios SET nombre=@nombre,apellido=@apellido,bloqueo=@bloqueo,activo=@activo,cantIntentos=@cantIntentos WHERE dni=@dni";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
         public SqlDataReader Consultar()
         {
             cm.Parameters.Clear();
@@ -45,15 +62,20 @@ namespace DAL
 
         public SqlDataReader ConsultarPorId(string id)
         {
-            throw new NotImplementedException();
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
+            cm.CommandText = "SELECT * FROM usuarios WHERE id=@id";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
-
-        public void Modificar(string id, params object[] T)
+        public SqlDataReader ConsultarPorNombreUsuario(string nombreUsuario)
         {
-            throw new NotImplementedException();
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = nombreUsuario;
+            cm.CommandText = "SELECT * FROM usuarios WHERE nombreUsuario=@nombreUsuario";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
-
-
         public bool ValidarRepetido(string id)
         {
             cm.Parameters.Clear();
@@ -64,7 +86,7 @@ namespace DAL
             con.Close();
             return existe;
         }
-        public bool ValidarNombreUsuarioRepetido(string nombreUsuario)
+        public bool ExisteNombreUsuario(string nombreUsuario)
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = nombreUsuario;
@@ -83,6 +105,33 @@ namespace DAL
             bool existe = Convert.ToInt16(cm.ExecuteScalar()) > 0;
             con.Close();
             return existe;
+        }
+        public void ReiniciarIntentos(string dni)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
+            cm.CommandText = "UPDATE usuarios SET cantIntentos=0 WHERE dni=@dni";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
+        public void SumarCantidadIntento(string dni)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
+            cm.CommandText = "UPDATE usuarios SET cantIntentos=cantIntentos+1 WHERE dni=@dni";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
+        public void Bloquear(string dni)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
+            cm.CommandText = "UPDATE usuarios SET bloqueo=1 WHERE dni=@dni";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
         }
     }
 }

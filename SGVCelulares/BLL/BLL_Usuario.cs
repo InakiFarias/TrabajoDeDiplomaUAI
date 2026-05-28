@@ -18,12 +18,12 @@ namespace BLL
             try
             {
                 if (map_usuario.ValidarDniRepetido(usuario)) throw new Exception("El DNI está repetido!");
-                if (map_usuario.ValidarNombreUsuarioRepetido(usuario)) throw new Exception("El nombre de usuario está repetido!");
+                if (map_usuario.ExisteNombreUsuario(usuario)) throw new Exception("El nombre de usuario está repetido!");
                 if (map_usuario.ValidarCorreoRepetido(usuario)) throw new Exception("El correo electrónico está repetido!");
                 string passwordHasheado = SER_Cripto.Encriptar(usuario.Password);
                 usuario.Password = passwordHasheado;
                 map_usuario.Agregar(usuario);
-                SER_Bitacora bitacora = new SER_Bitacora(usuario, DateTime.Now, "Crear usuario", "Usuario", 3);
+                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Crear usuario", "Usuario", 3);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
             catch (Exception ex)
@@ -58,6 +58,54 @@ namespace BLL
         public SER_Usuario ConsultarPorId(SER_Usuario usuario)
         {
             throw new NotImplementedException();
+        }
+        public bool Login(SER_Usuario usuario)
+        {
+            bool rdo = false;
+            SER_Usuario obj = map_usuario.ConsultarPorNombreUsuario(usuario);
+            if (obj == null) throw new Exception("Datos erróneos!");
+
+            if (EstaBloqueado(obj)) throw new Exception("La cuenta está bloqueada!");
+            if (!EstaActivo(obj)) throw new Exception("El usuario se encuentra desactivado!");
+            if (!CompararPassword(obj, usuario.Password))
+            {
+                map_usuario.SumarCantidadIntento(obj);
+                if (map_usuario.ConsultarPorNombreUsuario(usuario).CantIntentos == 3)
+                {
+                    map_usuario.Bloquear(obj);
+                    throw new Exception("Se bloqueó el usuario por motivos de seguridad!");
+                }
+            }
+            
+            rdo = true;
+            SER_SesionManager sesion = SER_SesionManager.ObtenerSesion();
+            sesion.Usuario = obj;
+            map_usuario.ReiniciarIntentos(obj);
+
+
+            SER_Bitacora bitacora = new SER_Bitacora(obj, DateTime.Now, "Login usuario", "Usuario", 1);
+            bll_bitacora.RegistrarBitacora(bitacora);
+            
+            return rdo;
+        }
+        private bool CompararPassword(SER_Usuario usuario, string password)
+        {
+            bool rdo = false;
+            string passwordHasheada = SER_Cripto.Encriptar(password);
+            if (passwordHasheada == usuario.Password) rdo = true;
+            return rdo;
+        }
+        private bool EstaBloqueado(SER_Usuario usuario)
+        {
+            bool rdo = false;
+            if (usuario.Bloqueo) rdo = true;
+            return rdo;
+        }
+        private bool EstaActivo(SER_Usuario usuario)
+        {
+            bool rdo = false;
+            if (usuario.Activo) rdo = true;
+            return rdo;
         }
     }
 }
