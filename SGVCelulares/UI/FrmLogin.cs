@@ -19,6 +19,7 @@ namespace UI
         public FrmLogin()
         {
             InitializeComponent();
+            this.AcceptButton = btnEntrar;
         }
         private void FrmLogin_Load(object sender, EventArgs e)
         {
@@ -38,7 +39,7 @@ namespace UI
                 if (!ValidarDatos(nombreUsuario, @"^[a-zA-Z0-9_]{1,50}$")) throw new Exception("Datos erróneos!");
                 
                 string password = txtPassword.Text;
-                if (!ValidarDatos(password, @"^[a-zA-Z0-9]{1,50}$")) throw new Exception("Datos erróneos!");
+                if (password.Length == 0) throw new Exception("Datos erróneos!");
 
                 if (bll_usuario.Login(new SER_Usuario(nombreUsuario, password)))
                 {

@@ -32,7 +32,7 @@
             lblUsuario = new Label();
             lblTituloTopbar = new Label();
             pnlSidebar = new Panel();
-            button3 = new Button();
+            btnLogout = new Button();
             btnCambiarClave = new Button();
             button2 = new Button();
             label1 = new Label();
@@ -85,7 +85,7 @@
             // pnlSidebar
             // 
             pnlSidebar.BackColor = Color.FromArgb(25, 37, 53);
-            pnlSidebar.Controls.Add(button3);
+            pnlSidebar.Controls.Add(btnLogout);
             pnlSidebar.Controls.Add(btnCambiarClave);
             pnlSidebar.Controls.Add(button2);
             pnlSidebar.Controls.Add(label1);
@@ -102,23 +102,24 @@
             pnlSidebar.Size = new Size(190, 572);
             pnlSidebar.TabIndex = 1;
             // 
-            // button3
+            // btnLogout
             // 
-            button3.BackColor = Color.FromArgb(25, 37, 53);
-            button3.Cursor = Cursors.Hand;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 9.5F);
-            button3.ForeColor = Color.FromArgb(148, 163, 184);
-            button3.Location = new Point(10, 224);
-            button3.Name = "button3";
-            button3.Padding = new Padding(10, 0, 0, 0);
-            button3.Size = new Size(174, 38);
-            button3.TabIndex = 11;
-            button3.Text = "⇠  Cerrar sesión";
-            button3.TextAlign = ContentAlignment.MiddleLeft;
-            button3.UseVisualStyleBackColor = false;
+            btnLogout.BackColor = Color.FromArgb(25, 37, 53);
+            btnLogout.Cursor = Cursors.Hand;
+            btnLogout.FlatAppearance.BorderSize = 0;
+            btnLogout.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnLogout.FlatStyle = FlatStyle.Flat;
+            btnLogout.Font = new Font("Segoe UI", 9.5F);
+            btnLogout.ForeColor = Color.FromArgb(148, 163, 184);
+            btnLogout.Location = new Point(10, 224);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Padding = new Padding(10, 0, 0, 0);
+            btnLogout.Size = new Size(174, 38);
+            btnLogout.TabIndex = 11;
+            btnLogout.Text = "⇠  Cerrar sesión";
+            btnLogout.TextAlign = ContentAlignment.MiddleLeft;
+            btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
             // 
             // btnCambiarClave
             // 
@@ -333,7 +334,7 @@
         private System.Windows.Forms.Button btnClientes;
         private System.Windows.Forms.Button btnAyuda;
         private System.Windows.Forms.Panel pnlContenido;
-        private Button button3;
+        private Button btnLogout;
         private Button btnCambiarClave;
         private Button button2;
         private Label label1;

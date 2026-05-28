@@ -21,9 +21,9 @@ namespace DAL
             cm.Parameters.Add("@correo", SqlDbType.VarChar).Value = T[3];
             cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = T[4];
             cm.Parameters.Add("@password", SqlDbType.VarChar).Value = T[5];
-            cm.Parameters.Add("@bloqueo", SqlDbType.VarChar).Value = T[6];
-            cm.Parameters.Add("@activo", SqlDbType.VarChar).Value = T[7];
-            cm.Parameters.Add("@cantIntentos", SqlDbType.Int).Value = T[8];
+            cm.Parameters.Add("@bloqueo", SqlDbType.Bit).Value = T[6];
+            cm.Parameters.Add("@activo", SqlDbType.Bit).Value = T[7];
+            cm.Parameters.Add("@cantIntentos", SqlDbType.TinyInt).Value = T[8];
 
             cm.CommandText = "INSERT INTO usuarios(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo,cantIntentos) values (@dni,@nombre,@apellido,@correo,@nombreUsuario,@password,@bloqueo,@activo,@cantIntentos)";
             con.Open();
@@ -35,10 +35,10 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
-        public void Modificar(string id, params object[] T)
+        public void Modificar(string dni, params object[] T)
         {
             cm.Parameters.Clear();
-            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
             cm.Parameters.Add("@nombre", SqlDbType.VarChar).Value = T[0];
             cm.Parameters.Add("@apellido", SqlDbType.VarChar).Value = T[1];
             cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = T[2];
@@ -47,10 +47,10 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
-        public void ModificarPassword(string id, string password)
+        public void ModificarPassword(string dni, string password)
         {
             cm.Parameters.Clear();
-            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
             cm.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
             cm.CommandText = "UPDATE usuarios SET password=@password WHERE dni=@dni";
             con.Open();
@@ -65,10 +65,10 @@ namespace DAL
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
-        public SqlDataReader ConsultarPorId(string id)
+        public SqlDataReader ConsultarPorId(string dni)
         {
             cm.Parameters.Clear();
-            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
             cm.CommandText = "SELECT * FROM usuarios WHERE dni=@dni";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
@@ -81,10 +81,10 @@ namespace DAL
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
-        public bool ValidarRepetido(string id)
+        public bool ValidarRepetido(string dni)
         {
             cm.Parameters.Clear();
-            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
             cm.CommandText = "SELECT COUNT(*) FROM usuarios WHERE dni = @dni";
             con.Open();
             bool existe = Convert.ToInt16(cm.ExecuteScalar()) > 0;

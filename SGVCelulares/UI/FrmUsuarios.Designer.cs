@@ -28,15 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pnlTopbar = new Panel();
-            lblTitulo = new Label();
             lblNumeroUsuarios = new Label();
+            lblTitulo = new Label();
             pnlContenido = new Panel();
-            pnlFiltros = new Panel();
-            lblFiltro = new Label();
-            radioButton1 = new RadioButton();
-            radioButton2 = new RadioButton();
-            grillaUsuarios = new DataGridView();
+            pnlBotones = new Panel();
+            btnCrearUsuario = new Button();
+            btnDesbloquearUsuario = new Button();
+            btnModificarUsuario = new Button();
+            btnActivarUsuario = new Button();
+            btnAplicarCambios = new Button();
+            btnCancelarCambios = new Button();
+            btnSalir = new Button();
             pnlFormulario = new Panel();
             lblDni = new Label();
             txtDni = new TextBox();
@@ -48,20 +53,17 @@
             txtCorreo = new TextBox();
             lblNombreUsuario = new Label();
             txtNombreUsuario = new TextBox();
-            pnlBotones = new Panel();
-            btnCrearUsuario = new Button();
-            btnDesbloquearUsuario = new Button();
-            btnModificarUsuario = new Button();
-            btnActivarUsuario = new Button();
-            btnAplicarCambios = new Button();
-            btnCancelarCambios = new Button();
-            btnSalir = new Button();
+            grillaUsuarios = new DataGridView();
+            pnlFiltros = new Panel();
+            lblFiltro = new Label();
+            radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
             pnlTopbar.SuspendLayout();
             pnlContenido.SuspendLayout();
-            pnlFiltros.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)grillaUsuarios).BeginInit();
-            pnlFormulario.SuspendLayout();
             pnlBotones.SuspendLayout();
+            pnlFormulario.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)grillaUsuarios).BeginInit();
+            pnlFiltros.SuspendLayout();
             SuspendLayout();
             // 
             // pnlTopbar
@@ -75,17 +77,6 @@
             pnlTopbar.Size = new Size(1060, 48);
             pnlTopbar.TabIndex = 0;
             // 
-            // lblTitulo
-            // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
-            lblTitulo.Location = new Point(16, 14);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(88, 20);
-            lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "USUARIOS";
-            // 
             // lblNumeroUsuarios
             // 
             lblNumeroUsuarios.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -94,9 +85,20 @@
             lblNumeroUsuarios.ForeColor = Color.FromArgb(148, 163, 184);
             lblNumeroUsuarios.Location = new Point(900, 16);
             lblNumeroUsuarios.Name = "lblNumeroUsuarios";
-            lblNumeroUsuarios.Size = new Size(117, 15);
+            lblNumeroUsuarios.Size = new Size(126, 15);
             lblNumeroUsuarios.TabIndex = 1;
             lblNumeroUsuarios.Text = "Número de usuarios: 0";
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
+            lblTitulo.Location = new Point(16, 14);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(84, 20);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "USUARIOS";
             // 
             // pnlContenido
             // 
@@ -111,205 +113,6 @@
             pnlContenido.Padding = new Padding(24);
             pnlContenido.Size = new Size(1060, 552);
             pnlContenido.TabIndex = 1;
-            // 
-            // pnlFiltros
-            // 
-            pnlFiltros.BackColor = Color.FromArgb(25, 37, 53);
-            pnlFiltros.Controls.Add(lblFiltro);
-            pnlFiltros.Controls.Add(radioButton1);
-            pnlFiltros.Controls.Add(radioButton2);
-            pnlFiltros.Location = new Point(24, 24);
-            pnlFiltros.Name = "pnlFiltros";
-            pnlFiltros.Size = new Size(820, 36);
-            pnlFiltros.TabIndex = 0;
-            // 
-            // lblFiltro
-            // 
-            lblFiltro.AutoSize = true;
-            lblFiltro.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblFiltro.ForeColor = Color.FromArgb(71, 85, 105);
-            lblFiltro.Location = new Point(10, 11);
-            lblFiltro.Name = "lblFiltro";
-            lblFiltro.Size = new Size(47, 12);
-            lblFiltro.TabIndex = 0;
-            lblFiltro.Text = "FILTRAR";
-            // 
-            // radioButton1
-            // 
-            radioButton1.AutoSize = true;
-            radioButton1.Font = new Font("Segoe UI", 9F);
-            radioButton1.ForeColor = Color.FromArgb(148, 163, 184);
-            radioButton1.Location = new Point(80, 10);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(64, 19);
-            radioButton1.TabIndex = 1;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Activos";
-            // 
-            // radioButton2
-            // 
-            radioButton2.AutoSize = true;
-            radioButton2.Font = new Font("Segoe UI", 9F);
-            radioButton2.ForeColor = Color.FromArgb(148, 163, 184);
-            radioButton2.Location = new Point(160, 10);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(56, 19);
-            radioButton2.TabIndex = 2;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "Todos";
-            // 
-            // grillaUsuarios
-            // 
-            grillaUsuarios.AllowUserToAddRows = false;
-            grillaUsuarios.AllowUserToDeleteRows = false;
-            grillaUsuarios.BackgroundColor = Color.FromArgb(25, 37, 53);
-            grillaUsuarios.BorderStyle = BorderStyle.None;
-            grillaUsuarios.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(21, 32, 48);
-            grillaUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            grillaUsuarios.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(148, 163, 184);
-            grillaUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            grillaUsuarios.DefaultCellStyle.BackColor = Color.FromArgb(25, 37, 53);
-            grillaUsuarios.DefaultCellStyle.ForeColor = Color.FromArgb(226, 232, 240);
-            grillaUsuarios.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
-            grillaUsuarios.DefaultCellStyle.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            grillaUsuarios.DefaultCellStyle.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            grillaUsuarios.EnableHeadersVisualStyles = false;
-            grillaUsuarios.GridColor = Color.FromArgb(45, 60, 82);
-            grillaUsuarios.Location = new Point(24, 72);
-            grillaUsuarios.Name = "grillaUsuarios";
-            grillaUsuarios.ReadOnly = true;
-            grillaUsuarios.RowHeadersVisible = false;
-            grillaUsuarios.Size = new Size(820, 220);
-            grillaUsuarios.TabIndex = 1;
-            // 
-            // pnlFormulario
-            // 
-            pnlFormulario.BackColor = Color.FromArgb(25, 37, 53);
-            pnlFormulario.Controls.Add(lblDni);
-            pnlFormulario.Controls.Add(txtDni);
-            pnlFormulario.Controls.Add(lblNombre);
-            pnlFormulario.Controls.Add(txtNombre);
-            pnlFormulario.Controls.Add(lblApellido);
-            pnlFormulario.Controls.Add(txtApellido);
-            pnlFormulario.Controls.Add(lblCorreo);
-            pnlFormulario.Controls.Add(txtCorreo);
-            pnlFormulario.Controls.Add(lblNombreUsuario);
-            pnlFormulario.Controls.Add(txtNombreUsuario);
-            pnlFormulario.Location = new Point(24, 308);
-            pnlFormulario.Name = "pnlFormulario";
-            pnlFormulario.Padding = new Padding(16);
-            pnlFormulario.Size = new Size(820, 216);
-            pnlFormulario.TabIndex = 2;
-            // 
-            // lblDni
-            // 
-            lblDni.AutoSize = true;
-            lblDni.Font = new Font("Segoe UI", 9F);
-            lblDni.ForeColor = Color.FromArgb(148, 163, 184);
-            lblDni.Location = new Point(16, 16);
-            lblDni.Name = "lblDni";
-            lblDni.Size = new Size(27, 15);
-            lblDni.TabIndex = 0;
-            lblDni.Text = "DNI";
-            // 
-            // txtDni
-            // 
-            txtDni.BackColor = Color.FromArgb(21, 32, 48);
-            txtDni.BorderStyle = BorderStyle.FixedSingle;
-            txtDni.Font = new Font("Segoe UI", 9.5F);
-            txtDni.ForeColor = Color.FromArgb(226, 232, 240);
-            txtDni.Location = new Point(160, 13);
-            txtDni.Name = "txtDni";
-            txtDni.Size = new Size(240, 25);
-            txtDni.TabIndex = 1;
-            // 
-            // lblNombre
-            // 
-            lblNombre.AutoSize = true;
-            lblNombre.Font = new Font("Segoe UI", 9F);
-            lblNombre.ForeColor = Color.FromArgb(148, 163, 184);
-            lblNombre.Location = new Point(16, 54);
-            lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(51, 15);
-            lblNombre.TabIndex = 2;
-            lblNombre.Text = "Nombre";
-            // 
-            // txtNombre
-            // 
-            txtNombre.BackColor = Color.FromArgb(21, 32, 48);
-            txtNombre.BorderStyle = BorderStyle.FixedSingle;
-            txtNombre.Font = new Font("Segoe UI", 9.5F);
-            txtNombre.ForeColor = Color.FromArgb(226, 232, 240);
-            txtNombre.Location = new Point(160, 51);
-            txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(240, 25);
-            txtNombre.TabIndex = 3;
-            // 
-            // lblApellido
-            // 
-            lblApellido.AutoSize = true;
-            lblApellido.Font = new Font("Segoe UI", 9F);
-            lblApellido.ForeColor = Color.FromArgb(148, 163, 184);
-            lblApellido.Location = new Point(16, 93);
-            lblApellido.Name = "lblApellido";
-            lblApellido.Size = new Size(51, 15);
-            lblApellido.TabIndex = 4;
-            lblApellido.Text = "Apellido";
-            // 
-            // txtApellido
-            // 
-            txtApellido.BackColor = Color.FromArgb(21, 32, 48);
-            txtApellido.BorderStyle = BorderStyle.FixedSingle;
-            txtApellido.Font = new Font("Segoe UI", 9.5F);
-            txtApellido.ForeColor = Color.FromArgb(226, 232, 240);
-            txtApellido.Location = new Point(160, 90);
-            txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(240, 25);
-            txtApellido.TabIndex = 5;
-            // 
-            // lblCorreo
-            // 
-            lblCorreo.AutoSize = true;
-            lblCorreo.Font = new Font("Segoe UI", 9F);
-            lblCorreo.ForeColor = Color.FromArgb(148, 163, 184);
-            lblCorreo.Location = new Point(16, 132);
-            lblCorreo.Name = "lblCorreo";
-            lblCorreo.Size = new Size(43, 15);
-            lblCorreo.TabIndex = 6;
-            lblCorreo.Text = "Correo";
-            // 
-            // txtCorreo
-            // 
-            txtCorreo.BackColor = Color.FromArgb(21, 32, 48);
-            txtCorreo.BorderStyle = BorderStyle.FixedSingle;
-            txtCorreo.Font = new Font("Segoe UI", 9.5F);
-            txtCorreo.ForeColor = Color.FromArgb(226, 232, 240);
-            txtCorreo.Location = new Point(160, 129);
-            txtCorreo.Name = "txtCorreo";
-            txtCorreo.Size = new Size(240, 25);
-            txtCorreo.TabIndex = 7;
-            // 
-            // lblNombreUsuario
-            // 
-            lblNombreUsuario.AutoSize = true;
-            lblNombreUsuario.Font = new Font("Segoe UI", 9F);
-            lblNombreUsuario.ForeColor = Color.FromArgb(148, 163, 184);
-            lblNombreUsuario.Location = new Point(16, 171);
-            lblNombreUsuario.Name = "lblNombreUsuario";
-            lblNombreUsuario.Size = new Size(94, 15);
-            lblNombreUsuario.TabIndex = 8;
-            lblNombreUsuario.Text = "Nombre Usuario";
-            // 
-            // txtNombreUsuario
-            // 
-            txtNombreUsuario.BackColor = Color.FromArgb(21, 32, 48);
-            txtNombreUsuario.BorderStyle = BorderStyle.FixedSingle;
-            txtNombreUsuario.Font = new Font("Segoe UI", 9.5F);
-            txtNombreUsuario.ForeColor = Color.FromArgb(226, 232, 240);
-            txtNombreUsuario.Location = new Point(160, 168);
-            txtNombreUsuario.Name = "txtNombreUsuario";
-            txtNombreUsuario.Size = new Size(240, 25);
-            txtNombreUsuario.TabIndex = 9;
             // 
             // pnlBotones
             // 
@@ -441,6 +244,214 @@
             btnSalir.TabIndex = 6;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = false;
+            btnSalir.Click += btnSalir_Click;
+            // 
+            // pnlFormulario
+            // 
+            pnlFormulario.BackColor = Color.FromArgb(25, 37, 53);
+            pnlFormulario.Controls.Add(lblDni);
+            pnlFormulario.Controls.Add(txtDni);
+            pnlFormulario.Controls.Add(lblNombre);
+            pnlFormulario.Controls.Add(txtNombre);
+            pnlFormulario.Controls.Add(lblApellido);
+            pnlFormulario.Controls.Add(txtApellido);
+            pnlFormulario.Controls.Add(lblCorreo);
+            pnlFormulario.Controls.Add(txtCorreo);
+            pnlFormulario.Controls.Add(lblNombreUsuario);
+            pnlFormulario.Controls.Add(txtNombreUsuario);
+            pnlFormulario.Location = new Point(24, 308);
+            pnlFormulario.Name = "pnlFormulario";
+            pnlFormulario.Padding = new Padding(16);
+            pnlFormulario.Size = new Size(820, 216);
+            pnlFormulario.TabIndex = 2;
+            // 
+            // lblDni
+            // 
+            lblDni.AutoSize = true;
+            lblDni.Font = new Font("Segoe UI", 9F);
+            lblDni.ForeColor = Color.FromArgb(148, 163, 184);
+            lblDni.Location = new Point(16, 16);
+            lblDni.Name = "lblDni";
+            lblDni.Size = new Size(27, 15);
+            lblDni.TabIndex = 0;
+            lblDni.Text = "DNI";
+            // 
+            // txtDni
+            // 
+            txtDni.BackColor = Color.FromArgb(21, 32, 48);
+            txtDni.BorderStyle = BorderStyle.FixedSingle;
+            txtDni.Font = new Font("Segoe UI", 9.5F);
+            txtDni.ForeColor = Color.FromArgb(226, 232, 240);
+            txtDni.Location = new Point(160, 13);
+            txtDni.Name = "txtDni";
+            txtDni.Size = new Size(240, 24);
+            txtDni.TabIndex = 1;
+            // 
+            // lblNombre
+            // 
+            lblNombre.AutoSize = true;
+            lblNombre.Font = new Font("Segoe UI", 9F);
+            lblNombre.ForeColor = Color.FromArgb(148, 163, 184);
+            lblNombre.Location = new Point(16, 54);
+            lblNombre.Name = "lblNombre";
+            lblNombre.Size = new Size(51, 15);
+            lblNombre.TabIndex = 2;
+            lblNombre.Text = "Nombre";
+            // 
+            // txtNombre
+            // 
+            txtNombre.BackColor = Color.FromArgb(21, 32, 48);
+            txtNombre.BorderStyle = BorderStyle.FixedSingle;
+            txtNombre.Font = new Font("Segoe UI", 9.5F);
+            txtNombre.ForeColor = Color.FromArgb(226, 232, 240);
+            txtNombre.Location = new Point(160, 51);
+            txtNombre.Name = "txtNombre";
+            txtNombre.Size = new Size(240, 24);
+            txtNombre.TabIndex = 3;
+            // 
+            // lblApellido
+            // 
+            lblApellido.AutoSize = true;
+            lblApellido.Font = new Font("Segoe UI", 9F);
+            lblApellido.ForeColor = Color.FromArgb(148, 163, 184);
+            lblApellido.Location = new Point(16, 93);
+            lblApellido.Name = "lblApellido";
+            lblApellido.Size = new Size(51, 15);
+            lblApellido.TabIndex = 4;
+            lblApellido.Text = "Apellido";
+            // 
+            // txtApellido
+            // 
+            txtApellido.BackColor = Color.FromArgb(21, 32, 48);
+            txtApellido.BorderStyle = BorderStyle.FixedSingle;
+            txtApellido.Font = new Font("Segoe UI", 9.5F);
+            txtApellido.ForeColor = Color.FromArgb(226, 232, 240);
+            txtApellido.Location = new Point(160, 90);
+            txtApellido.Name = "txtApellido";
+            txtApellido.Size = new Size(240, 24);
+            txtApellido.TabIndex = 5;
+            // 
+            // lblCorreo
+            // 
+            lblCorreo.AutoSize = true;
+            lblCorreo.Font = new Font("Segoe UI", 9F);
+            lblCorreo.ForeColor = Color.FromArgb(148, 163, 184);
+            lblCorreo.Location = new Point(16, 132);
+            lblCorreo.Name = "lblCorreo";
+            lblCorreo.Size = new Size(43, 15);
+            lblCorreo.TabIndex = 6;
+            lblCorreo.Text = "Correo";
+            // 
+            // txtCorreo
+            // 
+            txtCorreo.BackColor = Color.FromArgb(21, 32, 48);
+            txtCorreo.BorderStyle = BorderStyle.FixedSingle;
+            txtCorreo.Font = new Font("Segoe UI", 9.5F);
+            txtCorreo.ForeColor = Color.FromArgb(226, 232, 240);
+            txtCorreo.Location = new Point(160, 129);
+            txtCorreo.Name = "txtCorreo";
+            txtCorreo.Size = new Size(240, 24);
+            txtCorreo.TabIndex = 7;
+            // 
+            // lblNombreUsuario
+            // 
+            lblNombreUsuario.AutoSize = true;
+            lblNombreUsuario.Font = new Font("Segoe UI", 9F);
+            lblNombreUsuario.ForeColor = Color.FromArgb(148, 163, 184);
+            lblNombreUsuario.Location = new Point(16, 171);
+            lblNombreUsuario.Name = "lblNombreUsuario";
+            lblNombreUsuario.Size = new Size(94, 15);
+            lblNombreUsuario.TabIndex = 8;
+            lblNombreUsuario.Text = "Nombre Usuario";
+            // 
+            // txtNombreUsuario
+            // 
+            txtNombreUsuario.BackColor = Color.FromArgb(21, 32, 48);
+            txtNombreUsuario.BorderStyle = BorderStyle.FixedSingle;
+            txtNombreUsuario.Font = new Font("Segoe UI", 9.5F);
+            txtNombreUsuario.ForeColor = Color.FromArgb(226, 232, 240);
+            txtNombreUsuario.Location = new Point(160, 168);
+            txtNombreUsuario.Name = "txtNombreUsuario";
+            txtNombreUsuario.Size = new Size(240, 24);
+            txtNombreUsuario.TabIndex = 9;
+            // 
+            // grillaUsuarios
+            // 
+            grillaUsuarios.AllowUserToAddRows = false;
+            grillaUsuarios.AllowUserToDeleteRows = false;
+            grillaUsuarios.BackgroundColor = Color.FromArgb(25, 37, 53);
+            grillaUsuarios.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(21, 32, 48);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            grillaUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(25, 37, 53);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
+            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle2;
+            grillaUsuarios.EnableHeadersVisualStyles = false;
+            grillaUsuarios.GridColor = Color.FromArgb(45, 60, 82);
+            grillaUsuarios.Location = new Point(24, 72);
+            grillaUsuarios.Name = "grillaUsuarios";
+            grillaUsuarios.ReadOnly = true;
+            grillaUsuarios.RowHeadersVisible = false;
+            grillaUsuarios.Size = new Size(820, 220);
+            grillaUsuarios.TabIndex = 1;
+            // 
+            // pnlFiltros
+            // 
+            pnlFiltros.BackColor = Color.FromArgb(25, 37, 53);
+            pnlFiltros.Controls.Add(lblFiltro);
+            pnlFiltros.Controls.Add(radioButton1);
+            pnlFiltros.Controls.Add(radioButton2);
+            pnlFiltros.Location = new Point(24, 24);
+            pnlFiltros.Name = "pnlFiltros";
+            pnlFiltros.Size = new Size(820, 36);
+            pnlFiltros.TabIndex = 0;
+            // 
+            // lblFiltro
+            // 
+            lblFiltro.AutoSize = true;
+            lblFiltro.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            lblFiltro.ForeColor = Color.FromArgb(71, 85, 105);
+            lblFiltro.Location = new Point(10, 11);
+            lblFiltro.Name = "lblFiltro";
+            lblFiltro.Size = new Size(44, 12);
+            lblFiltro.TabIndex = 0;
+            lblFiltro.Text = "FILTRAR";
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Font = new Font("Segoe UI", 9F);
+            radioButton1.ForeColor = Color.FromArgb(148, 163, 184);
+            radioButton1.Location = new Point(80, 10);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(64, 19);
+            radioButton1.TabIndex = 1;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Activos";
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Font = new Font("Segoe UI", 9F);
+            radioButton2.ForeColor = Color.FromArgb(148, 163, 184);
+            radioButton2.Location = new Point(160, 10);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(57, 19);
+            radioButton2.TabIndex = 2;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Todos";
             // 
             // FrmUsuarios
             // 
@@ -460,12 +471,12 @@
             pnlTopbar.ResumeLayout(false);
             pnlTopbar.PerformLayout();
             pnlContenido.ResumeLayout(false);
-            pnlFiltros.ResumeLayout(false);
-            pnlFiltros.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)grillaUsuarios).EndInit();
+            pnlBotones.ResumeLayout(false);
             pnlFormulario.ResumeLayout(false);
             pnlFormulario.PerformLayout();
-            pnlBotones.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)grillaUsuarios).EndInit();
+            pnlFiltros.ResumeLayout(false);
+            pnlFiltros.PerformLayout();
             ResumeLayout(false);
         }
 
