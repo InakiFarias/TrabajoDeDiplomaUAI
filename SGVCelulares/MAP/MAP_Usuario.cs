@@ -25,7 +25,7 @@ namespace MAP
 
         public void Modificar(SER_Usuario usuario)
         {
-            throw new NotImplementedException();
+            dao_usuario.Modificar(usuario.Dni, usuario.Nombre, usuario.Apellido, usuario.NombreUsuario);
         }
         public List<SER_Usuario> Consultar()
         {

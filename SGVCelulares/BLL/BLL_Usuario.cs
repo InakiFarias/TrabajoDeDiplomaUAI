@@ -39,7 +39,9 @@ namespace BLL
 
         public void Modificar(SER_Usuario usuario)
         {
-            throw new NotImplementedException();
+            map_usuario.Modificar(usuario);
+            SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Modificar usuario", "Usuario", 2);
+            bll_bitacora.RegistrarBitacora(bitacora);
         }
         public List<SER_Usuario> Consultar() => map_usuario.Consultar();
         public List<object> ConsultarParaGrilla()

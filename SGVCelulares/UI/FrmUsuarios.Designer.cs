@@ -102,6 +102,7 @@
             btnModificarUsuario.TabIndex = 4;
             btnModificarUsuario.Text = "Modificar";
             btnModificarUsuario.UseVisualStyleBackColor = true;
+            btnModificarUsuario.Click += btnModificarUsuario_Click;
             // 
             // btnActivarUsuario
             // 
@@ -164,7 +165,7 @@
             radioButton2.AutoSize = true;
             radioButton2.Location = new Point(483, 77);
             radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(57, 19);
+            radioButton2.Size = new Size(56, 19);
             radioButton2.TabIndex = 11;
             radioButton2.TabStop = true;
             radioButton2.Text = "Todos";

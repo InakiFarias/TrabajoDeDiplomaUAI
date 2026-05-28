@@ -39,15 +39,10 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
-            cm.Parameters.Add("@nombre", SqlDbType.VarChar).Value = T[1];
-            cm.Parameters.Add("@apellido", SqlDbType.VarChar).Value = T[2];
-            cm.Parameters.Add("@correo", SqlDbType.VarChar).Value = T[3];
-            cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = T[4];
-            cm.Parameters.Add("@password", SqlDbType.VarChar).Value = T[5];
-            cm.Parameters.Add("@bloqueo", SqlDbType.VarChar).Value = T[6];
-            cm.Parameters.Add("@activo", SqlDbType.VarChar).Value = T[7];
-            cm.Parameters.Add("@cantIntentos", SqlDbType.Int).Value = T[8];
-            cm.CommandText = "UPDATE usuarios SET nombre=@nombre,apellido=@apellido,bloqueo=@bloqueo,activo=@activo,cantIntentos=@cantIntentos WHERE dni=@dni";
+            cm.Parameters.Add("@nombre", SqlDbType.VarChar).Value = T[0];
+            cm.Parameters.Add("@apellido", SqlDbType.VarChar).Value = T[1];
+            cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = T[2];
+            cm.CommandText = "UPDATE usuarios SET nombre=@nombre,apellido=@apellido,nombreUsuario=@nombreUsuario WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();

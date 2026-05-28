@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Microsoft.VisualBasic;
 using Servicios;
 using System;
 using System.Collections.Generic;
@@ -81,15 +82,40 @@ namespace UI
                 SER_Usuario usAux = new SER_Usuario(grillaUsuarios.SelectedRows[0].Cells["DNI"].Value.ToString());
                 SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
                 bll_usuario.Desbloquear(us);
-                MessageBox.Show("El usuario con DNI " + us.Dni + " ha sido desbloqueado correctamente ", "Desbloqueo", MessageBoxButtons.OK, MessageBoxIcon.Information);}
+                MessageBox.Show("El usuario con DNI " + us.Dni + " ha sido desbloqueado correctamente ", "Desbloqueo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
-            
+
             catch (Exception Ex)
             {
 
                 MessageBox.Show(Ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
+        }
+
+        private void btnModificarUsuario_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (grillaUsuarios.SelectedRows.Count == 0) throw new Exception("NO EXISTEN USUARIOS REGISTRADOS");
+                SER_Usuario usAux = new SER_Usuario(grillaUsuarios.SelectedRows[0].Cells["DNI"].Value.ToString());
+                SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
+                string nom = Interaction.InputBox("Ingrese nombre del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Nombre"].Value.ToString());
+                string ap = Interaction.InputBox("Ingrese nombre del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Apellido"].Value.ToString());
+                string nomUsu = Interaction.InputBox("Ingrese nombre de usuario", "", grillaUsuarios.SelectedRows[0].Cells["Login"].Value.ToString());
+                us.Nombre = nom;
+                us.Apellido = ap;
+                us.NombreUsuario = nomUsu;
+                bll_usuario.Modificar(us);
+                MessageBox.Show("El usuario con DNI " + us.Dni + " ha sido modificado correctamente ", "Modificacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
