@@ -24,15 +24,8 @@ namespace UI
         }
         private void FrmUsuarios_Load(object sender, EventArgs e)
         {
-            foreach (var control in Controls)
-            {
-                if (control is DataGridView grilla)
-                {
-                    grilla.MultiSelect = false;
-                    grilla.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    grilla.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                }
-            }
+            grillaUsuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grillaUsuarios.MultiSelect = false;
             bll_usuario = new BLL_Usuario();
             Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
         }
