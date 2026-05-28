@@ -47,6 +47,16 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
+        public void ModificarPassword(string id, string password)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = id;
+            cm.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
+            cm.CommandText = "UPDATE usuarios SET password=@password WHERE dni=@dni";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
         public SqlDataReader Consultar()
         {
             cm.Parameters.Clear();

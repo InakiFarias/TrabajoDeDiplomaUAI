@@ -45,6 +45,15 @@ namespace BLL
             SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Modificar usuario", "Usuario", 2);
             bll_bitacora.RegistrarBitacora(bitacora);
         }
+        public void ModificarPassword(string claveActual, string claveNueva, string claveUsuario)
+        {
+            if (SER_Cripto.Encriptar(claveActual) != claveUsuario) throw new Exception("Contraseña incorrecta");
+            if (claveActual == claveNueva) throw new Exception("No puede usar la misma contraseña");
+            string claveNuevaHasheada = SER_Cripto.Encriptar(claveNueva);
+            map_usuario.ModificarPassword(SER_SesionManager.ObtenerSesion().Usuario, claveNuevaHasheada);
+            SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Modificar contraseña", "Usuario", 1);
+            bll_bitacora.RegistrarBitacora(bitacora);
+        }
         public List<SER_Usuario> Consultar() => map_usuario.Consultar();
         public List<object> ConsultarParaGrilla()
         {
@@ -80,6 +89,7 @@ namespace BLL
                     map_usuario.Bloquear(obj);
                     throw new Exception("Se bloqueó el usuario por motivos de seguridad!");
                 }
+                throw new Exception("No se pudo iniciar sesion");
             }
             
             rdo = true;

@@ -154,6 +154,7 @@
             Name = "frmCambiarClave";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Cambiar clave";
+            Load += frmCambiarClave_Load;
             pnlTitulo.ResumeLayout(false);
             pnlTitulo.PerformLayout();
             pnlContenido.ResumeLayout(false);

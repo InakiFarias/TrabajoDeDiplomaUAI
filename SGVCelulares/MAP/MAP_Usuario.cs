@@ -27,6 +27,10 @@ namespace MAP
         {
             dao_usuario.Modificar(usuario.Dni, usuario.Nombre, usuario.Apellido, usuario.NombreUsuario);
         }
+        public void ModificarPassword(SER_Usuario usuario, string claveNueva)
+        {
+            dao_usuario.ModificarPassword(usuario.Dni, claveNueva);
+        }
         public List<SER_Usuario> Consultar()
         {
             List<SER_Usuario> lista = new List<SER_Usuario>();
