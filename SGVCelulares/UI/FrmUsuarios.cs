@@ -102,7 +102,7 @@ namespace UI
                 SER_Usuario usAux = new SER_Usuario(grillaUsuarios.SelectedRows[0].Cells["DNI"].Value.ToString());
                 SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
                 string nom = Interaction.InputBox("Ingrese nombre del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Nombre"].Value.ToString());
-                string ap = Interaction.InputBox("Ingrese nombre del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Apellido"].Value.ToString());
+                string ap = Interaction.InputBox("Ingrese apellido del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Apellido"].Value.ToString());
                 string nomUsu = Interaction.InputBox("Ingrese nombre de usuario", "", grillaUsuarios.SelectedRows[0].Cells["Login"].Value.ToString());
                 us.Nombre = nom;
                 us.Apellido = ap;
