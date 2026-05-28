@@ -39,6 +39,8 @@ namespace BLL
 
         public void Modificar(SER_Usuario usuario)
         {
+            SER_Usuario usuAux = map_usuario.ConsultarPorNombreUsuario(usuario);
+            if (usuAux != null) throw new Exception("Ya existe usuario con este nombre de usuario");
             map_usuario.Modificar(usuario);
             SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Modificar usuario", "Usuario", 2);
             bll_bitacora.RegistrarBitacora(bitacora);

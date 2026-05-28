@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UI
 {
@@ -101,12 +102,18 @@ namespace UI
                 if (grillaUsuarios.SelectedRows.Count == 0) throw new Exception("NO EXISTEN USUARIOS REGISTRADOS");
                 SER_Usuario usAux = new SER_Usuario(grillaUsuarios.SelectedRows[0].Cells["DNI"].Value.ToString());
                 SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
-                string nom = Interaction.InputBox("Ingrese nombre del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Nombre"].Value.ToString());
-                string ap = Interaction.InputBox("Ingrese apellido del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Apellido"].Value.ToString());
-                string nomUsu = Interaction.InputBox("Ingrese nombre de usuario", "", grillaUsuarios.SelectedRows[0].Cells["Login"].Value.ToString());
-                us.Nombre = nom;
-                us.Apellido = ap;
-                us.NombreUsuario = nomUsu;
+                string nombre = Interaction.InputBox("Ingrese nombre del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Nombre"].Value.ToString());
+                if (!ValidarDatos(nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}$")) throw new Exception("El formato del nombre es incorrecto!");
+
+                string apellido = Interaction.InputBox("Ingrese apellido del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Apellido"].Value.ToString());
+                if (!ValidarDatos(apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}$")) throw new Exception("El formato del apellido es incorrecto!");
+
+                string nombreUsuario = Interaction.InputBox("Ingrese nombre de usuario", "", grillaUsuarios.SelectedRows[0].Cells["Login"].Value.ToString());
+                if (!ValidarDatos(nombreUsuario, @"^[a-zA-Z0-9_]{1,50}$")) throw new Exception("El formato del nombre de usuario es incorrecto!");
+
+                us.Nombre = nombre;
+                us.Apellido = apellido;
+                us.NombreUsuario = nombreUsuario;
                 bll_usuario.Modificar(us);
                 MessageBox.Show("El usuario con DNI " + us.Dni + " ha sido modificado correctamente ", "Modificacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
