@@ -28,83 +28,148 @@
         /// </summary>
         private void InitializeComponent()
         {
+            pnlTitulo = new Panel();
+            lblTitulo = new Label();
+            pnlContenido = new Panel();
+            lblUsuario = new Label();
             txtNombreUsuario = new TextBox();
+            lblPassword = new Label();
             txtPassword = new TextBox();
-            label1 = new Label();
-            label2 = new Label();
             btnEntrar = new Button();
+            pnlTitulo.SuspendLayout();
+            pnlContenido.SuspendLayout();
             SuspendLayout();
+            // 
+            // pnlTitulo
+            // 
+            pnlTitulo.BackColor = Color.FromArgb(21, 32, 48);
+            pnlTitulo.Controls.Add(lblTitulo);
+            pnlTitulo.Dock = DockStyle.Top;
+            pnlTitulo.Location = new Point(0, 0);
+            pnlTitulo.Name = "pnlTitulo";
+            pnlTitulo.Size = new Size(380, 48);
+            pnlTitulo.TabIndex = 0;
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 11F);
+            lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
+            lblTitulo.Location = new Point(16, 14);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(136, 20);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "Sistema de Gestión";
+            // 
+            // pnlContenido
+            // 
+            pnlContenido.BackColor = Color.FromArgb(30, 42, 58);
+            pnlContenido.Controls.Add(lblUsuario);
+            pnlContenido.Controls.Add(txtNombreUsuario);
+            pnlContenido.Controls.Add(lblPassword);
+            pnlContenido.Controls.Add(txtPassword);
+            pnlContenido.Controls.Add(btnEntrar);
+            pnlContenido.Dock = DockStyle.Fill;
+            pnlContenido.Location = new Point(0, 48);
+            pnlContenido.Name = "pnlContenido";
+            pnlContenido.Padding = new Padding(24);
+            pnlContenido.Size = new Size(380, 222);
+            pnlContenido.TabIndex = 1;
+            // 
+            // lblUsuario
+            // 
+            lblUsuario.AutoSize = true;
+            lblUsuario.Font = new Font("Segoe UI", 9F);
+            lblUsuario.ForeColor = Color.FromArgb(148, 163, 184);
+            lblUsuario.Location = new Point(24, 24);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(52, 15);
+            lblUsuario.TabIndex = 0;
+            lblUsuario.Text = "Usuario";
             // 
             // txtNombreUsuario
             // 
-            txtNombreUsuario.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtNombreUsuario.Location = new Point(144, 35);
+            txtNombreUsuario.BackColor = Color.FromArgb(21, 32, 48);
+            txtNombreUsuario.BorderStyle = BorderStyle.FixedSingle;
+            txtNombreUsuario.Font = new Font("Segoe UI", 9.5F);
+            txtNombreUsuario.ForeColor = Color.FromArgb(226, 232, 240);
+            txtNombreUsuario.Location = new Point(24, 44);
             txtNombreUsuario.Name = "txtNombreUsuario";
-            txtNombreUsuario.Size = new Size(262, 29);
-            txtNombreUsuario.TabIndex = 0;
+            txtNombreUsuario.Size = new Size(332, 25);
+            txtNombreUsuario.TabIndex = 1;
+            // 
+            // lblPassword
+            // 
+            lblPassword.AutoSize = true;
+            lblPassword.Font = new Font("Segoe UI", 9F);
+            lblPassword.ForeColor = Color.FromArgb(148, 163, 184);
+            lblPassword.Location = new Point(24, 90);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(72, 15);
+            lblPassword.TabIndex = 2;
+            lblPassword.Text = "Contraseña";
             // 
             // txtPassword
             // 
-            txtPassword.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtPassword.Location = new Point(144, 86);
+            txtPassword.BackColor = Color.FromArgb(21, 32, 48);
+            txtPassword.BorderStyle = BorderStyle.FixedSingle;
+            txtPassword.Font = new Font("Segoe UI", 9.5F);
+            txtPassword.ForeColor = Color.FromArgb(226, 232, 240);
+            txtPassword.Location = new Point(24, 110);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(262, 29);
-            txtPassword.TabIndex = 1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(69, 38);
-            label1.Name = "label1";
-            label1.Size = new Size(69, 21);
-            label1.TabIndex = 2;
-            label1.Text = "Usuario";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(42, 89);
-            label2.Name = "label2";
-            label2.Size = new Size(96, 21);
-            label2.TabIndex = 3;
-            label2.Text = "Contraseña";
+            txtPassword.PasswordChar = '●';
+            txtPassword.Size = new Size(332, 25);
+            txtPassword.TabIndex = 3;
             // 
             // btnEntrar
             // 
-            btnEntrar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEntrar.Location = new Point(144, 134);
+            btnEntrar.BackColor = Color.FromArgb(45, 60, 82);
+            btnEntrar.Cursor = Cursors.Hand;
+            btnEntrar.FlatAppearance.BorderSize = 0;
+            btnEntrar.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
+            btnEntrar.FlatStyle = FlatStyle.Flat;
+            btnEntrar.Font = new Font("Segoe UI", 9.5F);
+            btnEntrar.ForeColor = Color.FromArgb(226, 232, 240);
+            btnEntrar.Location = new Point(24, 158);
             btnEntrar.Name = "btnEntrar";
-            btnEntrar.Size = new Size(262, 36);
+            btnEntrar.Size = new Size(332, 38);
             btnEntrar.TabIndex = 4;
             btnEntrar.Text = "Entrar";
-            btnEntrar.UseVisualStyleBackColor = true;
+            btnEntrar.UseVisualStyleBackColor = false;
             btnEntrar.Click += btnEntrar_Click;
             // 
             // FrmLogin
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(488, 214);
-            Controls.Add(btnEntrar);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(txtPassword);
-            Controls.Add(txtNombreUsuario);
+            BackColor = Color.FromArgb(30, 42, 58);
+            ClientSize = new Size(380, 270);
+            Controls.Add(pnlContenido);
+            Controls.Add(pnlTitulo);
+            Font = new Font("Segoe UI", 9.5F);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "FrmLogin";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
             Load += FrmLogin_Load;
+            pnlTitulo.ResumeLayout(false);
+            pnlTitulo.PerformLayout();
+            pnlContenido.ResumeLayout(false);
+            pnlContenido.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private TextBox txtNombreUsuario;
-        private TextBox txtPassword;
-        private Label label1;
-        private Label label2;
-        private Button btnEntrar;
+        private System.Windows.Forms.Panel pnlTitulo;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Panel pnlContenido;
+        private System.Windows.Forms.Label lblUsuario;
+        private System.Windows.Forms.TextBox txtNombreUsuario;
+        private System.Windows.Forms.Label lblPassword;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Button btnEntrar;
     }
 }
