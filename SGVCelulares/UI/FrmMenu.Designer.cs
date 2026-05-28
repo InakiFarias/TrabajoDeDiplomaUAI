@@ -40,7 +40,7 @@
             btnClientes = new Button();
             btnInventario = new Button();
             btnReportes = new Button();
-            btnVentas = new Button();
+            btnBitacora = new Button();
             btnUsuarios = new Button();
             lblSeccionNav = new Label();
             pnlContenido = new Panel();
@@ -93,7 +93,7 @@
             pnlSidebar.Controls.Add(btnClientes);
             pnlSidebar.Controls.Add(btnInventario);
             pnlSidebar.Controls.Add(btnReportes);
-            pnlSidebar.Controls.Add(btnVentas);
+            pnlSidebar.Controls.Add(btnBitacora);
             pnlSidebar.Controls.Add(btnUsuarios);
             pnlSidebar.Controls.Add(lblSeccionNav);
             pnlSidebar.Dock = DockStyle.Left;
@@ -241,23 +241,24 @@
             btnReportes.TextAlign = ContentAlignment.MiddleLeft;
             btnReportes.UseVisualStyleBackColor = false;
             // 
-            // btnVentas
+            // btnBitacora
             // 
-            btnVentas.BackColor = Color.FromArgb(25, 37, 53);
-            btnVentas.Cursor = Cursors.Hand;
-            btnVentas.FlatAppearance.BorderSize = 0;
-            btnVentas.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            btnVentas.FlatStyle = FlatStyle.Flat;
-            btnVentas.Font = new Font("Segoe UI", 9.5F);
-            btnVentas.ForeColor = Color.FromArgb(148, 163, 184);
-            btnVentas.Location = new Point(4, 72);
-            btnVentas.Name = "btnVentas";
-            btnVentas.Padding = new Padding(10, 0, 0, 0);
-            btnVentas.Size = new Size(174, 38);
-            btnVentas.TabIndex = 2;
-            btnVentas.Text = "📝  Bitácora";
-            btnVentas.TextAlign = ContentAlignment.MiddleLeft;
-            btnVentas.UseVisualStyleBackColor = false;
+            btnBitacora.BackColor = Color.FromArgb(25, 37, 53);
+            btnBitacora.Cursor = Cursors.Hand;
+            btnBitacora.FlatAppearance.BorderSize = 0;
+            btnBitacora.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnBitacora.FlatStyle = FlatStyle.Flat;
+            btnBitacora.Font = new Font("Segoe UI", 9.5F);
+            btnBitacora.ForeColor = Color.FromArgb(148, 163, 184);
+            btnBitacora.Location = new Point(4, 72);
+            btnBitacora.Name = "btnBitacora";
+            btnBitacora.Padding = new Padding(10, 0, 0, 0);
+            btnBitacora.Size = new Size(174, 38);
+            btnBitacora.TabIndex = 2;
+            btnBitacora.Text = "📝  Bitácora";
+            btnBitacora.TextAlign = ContentAlignment.MiddleLeft;
+            btnBitacora.UseVisualStyleBackColor = false;
+            btnBitacora.Click += btnBitacora_Click;
             // 
             // btnUsuarios
             // 
@@ -330,7 +331,7 @@
         private System.Windows.Forms.Panel pnlSidebar;
         private System.Windows.Forms.Label lblSeccionNav;
         private System.Windows.Forms.Button btnUsuarios;
-        private System.Windows.Forms.Button btnVentas;
+        private System.Windows.Forms.Button btnBitacora;
         private System.Windows.Forms.Button btnReportes;
         private System.Windows.Forms.Button btnInventario;
         private System.Windows.Forms.Button btnClientes;

@@ -14,9 +14,7 @@ namespace DAL
         public DAO_Bitacora() : base() 
         { 
             cm = new SqlCommand("select * from bitacora", con); 
-        } 
-        
-           
+        }
         public void Agregar(params object[] T)
         {
             cm.Parameters.Clear();
@@ -43,7 +41,10 @@ namespace DAL
         }
         public SqlDataReader Consultar()
         {
-            throw new NotImplementedException();
+            cm.Parameters.Clear();
+            cm.CommandText = "SELECT * FROM bitacora WHERE fecha >= DATEADD(DAY, -3, GETDATE())";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
         public SqlDataReader ConsultarPorId(string id)

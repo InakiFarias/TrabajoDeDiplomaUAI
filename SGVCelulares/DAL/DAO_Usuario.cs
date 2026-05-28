@@ -5,10 +5,8 @@ namespace DAL
 {
     public class DAO_Usuario : Conexion,IABMC
     {
-        
         SqlCommand cm;
-
-        public DAO_Usuario():base()
+        public DAO_Usuario() : base()
         {
             cm = new SqlCommand("select * from usuarios", con);
         }

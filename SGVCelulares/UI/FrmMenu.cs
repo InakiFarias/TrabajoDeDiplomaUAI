@@ -38,6 +38,22 @@ namespace UI
                 frm.Focus();
             }
         }
+        private void btnBitacora_Click(object sender, EventArgs e)
+        {
+            Form frm = Application.OpenForms["FrmBitacora"];
+
+            if (frm == null)
+            {
+                FrmBitacora frmBitacora = new FrmBitacora();
+                frmBitacora.Show();
+            }
+            else
+            {
+                frm.WindowState = FormWindowState.Normal;
+                frm.BringToFront();
+                frm.Focus();
+            }
+        }
 
         private void btnCambiarClave_Click(object sender, EventArgs e)
         {
