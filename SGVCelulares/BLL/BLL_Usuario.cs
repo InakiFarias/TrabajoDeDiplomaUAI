@@ -23,7 +23,7 @@ namespace BLL
                 string passwordHasheado = SER_Cripto.Encriptar(usuario.Password);
                 usuario.Password = passwordHasheado;
                 map_usuario.Agregar(usuario);
-                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Crear usuario", "Usuario", 3);
+                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Crear usuario", "Usuarios", 3);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
             catch (Exception ex)
@@ -101,10 +101,20 @@ namespace BLL
             map_usuario.ReiniciarIntentos(obj);
 
 
-            SER_Bitacora bitacora = new SER_Bitacora(obj, DateTime.Now, "Login usuario", "Usuario", 1);
+            SER_Bitacora bitacora = new SER_Bitacora(obj, DateTime.Now, "Iniciar sesión", "Usuarios", 1);
             bll_bitacora.RegistrarBitacora(bitacora);
             
             return rdo;
+        }
+
+        public void Logout()
+        {
+            SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
+            if (usuario != null)
+            {
+                bll_bitacora.RegistrarBitacora(new SER_Bitacora(usuario, DateTime.Now, "Cerrar sesión", "Menú principal", 2));
+                SER_SesionManager.CerrarSesion();
+            }
         }
         private bool CompararPassword(SER_Usuario usuario, string password)
         {
@@ -131,14 +141,33 @@ namespace BLL
             {
                 if (!EstaBloqueado(usuario)) throw new Exception("El usuario no está bloqueado!");
                 map_usuario.Desbloquear(usuario);
-                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Desbloquear usuario", "Usuario", 3);
+                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Desbloquear usuario", "Gestión de usuarios", 1);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
             catch (Exception ex)
             {
                 throw;
             }
-            
+        }
+        public void CambiarEstadoActivo(SER_Usuario usuario)
+        {
+            SER_Usuario usuarioAux = map_usuario.ConsultarPorId(usuario);
+            if (usuarioAux != null)
+            {
+                usuarioAux.Activo = !usuarioAux.Activo;
+                map_usuario.CambiarEstadoActivo(usuarioAux);
+                if (usuarioAux.Activo)
+                {
+                    SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Activar usuario", "Gestión de usuarios", 1);
+                    bll_bitacora.RegistrarBitacora(bitacora);
+                }
+                else
+                {
+                    SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Desactivar usuario", "Gestión de usuarios", 1);
+                    bll_bitacora.RegistrarBitacora(bitacora);
+                }
+                
+            }
         }
     }
 }

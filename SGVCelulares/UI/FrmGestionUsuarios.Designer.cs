@@ -1,6 +1,6 @@
 ﻿namespace UI
 {
-    partial class FrmUsuarios
+    partial class FrmGestionUsuarios
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             pnlTopbar = new Panel();
             lblNumeroUsuarios = new Label();
             lblTitulo = new Label();
@@ -38,7 +38,7 @@
             btnCrearUsuario = new Button();
             btnDesbloquearUsuario = new Button();
             btnModificarUsuario = new Button();
-            btnActivarUsuario = new Button();
+            btnCambiarEstadoUsuario = new Button();
             btnAplicarCambios = new Button();
             btnCancelarCambios = new Button();
             btnSalir = new Button();
@@ -120,7 +120,7 @@
             pnlBotones.Controls.Add(btnCrearUsuario);
             pnlBotones.Controls.Add(btnDesbloquearUsuario);
             pnlBotones.Controls.Add(btnModificarUsuario);
-            pnlBotones.Controls.Add(btnActivarUsuario);
+            pnlBotones.Controls.Add(btnCambiarEstadoUsuario);
             pnlBotones.Controls.Add(btnAplicarCambios);
             pnlBotones.Controls.Add(btnCancelarCambios);
             pnlBotones.Controls.Add(btnSalir);
@@ -181,21 +181,22 @@
             btnModificarUsuario.UseVisualStyleBackColor = false;
             btnModificarUsuario.Click += btnModificarUsuario_Click;
             // 
-            // btnActivarUsuario
+            // btnCambiarEstadoUsuario
             // 
-            btnActivarUsuario.BackColor = Color.FromArgb(45, 60, 82);
-            btnActivarUsuario.Cursor = Cursors.Hand;
-            btnActivarUsuario.FlatAppearance.BorderSize = 0;
-            btnActivarUsuario.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnActivarUsuario.FlatStyle = FlatStyle.Flat;
-            btnActivarUsuario.Font = new Font("Segoe UI", 9.5F);
-            btnActivarUsuario.ForeColor = Color.FromArgb(226, 232, 240);
-            btnActivarUsuario.Location = new Point(8, 146);
-            btnActivarUsuario.Name = "btnActivarUsuario";
-            btnActivarUsuario.Size = new Size(156, 38);
-            btnActivarUsuario.TabIndex = 3;
-            btnActivarUsuario.Text = "Activar / Desactivar";
-            btnActivarUsuario.UseVisualStyleBackColor = false;
+            btnCambiarEstadoUsuario.BackColor = Color.FromArgb(45, 60, 82);
+            btnCambiarEstadoUsuario.Cursor = Cursors.Hand;
+            btnCambiarEstadoUsuario.FlatAppearance.BorderSize = 0;
+            btnCambiarEstadoUsuario.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
+            btnCambiarEstadoUsuario.FlatStyle = FlatStyle.Flat;
+            btnCambiarEstadoUsuario.Font = new Font("Segoe UI", 9.5F);
+            btnCambiarEstadoUsuario.ForeColor = Color.FromArgb(226, 232, 240);
+            btnCambiarEstadoUsuario.Location = new Point(8, 146);
+            btnCambiarEstadoUsuario.Name = "btnCambiarEstadoUsuario";
+            btnCambiarEstadoUsuario.Size = new Size(156, 38);
+            btnCambiarEstadoUsuario.TabIndex = 3;
+            btnCambiarEstadoUsuario.Text = "Activar / Desactivar";
+            btnCambiarEstadoUsuario.UseVisualStyleBackColor = false;
+            btnCambiarEstadoUsuario.Click += btnCambiarEstadoUsuario_Click;
             // 
             // btnAplicarCambios
             // 
@@ -381,23 +382,23 @@
             grillaUsuarios.AllowUserToDeleteRows = false;
             grillaUsuarios.BackgroundColor = Color.FromArgb(25, 37, 53);
             grillaUsuarios.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(21, 32, 48);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(148, 163, 184);
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             grillaUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(25, 37, 53);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(45, 60, 82);
+            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle4;
             grillaUsuarios.EnableHeadersVisualStyles = false;
             grillaUsuarios.GridColor = Color.FromArgb(45, 60, 82);
             grillaUsuarios.Location = new Point(24, 72);
@@ -453,7 +454,7 @@
             radioButton2.TabStop = true;
             radioButton2.Text = "Todos";
             // 
-            // FrmUsuarios
+            // FrmGestionUsuarios
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -464,7 +465,7 @@
             Font = new Font("Segoe UI", 9.5F);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "FrmUsuarios";
+            Name = "FrmGestionUsuarios";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Gestión de Usuarios";
             Load += FrmUsuarios_Load;
@@ -506,7 +507,7 @@
         private System.Windows.Forms.Button btnCrearUsuario;
         private System.Windows.Forms.Button btnDesbloquearUsuario;
         private System.Windows.Forms.Button btnModificarUsuario;
-        private System.Windows.Forms.Button btnActivarUsuario;
+        private System.Windows.Forms.Button btnCambiarEstadoUsuario;
         private System.Windows.Forms.Button btnAplicarCambios;
         private System.Windows.Forms.Button btnCancelarCambios;
         private System.Windows.Forms.Button btnSalir;

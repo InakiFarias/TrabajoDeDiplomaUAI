@@ -19,5 +19,6 @@ namespace Servicios
             }
             return sesion;
         }
+        static public void CerrarSesion() => sesion = null;
     }
 }

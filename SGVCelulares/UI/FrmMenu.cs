@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,18 +13,22 @@ namespace UI
 {
     public partial class FrmMenu : Form
     {
+        BLL_Usuario bll_usuario;
         public FrmMenu()
         {
             InitializeComponent();
         }
-
+        private void FrmMenu_Load(object sender, EventArgs e)
+        {
+            bll_usuario = new BLL_Usuario();
+        }
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
             Form frm = Application.OpenForms["FrmUsuarios"];
 
             if (frm == null)
             {
-                FrmUsuarios frmUsuarios = new FrmUsuarios();
+                FrmGestionUsuarios frmUsuarios = new FrmGestionUsuarios();
                 frmUsuarios.Show();
             }
             else
@@ -53,7 +58,17 @@ namespace UI
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
+            DialogResult res = MessageBox.Show("¿Seguro que desea cerrar la sesión?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                bll_usuario.Logout();
+                this.Close();
+            }
+        }
 
+        private void FrmMenu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            bll_usuario.Logout();
         }
     }
 }

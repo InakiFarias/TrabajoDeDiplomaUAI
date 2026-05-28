@@ -313,6 +313,8 @@
             Name = "FrmMenu";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sistema de Gestión";
+            FormClosing += FrmMenu_FormClosing;
+            Load += FrmMenu_Load;
             pnlTopbar.ResumeLayout(false);
             pnlTopbar.PerformLayout();
             pnlSidebar.ResumeLayout(false);

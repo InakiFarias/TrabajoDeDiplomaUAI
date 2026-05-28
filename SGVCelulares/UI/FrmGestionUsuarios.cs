@@ -15,10 +15,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UI
 {
-    public partial class FrmUsuarios : Form
+    public partial class FrmGestionUsuarios : Form
     {
         BLL_Usuario bll_usuario;
-        public FrmUsuarios()
+        public FrmGestionUsuarios()
         {
             InitializeComponent();
         }
@@ -72,22 +72,39 @@ namespace UI
         {
             try
             {
-                if (grillaUsuarios.SelectedRows.Count == 0) throw new Exception("NO EXISTEN USUARIOS REGISTRADOS");
+                if (grillaUsuarios.SelectedRows.Count == 0) throw new Exception("NO EXISTEN USUARIOS REGISTRADOS!");
                 SER_Usuario usAux = new SER_Usuario(grillaUsuarios.SelectedRows[0].Cells["DNI"].Value.ToString());
                 SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
                 bll_usuario.Desbloquear(us);
                 MessageBox.Show("El usuario con DNI " + us.Dni + " ha sido desbloqueado correctamente ", "Desbloqueo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-
             catch (Exception Ex)
             {
 
                 MessageBox.Show(Ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
+        private void btnCambiarEstadoUsuario_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (grillaUsuarios.SelectedRows.Count == 0) throw new Exception("NO EXISTEN USUARIOS REGISTRADOS!");
+                SER_Usuario usAux = new SER_Usuario(grillaUsuarios.SelectedRows[0].Cells["DNI"].Value.ToString());
+                SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
 
+                DialogResult res = MessageBox.Show($"¿Desea cambiar el estado de {us.NombreUsuario} de {(us.Activo ? "Activo" : "Inactivo")} a {(us.Activo ? "Inactivo" : "Activo")}?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    bll_usuario.CambiarEstadoActivo(usAux);
+                    Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+                }
+            }
+            catch (Exception Ex)
+            {
+
+                MessageBox.Show(Ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void btnModificarUsuario_Click(object sender, EventArgs e)
         {
             try

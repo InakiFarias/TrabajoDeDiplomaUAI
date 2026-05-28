@@ -43,19 +43,18 @@ namespace UI
 
                 if (bll_usuario.Login(new SER_Usuario(nombreUsuario, password)))
                 {
+                    txtNombreUsuario.Text = "";
+                    txtPassword.Text = "";
                     this.Hide();
                     FrmMenu frmMenu = new FrmMenu();
                     frmMenu.ShowDialog();
-                    this.Close();
+                    this.Show();
                 }
-
-                
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }

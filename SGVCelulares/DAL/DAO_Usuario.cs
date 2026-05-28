@@ -147,5 +147,15 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
+        public void CambiarEstadoActivo(string dni, bool activo)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
+            cm.Parameters.Add("@activo", SqlDbType.Bit).Value = activo;
+            cm.CommandText = "UPDATE usuarios SET activo=@activo WHERE dni=@dni";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
     }
 }
