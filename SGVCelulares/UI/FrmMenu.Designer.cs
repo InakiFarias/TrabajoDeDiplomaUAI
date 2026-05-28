@@ -32,6 +32,10 @@
             lblUsuario = new Label();
             lblTituloTopbar = new Label();
             pnlSidebar = new Panel();
+            button3 = new Button();
+            btnCambiarClave = new Button();
+            button2 = new Button();
+            label1 = new Label();
             btnAyuda = new Button();
             btnClientes = new Button();
             btnInventario = new Button();
@@ -40,10 +44,6 @@
             btnUsuarios = new Button();
             lblSeccionNav = new Label();
             pnlContenido = new Panel();
-            button1 = new Button();
-            button2 = new Button();
-            label1 = new Label();
-            button3 = new Button();
             pnlTopbar.SuspendLayout();
             pnlSidebar.SuspendLayout();
             SuspendLayout();
@@ -86,7 +86,7 @@
             // 
             pnlSidebar.BackColor = Color.FromArgb(25, 37, 53);
             pnlSidebar.Controls.Add(button3);
-            pnlSidebar.Controls.Add(button1);
+            pnlSidebar.Controls.Add(btnCambiarClave);
             pnlSidebar.Controls.Add(button2);
             pnlSidebar.Controls.Add(label1);
             pnlSidebar.Controls.Add(btnAyuda);
@@ -101,6 +101,72 @@
             pnlSidebar.Name = "pnlSidebar";
             pnlSidebar.Size = new Size(190, 572);
             pnlSidebar.TabIndex = 1;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.FromArgb(25, 37, 53);
+            button3.Cursor = Cursors.Hand;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Segoe UI", 9.5F);
+            button3.ForeColor = Color.FromArgb(148, 163, 184);
+            button3.Location = new Point(10, 224);
+            button3.Name = "button3";
+            button3.Padding = new Padding(10, 0, 0, 0);
+            button3.Size = new Size(174, 38);
+            button3.TabIndex = 11;
+            button3.Text = "⇠  Cerrar sesión";
+            button3.TextAlign = ContentAlignment.MiddleLeft;
+            button3.UseVisualStyleBackColor = false;
+            // 
+            // btnCambiarClave
+            // 
+            btnCambiarClave.BackColor = Color.FromArgb(25, 37, 53);
+            btnCambiarClave.Cursor = Cursors.Hand;
+            btnCambiarClave.FlatAppearance.BorderSize = 0;
+            btnCambiarClave.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnCambiarClave.FlatStyle = FlatStyle.Flat;
+            btnCambiarClave.Font = new Font("Segoe UI", 9.5F);
+            btnCambiarClave.ForeColor = Color.FromArgb(148, 163, 184);
+            btnCambiarClave.Location = new Point(4, 180);
+            btnCambiarClave.Name = "btnCambiarClave";
+            btnCambiarClave.Padding = new Padding(10, 0, 0, 0);
+            btnCambiarClave.Size = new Size(174, 38);
+            btnCambiarClave.TabIndex = 10;
+            btnCambiarClave.Text = "📝  Cambiar clave";
+            btnCambiarClave.TextAlign = ContentAlignment.MiddleLeft;
+            btnCambiarClave.UseVisualStyleBackColor = false;
+            btnCambiarClave.Click += btnCambiarClave_Click;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.FromArgb(25, 37, 53);
+            button2.Cursor = Cursors.Hand;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI", 9.5F);
+            button2.ForeColor = Color.FromArgb(148, 163, 184);
+            button2.Location = new Point(10, 136);
+            button2.Name = "button2";
+            button2.Padding = new Padding(10, 0, 0, 0);
+            button2.Size = new Size(174, 38);
+            button2.TabIndex = 9;
+            button2.Text = "👤  Re-Login";
+            button2.TextAlign = ContentAlignment.MiddleLeft;
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            label1.ForeColor = Color.FromArgb(71, 85, 105);
+            label1.Location = new Point(12, 121);
+            label1.Name = "label1";
+            label1.Size = new Size(50, 12);
+            label1.TabIndex = 8;
+            label1.Text = "USUARIO";
             // 
             // btnAyuda
             // 
@@ -232,71 +298,6 @@
             pnlContenido.Size = new Size(770, 572);
             pnlContenido.TabIndex = 2;
             // 
-            // button1
-            // 
-            button1.BackColor = Color.FromArgb(25, 37, 53);
-            button1.Cursor = Cursors.Hand;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 9.5F);
-            button1.ForeColor = Color.FromArgb(148, 163, 184);
-            button1.Location = new Point(4, 180);
-            button1.Name = "button1";
-            button1.Padding = new Padding(10, 0, 0, 0);
-            button1.Size = new Size(174, 38);
-            button1.TabIndex = 10;
-            button1.Text = "📝  Cambiar clave";
-            button1.TextAlign = ContentAlignment.MiddleLeft;
-            button1.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.FromArgb(25, 37, 53);
-            button2.Cursor = Cursors.Hand;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 9.5F);
-            button2.ForeColor = Color.FromArgb(148, 163, 184);
-            button2.Location = new Point(10, 136);
-            button2.Name = "button2";
-            button2.Padding = new Padding(10, 0, 0, 0);
-            button2.Size = new Size(174, 38);
-            button2.TabIndex = 9;
-            button2.Text = "👤  Re-Login";
-            button2.TextAlign = ContentAlignment.MiddleLeft;
-            button2.UseVisualStyleBackColor = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            label1.ForeColor = Color.FromArgb(71, 85, 105);
-            label1.Location = new Point(12, 121);
-            label1.Name = "label1";
-            label1.Size = new Size(50, 12);
-            label1.TabIndex = 8;
-            label1.Text = "USUARIO";
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.FromArgb(25, 37, 53);
-            button3.Cursor = Cursors.Hand;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 9.5F);
-            button3.ForeColor = Color.FromArgb(148, 163, 184);
-            button3.Location = new Point(10, 224);
-            button3.Name = "button3";
-            button3.Padding = new Padding(10, 0, 0, 0);
-            button3.Size = new Size(174, 38);
-            button3.TabIndex = 11;
-            button3.Text = "⇠  Cerrar sesión";
-            button3.TextAlign = ContentAlignment.MiddleLeft;
-            button3.UseVisualStyleBackColor = false;
-            // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -333,7 +334,7 @@
         private System.Windows.Forms.Button btnAyuda;
         private System.Windows.Forms.Panel pnlContenido;
         private Button button3;
-        private Button button1;
+        private Button btnCambiarClave;
         private Button button2;
         private Label label1;
     }

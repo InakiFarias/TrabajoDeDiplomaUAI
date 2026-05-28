@@ -33,5 +33,22 @@ namespace UI
                 frm.Focus();
             }
         }
+
+        private void btnCambiarClave_Click(object sender, EventArgs e)
+        {
+            Form frm = Application.OpenForms["FrmCambiarClave"];
+
+            if (frm == null)
+            {
+                frmCambiarClave frmCambiarClave = new frmCambiarClave();
+                frmCambiarClave.Show();
+            }
+            else
+            {
+                frm.WindowState = FormWindowState.Normal;
+                frm.BringToFront();
+                frm.Focus();
+            }
+        }
     }
 }
