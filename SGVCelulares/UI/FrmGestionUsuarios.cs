@@ -92,6 +92,7 @@ namespace UI
                 SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
                 bll_usuario.Desbloquear(us);
                 MessageBox.Show("El usuario con DNI " + us.Dni + " ha sido desbloqueado correctamente ", "Desbloqueo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Mostrar(grillaUsuarios, bll_usuario.ConsultarActivos());
             }
             catch (Exception Ex)
             {
@@ -111,7 +112,14 @@ namespace UI
                 if (res == DialogResult.Yes)
                 {
                     bll_usuario.CambiarEstadoActivo(usAux);
-                    Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+                    if (radioButton1.Checked)
+                    {
+                        Mostrar(grillaUsuarios, bll_usuario.ConsultarActivos());
+                    }
+                    else
+                    {
+                        Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+                    }
                 }
             }
             catch (Exception Ex)
@@ -141,8 +149,14 @@ namespace UI
                 us.NombreUsuario = nombreUsuario;
                 bll_usuario.Modificar(us);
                 MessageBox.Show("El usuario con DNI " + us.Dni + " ha sido modificado correctamente ", "Modificacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
-
+                if (radioButton1.Checked)
+                {
+                    Mostrar(grillaUsuarios, bll_usuario.ConsultarActivos());
+                }
+                else
+                {
+                    Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+                }
             }
             catch (Exception Ex)
             {
@@ -174,8 +188,6 @@ namespace UI
 
                 SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, nombreUsuario);
                 Mostrar(grillaUsuarios, bll_usuario.ConsultarFiltrado(usuario));
-
-
             }
             catch (Exception)
             {
