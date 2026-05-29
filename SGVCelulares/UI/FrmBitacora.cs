@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Servicios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace UI
     public partial class FrmBitacora : Form
     {
         BLL_Bitacora bll_bitacora;
+        BLL_Usuario bll_usuario;
         public FrmBitacora()
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace UI
         private void FrmBitacora_Load(object sender, EventArgs e)
         {
             bll_bitacora = new BLL_Bitacora();
+            bll_usuario = new BLL_Usuario();
             foreach (var control in Controls)
             {
                 if (control is DataGridView grilla)
@@ -31,8 +34,27 @@ namespace UI
                     grilla.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 }
             }
-
+            cbxCriticidad.Items.AddRange(new string[] { "Baja", "Media", "Alta" });
+            cbxModulo.Items.AddRange(new string[] { "Gestión de Usuarios", "Menu Principal" });
+            cbxEvento.Items.AddRange(new string[] {
+                "Login", "Logout", "Crear Usuario", "Modificar Usuario","Cambiar Clave", "Bloquear Usuario", "Activar/Desactivar Usuario" });
+            txtNombre.ReadOnly = true;
+            txtApellido.ReadOnly = true;
             Mostrar(grillaBitacora, bll_bitacora.ConsultarParaGrilla());
+            ActualizarTXT();
+        }
+        private void ActualizarTXT()
+        {
+            try
+            {
+                SER_Usuario us = bll_bitacora.ConsultarPorNombreUsuario(grillaBitacora.SelectedRows[0].Cells[0].Value.ToString());
+                txtNombre.Text = us.Nombre;
+                txtApellido.Text = us.Apellido;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         private void Mostrar(DataGridView grilla, object datos)
         {
@@ -42,6 +64,82 @@ namespace UI
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnAplicar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string nombreUsuario = txtNombreUsuario.Text;
+                string modulo = cbxModulo.SelectedItem?.ToString();
+                string evento = cbxEvento.SelectedItem?.ToString();
+                int? criticidad = cbxCriticidad.SelectedIndex >= 0 ? (int?)cbxCriticidad.SelectedIndex + 1 : null;
+                DateTime? fechaInicio = dtpFechaInicio.Value.Date;
+                DateTime? fechaFin = dtpFechaFin.Value.Date.AddDays(1).AddTicks(-1);
+                if(fechaInicio > fechaFin)throw new Exception("ERROR: La fecha de inicio no puede ser mayor a la fecha de fin!!");
+                Mostrar(grillaBitacora, bll_bitacora.ConsultarFiltradoBitacora(nombreUsuario, modulo, evento, criticidad, fechaInicio, fechaFin));
+                if(grillaBitacora.Rows.Count == 0) 
+                {
+                    txtApellido.Text = "";
+                    txtNombre.Text = "";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (Control c in this.Controls)
+                {
+                    if (c is TextBox txt)
+                        txt.Clear();
+
+                    if (c is ComboBox cb)
+                        cb.SelectedIndex = -1;
+
+                    if (c is DateTimePicker dtp)
+                        dtp.Value = DateTime.Now;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void grillaBitacora_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (grillaBitacora.Rows.Count > 0) ActualizarTXT();
+
+
+            }
+            catch (Exception)
+            {
+
+                
+            }
         }
     }
 }

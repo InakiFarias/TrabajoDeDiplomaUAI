@@ -74,8 +74,46 @@ namespace BLL
         public SER_Usuario ConsultarPorId(SER_Usuario usuario)
         {
             return map_usuario.ConsultarPorId(usuario);
+        }
+        public List<object> ConsultarFiltrado(SER_Usuario us)
+        {
+            var consulta = from user in map_usuario.Consultar()
+                           where
+                           (string.IsNullOrWhiteSpace(us.Dni) || user.Dni.Contains(us.Dni))
+                           &&
+                           (string.IsNullOrWhiteSpace(us.Nombre) || user.Nombre.Contains(us.Nombre))
+                           &&
+                           (string.IsNullOrWhiteSpace(us.Apellido) || user.Apellido.Contains(us.Apellido))
+                           &&
+                           (string.IsNullOrWhiteSpace(us.Correo) || user.Correo.Contains(us.Correo))
+                           &&
+                           (string.IsNullOrWhiteSpace(us.NombreUsuario) || user.NombreUsuario.Contains(us.NombreUsuario))
+                           select new
+                           {
+                               DNI = user.Dni,
+                               Apellido = user.Apellido,
+                               Nombre = user.Nombre,
+                               Login = user.NombreUsuario,
+                           };
+
+            return consulta.ToList<object>();
+
 
         }
+        public List<object> ConsultarActivos() 
+        {
+            var consulta = from u in Consultar()
+                           where u.Activo
+                           select new
+                           {
+                               DNI = u.Dni,
+                               Apellido = u.Apellido,
+                               Nombre = u.Nombre,
+                               Login = u.NombreUsuario,
+                           };
+            return consulta.ToList<object>();
+        }
+
         public bool Login(SER_Usuario usuario)
         {
             bool rdo = false;

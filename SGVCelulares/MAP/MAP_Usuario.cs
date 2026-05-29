@@ -71,6 +71,7 @@ namespace MAP
             dr.Close();
             return usuarioAux;
         }
+      
         public bool ValidarDniRepetido(SER_Usuario usuario) => dao_usuario.ValidarRepetido(usuario.Dni);
         public bool ExisteNombreUsuario(SER_Usuario usuario) => dao_usuario.ExisteNombreUsuario(usuario.NombreUsuario);
         public bool ValidarCorreoRepetido(SER_Usuario usuario) => dao_usuario.ValidarCorreoRepetido(usuario.Correo);

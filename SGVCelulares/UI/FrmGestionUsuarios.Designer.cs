@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             pnlTopbar = new Panel();
             lblNumeroUsuarios = new Label();
             lblTitulo = new Label();
@@ -213,6 +213,7 @@
             btnAplicarCambios.TabIndex = 4;
             btnAplicarCambios.Text = "Aplicar";
             btnAplicarCambios.UseVisualStyleBackColor = false;
+            btnAplicarCambios.Click += btnAplicarCambios_Click;
             // 
             // btnCancelarCambios
             // 
@@ -382,23 +383,23 @@
             grillaUsuarios.AllowUserToDeleteRows = false;
             grillaUsuarios.BackgroundColor = Color.FromArgb(25, 37, 53);
             grillaUsuarios.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(21, 32, 48);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(148, 163, 184);
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             grillaUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(25, 37, 53);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(45, 60, 82);
+            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle4;
             grillaUsuarios.EnableHeadersVisualStyles = false;
             grillaUsuarios.GridColor = Color.FromArgb(45, 60, 82);
             grillaUsuarios.Location = new Point(24, 72);
@@ -442,6 +443,7 @@
             radioButton1.TabIndex = 1;
             radioButton1.TabStop = true;
             radioButton1.Text = "Activos";
+            radioButton1.CheckedChanged += radioButton1_CheckedChanged;
             // 
             // radioButton2
             // 
@@ -453,6 +455,7 @@
             radioButton2.Size = new Size(57, 19);
             radioButton2.TabIndex = 2;
             radioButton2.Text = "Todos";
+            radioButton2.CheckedChanged += radioButton2_CheckedChanged;
             // 
             // FrmGestionUsuarios
             // 

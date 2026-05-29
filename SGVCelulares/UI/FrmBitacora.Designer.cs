@@ -47,6 +47,9 @@
             dtpFechaInicio = new DateTimePicker();
             txtNombreUsuario = new TextBox();
             cbxCriticidad = new ComboBox();
+            btnAplicar = new Button();
+            btnLimpiar = new Button();
+            btnImprimir = new Button();
             ((System.ComponentModel.ISupportInitialize)grillaBitacora).BeginInit();
             SuspendLayout();
             // 
@@ -60,6 +63,7 @@
             grillaBitacora.ReadOnly = true;
             grillaBitacora.Size = new Size(807, 216);
             grillaBitacora.TabIndex = 0;
+            grillaBitacora.SelectionChanged += grillaBitacora_SelectionChanged;
             // 
             // label1
             // 
@@ -214,11 +218,44 @@
             cbxCriticidad.Size = new Size(148, 23);
             cbxCriticidad.TabIndex = 19;
             // 
+            // btnAplicar
+            // 
+            btnAplicar.Location = new Point(853, 200);
+            btnAplicar.Name = "btnAplicar";
+            btnAplicar.Size = new Size(124, 23);
+            btnAplicar.TabIndex = 21;
+            btnAplicar.Text = "APLICAR";
+            btnAplicar.UseVisualStyleBackColor = true;
+            btnAplicar.Click += btnAplicar_Click;
+            // 
+            // btnLimpiar
+            // 
+            btnLimpiar.Location = new Point(853, 229);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(124, 23);
+            btnLimpiar.TabIndex = 22;
+            btnLimpiar.Text = "LIMPIAR";
+            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.Click += btnLimpiar_Click;
+            // 
+            // btnImprimir
+            // 
+            btnImprimir.Location = new Point(853, 258);
+            btnImprimir.Name = "btnImprimir";
+            btnImprimir.Size = new Size(124, 23);
+            btnImprimir.TabIndex = 23;
+            btnImprimir.Text = "IMPRIMIR";
+            btnImprimir.UseVisualStyleBackColor = true;
+            btnImprimir.Click += btnImprimir_Click;
+            // 
             // FrmBitacora
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(895, 450);
+            ClientSize = new Size(1261, 459);
+            Controls.Add(btnImprimir);
+            Controls.Add(btnLimpiar);
+            Controls.Add(btnAplicar);
             Controls.Add(cbxCriticidad);
             Controls.Add(txtNombreUsuario);
             Controls.Add(dtpFechaInicio);
@@ -267,5 +304,8 @@
         private DateTimePicker dtpFechaInicio;
         private TextBox txtNombreUsuario;
         private ComboBox cbxCriticidad;
+        private Button btnAplicar;
+        private Button btnLimpiar;
+        private Button btnImprimir;
     }
 }

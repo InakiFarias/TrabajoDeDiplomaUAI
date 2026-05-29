@@ -17,12 +17,22 @@
         {
             Dni = dni;
         }
+        public SER_Usuario(string dni, string nombre, string apellido, string correo,string nombreUsuario)
+        {
+            Dni = dni;
+            Nombre = nombre;
+            Apellido = apellido;
+            Correo = correo;
+            NombreUsuario = nombreUsuario;
+            
+        }
         public SER_Usuario(string nombreUsuario, string password)
         {
             NombreUsuario = nombreUsuario;
             Password = password;
         }
-        
+       
+
         public SER_Usuario(string dni, string nombre, string apellido, string correo, string nombreUsuario, string password, bool bloqueo, bool activo)
         {
             Dni = dni;

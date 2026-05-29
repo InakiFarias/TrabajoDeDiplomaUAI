@@ -79,6 +79,7 @@ namespace DAL
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
+      
         public bool ValidarRepetido(string dni)
         {
             cm.Parameters.Clear();

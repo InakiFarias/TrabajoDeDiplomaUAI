@@ -4,6 +4,7 @@ using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ObjectiveC;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,52 @@ namespace BLL
                                Evento = b.Evento,
                                Criticidad = b.Criticidad
                            };
+            return consulta.ToList<object>();
+        }
+        public SER_Usuario ConsultarPorNombreUsuario(string nombreUsuario) 
+        {
+            var cta = (from b in Consultar()
+                      where b.Usuario.NombreUsuario == nombreUsuario
+                      select new
+                      {
+                          Nombre = b.Usuario.Nombre,
+                          Apellido = b.Usuario.Apellido
+                      }).ToList();
+            SER_Usuario us = new SER_Usuario();
+            us.Nombre = cta[0].Nombre;
+            us.Apellido = cta[0].Apellido;
+            return us;
+        }
+        public List<object> ConsultarFiltradoBitacora(string login,string modulo,string evento,int? criticidad,DateTime? fechaInicio,DateTime? fechaFin)
+        {
+            var consulta = from bit in map_bitacora.Consultar()
+                           where
+                           (string.IsNullOrWhiteSpace(login)
+                           || bit.Usuario.NombreUsuario.Contains(login))
+                           &&
+                           (string.IsNullOrWhiteSpace(modulo)
+                           || bit.Modulo.Contains(modulo))
+                           &&
+                           (string.IsNullOrWhiteSpace(evento)
+                           || bit.Evento.Contains(evento))
+                           &&
+                           (!criticidad.HasValue
+                            || bit.Criticidad == criticidad.Value)
+                           &&
+                           (!fechaInicio.HasValue
+                           || bit.Fecha >= fechaInicio.Value)
+                           &&
+                           (!fechaFin.HasValue
+                           || bit.Fecha <= fechaFin.Value)
+                            select new
+                           {
+                               Fecha = bit.Fecha,
+                               Login = bit.Usuario.NombreUsuario,
+                               Modulo = bit.Modulo,
+                               Evento = bit.Evento,
+                               Criticidad = bit.Criticidad,
+                           };
+
             return consulta.ToList<object>();
         }
     }

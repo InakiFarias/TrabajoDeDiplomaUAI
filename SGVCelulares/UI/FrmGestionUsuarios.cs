@@ -27,12 +27,18 @@ namespace UI
             grillaUsuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grillaUsuarios.MultiSelect = false;
             bll_usuario = new BLL_Usuario();
-            Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+            Mostrar(grillaUsuarios, bll_usuario.ConsultarActivos());
         }
         private void Mostrar(DataGridView grilla, object datos)
         {
             grilla.DataSource = null;
             grilla.DataSource = datos;
+            ContarUsuarios(lblNumeroUsuarios);
+        }
+        private void ContarUsuarios(Label lbl) 
+        {
+            int cant = bll_usuario.Consultar().Count();
+            lbl.Text = $"Número de usuarios: {cant}";
         }
         private bool ValidarDatos(string texto, string expresionRegular)
         {
@@ -138,6 +144,67 @@ namespace UI
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnAplicarCambios_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                radioButton1.Checked = false;
+                radioButton2.Checked = false;
+                
+                string dni = txtDni.Text;
+
+                string nombre = txtNombre.Text;
+
+                string apellido = txtApellido.Text;
+
+                string correo = txtCorreo.Text;
+
+                string nombreUsuario = txtNombreUsuario.Text;
+
+                SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, nombreUsuario);
+                Mostrar(grillaUsuarios, bll_usuario.ConsultarFiltrado(usuario));
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (radioButton1.Checked) 
+                {
+                    Mostrar(grillaUsuarios,bll_usuario.ConsultarActivos());
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if(radioButton2.Checked)
+                {
+                    Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
