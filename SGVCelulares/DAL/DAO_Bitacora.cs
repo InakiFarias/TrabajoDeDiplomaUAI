@@ -42,7 +42,7 @@ namespace DAL
         public SqlDataReader Consultar()
         {
             cm.Parameters.Clear();
-            cm.CommandText = "SELECT * FROM bitacora WHERE fecha >= DATEADD(DAY, -3, GETDATE())";
+            cm.CommandText = "SELECT * FROM bitacora";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }

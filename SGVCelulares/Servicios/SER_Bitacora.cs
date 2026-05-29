@@ -15,12 +15,12 @@ namespace Servicios
         public string Evento { get; set; }
         public string Modulo { get; set; }
         public int Criticidad { get; set; }
-        public SER_Bitacora(SER_Usuario usuario, DateTime fecha, string evento, string modulo, int criticidad)
+        public SER_Bitacora(SER_Usuario usuario, DateTime fecha, string modulo, string evento, int criticidad)
         {
             Usuario = usuario;
             Fecha = fecha;
-            Evento = evento;
             Modulo = modulo;
+            Evento = evento;
             Criticidad = criticidad;
         }
     }

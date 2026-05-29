@@ -34,20 +34,20 @@ namespace UI
                     grilla.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 }
             }
-            cbxCriticidad.Items.AddRange(new string[] { "Baja", "Media", "Alta" });
-            cbxModulo.Items.AddRange(new string[] { "Gestión de Usuarios", "Menu Principal" });
+            cbxCriticidad.Items.AddRange(new string[] { "Alta", "Media", "Baja" });
+            cbxModulo.Items.AddRange(new string[] { "Gestión de Usuarios", "Menú Principal" });
             cbxEvento.Items.AddRange(new string[] {
-                "Login", "Logout", "Crear Usuario", "Modificar Usuario","Cambiar Clave", "Bloquear Usuario", "Activar/Desactivar Usuario" });
+                "Login", "Logout", "Crear Usuario", "Modificar Usuario","Cambiar Clave", "Bloquear Usuario", "Activar Usuario", "Desactivar Usuario" });
             txtNombre.ReadOnly = true;
             txtApellido.ReadOnly = true;
-            Mostrar(grillaBitacora, bll_bitacora.ConsultarParaGrilla());
+            Mostrar(grillaBitacora, bll_bitacora.ConsultarParaGrilla3Dias());
             ActualizarTXT();
         }
         private void ActualizarTXT()
         {
             try
             {
-                SER_Usuario us = bll_bitacora.ConsultarPorNombreUsuario(grillaBitacora.SelectedRows[0].Cells[0].Value.ToString());
+                SER_Usuario us = bll_bitacora.ConsultarPorNombreUsuario(grillaBitacora.SelectedRows[0].Cells["Login"].Value.ToString());
                 txtNombre.Text = us.Nombre;
                 txtApellido.Text = us.Apellido;
             }
@@ -82,12 +82,15 @@ namespace UI
                 {
                     txtApellido.Text = "";
                     txtNombre.Text = "";
+                } else
+                {
+                    ActualizarTXT();
                 }
-            }
-            catch (Exception)
-            {
 
-                throw;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

@@ -25,7 +25,12 @@ CREATE TABLE bitacora (
     CONSTRAINT FK_bitacora_usuarios FOREIGN KEY (dni) REFERENCES usuarios(dni)
 );
 
-select * from usuarios;
-select * from bitacora;
+select * from usuarios
+select * from bitacora
 
-update usuarios set cantIntentos=2 where dni=46502064
+INSERT INTO dbo.usuarios 
+    (dni, nombre, apellido, correo, nombreUsuario, password, bloqueo, activo, cantIntentos)
+VALUES 
+    ('12345678', 'Iñaki', 'Usuario', 'inaki@correo.com', 'inaki', 
+     HASHBYTES('SHA2_256', 'brunogay'), 0, 1, 0);
+

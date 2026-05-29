@@ -49,7 +49,6 @@
             cbxCriticidad = new ComboBox();
             btnAplicar = new Button();
             btnLimpiar = new Button();
-            btnImprimir = new Button();
             ((System.ComponentModel.ISupportInitialize)grillaBitacora).BeginInit();
             SuspendLayout();
             // 
@@ -149,7 +148,7 @@
             label7.AutoSize = true;
             label7.Location = new Point(370, 415);
             label7.Name = "label7";
-            label7.Size = new Size(50, 15);
+            label7.Size = new Size(49, 15);
             label7.TabIndex = 10;
             label7.Text = "EVENTO";
             // 
@@ -167,7 +166,7 @@
             label9.AutoSize = true;
             label9.Location = new Point(617, 412);
             label9.Name = "label9";
-            label9.Size = new Size(70, 15);
+            label9.Size = new Size(69, 15);
             label9.TabIndex = 12;
             label9.Text = "CRITICIDAD";
             // 
@@ -238,22 +237,11 @@
             btnLimpiar.UseVisualStyleBackColor = true;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
-            // btnImprimir
-            // 
-            btnImprimir.Location = new Point(853, 258);
-            btnImprimir.Name = "btnImprimir";
-            btnImprimir.Size = new Size(124, 23);
-            btnImprimir.TabIndex = 23;
-            btnImprimir.Text = "IMPRIMIR";
-            btnImprimir.UseVisualStyleBackColor = true;
-            btnImprimir.Click += btnImprimir_Click;
-            // 
             // FrmBitacora
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1261, 459);
-            Controls.Add(btnImprimir);
             Controls.Add(btnLimpiar);
             Controls.Add(btnAplicar);
             Controls.Add(cbxCriticidad);
@@ -306,6 +294,5 @@
         private ComboBox cbxCriticidad;
         private Button btnAplicar;
         private Button btnLimpiar;
-        private Button btnImprimir;
     }
 }

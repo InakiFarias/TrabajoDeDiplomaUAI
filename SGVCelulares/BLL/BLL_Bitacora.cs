@@ -33,6 +33,20 @@ namespace BLL
                            };
             return consulta.ToList<object>();
         }
+        public List<object> ConsultarParaGrilla3Dias()
+        {
+            var consulta = from b in Consultar() where b.Fecha >= (DateTime.Now.AddDays(-3))
+                           select new
+                           {
+                               Login = b.Usuario.NombreUsuario,
+                               Fecha = b.Fecha.ToShortDateString(),
+                               Hora = b.Fecha.ToString("HH:mm"),
+                               Modulo = b.Modulo,
+                               Evento = b.Evento,
+                               Criticidad = b.Criticidad
+                           };
+            return consulta.ToList<object>();
+        }
         public SER_Usuario ConsultarPorNombreUsuario(string nombreUsuario) 
         {
             var cta = (from b in Consultar()
