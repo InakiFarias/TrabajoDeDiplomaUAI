@@ -25,15 +25,9 @@ namespace UI
         {
             bll_bitacora = new BLL_Bitacora();
             bll_usuario = new BLL_Usuario();
-            foreach (var control in Controls)
-            {
-                if (control is DataGridView grilla)
-                {
-                    grilla.MultiSelect = false;
-                    grilla.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    grilla.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                }
-            }
+            grillaBitacora.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grillaBitacora.MultiSelect = false;
+            grillaBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             cbxCriticidad.Items.AddRange(new string[] { "Alta", "Media", "Baja" });
             cbxModulo.Items.AddRange(new string[] { "Gestión de Usuarios", "Menú Principal" });
             cbxEvento.Items.AddRange(new string[] {
@@ -47,13 +41,25 @@ namespace UI
         {
             try
             {
-                SER_Usuario us = bll_bitacora.ConsultarPorNombreUsuario(grillaBitacora.SelectedRows[0].Cells["Login"].Value.ToString());
+                if (grillaBitacora.SelectedRows.Count == 0)
+                    return;
+
+                if (grillaBitacora.SelectedRows[0].Cells["Login"].Value == null)
+                    return;
+
+                string login = grillaBitacora.SelectedRows[0].Cells["Login"].Value.ToString();
+
+                SER_Usuario us = bll_bitacora.ConsultarPorNombreUsuario(login);
+
+                if (us == null)
+                    return;
+
                 txtNombre.Text = us.Nombre;
                 txtApellido.Text = us.Apellido;
             }
-            catch (Exception)
+            catch
             {
-                throw;
+
             }
         }
         private void Mostrar(DataGridView grilla, object datos)
@@ -98,29 +104,13 @@ namespace UI
         {
             try
             {
-                foreach (Control c in this.Controls)
-                {
-                    if (c is TextBox txt)
-                        txt.Clear();
-
-                    if (c is ComboBox cb)
-                        cb.SelectedIndex = -1;
-
-                    if (c is DateTimePicker dtp)
-                        dtp.Value = DateTime.Now;
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        private void btnImprimir_Click(object sender, EventArgs e)
-        {
-            try
-            {
+                txtNombreUsuario.Clear();
+                cbxCriticidad.SelectedIndex = -1;
+                cbxEvento.SelectedIndex = -1;
+                cbxModulo.SelectedIndex = -1;
+                dtpFechaFin.Value = DateTime.Now;
+                dtpFechaInicio.Value = DateTime.Now;
+                Mostrar(grillaBitacora, bll_bitacora.ConsultarParaGrilla3Dias());
 
             }
             catch (Exception)
@@ -129,7 +119,6 @@ namespace UI
                 throw;
             }
         }
-
         private void grillaBitacora_SelectionChanged(object sender, EventArgs e)
         {
             try

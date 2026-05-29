@@ -84,11 +84,13 @@ namespace BLL
                            || bit.Fecha <= fechaFin.Value)
                             select new
                            {
-                               Fecha = bit.Fecha,
-                               Login = bit.Usuario.NombreUsuario,
-                               Modulo = bit.Modulo,
-                               Evento = bit.Evento,
-                               Criticidad = bit.Criticidad,
+                                Login = bit.Usuario.NombreUsuario,
+                                Fecha = bit.Fecha.ToShortDateString(),
+                                Hora = bit.Fecha.ToString("HH:mm"),
+                                Modulo = bit.Modulo,
+                                Evento = bit.Evento,
+                                Criticidad = bit.Criticidad
+                              
                            };
 
             return consulta.ToList<object>();

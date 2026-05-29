@@ -23,7 +23,7 @@ namespace BLL
                 string passwordHasheado = SER_Cripto.Encriptar(usuario.Password);
                 usuario.Password = passwordHasheado;
                 map_usuario.Agregar(usuario);
-                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Gestión de Usuarios", "Crear usuario", 2);
+                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Gestión de Usuarios", "Crear Usuario", 2);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
             catch (Exception ex)
