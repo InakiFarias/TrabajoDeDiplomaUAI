@@ -34,7 +34,7 @@
             pnlSidebar = new Panel();
             btnLogout = new Button();
             btnCambiarClave = new Button();
-            button2 = new Button();
+            btnRelogin = new Button();
             label1 = new Label();
             btnAyuda = new Button();
             btnClientes = new Button();
@@ -87,7 +87,7 @@
             pnlSidebar.BackColor = Color.FromArgb(25, 37, 53);
             pnlSidebar.Controls.Add(btnLogout);
             pnlSidebar.Controls.Add(btnCambiarClave);
-            pnlSidebar.Controls.Add(button2);
+            pnlSidebar.Controls.Add(btnRelogin);
             pnlSidebar.Controls.Add(label1);
             pnlSidebar.Controls.Add(btnAyuda);
             pnlSidebar.Controls.Add(btnClientes);
@@ -140,23 +140,24 @@
             btnCambiarClave.UseVisualStyleBackColor = false;
             btnCambiarClave.Click += btnCambiarClave_Click;
             // 
-            // button2
+            // btnRelogin
             // 
-            button2.BackColor = Color.FromArgb(25, 37, 53);
-            button2.Cursor = Cursors.Hand;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 9.5F);
-            button2.ForeColor = Color.FromArgb(148, 163, 184);
-            button2.Location = new Point(10, 136);
-            button2.Name = "button2";
-            button2.Padding = new Padding(10, 0, 0, 0);
-            button2.Size = new Size(174, 38);
-            button2.TabIndex = 9;
-            button2.Text = "👤  Re-Login";
-            button2.TextAlign = ContentAlignment.MiddleLeft;
-            button2.UseVisualStyleBackColor = false;
+            btnRelogin.BackColor = Color.FromArgb(25, 37, 53);
+            btnRelogin.Cursor = Cursors.Hand;
+            btnRelogin.FlatAppearance.BorderSize = 0;
+            btnRelogin.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnRelogin.FlatStyle = FlatStyle.Flat;
+            btnRelogin.Font = new Font("Segoe UI", 9.5F);
+            btnRelogin.ForeColor = Color.FromArgb(148, 163, 184);
+            btnRelogin.Location = new Point(10, 136);
+            btnRelogin.Name = "btnRelogin";
+            btnRelogin.Padding = new Padding(10, 0, 0, 0);
+            btnRelogin.Size = new Size(174, 38);
+            btnRelogin.TabIndex = 9;
+            btnRelogin.Text = "👤  Re-Login";
+            btnRelogin.TextAlign = ContentAlignment.MiddleLeft;
+            btnRelogin.UseVisualStyleBackColor = false;
+            btnRelogin.Click += btnRelogin_Click;
             // 
             // label1
             // 
@@ -339,7 +340,7 @@
         private System.Windows.Forms.Panel pnlContenido;
         private Button btnLogout;
         private Button btnCambiarClave;
-        private Button button2;
+        private Button btnRelogin;
         private Label label1;
     }
 }

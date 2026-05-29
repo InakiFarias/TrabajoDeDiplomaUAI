@@ -41,7 +41,7 @@ namespace UI
                 if (!ValidarDatos(claveNueva, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,50}$")) throw new Exception("El password debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial!");
 
                 bll_usuario.ModificarPassword(claveActual, claveNueva);
-                MessageBox.Show("Se modifico la contraseña con éxito!");
+                MessageBox.Show("Se modifico la contraseña con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex) 

@@ -66,7 +66,16 @@ namespace UI
 
                 SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, nombreUsuario, false, true);
                 bll_usuario.Agregar(usuario);
-                Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+                MessageBox.Show("Usuario creado con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (radioButton1.Checked)
+                {
+                    Mostrar(grillaUsuarios, bll_usuario.ConsultarActivos());
+                }
+                else
+                {
+                    Mostrar(grillaUsuarios, bll_usuario.ConsultarParaGrilla());
+                }
             }
             catch (Exception ex)
             {
@@ -118,13 +127,13 @@ namespace UI
                 if (grillaUsuarios.SelectedRows.Count == 0) throw new Exception("NO EXISTEN USUARIOS REGISTRADOS");
                 SER_Usuario usAux = new SER_Usuario(grillaUsuarios.SelectedRows[0].Cells["DNI"].Value.ToString());
                 SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
-                string nombre = Interaction.InputBox("Ingrese nombre del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Nombre"].Value.ToString());
+                string nombre = Interaction.InputBox("Ingrese nombre del usuario", "Modificar usuario", grillaUsuarios.SelectedRows[0].Cells["Nombre"].Value.ToString());
                 if (!ValidarDatos(nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}$")) throw new Exception("El formato del nombre es incorrecto!");
 
-                string apellido = Interaction.InputBox("Ingrese apellido del usuario", "", grillaUsuarios.SelectedRows[0].Cells["Apellido"].Value.ToString());
+                string apellido = Interaction.InputBox("Ingrese apellido del usuario", "Modificar usuario", grillaUsuarios.SelectedRows[0].Cells["Apellido"].Value.ToString());
                 if (!ValidarDatos(apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}$")) throw new Exception("El formato del apellido es incorrecto!");
 
-                string nombreUsuario = Interaction.InputBox("Ingrese nombre de usuario", "", grillaUsuarios.SelectedRows[0].Cells["Login"].Value.ToString());
+                string nombreUsuario = Interaction.InputBox("Ingrese nombre de usuario", "Modificar usuario", grillaUsuarios.SelectedRows[0].Cells["Login"].Value.ToString());
                 if (!ValidarDatos(nombreUsuario, @"^[a-zA-Z0-9_]{1,50}$")) throw new Exception("El formato del nombre de usuario es incorrecto!");
 
                 us.Nombre = nombre;
