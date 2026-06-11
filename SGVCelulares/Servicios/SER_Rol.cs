@@ -11,10 +11,10 @@ namespace Servicio
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public SER_Rol(int id, string nom) 
+        public SER_Rol(int id, string nombre) 
         {
             Id = id;
-            Nombre = nom;
+            Nombre = nombre;
         }
     }
 }

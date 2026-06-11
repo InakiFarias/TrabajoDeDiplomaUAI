@@ -8,8 +8,8 @@ namespace Servicio
 {
     public class SER_Familia : SER_Rol
     {
-        public List<SER_Rol> hijos   { get; set; }
-        public SER_Familia(int id, string nom) : base(id, nom)
+        public List<SER_Rol> hijos { get; set; }
+        public SER_Familia(int id, string nombre) : base(id, nombre)
         {
             hijos = new List<SER_Rol>();
         }

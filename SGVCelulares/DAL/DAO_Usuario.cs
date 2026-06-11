@@ -8,7 +8,7 @@ namespace DAL
         SqlCommand cm;
         public DAO_Usuario() : base()
         {
-            cm = new SqlCommand("select * from usuarios", con);
+            cm = new SqlCommand("select * from usuario", con);
         }
         public void Agregar(params object[] T)
         {
@@ -23,7 +23,7 @@ namespace DAL
             cm.Parameters.Add("@activo", SqlDbType.Bit).Value = T[7];
             cm.Parameters.Add("@cantIntentos", SqlDbType.TinyInt).Value = T[8];
 
-            cm.CommandText = "INSERT INTO usuarios(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo,cantIntentos) values (@dni,@nombre,@apellido,@correo,@nombreUsuario,@password,@bloqueo,@activo,@cantIntentos)";
+            cm.CommandText = "INSERT INTO usuario(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo,cantIntentos) values (@dni,@nombre,@apellido,@correo,@nombreUsuario,@password,@bloqueo,@activo,@cantIntentos)";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -40,7 +40,7 @@ namespace DAL
             cm.Parameters.Add("@nombre", SqlDbType.VarChar).Value = T[0];
             cm.Parameters.Add("@apellido", SqlDbType.VarChar).Value = T[1];
             cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = T[2];
-            cm.CommandText = "UPDATE usuarios SET nombre=@nombre,apellido=@apellido,nombreUsuario=@nombreUsuario WHERE dni=@dni";
+            cm.CommandText = "UPDATE usuario SET nombre=@nombre,apellido=@apellido,nombreUsuario=@nombreUsuario WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -50,7 +50,7 @@ namespace DAL
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
             cm.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
-            cm.CommandText = "UPDATE usuarios SET password=@password WHERE dni=@dni";
+            cm.CommandText = "UPDATE usuario SET password=@password WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -58,7 +58,7 @@ namespace DAL
         public SqlDataReader Consultar()
         {
             cm.Parameters.Clear();
-            cm.CommandText = "SELECT * FROM usuarios";
+            cm.CommandText = "SELECT * FROM usuario";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
@@ -67,7 +67,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
-            cm.CommandText = "SELECT * FROM usuarios WHERE dni=@dni";
+            cm.CommandText = "SELECT * FROM usuario WHERE dni=@dni";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
@@ -75,7 +75,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = nombreUsuario;
-            cm.CommandText = "SELECT * FROM usuarios WHERE nombreUsuario=@nombreUsuario";
+            cm.CommandText = "SELECT * FROM usuario WHERE nombreUsuario=@nombreUsuario";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
@@ -84,7 +84,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
-            cm.CommandText = "SELECT COUNT(*) FROM usuarios WHERE dni = @dni";
+            cm.CommandText = "SELECT COUNT(*) FROM usuario WHERE dni = @dni";
             con.Open();
             bool existe = Convert.ToInt16(cm.ExecuteScalar()) > 0;
             con.Close();
@@ -94,7 +94,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@nombreUsuario", SqlDbType.VarChar).Value = nombreUsuario;
-            cm.CommandText = "SELECT COUNT(*) FROM usuarios WHERE nombreUsuario = @nombreUsuario";
+            cm.CommandText = "SELECT COUNT(*) FROM usuario WHERE nombreUsuario = @nombreUsuario";
             con.Open();
             bool existe = Convert.ToInt16(cm.ExecuteScalar()) > 0;
             con.Close();
@@ -104,7 +104,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@correo", SqlDbType.VarChar).Value = correo;
-            cm.CommandText = "SELECT COUNT(*) FROM usuarios WHERE correo = @correo";
+            cm.CommandText = "SELECT COUNT(*) FROM usuario WHERE correo = @correo";
             con.Open();
             bool existe = Convert.ToInt16(cm.ExecuteScalar()) > 0;
             con.Close();
@@ -114,7 +114,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
-            cm.CommandText = "UPDATE usuarios SET cantIntentos=0 WHERE dni=@dni";
+            cm.CommandText = "UPDATE usuario SET cantIntentos=0 WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -123,7 +123,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
-            cm.CommandText = "UPDATE usuarios SET cantIntentos=cantIntentos+1 WHERE dni=@dni";
+            cm.CommandText = "UPDATE usuario SET cantIntentos=cantIntentos+1 WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -132,7 +132,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
-            cm.CommandText = "UPDATE usuarios SET bloqueo=1 WHERE dni=@dni";
+            cm.CommandText = "UPDATE usuario SET bloqueo=1 WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -141,7 +141,7 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
-            cm.CommandText = "UPDATE usuarios SET bloqueo=0 WHERE dni=@dni";
+            cm.CommandText = "UPDATE usuario SET bloqueo=0 WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -151,7 +151,7 @@ namespace DAL
             cm.Parameters.Clear();
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
             cm.Parameters.Add("@activo", SqlDbType.Bit).Value = activo;
-            cm.CommandText = "UPDATE usuarios SET activo=@activo WHERE dni=@dni";
+            cm.CommandText = "UPDATE usuario SET activo=@activo WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();

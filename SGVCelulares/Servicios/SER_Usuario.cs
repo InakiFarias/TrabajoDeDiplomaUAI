@@ -12,6 +12,7 @@
         public bool Bloqueo { get; set; }
         public bool Activo { get; set; }
         public int CantIntentos { get; set; }
+        public int IdRol { get; set; }
         public SER_Usuario() { }
         public SER_Usuario(string dni)
         {

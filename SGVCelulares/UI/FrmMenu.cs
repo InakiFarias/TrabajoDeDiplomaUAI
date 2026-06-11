@@ -93,9 +93,26 @@ namespace UI
             SER_SesionManager sesion1 = SER_SesionManager.ObtenerSesion();
             SER_SesionManager sesion2 = SER_SesionManager.ObtenerSesion();
 
-            if(sesion1 == sesion2)
+            if (sesion1 == sesion2)
             {
                 MessageBox.Show("Usted tiene una sesión única en todo el sistema!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnGestionRoles_Click(object sender, EventArgs e)
+        {
+            Form frm = Application.OpenForms["FrmRoles"];
+
+            if (frm == null)
+            {
+                FrmRoles frmRoles = new FrmRoles();
+                frmRoles.ShowDialog();
+            }
+            else
+            {
+                frm.WindowState = FormWindowState.Normal;
+                frm.BringToFront();
+                frm.Focus();
             }
         }
     }

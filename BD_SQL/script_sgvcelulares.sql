@@ -79,10 +79,23 @@ create table rol_permiso(
     constraint fk_rol_permiso_permiso foreign key (idPermiso) references permiso(idPermiso)
 );
 
-select * from usuario
-select * from bitacora
+-- INSERT para Permiso
+insert into permiso (nombre)
+values
+('Crear Usuario'),
+('Modificar Usuario'),
+('Desbloquear Usuario'),
+('Activar Usuario'),
+('Desactivar Usuario'),
+('Consultar Bitácora'),
+('Exportar Bitácora'),
+('Gestionar Roles'),
+('Gestionar Familias');
 
 
+select * from usuario;
+select * from bitacora;
+select * from permiso;
 
 /*
     usuarios test:

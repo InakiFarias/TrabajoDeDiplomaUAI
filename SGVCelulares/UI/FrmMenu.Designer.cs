@@ -37,13 +37,12 @@
             btnRelogin = new Button();
             label1 = new Label();
             btnAyuda = new Button();
-            btnClientes = new Button();
-            btnInventario = new Button();
             btnReportes = new Button();
             btnBitacora = new Button();
             btnUsuarios = new Button();
             lblSeccionNav = new Label();
             pnlContenido = new Panel();
+            btnGestionRoles = new Button();
             pnlTopbar.SuspendLayout();
             pnlSidebar.SuspendLayout();
             SuspendLayout();
@@ -85,13 +84,12 @@
             // pnlSidebar
             // 
             pnlSidebar.BackColor = Color.FromArgb(25, 37, 53);
+            pnlSidebar.Controls.Add(btnGestionRoles);
             pnlSidebar.Controls.Add(btnLogout);
             pnlSidebar.Controls.Add(btnCambiarClave);
             pnlSidebar.Controls.Add(btnRelogin);
             pnlSidebar.Controls.Add(label1);
             pnlSidebar.Controls.Add(btnAyuda);
-            pnlSidebar.Controls.Add(btnClientes);
-            pnlSidebar.Controls.Add(btnInventario);
             pnlSidebar.Controls.Add(btnReportes);
             pnlSidebar.Controls.Add(btnBitacora);
             pnlSidebar.Controls.Add(btnUsuarios);
@@ -111,7 +109,7 @@
             btnLogout.FlatStyle = FlatStyle.Flat;
             btnLogout.Font = new Font("Segoe UI", 9.5F);
             btnLogout.ForeColor = Color.FromArgb(148, 163, 184);
-            btnLogout.Location = new Point(10, 224);
+            btnLogout.Location = new Point(10, 317);
             btnLogout.Name = "btnLogout";
             btnLogout.Padding = new Padding(10, 0, 0, 0);
             btnLogout.Size = new Size(174, 38);
@@ -130,7 +128,7 @@
             btnCambiarClave.FlatStyle = FlatStyle.Flat;
             btnCambiarClave.Font = new Font("Segoe UI", 9.5F);
             btnCambiarClave.ForeColor = Color.FromArgb(148, 163, 184);
-            btnCambiarClave.Location = new Point(4, 180);
+            btnCambiarClave.Location = new Point(4, 273);
             btnCambiarClave.Name = "btnCambiarClave";
             btnCambiarClave.Padding = new Padding(10, 0, 0, 0);
             btnCambiarClave.Size = new Size(174, 38);
@@ -149,7 +147,7 @@
             btnRelogin.FlatStyle = FlatStyle.Flat;
             btnRelogin.Font = new Font("Segoe UI", 9.5F);
             btnRelogin.ForeColor = Color.FromArgb(148, 163, 184);
-            btnRelogin.Location = new Point(10, 136);
+            btnRelogin.Location = new Point(10, 229);
             btnRelogin.Name = "btnRelogin";
             btnRelogin.Padding = new Padding(10, 0, 0, 0);
             btnRelogin.Size = new Size(174, 38);
@@ -164,7 +162,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             label1.ForeColor = Color.FromArgb(71, 85, 105);
-            label1.Location = new Point(12, 121);
+            label1.Location = new Point(12, 214);
             label1.Name = "label1";
             label1.Size = new Size(50, 12);
             label1.TabIndex = 8;
@@ -188,42 +186,6 @@
             btnAyuda.TextAlign = ContentAlignment.MiddleLeft;
             btnAyuda.UseVisualStyleBackColor = false;
             // 
-            // btnClientes
-            // 
-            btnClientes.BackColor = Color.FromArgb(25, 37, 53);
-            btnClientes.Cursor = Cursors.Hand;
-            btnClientes.FlatAppearance.BorderSize = 0;
-            btnClientes.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            btnClientes.FlatStyle = FlatStyle.Flat;
-            btnClientes.Font = new Font("Segoe UI", 9.5F);
-            btnClientes.ForeColor = Color.FromArgb(148, 163, 184);
-            btnClientes.Location = new Point(10, 414);
-            btnClientes.Name = "btnClientes";
-            btnClientes.Padding = new Padding(10, 0, 0, 0);
-            btnClientes.Size = new Size(174, 38);
-            btnClientes.TabIndex = 5;
-            btnClientes.Text = "🙍  Clientes";
-            btnClientes.TextAlign = ContentAlignment.MiddleLeft;
-            btnClientes.UseVisualStyleBackColor = false;
-            // 
-            // btnInventario
-            // 
-            btnInventario.BackColor = Color.FromArgb(25, 37, 53);
-            btnInventario.Cursor = Cursors.Hand;
-            btnInventario.FlatAppearance.BorderSize = 0;
-            btnInventario.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            btnInventario.FlatStyle = FlatStyle.Flat;
-            btnInventario.Font = new Font("Segoe UI", 9.5F);
-            btnInventario.ForeColor = Color.FromArgb(148, 163, 184);
-            btnInventario.Location = new Point(10, 372);
-            btnInventario.Name = "btnInventario";
-            btnInventario.Padding = new Padding(10, 0, 0, 0);
-            btnInventario.Size = new Size(174, 38);
-            btnInventario.TabIndex = 4;
-            btnInventario.Text = "📦  Inventario";
-            btnInventario.TextAlign = ContentAlignment.MiddleLeft;
-            btnInventario.UseVisualStyleBackColor = false;
-            // 
             // btnReportes
             // 
             btnReportes.BackColor = Color.FromArgb(25, 37, 53);
@@ -233,7 +195,7 @@
             btnReportes.FlatStyle = FlatStyle.Flat;
             btnReportes.Font = new Font("Segoe UI", 9.5F);
             btnReportes.ForeColor = Color.FromArgb(148, 163, 184);
-            btnReportes.Location = new Point(10, 330);
+            btnReportes.Location = new Point(10, 412);
             btnReportes.Name = "btnReportes";
             btnReportes.Padding = new Padding(10, 0, 0, 0);
             btnReportes.Size = new Size(174, 38);
@@ -301,6 +263,25 @@
             pnlContenido.Size = new Size(770, 572);
             pnlContenido.TabIndex = 2;
             // 
+            // btnGestionRoles
+            // 
+            btnGestionRoles.BackColor = Color.FromArgb(25, 37, 53);
+            btnGestionRoles.Cursor = Cursors.Hand;
+            btnGestionRoles.FlatAppearance.BorderSize = 0;
+            btnGestionRoles.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnGestionRoles.FlatStyle = FlatStyle.Flat;
+            btnGestionRoles.Font = new Font("Segoe UI", 9.5F);
+            btnGestionRoles.ForeColor = Color.FromArgb(148, 163, 184);
+            btnGestionRoles.Location = new Point(4, 116);
+            btnGestionRoles.Name = "btnGestionRoles";
+            btnGestionRoles.Padding = new Padding(10, 0, 0, 0);
+            btnGestionRoles.Size = new Size(174, 38);
+            btnGestionRoles.TabIndex = 12;
+            btnGestionRoles.Text = "📝  Gestión Roles";
+            btnGestionRoles.TextAlign = ContentAlignment.MiddleLeft;
+            btnGestionRoles.UseVisualStyleBackColor = false;
+            btnGestionRoles.Click += btnGestionRoles_Click;
+            // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -334,13 +315,12 @@
         private System.Windows.Forms.Button btnUsuarios;
         private System.Windows.Forms.Button btnBitacora;
         private System.Windows.Forms.Button btnReportes;
-        private System.Windows.Forms.Button btnInventario;
-        private System.Windows.Forms.Button btnClientes;
         private System.Windows.Forms.Button btnAyuda;
         private System.Windows.Forms.Panel pnlContenido;
         private Button btnLogout;
         private Button btnCambiarClave;
         private Button btnRelogin;
         private Label label1;
+        private Button btnGestionRoles;
     }
 }

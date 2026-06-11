@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pnlTopbar = new Panel();
             lblNumeroUsuarios = new Label();
             lblTitulo = new Label();
@@ -40,7 +40,6 @@
             btnModificarUsuario = new Button();
             btnCambiarEstadoUsuario = new Button();
             btnAplicarCambios = new Button();
-            btnCancelarCambios = new Button();
             btnSalir = new Button();
             pnlFormulario = new Panel();
             label1 = new Label();
@@ -122,7 +121,6 @@
             pnlBotones.Controls.Add(btnModificarUsuario);
             pnlBotones.Controls.Add(btnCambiarEstadoUsuario);
             pnlBotones.Controls.Add(btnAplicarCambios);
-            pnlBotones.Controls.Add(btnCancelarCambios);
             pnlBotones.Controls.Add(btnSalir);
             pnlBotones.Location = new Point(860, 72);
             pnlBotones.Name = "pnlBotones";
@@ -207,29 +205,13 @@
             btnAplicarCambios.FlatStyle = FlatStyle.Flat;
             btnAplicarCambios.Font = new Font("Segoe UI", 9.5F);
             btnAplicarCambios.ForeColor = Color.FromArgb(226, 232, 240);
-            btnAplicarCambios.Location = new Point(8, 238);
+            btnAplicarCambios.Location = new Point(5, 247);
             btnAplicarCambios.Name = "btnAplicarCambios";
             btnAplicarCambios.Size = new Size(156, 38);
             btnAplicarCambios.TabIndex = 4;
             btnAplicarCambios.Text = "Aplicar";
             btnAplicarCambios.UseVisualStyleBackColor = false;
             btnAplicarCambios.Click += btnAplicarCambios_Click;
-            // 
-            // btnCancelarCambios
-            // 
-            btnCancelarCambios.BackColor = Color.FromArgb(45, 60, 82);
-            btnCancelarCambios.Cursor = Cursors.Hand;
-            btnCancelarCambios.FlatAppearance.BorderSize = 0;
-            btnCancelarCambios.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnCancelarCambios.FlatStyle = FlatStyle.Flat;
-            btnCancelarCambios.Font = new Font("Segoe UI", 9.5F);
-            btnCancelarCambios.ForeColor = Color.FromArgb(226, 232, 240);
-            btnCancelarCambios.Location = new Point(8, 284);
-            btnCancelarCambios.Name = "btnCancelarCambios";
-            btnCancelarCambios.Size = new Size(156, 38);
-            btnCancelarCambios.TabIndex = 5;
-            btnCancelarCambios.Text = "Cancelar";
-            btnCancelarCambios.UseVisualStyleBackColor = false;
             // 
             // btnSalir
             // 
@@ -383,23 +365,23 @@
             grillaUsuarios.AllowUserToDeleteRows = false;
             grillaUsuarios.BackgroundColor = Color.FromArgb(25, 37, 53);
             grillaUsuarios.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle7.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(21, 32, 48);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             grillaUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle8.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle8.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(25, 37, 53);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
+            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle2;
             grillaUsuarios.EnableHeadersVisualStyles = false;
             grillaUsuarios.GridColor = Color.FromArgb(45, 60, 82);
             grillaUsuarios.Location = new Point(24, 72);
@@ -510,7 +492,6 @@
         private System.Windows.Forms.Button btnModificarUsuario;
         private System.Windows.Forms.Button btnCambiarEstadoUsuario;
         private System.Windows.Forms.Button btnAplicarCambios;
-        private System.Windows.Forms.Button btnCancelarCambios;
         private System.Windows.Forms.Button btnSalir;
         private Label label1;
         private TextBox txtNombreUsuario;
