@@ -61,10 +61,8 @@ namespace UI
                 string correo = txtCorreo.Text;
                 if (!ValidarDatos(correo, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")) throw new Exception("El formato del correo es incorrecto!");
 
-                string nombreUsuario = txtNombreUsuario.Text;
-                if (!ValidarDatos(nombreUsuario, @"^[a-zA-Z0-9_]{1,50}$")) throw new Exception("El formato del nombre de usuario es incorrecto!");
 
-                SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, nombreUsuario, false, true);
+                SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, false, true);
                 bll_usuario.Agregar(usuario);
                 MessageBox.Show("Usuario creado con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -42,7 +42,17 @@ namespace UI
 
                 bll_usuario.ModificarPassword(claveActual, claveNueva);
                 MessageBox.Show("Se modifico la contraseña con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+
+                var formularios = Application.OpenForms
+                                  .Cast<Form>()
+                                  .Where(f => f.Name != "FrmLogin")
+                                  .ToList();
+                
+                bll_usuario.Logout();
+                foreach (var form in formularios)
+                {
+                    form.Close();
+                }
             }
             catch (Exception ex) 
             {

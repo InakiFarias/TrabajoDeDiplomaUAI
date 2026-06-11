@@ -30,7 +30,7 @@ namespace UI
             if (frm == null)
             {
                 FrmGestionUsuarios frmUsuarios = new FrmGestionUsuarios();
-                frmUsuarios.Show();
+                frmUsuarios.ShowDialog();
             }
             else
             {
@@ -46,7 +46,7 @@ namespace UI
             if (frm == null)
             {
                 FrmBitacora frmBitacora = new FrmBitacora();
-                frmBitacora.Show();
+                frmBitacora.ShowDialog();
             }
             else
             {
@@ -63,7 +63,7 @@ namespace UI
             if (frm == null)
             {
                 frmCambiarClave frmCambiarClave = new frmCambiarClave();
-                frmCambiarClave.Show();
+                frmCambiarClave.ShowDialog();
             }
             else
             {

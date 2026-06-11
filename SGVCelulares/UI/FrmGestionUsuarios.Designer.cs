@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             pnlTopbar = new Panel();
             lblNumeroUsuarios = new Label();
             lblTitulo = new Label();
@@ -43,6 +43,8 @@
             btnCancelarCambios = new Button();
             btnSalir = new Button();
             pnlFormulario = new Panel();
+            label1 = new Label();
+            txtNombreUsuario = new TextBox();
             lblDni = new Label();
             txtDni = new TextBox();
             lblNombre = new Label();
@@ -51,8 +53,6 @@
             txtApellido = new TextBox();
             lblCorreo = new Label();
             txtCorreo = new TextBox();
-            lblNombreUsuario = new Label();
-            txtNombreUsuario = new TextBox();
             grillaUsuarios = new DataGridView();
             pnlFiltros = new Panel();
             lblFiltro = new Label();
@@ -251,6 +251,8 @@
             // pnlFormulario
             // 
             pnlFormulario.BackColor = Color.FromArgb(25, 37, 53);
+            pnlFormulario.Controls.Add(label1);
+            pnlFormulario.Controls.Add(txtNombreUsuario);
             pnlFormulario.Controls.Add(lblDni);
             pnlFormulario.Controls.Add(txtDni);
             pnlFormulario.Controls.Add(lblNombre);
@@ -259,13 +261,33 @@
             pnlFormulario.Controls.Add(txtApellido);
             pnlFormulario.Controls.Add(lblCorreo);
             pnlFormulario.Controls.Add(txtCorreo);
-            pnlFormulario.Controls.Add(lblNombreUsuario);
-            pnlFormulario.Controls.Add(txtNombreUsuario);
             pnlFormulario.Location = new Point(24, 308);
             pnlFormulario.Name = "pnlFormulario";
             pnlFormulario.Padding = new Padding(16);
             pnlFormulario.Size = new Size(820, 216);
             pnlFormulario.TabIndex = 2;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F);
+            label1.ForeColor = Color.FromArgb(148, 163, 184);
+            label1.Location = new Point(464, 16);
+            label1.Name = "label1";
+            label1.Size = new Size(47, 15);
+            label1.TabIndex = 8;
+            label1.Text = "Usuario";
+            // 
+            // txtNombreUsuario
+            // 
+            txtNombreUsuario.BackColor = Color.FromArgb(21, 32, 48);
+            txtNombreUsuario.BorderStyle = BorderStyle.FixedSingle;
+            txtNombreUsuario.Font = new Font("Segoe UI", 9.5F);
+            txtNombreUsuario.ForeColor = Color.FromArgb(226, 232, 240);
+            txtNombreUsuario.Location = new Point(561, 11);
+            txtNombreUsuario.Name = "txtNombreUsuario";
+            txtNombreUsuario.Size = new Size(240, 24);
+            txtNombreUsuario.TabIndex = 9;
             // 
             // lblDni
             // 
@@ -355,51 +377,29 @@
             txtCorreo.Size = new Size(240, 24);
             txtCorreo.TabIndex = 7;
             // 
-            // lblNombreUsuario
-            // 
-            lblNombreUsuario.AutoSize = true;
-            lblNombreUsuario.Font = new Font("Segoe UI", 9F);
-            lblNombreUsuario.ForeColor = Color.FromArgb(148, 163, 184);
-            lblNombreUsuario.Location = new Point(16, 171);
-            lblNombreUsuario.Name = "lblNombreUsuario";
-            lblNombreUsuario.Size = new Size(94, 15);
-            lblNombreUsuario.TabIndex = 8;
-            lblNombreUsuario.Text = "Nombre Usuario";
-            // 
-            // txtNombreUsuario
-            // 
-            txtNombreUsuario.BackColor = Color.FromArgb(21, 32, 48);
-            txtNombreUsuario.BorderStyle = BorderStyle.FixedSingle;
-            txtNombreUsuario.Font = new Font("Segoe UI", 9.5F);
-            txtNombreUsuario.ForeColor = Color.FromArgb(226, 232, 240);
-            txtNombreUsuario.Location = new Point(160, 168);
-            txtNombreUsuario.Name = "txtNombreUsuario";
-            txtNombreUsuario.Size = new Size(240, 24);
-            txtNombreUsuario.TabIndex = 9;
-            // 
             // grillaUsuarios
             // 
             grillaUsuarios.AllowUserToAddRows = false;
             grillaUsuarios.AllowUserToDeleteRows = false;
             grillaUsuarios.BackgroundColor = Color.FromArgb(25, 37, 53);
             grillaUsuarios.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.FromArgb(21, 32, 48);
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle7.ForeColor = Color.FromArgb(148, 163, 184);
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            grillaUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             grillaUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.FromArgb(25, 37, 53);
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle8.ForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(45, 60, 82);
+            dataGridViewCellStyle8.SelectionForeColor = Color.FromArgb(226, 232, 240);
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            grillaUsuarios.DefaultCellStyle = dataGridViewCellStyle8;
             grillaUsuarios.EnableHeadersVisualStyles = false;
             grillaUsuarios.GridColor = Color.FromArgb(45, 60, 82);
             grillaUsuarios.Location = new Point(24, 72);
@@ -504,8 +504,6 @@
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.Label lblCorreo;
         private System.Windows.Forms.TextBox txtCorreo;
-        private System.Windows.Forms.Label lblNombreUsuario;
-        private System.Windows.Forms.TextBox txtNombreUsuario;
         private System.Windows.Forms.Panel pnlBotones;
         private System.Windows.Forms.Button btnCrearUsuario;
         private System.Windows.Forms.Button btnDesbloquearUsuario;
@@ -514,5 +512,7 @@
         private System.Windows.Forms.Button btnAplicarCambios;
         private System.Windows.Forms.Button btnCancelarCambios;
         private System.Windows.Forms.Button btnSalir;
+        private Label label1;
+        private TextBox txtNombreUsuario;
     }
 }

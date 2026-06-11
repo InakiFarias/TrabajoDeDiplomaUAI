@@ -44,14 +44,14 @@
             Bloqueo = bloqueo;
             Activo = activo;
         }
-        public SER_Usuario(string dni, string nombre, string apellido, string correo, string nombreUsuario, bool bloqueo, bool activo)
+        public SER_Usuario(string dni, string nombre, string apellido, string correo, bool bloqueo, bool activo)
         {
             Dni = dni;
             Nombre = nombre;
             Apellido = apellido;
             Correo = correo;
-            NombreUsuario = nombreUsuario;
-            Password = dni+apellido.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
+            NombreUsuario = apellido.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries)[0] + dni;
+            Password = dni + apellido.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
             Bloqueo = bloqueo;
             Activo = activo;
             CantIntentos = 0;

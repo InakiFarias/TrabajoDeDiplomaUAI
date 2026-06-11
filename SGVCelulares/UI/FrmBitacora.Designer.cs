@@ -31,47 +31,37 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-
             pnlTopbar = new Panel();
             lblTitulo = new Label();
-
             pnlContenido = new Panel();
             pnlFiltros = new Panel();
-            pnlBotones = new Panel();
-
-            grillaBitacora = new DataGridView();
-
             lblNombre = new Label();
-            lblApellido = new Label();
-            lblLogin = new Label();
-            lblModulo = new Label();
-            lblFechaInicio = new Label();
-            lblEvento = new Label();
-            lblFechaFin = new Label();
-            lblCriticidad = new Label();
-
             txtNombre = new TextBox();
+            lblApellido = new Label();
             txtApellido = new TextBox();
+            lblLogin = new Label();
             txtNombreUsuario = new TextBox();
-
+            lblModulo = new Label();
             cbxModulo = new ComboBox();
-            cbxEvento = new ComboBox();
-            cbxCriticidad = new ComboBox();
-
+            lblFechaInicio = new Label();
             dtpFechaInicio = new DateTimePicker();
+            lblEvento = new Label();
+            cbxEvento = new ComboBox();
+            lblFechaFin = new Label();
             dtpFechaFin = new DateTimePicker();
-
+            lblCriticidad = new Label();
+            cbxCriticidad = new ComboBox();
+            grillaBitacora = new DataGridView();
+            pnlBotones = new Panel();
             btnAplicar = new Button();
             btnLimpiar = new Button();
             btnSalir = new Button();
-
             pnlTopbar.SuspendLayout();
             pnlContenido.SuspendLayout();
             pnlFiltros.SuspendLayout();
-            pnlBotones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)grillaBitacora).BeginInit();
+            pnlBotones.SuspendLayout();
             SuspendLayout();
-
             // 
             // pnlTopbar
             // 
@@ -82,7 +72,6 @@
             pnlTopbar.Name = "pnlTopbar";
             pnlTopbar.Size = new Size(1200, 48);
             pnlTopbar.TabIndex = 0;
-
             // 
             // lblTitulo
             // 
@@ -91,10 +80,9 @@
             lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
             lblTitulo.Location = new Point(16, 14);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(184, 20);
+            lblTitulo.Size = new Size(176, 20);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "BITÁCORA DE EVENTOS";
-
             // 
             // pnlContenido
             // 
@@ -108,41 +96,31 @@
             pnlContenido.Padding = new Padding(24);
             pnlContenido.Size = new Size(1200, 652);
             pnlContenido.TabIndex = 1;
-
             // 
             // pnlFiltros
             // 
             pnlFiltros.BackColor = Color.FromArgb(25, 37, 53);
             pnlFiltros.Controls.Add(lblNombre);
             pnlFiltros.Controls.Add(txtNombre);
-
             pnlFiltros.Controls.Add(lblApellido);
             pnlFiltros.Controls.Add(txtApellido);
-
             pnlFiltros.Controls.Add(lblLogin);
             pnlFiltros.Controls.Add(txtNombreUsuario);
-
             pnlFiltros.Controls.Add(lblModulo);
             pnlFiltros.Controls.Add(cbxModulo);
-
             pnlFiltros.Controls.Add(lblFechaInicio);
             pnlFiltros.Controls.Add(dtpFechaInicio);
-
             pnlFiltros.Controls.Add(lblEvento);
             pnlFiltros.Controls.Add(cbxEvento);
-
             pnlFiltros.Controls.Add(lblFechaFin);
             pnlFiltros.Controls.Add(dtpFechaFin);
-
             pnlFiltros.Controls.Add(lblCriticidad);
             pnlFiltros.Controls.Add(cbxCriticidad);
-
             pnlFiltros.Location = new Point(24, 24);
             pnlFiltros.Name = "pnlFiltros";
             pnlFiltros.Padding = new Padding(16);
             pnlFiltros.Size = new Size(930, 220);
             pnlFiltros.TabIndex = 0;
-
             // 
             // lblNombre
             // 
@@ -152,8 +130,8 @@
             lblNombre.Location = new Point(20, 20);
             lblNombre.Name = "lblNombre";
             lblNombre.Size = new Size(51, 15);
+            lblNombre.TabIndex = 0;
             lblNombre.Text = "Nombre";
-
             // 
             // txtNombre
             // 
@@ -164,7 +142,7 @@
             txtNombre.Location = new Point(140, 17);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(220, 24);
-
+            txtNombre.TabIndex = 1;
             // 
             // lblApellido
             // 
@@ -174,8 +152,8 @@
             lblApellido.Location = new Point(470, 20);
             lblApellido.Name = "lblApellido";
             lblApellido.Size = new Size(51, 15);
+            lblApellido.TabIndex = 2;
             lblApellido.Text = "Apellido";
-
             // 
             // txtApellido
             // 
@@ -186,18 +164,18 @@
             txtApellido.Location = new Point(600, 17);
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(220, 24);
-
+            txtApellido.TabIndex = 3;
             // 
             // lblLogin
             // 
             lblLogin.AutoSize = true;
             lblLogin.Font = new Font("Segoe UI", 9F);
             lblLogin.ForeColor = Color.FromArgb(148, 163, 184);
-            lblLogin.Location = new Point(20, 70);
+            lblLogin.Location = new Point(43, 167);
             lblLogin.Name = "lblLogin";
-            lblLogin.Size = new Size(39, 15);
+            lblLogin.Size = new Size(37, 15);
+            lblLogin.TabIndex = 4;
             lblLogin.Text = "Login";
-
             // 
             // txtNombreUsuario
             // 
@@ -205,41 +183,21 @@
             txtNombreUsuario.BorderStyle = BorderStyle.FixedSingle;
             txtNombreUsuario.Font = new Font("Segoe UI", 9.5F);
             txtNombreUsuario.ForeColor = Color.FromArgb(226, 232, 240);
-            txtNombreUsuario.Location = new Point(140, 67);
+            txtNombreUsuario.Location = new Point(140, 166);
             txtNombreUsuario.Name = "txtNombreUsuario";
             txtNombreUsuario.Size = new Size(220, 24);
-
-            // 
-            // lblFechaInicio
-            // 
-            lblFechaInicio.AutoSize = true;
-            lblFechaInicio.Font = new Font("Segoe UI", 9F);
-            lblFechaInicio.ForeColor = Color.FromArgb(148, 163, 184);
-            lblFechaInicio.Location = new Point(470, 70);
-            lblFechaInicio.Name = "lblFechaInicio";
-            lblFechaInicio.Size = new Size(73, 15);
-            lblFechaInicio.Text = "Fecha Inicio";
-
-            // 
-            // dtpFechaInicio
-            // 
-            dtpFechaInicio.CalendarMonthBackground = Color.FromArgb(21, 32, 48);
-            dtpFechaInicio.Format = DateTimePickerFormat.Short;
-            dtpFechaInicio.Location = new Point(600, 67);
-            dtpFechaInicio.Name = "dtpFechaInicio";
-            dtpFechaInicio.Size = new Size(220, 24);
-
+            txtNombreUsuario.TabIndex = 5;
             // 
             // lblModulo
             // 
             lblModulo.AutoSize = true;
             lblModulo.Font = new Font("Segoe UI", 9F);
             lblModulo.ForeColor = Color.FromArgb(148, 163, 184);
-            lblModulo.Location = new Point(20, 120);
+            lblModulo.Location = new Point(31, 120);
             lblModulo.Name = "lblModulo";
-            lblModulo.Size = new Size(52, 15);
+            lblModulo.Size = new Size(49, 15);
+            lblModulo.TabIndex = 6;
             lblModulo.Text = "Módulo";
-
             // 
             // cbxModulo
             // 
@@ -250,7 +208,27 @@
             cbxModulo.Location = new Point(140, 117);
             cbxModulo.Name = "cbxModulo";
             cbxModulo.Size = new Size(220, 25);
-
+            cbxModulo.TabIndex = 7;
+            // 
+            // lblFechaInicio
+            // 
+            lblFechaInicio.AutoSize = true;
+            lblFechaInicio.Font = new Font("Segoe UI", 9F);
+            lblFechaInicio.ForeColor = Color.FromArgb(148, 163, 184);
+            lblFechaInicio.Location = new Point(10, 70);
+            lblFechaInicio.Name = "lblFechaInicio";
+            lblFechaInicio.Size = new Size(70, 15);
+            lblFechaInicio.TabIndex = 8;
+            lblFechaInicio.Text = "Fecha Inicio";
+            // 
+            // dtpFechaInicio
+            // 
+            dtpFechaInicio.CalendarMonthBackground = Color.FromArgb(21, 32, 48);
+            dtpFechaInicio.Format = DateTimePickerFormat.Short;
+            dtpFechaInicio.Location = new Point(140, 67);
+            dtpFechaInicio.Name = "dtpFechaInicio";
+            dtpFechaInicio.Size = new Size(220, 24);
+            dtpFechaInicio.TabIndex = 9;
             // 
             // lblEvento
             // 
@@ -259,9 +237,9 @@
             lblEvento.ForeColor = Color.FromArgb(148, 163, 184);
             lblEvento.Location = new Point(470, 120);
             lblEvento.Name = "lblEvento";
-            lblEvento.Size = new Size(46, 15);
+            lblEvento.Size = new Size(43, 15);
+            lblEvento.TabIndex = 10;
             lblEvento.Text = "Evento";
-
             // 
             // cbxEvento
             // 
@@ -272,26 +250,26 @@
             cbxEvento.Location = new Point(600, 117);
             cbxEvento.Name = "cbxEvento";
             cbxEvento.Size = new Size(220, 25);
-
+            cbxEvento.TabIndex = 11;
             // 
             // lblFechaFin
             // 
             lblFechaFin.AutoSize = true;
             lblFechaFin.Font = new Font("Segoe UI", 9F);
             lblFechaFin.ForeColor = Color.FromArgb(148, 163, 184);
-            lblFechaFin.Location = new Point(20, 170);
+            lblFechaFin.Location = new Point(470, 70);
             lblFechaFin.Name = "lblFechaFin";
-            lblFechaFin.Size = new Size(56, 15);
+            lblFechaFin.Size = new Size(57, 15);
+            lblFechaFin.TabIndex = 12;
             lblFechaFin.Text = "Fecha Fin";
-
             // 
             // dtpFechaFin
             // 
             dtpFechaFin.Format = DateTimePickerFormat.Short;
-            dtpFechaFin.Location = new Point(140, 167);
+            dtpFechaFin.Location = new Point(600, 67);
             dtpFechaFin.Name = "dtpFechaFin";
             dtpFechaFin.Size = new Size(220, 24);
-
+            dtpFechaFin.TabIndex = 13;
             // 
             // lblCriticidad
             // 
@@ -300,9 +278,9 @@
             lblCriticidad.ForeColor = Color.FromArgb(148, 163, 184);
             lblCriticidad.Location = new Point(470, 170);
             lblCriticidad.Name = "lblCriticidad";
-            lblCriticidad.Size = new Size(65, 15);
+            lblCriticidad.Size = new Size(58, 15);
+            lblCriticidad.TabIndex = 14;
             lblCriticidad.Text = "Criticidad";
-
             // 
             // cbxCriticidad
             // 
@@ -313,7 +291,7 @@
             cbxCriticidad.Location = new Point(600, 167);
             cbxCriticidad.Name = "cbxCriticidad";
             cbxCriticidad.Size = new Size(220, 25);
-
+            cbxCriticidad.TabIndex = 15;
             // 
             // grillaBitacora
             // 
@@ -321,23 +299,20 @@
             grillaBitacora.AllowUserToDeleteRows = false;
             grillaBitacora.BackgroundColor = Color.FromArgb(25, 37, 53);
             grillaBitacora.BorderStyle = BorderStyle.None;
-
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(21, 32, 48);
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-
             grillaBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             grillaBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(25, 37, 53);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
             dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
             dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
             dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
-
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             grillaBitacora.DefaultCellStyle = dataGridViewCellStyle2;
             grillaBitacora.EnableHeadersVisualStyles = false;
             grillaBitacora.GridColor = Color.FromArgb(45, 60, 82);
@@ -348,7 +323,6 @@
             grillaBitacora.Size = new Size(930, 340);
             grillaBitacora.TabIndex = 1;
             grillaBitacora.SelectionChanged += grillaBitacora_SelectionChanged;
-
             // 
             // pnlBotones
             // 
@@ -361,7 +335,6 @@
             pnlBotones.Padding = new Padding(8);
             pnlBotones.Size = new Size(180, 580);
             pnlBotones.TabIndex = 2;
-
             // 
             // btnAplicar
             // 
@@ -379,7 +352,6 @@
             btnAplicar.Text = "Aplicar";
             btnAplicar.UseVisualStyleBackColor = false;
             btnAplicar.Click += btnAplicar_Click;
-
             // 
             // btnLimpiar
             // 
@@ -397,7 +369,6 @@
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
-
             // 
             // btnSalir
             // 
@@ -415,7 +386,6 @@
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
-
             // 
             // FrmBitacora
             // 
@@ -432,19 +402,13 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Bitácora";
             Load += FrmBitacora_Load;
-
             pnlTopbar.ResumeLayout(false);
             pnlTopbar.PerformLayout();
-
             pnlContenido.ResumeLayout(false);
-
             pnlFiltros.ResumeLayout(false);
             pnlFiltros.PerformLayout();
-
-            pnlBotones.ResumeLayout(false);
-
             ((System.ComponentModel.ISupportInitialize)grillaBitacora).EndInit();
-
+            pnlBotones.ResumeLayout(false);
             ResumeLayout(false);
         }
 
