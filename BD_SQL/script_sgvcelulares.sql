@@ -1,7 +1,7 @@
 CREATE DATABASE bd_sgvcelulares;
 USE bd_sgvcelulares;
 
-CREATE TABLE usuarios (
+CREATE TABLE usuario (
     dni VARCHAR(8) NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
@@ -11,7 +11,9 @@ CREATE TABLE usuarios (
     bloqueo BIT NOT NULL,
     activo BIT NOT NULL,
     cantIntentos TINYINT not null,
-    CONSTRAINT PK_usuarios PRIMARY KEY (dni)
+    idRol int not null,
+    CONSTRAINT PK_usuario PRIMARY KEY (dni),
+    CONSTRAINT FK_usuario_rol FOREIGN KEY (idRol) REFERENCES rol(idRol)
 );
 
 CREATE TABLE bitacora (
@@ -22,15 +24,71 @@ CREATE TABLE bitacora (
     evento VARCHAR(50) NOT NULL,
     criticidad TINYINT NOT NULL,
     CONSTRAINT PK_bitacora PRIMARY KEY (idBitacora),
-    CONSTRAINT FK_bitacora_usuarios FOREIGN KEY (dni) REFERENCES usuarios(dni)
+    CONSTRAINT FK_bitacora_usuario FOREIGN KEY (dni) REFERENCES usuario(dni)
 );
 
-select * from usuarios
+-- Composite
+
+create table rol (
+    idRol int identity(1,1) not null,
+    nombre varchar(50) not null,
+    constraint pk_rol primary key (idRol)
+);
+
+create table familia(
+    idFamilia int identity(1,1) not null,
+    nombre varchar(50) not null,
+    constraint pk_familia primary key (idFamilia)
+);
+
+create table rol_familia(
+    idRol int not null,
+    idFamilia int not null,
+    constraint pk_rol_familia primary key (idRol, idFamilia),
+    constraint fk_rol_familia_rol foreign key (idRol) references rol(idRol),
+    constraint fk_rol_familia_familia foreign key (idFamilia) references familia(idFamilia)
+);
+
+create table familia_familia(
+    idFamiliaPadre int not null,
+    idFamiliaHija int not null,
+    constraint pk_familia_familia primary key (idFamiliaPadre, idFamiliaHija),
+    constraint fk_ff_padre foreign key (idFamiliaPadre) references familia(idFamilia),
+    constraint fk_ff_hija foreign key (idFamiliaHija) references familia(idFamilia)
+);
+
+create table permiso(
+    idPermiso int identity(1,1) not null,
+    nombre varchar(50) not null,
+    constraint pk_permiso primary key (idPermiso)
+);
+
+create table permiso_familia(
+    idFamilia int not null,
+    idPermiso int not null,
+    constraint pk_permiso_familia primary key (idFamilia, idPermiso),
+    constraint fk_permiso_familia_familia foreign key (idFamilia) references familia(idFamilia),
+    constraint fk_permiso_familia_permiso foreign key (idPermiso) references permiso(idPermiso)
+);
+
+create table rol_permiso(
+    idRol int not null,
+    idPermiso int not null,
+    constraint pk_rol_permiso primary key (idRol, idPermiso),
+    constraint fk_rol_permiso_rol foreign key (idRol) references rol(idRol),
+    constraint fk_rol_permiso_permiso foreign key (idPermiso) references permiso(idPermiso)
+);
+
+select * from usuario
 select * from bitacora
 
-INSERT INTO dbo.usuarios 
-    (dni, nombre, apellido, correo, nombreUsuario, password, bloqueo, activo, cantIntentos)
-VALUES 
-    ('12345678', 'Iñaki', 'Usuario', 'inaki@correo.com', 'inaki', 
-     HASHBYTES('SHA2_256', 'brunogay'), 0, 1, 0);
 
+
+/*
+    usuarios test:
+        admin
+        Admin!123
+        
+        gaymer77777777
+        Gaymer!123
+*/
