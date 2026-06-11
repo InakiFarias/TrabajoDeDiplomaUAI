@@ -1,9 +1,11 @@
 ﻿using BLL;
+using QuestPDF.Fluent;
 using Servicios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,6 +18,32 @@ namespace UI
     {
         BLL_Bitacora bll_bitacora;
         BLL_Usuario bll_usuario;
+
+        private readonly Dictionary<string, string[]> eventosPorModulo =
+        new Dictionary<string, string[]>
+        {
+            {
+                "Gestión de Usuarios",
+                new[]
+                {
+                    "Crear Usuario",
+                    "Modificar Usuario",
+                    "Activar Usuario",
+                    "Desactivar Usuario",
+                    "Bloquear Usuario",
+                    "Cambiar Clave"
+                }
+            },
+            {
+                "Usuarios",
+                new[]
+                {
+                    "Login",
+                    "Logout"
+                }
+            }
+        };
+
         public FrmBitacora()
         {
             InitializeComponent();
@@ -28,16 +56,26 @@ namespace UI
             grillaBitacora.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grillaBitacora.MultiSelect = false;
             grillaBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dtpFechaInicio.MaxDate = DateTime.Today;
+            dtpFechaFin.MaxDate = DateTime.Today;
+
             cbxCriticidad.Items.AddRange(new string[] { "Alta", "Media", "Baja" });
-            cbxModulo.Items.AddRange(new string[] { "Gestión de Usuarios", "Menú Principal" });
-            cbxEvento.Items.AddRange(new string[] {
-                "Login", "Logout", "Crear Usuario", "Modificar Usuario","Cambiar Clave", "Bloquear Usuario", "Activar Usuario", "Desactivar Usuario" });
+            MostrarTodosLosEventos();
             txtNombre.ReadOnly = true;
             txtApellido.ReadOnly = true;
             Mostrar(grillaBitacora, bll_bitacora.ConsultarParaGrilla3Dias());
-            ActualizarTXT();
+            ActualizarTxt();
         }
-        private void ActualizarTXT()
+
+        private void MostrarTodosLosEventos()
+        {
+            cbxModulo.Items.AddRange(new string[] { "Gestión de Usuarios", "Usuarios" });
+            cbxEvento.Items.AddRange(new string[] {
+                "Login", "Logout", "Crear Usuario", "Modificar Usuario", "Cambiar Clave", "Bloquear Usuario", "Activar Usuario", "Desactivar Usuario" });
+        }
+
+        private void ActualizarTxt()
         {
             try
             {
@@ -82,15 +120,16 @@ namespace UI
                 int? criticidad = cbxCriticidad.SelectedIndex >= 0 ? (int?)cbxCriticidad.SelectedIndex + 1 : null;
                 DateTime? fechaInicio = dtpFechaInicio.Value.Date;
                 DateTime? fechaFin = dtpFechaFin.Value.Date.AddDays(1).AddTicks(-1);
-                if(fechaInicio > fechaFin)throw new Exception("ERROR: La fecha de inicio no puede ser mayor a la fecha de fin!!");
+                if (fechaInicio > fechaFin) throw new Exception("La fecha de inicio no puede ser mayor a la fecha de fin!!");
                 Mostrar(grillaBitacora, bll_bitacora.ConsultarFiltradoBitacora(nombreUsuario, modulo, evento, criticidad, fechaInicio, fechaFin));
-                if(grillaBitacora.Rows.Count == 0) 
+                if (grillaBitacora.Rows.Count == 0)
                 {
                     txtApellido.Text = "";
                     txtNombre.Text = "";
-                } else
+                }
+                else
                 {
-                    ActualizarTXT();
+                    ActualizarTxt();
                 }
 
             }
@@ -108,10 +147,10 @@ namespace UI
                 cbxCriticidad.SelectedIndex = -1;
                 cbxEvento.SelectedIndex = -1;
                 cbxModulo.SelectedIndex = -1;
-                dtpFechaFin.Value = DateTime.Now;
-                dtpFechaInicio.Value = DateTime.Now;
+                dtpFechaFin.Value = DateTime.Today;
+                dtpFechaInicio.Value = DateTime.Today;
                 Mostrar(grillaBitacora, bll_bitacora.ConsultarParaGrilla3Dias());
-
+                MostrarTodosLosEventos();
             }
             catch (Exception)
             {
@@ -123,15 +162,107 @@ namespace UI
         {
             try
             {
-                if (grillaBitacora.Rows.Count > 0) ActualizarTXT();
-
-
+                if (grillaBitacora.Rows.Count > 0) ActualizarTxt();
             }
-            catch (Exception)
+            catch (Exception) { }
+        }
+
+        private void cbxModulo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbxEvento.Items.Clear();
+            if (cbxModulo.SelectedItem != null && eventosPorModulo.ContainsKey(cbxModulo.SelectedItem.ToString()))
             {
-
-                
+                cbxEvento.Items.AddRange(eventosPorModulo[cbxModulo.SelectedItem.ToString()]);
             }
+
+            cbxEvento.SelectedIndex = -1;
+        }
+
+        private void btnImprimirBitacora_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (grillaBitacora.Rows.Count == 0) throw new Exception("No hay registros para imprimir!");
+
+                var columnasVisibles = grillaBitacora.Columns
+                                       .Cast<DataGridViewColumn>()
+                                       .Where(c => c.Visible)
+                                       .ToList();
+                var filas = grillaBitacora.Rows
+                            .Cast<DataGridViewRow>()
+                            .Where(f => !f.IsNewRow)
+                            .ToList();
+
+                using SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "PDF (*.pdf)|*.pdf";
+                saveDialog.FileName = $"Bitacora_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    GuardarPdf(columnasVisibles, filas, saveDialog);
+                    AbrirPdf(saveDialog.FileName);
+                    MessageBox.Show("PDF generado correctamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void GuardarPdf(List<DataGridViewColumn> columnasVisibles, List<DataGridViewRow> filas, SaveFileDialog saveDialog)
+        {
+            Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(20);
+                    page.Header()
+                        .Text("Reporte de Bitácora")
+                        .FontSize(18)
+                        .Bold();
+
+                    page.Content().Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            foreach (var columna in columnasVisibles)
+                                columns.RelativeColumn();
+                        });
+                        table.Header(header =>
+                        {
+                            foreach (var columna in columnasVisibles)
+                            {
+                                header.Cell()
+                                    .Border(1)
+                                    .Padding(5)
+                                    .Text(columna.HeaderText)
+                                    .Bold();
+                            }
+                        });
+                        foreach (var fila in filas)
+                        {
+                            foreach (var columna in columnasVisibles)
+                            {
+                                string valor =
+                                    fila.Cells[columna.Index].Value?.ToString() ?? "";
+
+                                table.Cell()
+                                    .Border(1)
+                                    .Padding(5)
+                                    .Text(valor);
+                            }
+                        }
+                    });
+                });
+            }).GeneratePdf(saveDialog.FileName);
+        }
+        private void AbrirPdf(string ruta)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = ruta,
+                UseShellExecute = true
+            });
         }
     }
 }

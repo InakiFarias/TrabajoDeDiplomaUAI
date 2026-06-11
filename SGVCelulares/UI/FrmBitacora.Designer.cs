@@ -53,6 +53,7 @@
             cbxCriticidad = new ComboBox();
             grillaBitacora = new DataGridView();
             pnlBotones = new Panel();
+            btnImprimirBitacora = new Button();
             btnAplicar = new Button();
             btnLimpiar = new Button();
             btnSalir = new Button();
@@ -171,11 +172,11 @@
             lblLogin.AutoSize = true;
             lblLogin.Font = new Font("Segoe UI", 9F);
             lblLogin.ForeColor = Color.FromArgb(148, 163, 184);
-            lblLogin.Location = new Point(43, 167);
+            lblLogin.Location = new Point(33, 170);
             lblLogin.Name = "lblLogin";
-            lblLogin.Size = new Size(37, 15);
+            lblLogin.Size = new Size(47, 15);
             lblLogin.TabIndex = 4;
-            lblLogin.Text = "Login";
+            lblLogin.Text = "Usuario";
             // 
             // txtNombreUsuario
             // 
@@ -209,6 +210,7 @@
             cbxModulo.Name = "cbxModulo";
             cbxModulo.Size = new Size(220, 25);
             cbxModulo.TabIndex = 7;
+            cbxModulo.SelectedIndexChanged += cbxModulo_SelectedIndexChanged;
             // 
             // lblFechaInicio
             // 
@@ -327,6 +329,7 @@
             // pnlBotones
             // 
             pnlBotones.BackColor = Color.FromArgb(25, 37, 53);
+            pnlBotones.Controls.Add(btnImprimirBitacora);
             pnlBotones.Controls.Add(btnAplicar);
             pnlBotones.Controls.Add(btnLimpiar);
             pnlBotones.Controls.Add(btnSalir);
@@ -335,6 +338,23 @@
             pnlBotones.Padding = new Padding(8);
             pnlBotones.Size = new Size(180, 580);
             pnlBotones.TabIndex = 2;
+            // 
+            // btnImprimirBitacora
+            // 
+            btnImprimirBitacora.BackColor = Color.FromArgb(45, 60, 82);
+            btnImprimirBitacora.Cursor = Cursors.Hand;
+            btnImprimirBitacora.FlatAppearance.BorderSize = 0;
+            btnImprimirBitacora.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
+            btnImprimirBitacora.FlatStyle = FlatStyle.Flat;
+            btnImprimirBitacora.Font = new Font("Segoe UI", 9.5F);
+            btnImprimirBitacora.ForeColor = Color.FromArgb(226, 232, 240);
+            btnImprimirBitacora.Location = new Point(11, 104);
+            btnImprimirBitacora.Name = "btnImprimirBitacora";
+            btnImprimirBitacora.Size = new Size(156, 38);
+            btnImprimirBitacora.TabIndex = 3;
+            btnImprimirBitacora.Text = "Imprimir en PDF";
+            btnImprimirBitacora.UseVisualStyleBackColor = false;
+            btnImprimirBitacora.Click += btnImprimirBitacora_Click;
             // 
             // btnAplicar
             // 
@@ -446,5 +466,6 @@
         private Button btnAplicar;
         private Button btnLimpiar;
         private Button btnSalir;
+        private Button btnImprimirBitacora;
     }
 }

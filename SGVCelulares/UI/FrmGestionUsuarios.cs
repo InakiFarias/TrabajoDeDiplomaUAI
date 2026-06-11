@@ -87,9 +87,8 @@ namespace UI
             {
                 if (grillaUsuarios.SelectedRows.Count == 0) throw new Exception("NO EXISTEN USUARIOS REGISTRADOS!");
                 SER_Usuario usAux = new SER_Usuario(grillaUsuarios.SelectedRows[0].Cells["DNI"].Value.ToString());
-                SER_Usuario us = bll_usuario.ConsultarPorId(usAux);
-                bll_usuario.Desbloquear(us);
-                MessageBox.Show("El usuario con DNI " + us.Dni + " ha sido desbloqueado correctamente ", "Desbloqueo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                bll_usuario.Desbloquear(usAux);
+                MessageBox.Show("El usuario con DNI " + usAux.Dni + " ha sido desbloqueado correctamente ", "Desbloqueo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Mostrar(grillaUsuarios, bll_usuario.ConsultarActivos());
             }
             catch (Exception Ex)

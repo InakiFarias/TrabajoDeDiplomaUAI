@@ -19,6 +19,7 @@ namespace UI
         public frmCambiarClave()
         {
             InitializeComponent();
+            this.AcceptButton = btnConfirmar;
         }
         private bool ValidarDatos(string texto, string expresionRegular)
         {
@@ -59,6 +60,5 @@ namespace UI
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }

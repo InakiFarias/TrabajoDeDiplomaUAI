@@ -24,7 +24,7 @@ namespace BLL
             var consulta = from b in Consultar()
                            select new
                            {
-                               Login = b.Usuario.NombreUsuario,
+                               Usuario = b.Usuario.NombreUsuario,
                                Fecha = b.Fecha.ToShortDateString(),
                                Hora = b.Fecha.ToString("HH:mm"),
                                Modulo = b.Modulo,
@@ -38,7 +38,7 @@ namespace BLL
             var consulta = from b in Consultar() where b.Fecha >= (DateTime.Now.AddDays(-3))
                            select new
                            {
-                               Login = b.Usuario.NombreUsuario,
+                               Usuario = b.Usuario.NombreUsuario,
                                Fecha = b.Fecha.ToShortDateString(),
                                Hora = b.Fecha.ToString("HH:mm"),
                                Modulo = b.Modulo,
@@ -84,13 +84,12 @@ namespace BLL
                            || bit.Fecha <= fechaFin.Value)
                             select new
                            {
-                                Login = bit.Usuario.NombreUsuario,
+                                Usuario = bit.Usuario.NombreUsuario,
                                 Fecha = bit.Fecha.ToShortDateString(),
                                 Hora = bit.Fecha.ToString("HH:mm"),
                                 Modulo = bit.Modulo,
                                 Evento = bit.Evento,
                                 Criticidad = bit.Criticidad
-                              
                            };
 
             return consulta.ToList<object>();
