@@ -195,7 +195,7 @@ namespace UI
 
                 using SaveFileDialog saveDialog = new SaveFileDialog();
                 saveDialog.Filter = "PDF (*.pdf)|*.pdf";
-                saveDialog.FileName = $"Bitacora_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                saveDialog.FileName = $"Bitacora_{DateTime.Now:ddMMyyyy_HHmmss}.pdf";
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
