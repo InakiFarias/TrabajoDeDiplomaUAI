@@ -92,10 +92,19 @@ values
 ('Gestionar Roles'),
 ('Gestionar Familias');
 
-
+update familia set nombre ='Gestión Usuarios'where nombre='Administradores'
 select * from usuario;
 select * from bitacora;
 select * from permiso;
+select * from rol;
+select * from familia;
+
+select * from permiso_familia;
+
+select f.IdFamilia, f.nombre from familia f
+inner join familia_familia ff
+on f.idFamilia = ff.idFamiliaHija
+where ff.idFamiliaPadre = 1;
 
 /*
     usuarios test:
