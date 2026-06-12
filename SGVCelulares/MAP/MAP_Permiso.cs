@@ -13,12 +13,12 @@ namespace MAP
         {
             dao = new DAO_Permiso();
         }
-        public void Agregar(SER_Permiso obj)
+        public void Agregar(SER_Permiso permiso)
         {
             throw new NotImplementedException();
         }
 
-        public void Borrar(SER_Permiso obj)
+        public void Borrar(SER_Permiso permiso)
         {
             throw new NotImplementedException();
         }
@@ -38,12 +38,12 @@ namespace MAP
             return lista;
         }
 
-        public SER_Permiso ConsultarPorId(SER_Permiso obj)
+        public SER_Permiso ConsultarPorId(SER_Permiso permiso)
         {
             throw new NotImplementedException();
         }
 
-        public void Modificar(SER_Permiso obj)
+        public void Modificar(SER_Permiso permiso)
         {
             throw new NotImplementedException();
         }
