@@ -1,14 +1,5 @@
 ﻿using BLL;
-using Servicios;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using Servicio;
 
 namespace UI
 {
@@ -105,7 +96,7 @@ namespace UI
 
             if (frm == null)
             {
-                FrmRoles frmRoles = new FrmRoles();
+                FrmGestionRoles frmRoles = new FrmGestionRoles();
                 frmRoles.ShowDialog();
             }
             else

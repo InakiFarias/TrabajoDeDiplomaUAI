@@ -1,4 +1,4 @@
-﻿namespace Servicios
+﻿namespace Servicio
 {
     public class SER_Usuario
     {

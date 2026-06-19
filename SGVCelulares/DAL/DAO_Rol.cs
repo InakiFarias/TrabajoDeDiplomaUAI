@@ -3,7 +3,7 @@ using System.Data;
 
 namespace DAL
 {
-    public class DAO_Rol : Conexion, IABMC
+    public class DAO_Rol : Conexion
     {
         SqlCommand cm;
         public DAO_Rol() : base()
@@ -21,11 +21,6 @@ namespace DAL
             con.Close();
         }
 
-        public void Borrar(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public SqlDataReader Consultar()
         {
             cm.Parameters.Clear();
@@ -33,20 +28,15 @@ namespace DAL
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
-
-        public SqlDataReader ConsultarPorId(string id)
+        public bool ExisteRol(string nombreRol)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Modificar(string id, params object[] datos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidarRepetido(string id)
-        {
-            throw new NotImplementedException();
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@rol", SqlDbType.VarChar).Value = nombreRol;
+            cm.CommandText = "SELECT COUNT(*) FROM rol WHERE nombre = @rol";
+            con.Open();
+            bool existe = Convert.ToInt16(cm.ExecuteScalar()) > 0;
+            con.Close();
+            return existe;
         }
     }
 }

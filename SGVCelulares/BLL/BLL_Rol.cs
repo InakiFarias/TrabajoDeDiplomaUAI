@@ -1,39 +1,33 @@
 ﻿using MAP;
 using Servicio;
-using Servicios;
 
 namespace BLL
 {
-    public class BLL_Rol : IABMC<SER_Rol>
+    public class BLL_Rol
     {
-        MAP_Rol map;
+        MAP_Rol map_rol;
         public BLL_Rol()
         {
-            map = new MAP_Rol();
+            map_rol = new MAP_Rol();
         }
-        public void Agregar(SER_Rol rol)
-        {
-            map.Agregar(rol);
-        }
-
-        public void Borrar(SER_Rol rol)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<SER_Rol> Consultar()
         {
-            return map.Consultar();
+            return map_rol.Consultar();
         }
 
-        public SER_Rol ConsultarPorId(SER_Rol rol)
+        public void Agregar(SER_Rol rol, List<SER_Rol> componente)
         {
-            throw new NotImplementedException();
-        }
+            if (componente.Count == 0) throw new Exception("No hay permisos o familias cargadas!");
+            if (!map_rol.ExisteRol(rol)) throw new Exception("El nombre del rol está repetido!");
 
-        public void Modificar(SER_Rol rol)
-        {
-            throw new NotImplementedException();
         }
+        //public bool ValidarRolDuplicado(SER_Rol rol)
+        //{
+
+        //}
+        //public bool ValidarPermisosRepetidos(List<SER_Rol> componentes)
+        //{
+
+        //}
     }
 }

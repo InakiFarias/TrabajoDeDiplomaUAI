@@ -1,7 +1,6 @@
 ﻿using DAL;
 using Microsoft.Data.SqlClient;
-using Servicios;
-using System.Data;
+using Servicio;
 
 namespace MAP
 {

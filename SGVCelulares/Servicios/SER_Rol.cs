@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Servicio
+﻿namespace Servicio
 {
     public class SER_Rol
     {
@@ -24,6 +17,10 @@ namespace Servicio
         {
             Id = Convert.ToInt16(datos[0]);
             Nombre = Convert.ToString(datos[1]);
+        }
+        public override string ToString()
+        {
+            return $"{this.Nombre}";
         }
     }
 

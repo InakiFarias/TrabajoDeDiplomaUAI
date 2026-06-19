@@ -1,31 +1,21 @@
 ﻿using DAL;
 using Microsoft.Data.SqlClient;
 using Servicio;
-using Servicios;
 
 namespace MAP
 {
-    public class MAP_Rol : IABMC<SER_Rol>
+    public class MAP_Rol
     {
-        DAO_Rol dao;
+        DAO_Rol dao_rol;
         public MAP_Rol()
         {
-            dao = new DAO_Rol();
-        }
-        public void Agregar(SER_Rol rol)
-        {
-            dao.Agregar(rol.Nombre);
-        }
-
-        public void Borrar(SER_Rol rol)
-        {
-            throw new NotImplementedException();
+            dao_rol = new DAO_Rol();
         }
 
         public List<SER_Rol> Consultar()
         {
             List<SER_Rol> lista = new List<SER_Rol>();
-            SqlDataReader dr = dao.Consultar();
+            SqlDataReader dr = dao_rol.Consultar();
 
             while (dr.Read())
             {
@@ -36,15 +26,10 @@ namespace MAP
             dr.Close();
             return lista;
         }
-
-        public SER_Rol ConsultarPorId(SER_Rol rol)
+        public bool ExisteRol(SER_Rol rol) => dao_rol.ExisteRol(rol.Nombre);
+        public void AgregarPermisoFamilia(SER_Rol permiso, SER_Rol familia)
         {
-            throw new NotImplementedException();
-        }
 
-        public void Modificar(SER_Rol rol)
-        {
-            throw new NotImplementedException();
         }
     }
 }

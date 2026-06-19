@@ -70,29 +70,24 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
-        public SqlDataReader ConsultarFamilias(int idFamilia)
+        public SqlDataReader ConsultarFamilias()
         {
             cm.Parameters.Clear();
-            cm.Parameters.Add("@idFamilia", SqlDbType.Int).Value = idFamilia;
-
-            cm.CommandText =
-                "SELECT f.* FROM familia f " +
-                "INNER JOIN familia_familia ff " +
-                "ON f.idFamilia = ff.idFamiliaHija " +
-                "WHERE ff.idFamiliaPadre = @idFamilia";
+            cm.CommandText = "SELECT idFamilia, nombre FROM familia";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
-        public SqlDataReader ConsultarPermisos(int idFamilia)
+        public SqlDataReader ConsultarRelacionesFamilia()
         {
             cm.Parameters.Clear();
-            cm.Parameters.Add("@idFamilia", SqlDbType.Int).Value = idFamilia;
-
-            cm.CommandText =
-                "SELECT p.* FROM permiso p " +
-                "INNER JOIN permiso_familia pf " +
-                "ON p.idPermiso = pf.idPermiso " +
-                "WHERE pf.idFamilia = @idFamilia";
+            cm.CommandText = "SELECT idFamiliaPadre, idFamiliaHija FROM familia_familia";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        public SqlDataReader ConsultarPermisosFamilia()
+        {
+            cm.Parameters.Clear();
+            cm.CommandText = "SELECT idFamilia, idPermiso FROM permiso_familia";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }

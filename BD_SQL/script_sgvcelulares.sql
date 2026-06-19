@@ -106,6 +106,11 @@ inner join familia_familia ff
 on f.idFamilia = ff.idFamiliaHija
 where ff.idFamiliaPadre = 1;
 
+SELECT p.* FROM permiso p
+INNER JOIN permiso_familia pf
+ON p.idPermiso = pf.idPermiso
+WHERE pf.idFamilia = 1;
+
 /*
     usuarios test:
         admin

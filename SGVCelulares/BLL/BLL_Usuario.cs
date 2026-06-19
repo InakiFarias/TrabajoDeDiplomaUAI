@@ -1,5 +1,5 @@
 ﻿using MAP;
-using Servicios;
+using Servicio;
 
 namespace BLL
 {

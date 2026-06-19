@@ -1,6 +1,5 @@
 ﻿using MAP;
 using Servicio;
-using Servicios;
 
 namespace BLL
 {
@@ -55,20 +54,6 @@ namespace BLL
         {
 
         }
-        public SER_Familia ObtenerArbol(SER_Familia familia)
-        {
-            familia.Hijos.Clear();
-
-            foreach (var permiso in map.ConsultarPermisos(familia))
-            {
-                familia.Hijos.Add(permiso);
-            }
-
-            foreach (var subFamilia in map.ConsultarFamilias(familia))
-            {
-                familia.Hijos.Add(ObtenerArbol(subFamilia));
-            }
-            return familia;
-        }
+        
     }
 }

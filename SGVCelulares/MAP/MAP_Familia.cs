@@ -1,7 +1,6 @@
 ﻿using DAL;
 using Microsoft.Data.SqlClient;
 using Servicio;
-using Servicios;
 
 namespace MAP
 {
@@ -66,33 +65,58 @@ namespace MAP
         {
             return dao.ExistePermiso(familia.Id, permiso.Id);
         }
-        public List<SER_Familia> ConsultarFamilias(SER_Familia familia)
+        public List<SER_Familia> ConsultarArbol()
         {
-            List<SER_Familia> lista = new List<SER_Familia>();
-            SqlDataReader dr = dao.ConsultarFamilias(familia.Id);
-
+            Dictionary<int, SER_Familia> familias = new Dictionary<int, SER_Familia>();
+            SqlDataReader dr = dao.ConsultarFamilias();
             while (dr.Read())
             {
-                object[] datos = new object[dr.FieldCount];
-                dr.GetValues(datos);
-                lista.Add(new SER_Familia(datos));
+                int id = Convert.ToInt32(dr["idFamilia"]);
+                string nombre = dr["nombre"].ToString();
+
+                familias[id] = new SER_Familia(id, nombre);
             }
             dr.Close();
-            return lista;
-        }
-        public List<SER_Permiso> ConsultarPermisos(SER_Familia familia)
-        {
-            List<SER_Permiso> lista = new List<SER_Permiso>();
-            SqlDataReader dr = dao.ConsultarPermisos(familia.Id);
 
+            dr = dao.ConsultarRelacionesFamilia();
             while (dr.Read())
             {
-                object[] datos = new object[dr.FieldCount];
-                dr.GetValues(datos);
-                lista.Add(new SER_Permiso(datos));
+                int padreId = Convert.ToInt32(dr["idFamiliaPadre"]);
+                int hijoId = Convert.ToInt32(dr["idFamiliaHija"]);
+
+                familias[padreId].Componentes.Add(familias[hijoId]);
             }
             dr.Close();
-            return lista;
+
+            dr = dao.ConsultarPermisosFamilia();
+            while (dr.Read())
+            {
+                int famId = Convert.ToInt32(dr["idFamilia"]);
+                int permId = Convert.ToInt32(dr["idPermiso"]);
+
+                familias[famId].Componentes.Add(new SER_Permiso(permId, ""));
+            }
+            dr.Close();
+
+            HashSet<int> hijos = new HashSet<int>();
+            dr = dao.ConsultarRelacionesFamilia();
+            while (dr.Read())
+            {
+                hijos.Add(Convert.ToInt32(dr["idFamiliaHija"]));
+            }
+            dr.Close();
+
+            List<SER_Familia> arbol = new List<SER_Familia>();
+
+            foreach (var f in familias)
+            {
+                if (!hijos.Contains(f.Key))
+                {
+                    arbol.Add(f.Value);
+                }
+            }
+
+            return arbol;
         }
     }
 }
