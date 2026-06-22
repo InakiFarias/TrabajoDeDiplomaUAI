@@ -21,6 +21,7 @@ namespace BLL
             if (!map_rol.ExisteRol(rol)) throw new Exception("El nombre del rol está repetido!");
 
         }
+
         //public bool ValidarRolDuplicado(SER_Rol rol)
         //{
 

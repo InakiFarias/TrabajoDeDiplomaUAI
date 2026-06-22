@@ -9,7 +9,8 @@ namespace UI
         BLL_Permiso bll_permiso;
         BLL_Familia bll_familia;
         List<SER_Rol> componentes;
-        BLL_Rol bll_rol;
+
+        Dictionary<int, SER_Familia> cacheFamilias;
         public FrmGestionRoles()
         {
             InitializeComponent();
@@ -19,8 +20,8 @@ namespace UI
         {
             bll_permiso = new BLL_Permiso();
             bll_familia = new BLL_Familia();
-            bll_rol = new BLL_Rol();
             componentes = new List<SER_Rol>();
+            cacheFamilias = new Dictionary<int, SER_Familia>();
             foreach (var control in Controls)
             {
                 if (control is DataGridView grilla)
@@ -46,15 +47,30 @@ namespace UI
 
         private void ActualizarTreeView()
         {
+            tvNodosComposite.BeginUpdate();
             tvNodosComposite.Nodes.Clear();
-            string nombre = string.IsNullOrWhiteSpace(txtNombreFamilia.Text) ? "Nuevo rol" : txtNombreFamilia.Text;
-            TreeNode raiz = new TreeNode(nombre);
-            foreach (SER_Rol c in clbComponentes.CheckedItems)
+            string nombreRaiz = string.IsNullOrWhiteSpace(txtNombreFamilia.Text) ? "Nuevo rol" : txtNombreFamilia.Text;
+            TreeNode raiz = new TreeNode(nombreRaiz);
+
+            foreach (SER_Rol componente in clbComponentes.CheckedItems)
             {
-                AgregarNodo(raiz, c);
+                if (componente is SER_Familia familia)
+                {
+                    SER_Familia familiaCompleta = bll_familia.ConsultarPorId(familia);
+                    AgregarNodo(raiz, ObtenerFamiliaCompleta(familia));
+                }
+                else
+                {
+                    AgregarNodo(raiz, componente);
+                }
             }
             tvNodosComposite.Nodes.Add(raiz);
             raiz.ExpandAll();
+            tvNodosComposite.EndUpdate();
+        }
+        private void txtNombreFamilia_TextChanged(object sender, EventArgs e)
+        {
+            ActualizarTreeView();
         }
         private void AgregarNodo(TreeNode nodoPadre, SER_Rol componente)
         {
@@ -68,13 +84,28 @@ namespace UI
                 }
             }
         }
-        private void txtNombreFamilia_TextChanged(object sender, EventArgs e)
+        private SER_Familia ObtenerFamiliaCompleta(SER_Familia familia)
         {
-            ActualizarTreeView();
+            if (!cacheFamilias.ContainsKey(familia.Id))
+            {
+                cacheFamilias[familia.Id] = bll_familia.ConsultarPorId(familia);
+            }
+            return cacheFamilias[familia.Id];
         }
-        private void btnSalir_Click(object sender, EventArgs e)
+        private void btnSalir_Click(object sender, EventArgs e) => this.Close();
+
+        private void btnCrearFamilia_Click(object sender, EventArgs e)
         {
-            this.Close();
+
+        }
+
+        private void btnEliminarSeleccionados_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < clbComponentes.Items.Count; i++)
+            {
+                clbComponentes.SetItemChecked(i, false);
+            }
+            clbComponentes.ClearSelected();
         }
     }
 }

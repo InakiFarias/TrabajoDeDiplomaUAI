@@ -70,24 +70,29 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
-        public SqlDataReader ConsultarFamilias()
+
+        // Métodos que van a servir para armar recursivamente los nodos de un arbol determinado
+        public SqlDataReader ConsultarFamilia(int idFamilia)
         {
             cm.Parameters.Clear();
-            cm.CommandText = "SELECT idFamilia, nombre FROM familia";
+            cm.Parameters.Add("@idFamilia", SqlDbType.Int).Value = idFamilia;
+            cm.CommandText = "select idFamilia, nombre from familia where idFamilia = @idFamilia";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
-        public SqlDataReader ConsultarRelacionesFamilia()
+        public SqlDataReader ConsultarPermisos(int idFamilia)
         {
             cm.Parameters.Clear();
-            cm.CommandText = "SELECT idFamiliaPadre, idFamiliaHija FROM familia_familia";
+            cm.Parameters.Add("@idFamilia", SqlDbType.Int).Value = idFamilia;
+            cm.CommandText = "select p.idPermiso, p.nombre from permiso p inner join permiso_familia pf on p.idPermiso = pf.idPermiso where pf.idFamilia = @idFamilia";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
-        public SqlDataReader ConsultarPermisosFamilia()
+        public SqlDataReader ConsultarFamiliasHijas(int idFamilia)
         {
             cm.Parameters.Clear();
-            cm.CommandText = "SELECT idFamilia, idPermiso FROM permiso_familia";
+            cm.Parameters.Add("@idFamilia", SqlDbType.Int).Value = idFamilia;
+            cm.CommandText = "select f.idFamilia, f.nombre from familia f inner join familia_familia ff on f.idFamilia = ff.idFamiliaHija where ff.idFamiliaPadre = @idFamilia";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }

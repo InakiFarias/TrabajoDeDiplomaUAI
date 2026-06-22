@@ -76,6 +76,7 @@
             btnCrearFamilia.TabIndex = 22;
             btnCrearFamilia.Text = "Crear";
             btnCrearFamilia.UseVisualStyleBackColor = true;
+            btnCrearFamilia.Click += btnCrearFamilia_Click;
             // 
             // label2
             // 
@@ -134,6 +135,7 @@
             btnEliminarSeleccionados.TabIndex = 30;
             btnEliminarSeleccionados.Text = "Eliminar seleccionados";
             btnEliminarSeleccionados.UseVisualStyleBackColor = true;
+            btnEliminarSeleccionados.Click += btnEliminarSeleccionados_Click;
             // 
             // label3
             // 

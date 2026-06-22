@@ -99,17 +99,20 @@ select * from permiso;
 select * from rol;
 select * from familia;
 
-select * from permiso_familia;
+-- Consulo a una familia determinada
+select idFamilia, nombre from familia where idFamilia = 1;
 
-select f.IdFamilia, f.nombre from familia f
+-- Consulto los permisos de una familia determinada
+select p.idPermiso, p.nombre from permiso p
+inner join permiso_familia pf
+on p.idPermiso = pf.idPermiso
+where pf.idFamilia = 1;
+
+-- Consulto las familias hijas de una familia determinada (familia padre)
+select f.idFamilia, f.nombre from familia f 
 inner join familia_familia ff
 on f.idFamilia = ff.idFamiliaHija
 where ff.idFamiliaPadre = 1;
-
-SELECT p.* FROM permiso p
-INNER JOIN permiso_familia pf
-ON p.idPermiso = pf.idPermiso
-WHERE pf.idFamilia = 1;
 
 /*
     usuarios test:
