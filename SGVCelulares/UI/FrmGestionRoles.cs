@@ -8,6 +8,7 @@ namespace UI
     {
         BLL_Permiso bll_permiso;
         BLL_Familia bll_familia;
+        BLL_Rol bll_rol;
         List<SER_Rol> componentes;
 
         Dictionary<int, SER_Familia> cacheFamilias;
@@ -20,6 +21,8 @@ namespace UI
         {
             bll_permiso = new BLL_Permiso();
             bll_familia = new BLL_Familia();
+            bll_rol = new BLL_Rol();
+
             componentes = new List<SER_Rol>();
             cacheFamilias = new Dictionary<int, SER_Familia>();
             foreach (var control in Controls)
@@ -96,7 +99,23 @@ namespace UI
 
         private void btnCrearFamilia_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (txtNombreFamilia.Text.Length == 0) throw new Exception("El nombre del rol no puede estar vacío!");
+                SER_Rol rol = new SER_Rol(txtNombreFamilia.Text);
+                List<SER_Rol> componentes = new List<SER_Rol>();
+                foreach (SER_Rol c in clbComponentes.CheckedItems)
+                {
+                    componentes.Add(c);
+                }
 
+                bll_rol.Agregar(rol, componentes);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnEliminarSeleccionados_Click(object sender, EventArgs e)

@@ -15,9 +15,9 @@ namespace BLL
             return map_rol.Consultar();
         }
 
-        public void Agregar(SER_Rol rol, List<SER_Rol> componente)
+        public void Agregar(SER_Rol rol, List<SER_Rol> componentes)
         {
-            if (componente.Count == 0) throw new Exception("No hay permisos o familias cargadas!");
+            if (componentes.Count == 0) throw new Exception("No hay permisos o familias cargadas!");
             if (!map_rol.ExisteRol(rol)) throw new Exception("El nombre del rol está repetido!");
 
         }

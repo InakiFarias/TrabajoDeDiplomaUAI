@@ -23,16 +23,23 @@ namespace MAP
 
         public List<SER_Familia> Consultar()
         {
+            List<SER_Familia> listaAux = new List<SER_Familia>();
             List<SER_Familia> lista = new List<SER_Familia>();
+
             SqlDataReader dr = dao_familia.Consultar();
 
             while (dr.Read())
             {
                 object[] datos = new object[dr.FieldCount];
                 dr.GetValues(datos);
-                lista.Add(new SER_Familia(datos));
+                listaAux.Add(new SER_Familia(datos));
             }
             dr.Close();
+
+            foreach (SER_Familia familia in listaAux)
+            {
+                lista.Add(ObtenerArbol(familia.Id));
+            }
             return lista;
         }
 
