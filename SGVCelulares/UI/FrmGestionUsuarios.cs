@@ -5,12 +5,15 @@ using System.Text.RegularExpressions;
 
 namespace UI
 {
-    public partial class FrmGestionUsuarios : Form
+    public partial class FrmGestionUsuarios : Form, IObservadorIdioma
     {
         BLL_Usuario bll_usuario;
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         public FrmGestionUsuarios()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
+            ActualizarIdioma();
         }
         private void FrmUsuarios_Load(object sender, EventArgs e)
         {
@@ -213,6 +216,31 @@ namespace UI
 
                 throw;
             }
+        }
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FrmGestionUsuarios.Form");
+            lblTitulo.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblTitulo");
+            btnCrearUsuario.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnCrearUsuario");
+            btnDesbloquearUsuario.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnDesbloquearUsuario");
+            btnModificarUsuario.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnModificarUsuario");
+            btnCambiarEstadoUsuario.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnCambiarEstadoUsuario");
+            btnAplicarCambios.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnAplicarCambios");
+            btnSalir.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnSalir");
+            label1.Text = bll_idioma.Traducir("FrmGestionUsuarios.label1");
+            lblDni.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblDni");
+            lblNombre.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblNombre");
+            lblApellido.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblApellido");
+            lblCorreo.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblCorreo");
+            lblFiltro.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblFiltro");
+            radioButton1.Text = bll_idioma.Traducir("FrmGestionUsuarios.radioButton1");
+            radioButton2.Text = bll_idioma.Traducir("FrmGestionUsuarios.radioButton2");
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

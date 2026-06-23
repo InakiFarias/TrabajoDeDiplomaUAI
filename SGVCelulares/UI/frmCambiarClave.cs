@@ -6,13 +6,16 @@ using System.Text.RegularExpressions;
 
 namespace UI
 {
-    public partial class frmCambiarClave : Form
+    public partial class frmCambiarClave : Form, IObservadorIdioma
     {
         BLL_Usuario bll_usuario;
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         public frmCambiarClave()
         {
             InitializeComponent();
             this.AcceptButton = btnConfirmar;
+            bll_idioma.Suscribir(this);
+            ActualizarIdioma();
         }
         private bool ValidarDatos(string texto, string expresionRegular)
         {
@@ -52,6 +55,19 @@ namespace UI
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("frmCambiarClave.Form");
+            lblTitulo.Text = bll_idioma.Traducir("frmCambiarClave.lblTitulo");
+            lblClaveActual.Text = bll_idioma.Traducir("frmCambiarClave.lblClaveActual");
+            lblClaveNueva.Text = bll_idioma.Traducir("frmCambiarClave.lblClaveNueva");
+            btnConfirmar.Text = bll_idioma.Traducir("frmCambiarClave.btnConfirmar");
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

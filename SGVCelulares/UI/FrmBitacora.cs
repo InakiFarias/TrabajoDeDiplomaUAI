@@ -6,10 +6,11 @@ using Servicio;
 
 namespace UI
 {
-    public partial class FrmBitacora : Form
+    public partial class FrmBitacora : Form, IObservadorIdioma
     {
         BLL_Bitacora bll_bitacora;
         BLL_Usuario bll_usuario;
+        BLL_Idioma bll_idioma = new BLL_Idioma();
 
         private readonly Dictionary<string, string[]> eventosPorModulo =
         new Dictionary<string, string[]>
@@ -39,6 +40,8 @@ namespace UI
         public FrmBitacora()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
+            ActualizarIdioma();
         }
 
         private void FrmBitacora_Load(object sender, EventArgs e)
@@ -255,6 +258,29 @@ namespace UI
                 FileName = ruta,
                 UseShellExecute = true
             });
+        }
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FrmBitacora.Form");
+            lblTitulo.Text = bll_idioma.Traducir("FrmBitacora.lblTitulo");
+            lblNombre.Text = bll_idioma.Traducir("FrmBitacora.lblNombre");
+            lblApellido.Text = bll_idioma.Traducir("FrmBitacora.lblApellido");
+            lblLogin.Text = bll_idioma.Traducir("FrmBitacora.lblLogin");
+            lblModulo.Text = bll_idioma.Traducir("FrmBitacora.lblModulo");
+            lblFechaInicio.Text = bll_idioma.Traducir("FrmBitacora.lblFechaInicio");
+            lblEvento.Text = bll_idioma.Traducir("FrmBitacora.lblEvento");
+            lblFechaFin.Text = bll_idioma.Traducir("FrmBitacora.lblFechaFin");
+            lblCriticidad.Text = bll_idioma.Traducir("FrmBitacora.lblCriticidad");
+            btnImprimirBitacora.Text = bll_idioma.Traducir("FrmBitacora.btnImprimirBitacora");
+            btnAplicar.Text = bll_idioma.Traducir("FrmBitacora.btnAplicar");
+            btnLimpiar.Text = bll_idioma.Traducir("FrmBitacora.btnLimpiar");
+            btnSalir.Text = bll_idioma.Traducir("FrmBitacora.btnSalir");
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

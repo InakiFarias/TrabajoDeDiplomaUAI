@@ -4,17 +4,20 @@ using BLL;
 
 namespace UI
 {
-    public partial class FrmGestionRoles : Form
+    public partial class FrmGestionRoles : Form, IObservadorIdioma
     {
         BLL_Permiso bll_permiso;
         BLL_Familia bll_familia;
         BLL_Rol bll_rol;
         List<SER_Rol> componentes;
+        BLL_Idioma bll_idioma = new BLL_Idioma();
 
         Dictionary<int, SER_Familia> cacheFamilias;
         public FrmGestionRoles()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
+            ActualizarIdioma();
         }
 
         private void FrmGestionRoles_Load(object sender, EventArgs e)
@@ -120,11 +123,30 @@ namespace UI
 
         private void btnEliminarSeleccionados_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i < clbComponentes.Items.Count; i++)
+            for (int i = 0; i < clbComponentes.Items.Count; i++)
             {
                 clbComponentes.SetItemChecked(i, false);
             }
             clbComponentes.ClearSelected();
+        }
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FrmGestionRoles.Form");
+            label1.Text = bll_idioma.Traducir("FrmGestionRoles.label1");
+            label3.Text = bll_idioma.Traducir("FrmGestionRoles.label3");
+            label4.Text = bll_idioma.Traducir("FrmGestionRoles.label4");
+            label2.Text = bll_idioma.Traducir("FrmGestionRoles.label2");
+            btnCrearFamilia.Text = bll_idioma.Traducir("FrmGestionRoles.btnCrearFamilia");
+            radRol.Text = bll_idioma.Traducir("FrmGestionRoles.radRol");
+            radFamilia.Text = bll_idioma.Traducir("FrmGestionRoles.radFamilia");
+            btnEliminarSeleccionados.Text = bll_idioma.Traducir("FrmGestionRoles.btnEliminarSeleccionados");
+            btnSalir.Text = bll_idioma.Traducir("FrmGestionRoles.btnSalir");
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

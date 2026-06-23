@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             pnlTitulo = new Panel();
+            cboIdioma = new ComboBox();
             lblTitulo = new Label();
             pnlContenido = new Panel();
             lblUsuario = new Label();
@@ -43,12 +44,23 @@
             // pnlTitulo
             // 
             pnlTitulo.BackColor = Color.FromArgb(21, 32, 48);
+            pnlTitulo.Controls.Add(cboIdioma);
             pnlTitulo.Controls.Add(lblTitulo);
             pnlTitulo.Dock = DockStyle.Top;
             pnlTitulo.Location = new Point(0, 0);
             pnlTitulo.Name = "pnlTitulo";
             pnlTitulo.Size = new Size(380, 48);
             pnlTitulo.TabIndex = 0;
+            // 
+            // cboIdioma
+            // 
+            cboIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboIdioma.FormattingEnabled = true;
+            cboIdioma.Location = new Point(235, 12);
+            cboIdioma.Name = "cboIdioma";
+            cboIdioma.Size = new Size(121, 25);
+            cboIdioma.TabIndex = 1;
+            cboIdioma.SelectedIndexChanged += cboIdioma_SelectedIndexChanged;
             // 
             // lblTitulo
             // 
@@ -83,7 +95,7 @@
             lblUsuario.ForeColor = Color.FromArgb(148, 163, 184);
             lblUsuario.Location = new Point(24, 24);
             lblUsuario.Name = "lblUsuario";
-            lblUsuario.Size = new Size(52, 15);
+            lblUsuario.Size = new Size(47, 15);
             lblUsuario.TabIndex = 0;
             lblUsuario.Text = "Usuario";
             // 
@@ -95,7 +107,7 @@
             txtNombreUsuario.ForeColor = Color.FromArgb(226, 232, 240);
             txtNombreUsuario.Location = new Point(24, 44);
             txtNombreUsuario.Name = "txtNombreUsuario";
-            txtNombreUsuario.Size = new Size(332, 25);
+            txtNombreUsuario.Size = new Size(332, 24);
             txtNombreUsuario.TabIndex = 1;
             // 
             // lblPassword
@@ -105,7 +117,7 @@
             lblPassword.ForeColor = Color.FromArgb(148, 163, 184);
             lblPassword.Location = new Point(24, 90);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(72, 15);
+            lblPassword.Size = new Size(67, 15);
             lblPassword.TabIndex = 2;
             lblPassword.Text = "Contraseña";
             // 
@@ -118,7 +130,7 @@
             txtPassword.Location = new Point(24, 110);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '●';
-            txtPassword.Size = new Size(332, 25);
+            txtPassword.Size = new Size(332, 24);
             txtPassword.TabIndex = 3;
             // 
             // btnEntrar
@@ -171,5 +183,6 @@
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnEntrar;
+        private ComboBox cboIdioma;
     }
 }

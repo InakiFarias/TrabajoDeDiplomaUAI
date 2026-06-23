@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             pnlTopbar = new Panel();
+            cboIdioma = new ComboBox();
             lblUsuario = new Label();
             lblTituloTopbar = new Label();
             pnlSidebar = new Panel();
+            btnGestionRoles = new Button();
             btnLogout = new Button();
             btnCambiarClave = new Button();
             btnRelogin = new Button();
@@ -42,7 +44,6 @@
             btnUsuarios = new Button();
             lblSeccionNav = new Label();
             pnlContenido = new Panel();
-            btnGestionRoles = new Button();
             pnlTopbar.SuspendLayout();
             pnlSidebar.SuspendLayout();
             SuspendLayout();
@@ -50,6 +51,7 @@
             // pnlTopbar
             // 
             pnlTopbar.BackColor = Color.FromArgb(21, 32, 48);
+            pnlTopbar.Controls.Add(cboIdioma);
             pnlTopbar.Controls.Add(lblUsuario);
             pnlTopbar.Controls.Add(lblTituloTopbar);
             pnlTopbar.Dock = DockStyle.Top;
@@ -57,6 +59,16 @@
             pnlTopbar.Name = "pnlTopbar";
             pnlTopbar.Size = new Size(960, 48);
             pnlTopbar.TabIndex = 0;
+            // 
+            // cboIdioma
+            // 
+            cboIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboIdioma.FormattingEnabled = true;
+            cboIdioma.Location = new Point(816, 14);
+            cboIdioma.Name = "cboIdioma";
+            cboIdioma.Size = new Size(121, 25);
+            cboIdioma.TabIndex = 2;
+            cboIdioma.SelectedIndexChanged += cboIdioma_SelectedIndexChanged;
             // 
             // lblUsuario
             // 
@@ -99,6 +111,25 @@
             pnlSidebar.Name = "pnlSidebar";
             pnlSidebar.Size = new Size(190, 572);
             pnlSidebar.TabIndex = 1;
+            // 
+            // btnGestionRoles
+            // 
+            btnGestionRoles.BackColor = Color.FromArgb(25, 37, 53);
+            btnGestionRoles.Cursor = Cursors.Hand;
+            btnGestionRoles.FlatAppearance.BorderSize = 0;
+            btnGestionRoles.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnGestionRoles.FlatStyle = FlatStyle.Flat;
+            btnGestionRoles.Font = new Font("Segoe UI", 9.5F);
+            btnGestionRoles.ForeColor = Color.FromArgb(148, 163, 184);
+            btnGestionRoles.Location = new Point(4, 116);
+            btnGestionRoles.Name = "btnGestionRoles";
+            btnGestionRoles.Padding = new Padding(10, 0, 0, 0);
+            btnGestionRoles.Size = new Size(174, 38);
+            btnGestionRoles.TabIndex = 12;
+            btnGestionRoles.Text = "📝  Gestión Roles";
+            btnGestionRoles.TextAlign = ContentAlignment.MiddleLeft;
+            btnGestionRoles.UseVisualStyleBackColor = false;
+            btnGestionRoles.Click += btnGestionRoles_Click;
             // 
             // btnLogout
             // 
@@ -263,25 +294,6 @@
             pnlContenido.Size = new Size(770, 572);
             pnlContenido.TabIndex = 2;
             // 
-            // btnGestionRoles
-            // 
-            btnGestionRoles.BackColor = Color.FromArgb(25, 37, 53);
-            btnGestionRoles.Cursor = Cursors.Hand;
-            btnGestionRoles.FlatAppearance.BorderSize = 0;
-            btnGestionRoles.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            btnGestionRoles.FlatStyle = FlatStyle.Flat;
-            btnGestionRoles.Font = new Font("Segoe UI", 9.5F);
-            btnGestionRoles.ForeColor = Color.FromArgb(148, 163, 184);
-            btnGestionRoles.Location = new Point(4, 116);
-            btnGestionRoles.Name = "btnGestionRoles";
-            btnGestionRoles.Padding = new Padding(10, 0, 0, 0);
-            btnGestionRoles.Size = new Size(174, 38);
-            btnGestionRoles.TabIndex = 12;
-            btnGestionRoles.Text = "📝  Gestión Roles";
-            btnGestionRoles.TextAlign = ContentAlignment.MiddleLeft;
-            btnGestionRoles.UseVisualStyleBackColor = false;
-            btnGestionRoles.Click += btnGestionRoles_Click;
-            // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -322,5 +334,6 @@
         private Button btnRelogin;
         private Label label1;
         private Button btnGestionRoles;
+        private ComboBox cboIdioma;
     }
 }

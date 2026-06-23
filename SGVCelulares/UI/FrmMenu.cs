@@ -3,12 +3,17 @@ using Servicio;
 
 namespace UI
 {
-    public partial class FrmMenu : Form
+    public partial class FrmMenu : Form, IObservadorIdioma
     {
         BLL_Usuario bll_usuario;
+        BLL_Idioma bll_idioma = new BLL_Idioma();
+        bool cargandoIdiomas;
         public FrmMenu()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
+            CargarIdiomas();
+            ActualizarIdioma();
         }
         private void FrmMenu_Load(object sender, EventArgs e)
         {
@@ -105,6 +110,48 @@ namespace UI
                 frm.BringToFront();
                 frm.Focus();
             }
+        }
+        private void CargarIdiomas()
+        {
+            cargandoIdiomas = true;
+            cboIdioma.DisplayMember = "NativeName";
+            cboIdioma.ValueMember = "Name";
+            cboIdioma.DataSource = bll_idioma.ObtenerIdiomasDisponibles();
+            cboIdioma.SelectedValue = bll_idioma.IdiomaActual;
+            cargandoIdiomas = false;
+        }
+
+        private void cboIdioma_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cargandoIdiomas) return;
+            try
+            {
+                bll_idioma.CambiarIdioma(cboIdioma.SelectedValue.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FrmMenu.Form");
+            lblTituloTopbar.Text = bll_idioma.Traducir("FrmMenu.lblTituloTopbar");
+            lblSeccionNav.Text = bll_idioma.Traducir("FrmMenu.lblSeccionNav");
+            label1.Text = bll_idioma.Traducir("FrmMenu.label1");
+            btnUsuarios.Text = bll_idioma.Traducir("FrmMenu.btnUsuarios");
+            btnBitacora.Text = bll_idioma.Traducir("FrmMenu.btnBitacora");
+            btnGestionRoles.Text = bll_idioma.Traducir("FrmMenu.btnGestionRoles");
+            btnReportes.Text = bll_idioma.Traducir("FrmMenu.btnReportes");
+            btnAyuda.Text = bll_idioma.Traducir("FrmMenu.btnAyuda");
+            btnRelogin.Text = bll_idioma.Traducir("FrmMenu.btnRelogin");
+            btnCambiarClave.Text = bll_idioma.Traducir("FrmMenu.btnCambiarClave");
+            btnLogout.Text = bll_idioma.Traducir("FrmMenu.btnLogout");
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }
