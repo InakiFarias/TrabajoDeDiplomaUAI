@@ -7,10 +7,12 @@ namespace BLL
     {
         MAP_Usuario map_usuario;
         BLL_Bitacora bll_bitacora;
+        BLL_Idioma bll_idioma;
         public BLL_Usuario()
         {
             map_usuario = new MAP_Usuario();
             bll_bitacora = new BLL_Bitacora();
+            bll_idioma = new BLL_Idioma();
         }
 
         public void Agregar(SER_Usuario usuario)
@@ -136,16 +138,24 @@ namespace BLL
                 }
                 throw new Exception("No se pudo iniciar sesion");
             }
-            
+
             rdo = true;
             SER_SesionManager sesion = SER_SesionManager.ObtenerSesion();
             sesion.Usuario = obj;
             map_usuario.ReiniciarIntentos(obj);
 
+            try
+            {
+                bll_idioma.CambiarIdioma(obj.IdIdioma);
+            }
+            catch
+            {
+                try { bll_idioma.CambiarIdioma("es-AR"); } catch { }
+            }
 
             SER_Bitacora bitacora = new SER_Bitacora(obj, DateTime.Now, "Usuarios", "Login", 1);
             bll_bitacora.RegistrarBitacora(bitacora);
-            
+
             return rdo;
         }
 
@@ -154,6 +164,9 @@ namespace BLL
             SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
             if (usuario != null)
             {
+                usuario.IdIdioma = bll_idioma.IdiomaActual;
+                map_usuario.ModificarIdioma(usuario);
+
                 bll_bitacora.RegistrarBitacora(new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Logout", 2));
                 SER_SesionManager.CerrarSesion();
             }

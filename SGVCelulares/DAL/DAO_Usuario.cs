@@ -22,8 +22,10 @@ namespace DAL
             cm.Parameters.Add("@bloqueo", SqlDbType.Bit).Value = T[6];
             cm.Parameters.Add("@activo", SqlDbType.Bit).Value = T[7];
             cm.Parameters.Add("@cantIntentos", SqlDbType.TinyInt).Value = T[8];
+            cm.Parameters.Add("@idRol", SqlDbType.Int).Value = T[9];
+            cm.Parameters.Add("@idIdioma", SqlDbType.VarChar).Value = T[10];
 
-            cm.CommandText = "INSERT INTO usuario(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo,cantIntentos) values (@dni,@nombre,@apellido,@correo,@nombreUsuario,@password,@bloqueo,@activo,@cantIntentos)";
+            cm.CommandText = "INSERT INTO usuario(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo,cantIntentos,idRol,idIdioma) values (@dni,@nombre,@apellido,@correo,@nombreUsuario,@password,@bloqueo,@activo,@cantIntentos,@idRol,@idIdioma)";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -152,6 +154,16 @@ namespace DAL
             cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
             cm.Parameters.Add("@activo", SqlDbType.Bit).Value = activo;
             cm.CommandText = "UPDATE usuario SET activo=@activo WHERE dni=@dni";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
+        public void ModificarIdioma(string dni, string idIdioma)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni;
+            cm.Parameters.Add("@idIdioma", SqlDbType.VarChar).Value = idIdioma;
+            cm.CommandText = "UPDATE usuario SET idIdioma=@idIdioma WHERE dni=@dni";
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();

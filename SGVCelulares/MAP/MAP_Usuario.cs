@@ -14,7 +14,7 @@ namespace MAP
 
         public void Agregar(SER_Usuario usuario)
         {
-            dao_usuario.Agregar(usuario.Dni, usuario.Nombre, usuario.Apellido, usuario.Correo, usuario.NombreUsuario, usuario.Password, usuario.Bloqueo, usuario.Activo, usuario.CantIntentos);
+            dao_usuario.Agregar(usuario.Dni, usuario.Nombre, usuario.Apellido, usuario.Correo, usuario.NombreUsuario, usuario.Password, usuario.Bloqueo, usuario.Activo, usuario.CantIntentos, usuario.IdRol, usuario.IdIdioma);
         }
 
         public void Borrar(SER_Usuario usuario)
@@ -79,5 +79,9 @@ namespace MAP
         public void ReiniciarIntentos(SER_Usuario usuario) => dao_usuario.ReiniciarIntentos(usuario.Dni);
         public void Desbloquear(SER_Usuario usuario) => dao_usuario.Desbloquear(usuario.Dni);
         public void CambiarEstadoActivo(SER_Usuario usuario) => dao_usuario.CambiarEstadoActivo(usuario.Dni, usuario.Activo);
+        public void ModificarIdioma(SER_Usuario usuario)
+        {
+            dao_usuario.ModificarIdioma(usuario.Dni, usuario.IdIdioma);
+        }
     }
 }

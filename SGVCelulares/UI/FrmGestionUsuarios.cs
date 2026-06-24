@@ -55,7 +55,7 @@ namespace UI
                 if (!ValidarDatos(correo, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")) throw new Exception("El formato del correo es incorrecto!");
 
 
-                SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, false, true);
+                SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, false, true, 1, "es-AR");
                 bll_usuario.Agregar(usuario);
                 MessageBox.Show("Usuario creado con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

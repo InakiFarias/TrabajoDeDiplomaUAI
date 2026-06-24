@@ -13,6 +13,7 @@
         public bool Activo { get; set; }
         public int CantIntentos { get; set; }
         public int IdRol { get; set; }
+        public string IdIdioma { get; set; }
         public SER_Usuario() { }
         public SER_Usuario(string dni)
         {
@@ -45,7 +46,7 @@
             Bloqueo = bloqueo;
             Activo = activo;
         }
-        public SER_Usuario(string dni, string nombre, string apellido, string correo, bool bloqueo, bool activo)
+        public SER_Usuario(string dni, string nombre, string apellido, string correo, bool bloqueo, bool activo, int idRol, string idIdioma)
         {
             Dni = dni;
             Nombre = nombre;
@@ -56,6 +57,8 @@
             Bloqueo = bloqueo;
             Activo = activo;
             CantIntentos = 0;
+            IdRol = idRol;
+            IdIdioma = idIdioma;
         }
         public SER_Usuario(object[] datos)
         {
@@ -68,6 +71,8 @@
             Bloqueo = Convert.ToBoolean(datos[6]);
             Activo = Convert.ToBoolean(datos[7]);
             CantIntentos = Convert.ToInt16(datos[8]);
+            IdRol = Convert.ToInt16(datos[9]);
+            IdIdioma = Convert.ToString(datos[10]);
         }
     }
 }
