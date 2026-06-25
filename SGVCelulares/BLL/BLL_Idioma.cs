@@ -1,4 +1,4 @@
-﻿using DAL;
+﻿using MAP;
 using Servicio;
 using System;
 using System.Collections.Generic;
@@ -13,12 +13,12 @@ namespace BLL
     {
         private static readonly List<IObservadorIdioma> observadores = new List<IObservadorIdioma>();
         private static SER_Idioma idiomaActual = new SER_Idioma("es-AR");
-        private DAO_Idioma dao_idioma;
-        private BLL_Bitacora bll_bitacora;
+        MAP_Idioma map_idioma;
+        BLL_Bitacora bll_bitacora;
         public string IdiomaActual => idiomaActual.Codigo;
         public BLL_Idioma()
         {
-            dao_idioma = new DAO_Idioma();
+            map_idioma = new MAP_Idioma();  
             bll_bitacora = new BLL_Bitacora();
         }
         public void Suscribir(IObservadorIdioma observador)
@@ -32,7 +32,7 @@ namespace BLL
         }
         public void CambiarIdioma(string codigo)
         {
-            Dictionary<string, string> textos = dao_idioma.ObtenerTraducciones(codigo);
+            Dictionary<string, string> textos = map_idioma.ObtenerTraducciones(codigo);
             idiomaActual = new SER_Idioma(codigo, textos);
             Notificar();
 
@@ -49,7 +49,7 @@ namespace BLL
         }
         public List<CultureInfo> ObtenerIdiomasDisponibles()
         {
-            return dao_idioma.ObtenerIdiomasDisponibles();
+            return map_idioma.ObtenerIdiomasDisponibles();
         }
         private void Notificar()
         {

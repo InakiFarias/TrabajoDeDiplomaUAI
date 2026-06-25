@@ -15,7 +15,6 @@ namespace UI
             this.AcceptButton = btnEntrar;
             bll_idioma.Suscribir(this);
             CargarIdiomas();
-            bll_idioma.CambiarIdioma("es-AR");
         }
         private void FrmLogin_Load(object sender, EventArgs e)
         {
