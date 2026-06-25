@@ -39,7 +39,7 @@ namespace BLL
             SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
             if (usuario != null)
             {
-                SER_Bitacora bitacora = new SER_Bitacora(usuario, DateTime.Now, "Idioma", "Cambiar Idioma", 1);
+                SER_Bitacora bitacora = new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Cambiar Idioma", 3);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
         }

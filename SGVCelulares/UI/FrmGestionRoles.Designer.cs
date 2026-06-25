@@ -31,7 +31,7 @@
             label1 = new Label();
             tvNodosComposite = new TreeView();
             clbComponentes = new CheckedListBox();
-            btnCrearFamilia = new Button();
+            btnCrear = new Button();
             label2 = new Label();
             txtNombreFamilia = new TextBox();
             radRol = new RadioButton();
@@ -68,15 +68,15 @@
             clbComponentes.TabIndex = 21;
             clbComponentes.ItemCheck += clbComponentes_ItemCheck;
             // 
-            // btnCrearFamilia
+            // btnCrear
             // 
-            btnCrearFamilia.Location = new Point(572, 140);
-            btnCrearFamilia.Name = "btnCrearFamilia";
-            btnCrearFamilia.Size = new Size(149, 33);
-            btnCrearFamilia.TabIndex = 22;
-            btnCrearFamilia.Text = "Crear";
-            btnCrearFamilia.UseVisualStyleBackColor = true;
-            btnCrearFamilia.Click += btnCrearFamilia_Click;
+            btnCrear.Location = new Point(572, 140);
+            btnCrear.Name = "btnCrear";
+            btnCrear.Size = new Size(149, 33);
+            btnCrear.TabIndex = 22;
+            btnCrear.Text = "Crear";
+            btnCrear.UseVisualStyleBackColor = true;
+            btnCrear.Click += btnCrear_Click;
             // 
             // label2
             // 
@@ -170,7 +170,7 @@
             Controls.Add(radRol);
             Controls.Add(txtNombreFamilia);
             Controls.Add(label2);
-            Controls.Add(btnCrearFamilia);
+            Controls.Add(btnCrear);
             Controls.Add(clbComponentes);
             Controls.Add(tvNodosComposite);
             Controls.Add(label1);
@@ -185,7 +185,7 @@
         private Label label1;
         private TreeView tvNodosComposite;
         private CheckedListBox clbComponentes;
-        private Button btnCrearFamilia;
+        private Button btnCrear;
         private Label label2;
         private TextBox txtNombreFamilia;
         private RadioButton radRol;

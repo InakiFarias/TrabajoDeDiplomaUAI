@@ -16,25 +16,39 @@ namespace UI
         new Dictionary<string, string[]>
         {
             {
-                "Gestión de Usuarios",
-                new[]
-                {
-                    "Crear Usuario",
-                    "Modificar Usuario",
-                    "Activar Usuario",
-                    "Desactivar Usuario",
-                    "Bloquear Usuario",
-                    "Cambiar Clave"
-                }
-            },
-            {
                 "Usuarios",
                 new[]
                 {
                     "Login",
-                    "Logout"
+                    "Cambiar clave",
+                    "Logout",
+                    "Crear usuario",
+                    "Desbloquear usuario",
+                    "Modificar usuario",
+                    "Activar usuario",
+                    "Desactivar usuario",
+                    "Cambiar idioma"
+                }
+            },
+            {
+                "Roles",
+                new[]
+                {
+                    "Crear rol",
+                    "Modificar rol",
+                    "Borrar rol",
+                    "Crear familia",
+                    "Borrar familia"
+                }
+            },
+            {
+                "Bitácora",
+                new[]
+                {
+                    "Auditar bitácora"
                 }
             }
+
         };
 
         public FrmBitacora()
@@ -65,9 +79,12 @@ namespace UI
 
         private void MostrarTodosLosEventos()
         {
-            cbxModulo.Items.AddRange(new string[] { "Gestión de Usuarios", "Usuarios" });
+            cbxModulo.Items.AddRange(new string[] { "Usuarios", "Roles", "Bitácora" });
             cbxEvento.Items.AddRange(new string[] {
-                "Login", "Logout", "Crear Usuario", "Modificar Usuario", "Cambiar Clave", "Bloquear Usuario", "Activar Usuario", "Desactivar Usuario" });
+                "Login", "Cambiar clave", "Logout", "Crear usuario", "Desbloquear usuario", "Modificar usuario", "Activar Usuario", "Desactivar Usuario", "Cambiar idioma",
+                "Crear rol", "Modificar rol", "Borrar rol", "Crear familia", "Borrar familia",
+                "Auditar bitácora"
+            });
         }
 
         private void ActualizarTxt()
@@ -145,6 +162,7 @@ namespace UI
                 dtpFechaFin.Value = DateTime.Today;
                 dtpFechaInicio.Value = DateTime.Today;
                 Mostrar(grillaBitacora, bll_bitacora.ConsultarParaGrilla3Dias());
+                cbxModulo.Items.Clear(); cbxEvento.Items.Clear();
                 MostrarTodosLosEventos();
             }
             catch (Exception)

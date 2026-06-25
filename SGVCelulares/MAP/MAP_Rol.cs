@@ -27,10 +27,30 @@ namespace MAP
             return lista;
         }
         public bool ExisteRol(SER_Rol rol) => dao_rol.ExisteRol(rol.Nombre);
-        public void AgregarPermisoFamilia(SER_Rol permiso, SER_Rol familia)
+        public void Agregar(SER_Rol rol) => dao_rol.Agregar(rol.Nombre);
+        public void AgregarPermisoFamilia(SER_Rol rol, SER_Rol componente)
         {
-
+            if (componente is SER_Permiso p)
+            {
+                dao_rol.AgregarPermiso(rol.Id, p.Id);
+            }
+            else if (componente is SER_Familia f)
+            {
+                dao_rol.AgregarFamilia(rol.Id, f.Id);
+            }
         }
-
+        public SER_Rol ObtenerIdPorNombre(SER_Rol rol)
+        {
+            SER_Rol rolAux = null;
+            SqlDataReader dr = dao_rol.ObtenerIdPorNombre(rol.Nombre);
+            while (dr.Read())
+            {
+                object[] datos = new object[dr.FieldCount];
+                dr.GetValues(datos);
+                rolAux = new SER_Rol(datos);
+            }
+            dr.Close();
+            return rolAux;
+        }
     }
 }

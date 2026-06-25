@@ -12,7 +12,6 @@ namespace UI
         List<SER_Rol> componentes;
         BLL_Idioma bll_idioma = new BLL_Idioma();
 
-        Dictionary<int, SER_Familia> cacheFamilias;
         public FrmGestionRoles()
         {
             InitializeComponent();
@@ -22,12 +21,12 @@ namespace UI
 
         private void FrmGestionRoles_Load(object sender, EventArgs e)
         {
+            clbComponentes.CheckOnClick = true;
             bll_permiso = new BLL_Permiso();
             bll_familia = new BLL_Familia();
             bll_rol = new BLL_Rol();
 
             componentes = new List<SER_Rol>();
-            cacheFamilias = new Dictionary<int, SER_Familia>();
             foreach (var control in Controls)
             {
                 if (control is DataGridView grilla)
@@ -60,15 +59,7 @@ namespace UI
 
             foreach (SER_Rol componente in clbComponentes.CheckedItems)
             {
-                if (componente is SER_Familia familia)
-                {
-                    SER_Familia familiaCompleta = bll_familia.ConsultarPorId(familia);
-                    AgregarNodo(raiz, ObtenerFamiliaCompleta(familia));
-                }
-                else
-                {
-                    AgregarNodo(raiz, componente);
-                }
+                AgregarNodo(raiz, componente);
             }
             tvNodosComposite.Nodes.Add(raiz);
             raiz.ExpandAll();
@@ -90,33 +81,31 @@ namespace UI
                 }
             }
         }
-        private SER_Familia ObtenerFamiliaCompleta(SER_Familia familia)
-        {
-            if (!cacheFamilias.ContainsKey(familia.Id))
-            {
-                cacheFamilias[familia.Id] = bll_familia.ConsultarPorId(familia);
-            }
-            return cacheFamilias[familia.Id];
-        }
-        private void btnSalir_Click(object sender, EventArgs e) => this.Close();
 
-        private void btnCrearFamilia_Click(object sender, EventArgs e)
+        private void btnCrear_Click(object sender, EventArgs e)
         {
             try
             {
-                if (txtNombreFamilia.Text.Length == 0) throw new Exception("El nombre del rol no puede estar vacío!");
-                SER_Rol rol = new SER_Rol(txtNombreFamilia.Text);
-                List<SER_Rol> componentes = new List<SER_Rol>();
-                foreach (SER_Rol c in clbComponentes.CheckedItems)
+                if (radRol.Checked)
                 {
-                    componentes.Add(c);
-                }
+                    if (txtNombreFamilia.Text.Length == 0) throw new Exception("El nombre del rol no puede estar vacío!");
+                    SER_Rol rol = new SER_Rol(txtNombreFamilia.Text);
+                    List<SER_Rol> permisos = new List<SER_Rol>();
+                    foreach (SER_Rol c in clbComponentes.CheckedItems)
+                    {
+                        permisos.Add(c);
+                    }
 
-                bll_rol.Agregar(rol, componentes);
+                    bll_rol.Agregar(rol, permisos);
+                    MessageBox.Show($"El rol {rol.Nombre} se creó con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+
+                }
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -136,7 +125,7 @@ namespace UI
             label3.Text = bll_idioma.Traducir("FrmGestionRoles.label3");
             label4.Text = bll_idioma.Traducir("FrmGestionRoles.label4");
             label2.Text = bll_idioma.Traducir("FrmGestionRoles.label2");
-            btnCrearFamilia.Text = bll_idioma.Traducir("FrmGestionRoles.btnCrearFamilia");
+            btnCrear.Text = bll_idioma.Traducir("FrmGestionRoles.btnCrear");
             radRol.Text = bll_idioma.Traducir("FrmGestionRoles.radRol");
             radFamilia.Text = bll_idioma.Traducir("FrmGestionRoles.radFamilia");
             btnEliminarSeleccionados.Text = bll_idioma.Traducir("FrmGestionRoles.btnEliminarSeleccionados");
@@ -148,5 +137,6 @@ namespace UI
             bll_idioma.Desuscribir(this);
             base.OnFormClosed(e);
         }
+        private void btnSalir_Click(object sender, EventArgs e) => this.Close();
     }
 }

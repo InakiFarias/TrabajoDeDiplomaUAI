@@ -25,7 +25,7 @@ namespace BLL
                 string passwordHasheado = SER_Cripto.Encriptar(usuario.Password);
                 usuario.Password = passwordHasheado;
                 map_usuario.Agregar(usuario);
-                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Gestión de Usuarios", "Crear Usuario", 2);
+                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Crear usuario", 2);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace BLL
             SER_Usuario usuAux = map_usuario.ConsultarPorNombreUsuario(usuario);
             if (usuAux != null && usuAux.Dni != usuario.Dni) throw new Exception("Ya existe usuario con este nombre de usuario");
             map_usuario.Modificar(usuario);
-            SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Gestión de Usuarios", "Modificar Usuario", 2);
+            SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Modificar usuario", 2);
             bll_bitacora.RegistrarBitacora(bitacora);
         }
         public void ModificarPassword(string claveActual, string claveNueva)
@@ -56,7 +56,7 @@ namespace BLL
             string claveNuevaHasheada = SER_Cripto.Encriptar(claveNueva);
             map_usuario.ModificarPassword(usuario, claveNuevaHasheada);
 
-            SER_Bitacora bitacora = new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Cambiar Clave", 1);
+            SER_Bitacora bitacora = new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Cambiar clave", 1);
             bll_bitacora.RegistrarBitacora(bitacora);
         }
         public List<SER_Usuario> Consultar() => map_usuario.Consultar();
@@ -66,8 +66,8 @@ namespace BLL
                            select new
                            {
                                DNI = u.Dni,
-                               Apellido = u.Apellido,
                                Nombre = u.Nombre,
+                               Apellido = u.Apellido,
                                Usuario = u.NombreUsuario,
                                Activo = u.Activo,
                                Bloqueado = u.Bloqueo
@@ -95,8 +95,8 @@ namespace BLL
                            select new
                            {
                                DNI = user.Dni,
-                               Apellido = user.Apellido,
                                Nombre = user.Nombre,
+                               Apellido = user.Apellido,
                                Usuario = user.NombreUsuario,
                                Activo = user.Activo,
                                Bloqueado = user.Bloqueo
@@ -111,8 +111,8 @@ namespace BLL
                            select new
                            {
                                DNI = u.Dni,
-                               Apellido = u.Apellido,
                                Nombre = u.Nombre,
+                               Apellido = u.Apellido,
                                Usuario = u.NombreUsuario,
                                Activo = u.Activo,
                                Bloqueado = u.Bloqueo
@@ -199,7 +199,7 @@ namespace BLL
                 map_usuario.Desbloquear(usuarioAux);
                 map_usuario.ModificarPassword(usuarioAux, SER_Cripto.Encriptar(usuarioAux.Dni + usuarioAux.Apellido));
                 map_usuario.ReiniciarIntentos(usuarioAux);
-                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Gestión de Usuarios", "Desbloquear Usuario", 2);
+                SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Desbloquear usuario", 2);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
             catch (Exception ex)
@@ -216,12 +216,12 @@ namespace BLL
                 map_usuario.CambiarEstadoActivo(usuarioAux);
                 if (usuarioAux.Activo)
                 {
-                    SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Gestión de Usuarios", "Activar Usuario", 3);
+                    SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Activar usuario", 3);
                     bll_bitacora.RegistrarBitacora(bitacora);
                 }
                 else
                 {
-                    SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Gestión de Usuarios", "Desactivar Usuario", 3);
+                    SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Desactivar usuario", 3);
                     bll_bitacora.RegistrarBitacora(bitacora);
                 }
             }
