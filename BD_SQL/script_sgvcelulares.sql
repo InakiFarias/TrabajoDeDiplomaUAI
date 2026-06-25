@@ -1,6 +1,12 @@
 CREATE DATABASE bd_sgvcelulares;
 USE bd_sgvcelulares;
 
+CREATE TABLE idioma (
+    idIdioma varchar(8) not null,
+    nombre varchar(50) not null,
+    constraint PK_idioma primary key (idIdioma)
+);
+
 CREATE TABLE usuario (
     dni VARCHAR(8) NOT NULL,
     nombre VARCHAR(50) NOT NULL,
@@ -12,8 +18,10 @@ CREATE TABLE usuario (
     activo BIT NOT NULL,
     cantIntentos TINYINT not null,
     idRol int not null,
+    idIdioma varchar(8) not null,
     CONSTRAINT PK_usuario PRIMARY KEY (dni),
-    CONSTRAINT FK_usuario_rol FOREIGN KEY (idRol) REFERENCES rol(idRol)
+    CONSTRAINT FK_usuario_rol FOREIGN KEY (idRol) REFERENCES rol(idRol),
+    CONSTRAINT FK_usuario_idioma FOREIGN KEY (idIdioma) REFERENCES idioma(idIdioma)
 );
 
 CREATE TABLE bitacora (
@@ -26,6 +34,7 @@ CREATE TABLE bitacora (
     CONSTRAINT PK_bitacora PRIMARY KEY (idBitacora),
     CONSTRAINT FK_bitacora_usuario FOREIGN KEY (dni) REFERENCES usuario(dni)
 );
+
 
 -- Composite
 
@@ -89,17 +98,56 @@ values
 ('Desactivar Usuario'),
 ('Consultar Bitácora'),
 ('Exportar Bitácora'),
-('Gestionar Roles'),
-('Gestionar Familias');
+('Crear Rol'),
+('Crear Familia');
 
-update familia set nombre ='Gestión Usuarios'where nombre='Administradores'
+
+insert into idioma (idIdioma, nombre)
+values
+('es-AR','Spanish (Argentina)'),
+('en-US','English (United States)');
+
+insert into rol (nombre)
+values
+('Administrador');
+
+INSERT INTO usuario
+(
+    dni,
+    nombre,
+    apellido,
+    correo,
+    nombreUsuario,
+    password,
+    bloqueo,
+    activo,
+    cantIntentos,
+    idRol,
+    idIdioma
+)
+VALUES
+(
+    '12345678',
+    'Administrador',
+    'Sistema',
+    'admin@sgv.com',
+    'admin',
+    LOWER(CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', 'Admin!123'), 2)),
+    0,
+    1,
+    0,
+    1,
+    'es-AR'
+);
+
+select * from idioma;
 select * from usuario;
 select * from bitacora;
 select * from permiso;
 select * from rol;
 select * from familia;
 
--- Consulo a una familia determinada
+-- Consulto a una familia determinada
 select idFamilia, nombre from familia where idFamilia = 1;
 
 -- Consulto los permisos de una familia determinada
@@ -114,6 +162,7 @@ inner join familia_familia ff
 on f.idFamilia = ff.idFamiliaHija
 where ff.idFamiliaPadre = 1;
 
+
 /*
     usuarios test:
         admin
@@ -122,3 +171,4 @@ where ff.idFamiliaPadre = 1;
         gaymer77777777
         Gaymer!123
 */
+
