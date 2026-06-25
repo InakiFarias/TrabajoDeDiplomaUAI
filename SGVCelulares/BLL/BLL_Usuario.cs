@@ -141,6 +141,10 @@ namespace BLL
 
             rdo = true;
             SER_SesionManager sesion = SER_SesionManager.ObtenerSesion();
+            if (sesion.Usuario != null &&sesion.Usuario.Dni != obj.Dni)
+            {
+                throw new Exception("No se pudo iniciar sesión.");
+            }
             sesion.Usuario = obj;
             map_usuario.ReiniciarIntentos(obj);
 
