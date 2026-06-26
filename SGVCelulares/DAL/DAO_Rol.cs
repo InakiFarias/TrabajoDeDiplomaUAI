@@ -93,5 +93,16 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
+        public void Borrar(int idRol)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
+            cm.CommandText = @"DELETE FROM rol_permiso WHERE idRol=@idRol;
+                       DELETE FROM rol_familia WHERE idRol=@idRol;
+                       DELETE FROM rol WHERE idRol=@idRol";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
     }
 }

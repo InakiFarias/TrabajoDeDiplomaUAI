@@ -15,11 +15,9 @@ namespace MAP
         {
             dao_familia.Agregar(familia.Nombre);
         }
+        public void Borrar(SER_Familia familia) => dao_familia.Borrar(familia.Id);
 
-        public void Borrar(SER_Familia familia)
-        {
-            throw new NotImplementedException();
-        }
+        public bool EstaEnUso(SER_Familia familia) => dao_familia.EstaEnUso(familia.Id);
 
         public List<SER_Familia> Consultar()
         {

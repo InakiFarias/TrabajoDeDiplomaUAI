@@ -128,5 +128,6 @@ namespace MAP
             dr.Close();
             return rol;
         }
+        public void Borrar(SER_Rol rol) => dao_rol.Borrar(rol.Id);
     }
 }

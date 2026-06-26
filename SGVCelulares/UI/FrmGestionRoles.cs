@@ -26,7 +26,6 @@ namespace UI
             bll_familia = new BLL_Familia();
             bll_rol = new BLL_Rol();
 
-            componentes = new List<SER_Componente>();
             foreach (var control in Controls)
             {
                 if (control is DataGridView grilla)
@@ -36,12 +35,23 @@ namespace UI
                     grilla.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 }
             }
+            CargarDatos();
+        }
+        private void CargarDatos()
+        {
+            componentes = new List<SER_Componente>();
             componentes.AddRange(bll_permiso.Consultar());
             componentes.AddRange(bll_familia.Consultar());
-            foreach (var c in bll_rol.Consultar())
-            {
-                cbxRoles.Items.Add(c);
-            }
+
+            cbxRoles.Items.Clear();
+            foreach (var rol in bll_rol.Consultar())
+                cbxRoles.Items.Add(rol);
+
+            cbxFamilias.Items.Clear();
+            foreach (var c in componentes)
+                if (c is SER_Familia f)
+                    cbxFamilias.Items.Add(f);
+
             Mostrar(clbComponentes, componentes);
         }
         private void Mostrar(CheckedListBox listbox, object datos)
@@ -144,6 +154,9 @@ namespace UI
             radFamilia.Text = bll_idioma.Traducir("FrmGestionRoles.radFamilia");
             btnEliminarSeleccionados.Text = bll_idioma.Traducir("FrmGestionRoles.btnEliminarSeleccionados");
             btnSalir.Text = bll_idioma.Traducir("FrmGestionRoles.btnSalir");
+            label6.Text = bll_idioma.Traducir("FrmGestionRoles.label6");
+            btnBorrarRol.Text = bll_idioma.Traducir("FrmGestionRoles.btnBorrarRol");
+            btnBorrarFamilia.Text = bll_idioma.Traducir("FrmGestionRoles.btnBorrarFamilia");
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
@@ -152,23 +165,21 @@ namespace UI
             base.OnFormClosed(e);
         }
         private void btnSalir_Click(object sender, EventArgs e) => this.Close();
-        private void MostrarRolEnTreeView(SER_Rol rol)
+        private void MostrarComponentesEnTreeView(string nombreRaiz, List<SER_Componente> componentes)
         {
             tvNodosComposite.BeginUpdate();
             tvNodosComposite.Nodes.Clear();
 
-            TreeNode raiz = new TreeNode(rol.Nombre);
-
-            foreach (SER_Componente componente in rol.Componentes)
-            {
+            TreeNode raiz = new TreeNode(nombreRaiz);
+            foreach (SER_Componente componente in componentes)
                 AgregarNodo(raiz, componente);
-            }
 
             tvNodosComposite.Nodes.Add(raiz);
             raiz.ExpandAll();
-
             tvNodosComposite.EndUpdate();
         }
+        private void MostrarRolEnTreeView(SER_Rol rol) =>
+            MostrarComponentesEnTreeView(rol.Nombre, rol.Componentes);
         private void cbxRoles_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -183,17 +194,56 @@ namespace UI
 
         private void cbxFamilias_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (cbxFamilias.SelectedItem is SER_Familia familia)
+                MostrarComponentesEnTreeView(familia.Nombre, familia.Componentes);
         }
 
         private void btnBorrarRol_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (cbxRoles.SelectedItem is not SER_Rol rol)
+                    throw new Exception("Seleccioná un rol para borrar.");
 
+                if (MessageBox.Show($"¿Seguro que querés borrar el rol '{rol.Nombre}'?",
+                        "CONFIRMAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                bll_rol.Borrar(rol);
+                MessageBox.Show($"El rol '{rol.Nombre}' se borró con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                cbxRoles.SelectedIndex = -1;
+                tvNodosComposite.Nodes.Clear();
+                CargarDatos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnBorrarFamilia_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (cbxFamilias.SelectedItem is not SER_Familia familia)
+                    throw new Exception("Seleccioná una familia para borrar.");
 
+                if (MessageBox.Show($"¿Seguro que querés borrar la familia '{familia.Nombre}'?",
+                        "CONFIRMAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                bll_familia.Borrar(familia);
+                MessageBox.Show($"La familia '{familia.Nombre}' se borró con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                cbxFamilias.SelectedIndex = -1;
+                tvNodosComposite.Nodes.Clear();
+                CargarDatos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

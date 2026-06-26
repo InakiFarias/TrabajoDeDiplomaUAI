@@ -79,5 +79,10 @@ namespace BLL
             }
             return false;
         }
+        public void Borrar(SER_Rol rol)
+        {
+            map_rol.Borrar(rol);
+            bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Borrar rol", 1));
+        }
     }
 }

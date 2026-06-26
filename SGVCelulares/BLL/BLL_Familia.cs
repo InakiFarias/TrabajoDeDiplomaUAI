@@ -18,9 +18,12 @@ namespace BLL
             map_familia.Agregar(familia);
         }
 
-        public void Borrar(SER_Familia obj)
+        public void Borrar(SER_Familia familia)
         {
-            throw new NotImplementedException();
+            if (map_familia.EstaEnUso(familia))
+                throw new Exception("No se puede borrar: la familia está asignada a un rol u otra familia.");
+            map_familia.Borrar(familia);
+            bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Borrar familia", 1));
         }
 
         public List<SER_Familia> Consultar()

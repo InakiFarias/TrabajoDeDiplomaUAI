@@ -111,5 +111,29 @@ namespace DAL
             con.Close();
             return existe;
         }
+        public bool EstaEnUso(int idFamilia)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@idFamilia", SqlDbType.Int).Value = idFamilia;
+            cm.CommandText = @"SELECT
+        (SELECT COUNT(*) FROM rol_familia WHERE idFamilia=@idFamilia) +
+        (SELECT COUNT(*) FROM familia_familia WHERE idFamiliaHija=@idFamilia)";
+            con.Open();
+            bool enUso = Convert.ToInt32(cm.ExecuteScalar()) > 0;
+            con.Close();
+            return enUso;
+        }
+
+        public void Borrar(int idFamilia)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@idFamilia", SqlDbType.Int).Value = idFamilia;
+            cm.CommandText = @"DELETE FROM permiso_familia WHERE idFamilia=@idFamilia;
+                       DELETE FROM familia_familia WHERE idFamiliaPadre=@idFamilia;
+                       DELETE FROM familia WHERE idFamilia=@idFamilia";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
     }
 }
