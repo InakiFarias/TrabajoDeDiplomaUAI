@@ -18,6 +18,7 @@ namespace UI
         private void FrmMenu_Load(object sender, EventArgs e)
         {
             bll_usuario = new BLL_Usuario();
+            UIHelperPermisos.AplicarPermisos(this.Controls);
         }
         private void btnUsuarios_Click(object sender, EventArgs e)
         {

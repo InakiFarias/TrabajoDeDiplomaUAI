@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DAL
 {
@@ -33,6 +34,30 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.CommandText = "SELECT * FROM rol";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        public SqlDataReader ConsultarRol(int idRol)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
+            cm.CommandText = "SELECT idRol, nombre FROM rol WHERE idRol=@idRol";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        public SqlDataReader ConsultarPermisos(int idRol)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
+            cm.CommandText = "select p.idPermiso, p.nombre from permiso p inner join rol_permiso rp on p.idPermiso = rp.idPermiso where rp.idRol = @idRol";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        public SqlDataReader ConsultarFamilia(int idRol)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
+            cm.CommandText = "select f.idFamilia, f.nombre from familia f inner join rol_familia rf on f.idFamilia = rf.idFamilia where rf.idRol = @idRol";
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }

@@ -352,6 +352,7 @@
             btnImprimirBitacora.Name = "btnImprimirBitacora";
             btnImprimirBitacora.Size = new Size(156, 38);
             btnImprimirBitacora.TabIndex = 3;
+            btnImprimirBitacora.Tag = "Exportar Bitácora";
             btnImprimirBitacora.Text = "Imprimir en PDF";
             btnImprimirBitacora.UseVisualStyleBackColor = false;
             btnImprimirBitacora.Click += btnImprimirBitacora_Click;

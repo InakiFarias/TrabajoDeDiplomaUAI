@@ -9,7 +9,7 @@ namespace UI
         BLL_Permiso bll_permiso;
         BLL_Familia bll_familia;
         BLL_Rol bll_rol;
-        List<SER_Rol> componentes;
+        List<SER_Componente> componentes;
         BLL_Idioma bll_idioma = new BLL_Idioma();
 
         public FrmGestionRoles()
@@ -26,7 +26,7 @@ namespace UI
             bll_familia = new BLL_Familia();
             bll_rol = new BLL_Rol();
 
-            componentes = new List<SER_Rol>();
+            componentes = new List<SER_Componente>();
             foreach (var control in Controls)
             {
                 if (control is DataGridView grilla)
@@ -38,6 +38,10 @@ namespace UI
             }
             componentes.AddRange(bll_permiso.Consultar());
             componentes.AddRange(bll_familia.Consultar());
+            foreach (var c in bll_rol.Consultar())
+            {
+                cbxRoles.Items.Add(c);
+            }
             Mostrar(clbComponentes, componentes);
         }
         private void Mostrar(CheckedListBox listbox, object datos)
@@ -57,7 +61,7 @@ namespace UI
             string nombreRaiz = string.IsNullOrWhiteSpace(txtNombreFamilia.Text) ? "Nuevo rol" : txtNombreFamilia.Text;
             TreeNode raiz = new TreeNode(nombreRaiz);
 
-            foreach (SER_Rol componente in clbComponentes.CheckedItems)
+            foreach (SER_Componente componente in clbComponentes.CheckedItems)
             {
                 AgregarNodo(raiz, componente);
             }
@@ -69,13 +73,13 @@ namespace UI
         {
             ActualizarTreeView();
         }
-        private void AgregarNodo(TreeNode nodoPadre, SER_Rol componente)
+        private void AgregarNodo(TreeNode nodoPadre, SER_Componente componente)
         {
             TreeNode nodo = new TreeNode(componente.Nombre);
             nodoPadre.Nodes.Add(nodo);
             if (componente is SER_Familia familia)
             {
-                foreach (SER_Rol hijo in familia.Componentes)
+                foreach (SER_Componente hijo in familia.Componentes)
                 {
                     AgregarNodo(nodo, hijo);
                 }
@@ -90,8 +94,8 @@ namespace UI
                 {
                     if (txtNombreFamilia.Text.Length == 0) throw new Exception("El nombre del rol no puede estar vacío!");
                     SER_Rol rol = new SER_Rol(txtNombreFamilia.Text);
-                    List<SER_Rol> permisos = new List<SER_Rol>();
-                    foreach (SER_Rol c in clbComponentes.CheckedItems)
+                    List<SER_Componente> permisos = new List<SER_Componente>();
+                    foreach (SER_Componente c in clbComponentes.CheckedItems)
                     {
                         permisos.Add(c);
                     }
@@ -101,7 +105,16 @@ namespace UI
                 }
                 else
                 {
+                    if (txtNombreFamilia.Text.Length == 0) throw new Exception("El nombre de la familia no puede estar vacía!");
+                    SER_Familia familia = new SER_Familia(txtNombreFamilia.Text);
+                    List<SER_Componente> permisos = new List<SER_Componente>();
+                    foreach (SER_Componente c in clbComponentes.CheckedItems)
+                    {
+                        permisos.Add(c);
+                    }
 
+                    bll_familia.Agregar(familia, permisos);
+                    MessageBox.Show($"La familia {familia.Nombre} se creó con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -124,6 +137,7 @@ namespace UI
             label1.Text = bll_idioma.Traducir("FrmGestionRoles.label1");
             label3.Text = bll_idioma.Traducir("FrmGestionRoles.label3");
             label4.Text = bll_idioma.Traducir("FrmGestionRoles.label4");
+            label5.Text = bll_idioma.Traducir("FrmGestionRoles.label5");
             label2.Text = bll_idioma.Traducir("FrmGestionRoles.label2");
             btnCrear.Text = bll_idioma.Traducir("FrmGestionRoles.btnCrear");
             radRol.Text = bll_idioma.Traducir("FrmGestionRoles.radRol");
@@ -138,5 +152,35 @@ namespace UI
             base.OnFormClosed(e);
         }
         private void btnSalir_Click(object sender, EventArgs e) => this.Close();
+
+        private void cbxRoles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cbxRoles.SelectedItem is SER_Rol rol)
+                {
+                    MostrarRolEnTreeView(rol);
+                }
+            }
+            catch (Exception) { }
+        }
+
+        private void MostrarRolEnTreeView(SER_Rol rol)
+        {
+            tvNodosComposite.BeginUpdate();
+            tvNodosComposite.Nodes.Clear();
+
+            TreeNode raiz = new TreeNode(rol.Nombre);
+
+            foreach (SER_Componente componente in rol.Componentes)
+            {
+                AgregarNodo(raiz, componente);
+            }
+
+            tvNodosComposite.Nodes.Add(raiz);
+            raiz.ExpandAll();
+
+            tvNodosComposite.EndUpdate();
+        }
     }
 }

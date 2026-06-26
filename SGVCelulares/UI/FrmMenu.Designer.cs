@@ -64,9 +64,9 @@
             // 
             cboIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
             cboIdioma.FormattingEnabled = true;
-            cboIdioma.Location = new Point(816, 14);
+            cboIdioma.Location = new Point(745, 14);
             cboIdioma.Name = "cboIdioma";
-            cboIdioma.Size = new Size(121, 25);
+            cboIdioma.Size = new Size(192, 25);
             cboIdioma.TabIndex = 2;
             cboIdioma.SelectedIndexChanged += cboIdioma_SelectedIndexChanged;
             // 
@@ -126,6 +126,7 @@
             btnGestionRoles.Padding = new Padding(10, 0, 0, 0);
             btnGestionRoles.Size = new Size(174, 38);
             btnGestionRoles.TabIndex = 12;
+            btnGestionRoles.Tag = "Gestion roles";
             btnGestionRoles.Text = "📝  Gestión Roles";
             btnGestionRoles.TextAlign = ContentAlignment.MiddleLeft;
             btnGestionRoles.UseVisualStyleBackColor = false;
@@ -249,6 +250,7 @@
             btnBitacora.Padding = new Padding(10, 0, 0, 0);
             btnBitacora.Size = new Size(174, 38);
             btnBitacora.TabIndex = 2;
+            btnBitacora.Tag = "Gestion bitacora";
             btnBitacora.Text = "📝  Bitácora";
             btnBitacora.TextAlign = ContentAlignment.MiddleLeft;
             btnBitacora.UseVisualStyleBackColor = false;
@@ -268,6 +270,7 @@
             btnUsuarios.Padding = new Padding(10, 0, 0, 0);
             btnUsuarios.Size = new Size(174, 38);
             btnUsuarios.TabIndex = 1;
+            btnUsuarios.Tag = "Gestion usuario";
             btnUsuarios.Text = "👤  Gestión Usuarios";
             btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
             btnUsuarios.UseVisualStyleBackColor = false;

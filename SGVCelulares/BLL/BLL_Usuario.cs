@@ -8,11 +8,13 @@ namespace BLL
         MAP_Usuario map_usuario;
         BLL_Bitacora bll_bitacora;
         BLL_Idioma bll_idioma;
+        MAP_Rol map_rol;
         public BLL_Usuario()
         {
             map_usuario = new MAP_Usuario();
             bll_bitacora = new BLL_Bitacora();
             bll_idioma = new BLL_Idioma();
+            map_rol = new MAP_Rol();
         }
 
         public void Agregar(SER_Usuario usuario)
@@ -20,7 +22,6 @@ namespace BLL
             try
             {
                 if (map_usuario.ValidarDniRepetido(usuario)) throw new Exception("El DNI está repetido!");
-                if (map_usuario.ExisteNombreUsuario(usuario)) throw new Exception("El nombre de usuario está repetido!");
                 if (map_usuario.ValidarCorreoRepetido(usuario)) throw new Exception("El correo electrónico está repetido!");
                 string passwordHasheado = SER_Cripto.Encriptar(usuario.Password);
                 usuario.Password = passwordHasheado;
@@ -70,7 +71,8 @@ namespace BLL
                                Apellido = u.Apellido,
                                Usuario = u.NombreUsuario,
                                Activo = u.Activo,
-                               Bloqueado = u.Bloqueo
+                               Bloqueado = u.Bloqueo,
+                               Rol = u.Rol.Nombre
                            };
             return consulta.ToList<object>();
         }
@@ -92,6 +94,8 @@ namespace BLL
                            (string.IsNullOrWhiteSpace(us.Correo) || user.Correo.Contains(us.Correo))
                            &&
                            (string.IsNullOrWhiteSpace(us.NombreUsuario) || user.NombreUsuario.Contains(us.NombreUsuario))
+                           &&
+                           (string.IsNullOrWhiteSpace(us.Rol.Nombre) || user.Rol.Nombre.Contains(us.Rol.Nombre))
                            select new
                            {
                                DNI = user.Dni,
@@ -99,7 +103,8 @@ namespace BLL
                                Apellido = user.Apellido,
                                Usuario = user.NombreUsuario,
                                Activo = user.Activo,
-                               Bloqueado = user.Bloqueo
+                               Bloqueado = user.Bloqueo,
+                               Rol = user.Rol.Nombre
                            };
 
             return consulta.ToList<object>();
@@ -115,7 +120,8 @@ namespace BLL
                                Apellido = u.Apellido,
                                Usuario = u.NombreUsuario,
                                Activo = u.Activo,
-                               Bloqueado = u.Bloqueo
+                               Bloqueado = u.Bloqueo,
+                               Rol = u.Rol.Nombre
                            };
             return consulta.ToList<object>();
         }
@@ -141,13 +147,7 @@ namespace BLL
 
             rdo = true;
             SER_SesionManager sesion = SER_SesionManager.ObtenerSesion();
-            if (sesion.Usuario != null &&sesion.Usuario.Dni != obj.Dni)
-            {
-                throw new Exception("No se pudo iniciar sesión.");
-            }
             sesion.Usuario = obj;
-            map_usuario.ReiniciarIntentos(obj);
-
             try
             {
                 bll_idioma.CambiarIdioma(obj.IdIdioma);

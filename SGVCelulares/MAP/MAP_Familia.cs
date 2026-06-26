@@ -52,26 +52,35 @@ namespace MAP
         {
             throw new NotImplementedException();
         }
-        public void AgregarPermiso(SER_Familia familia, SER_Permiso permiso)
+        public bool ExisteFamilia(SER_Familia familia)
         {
-            dao_familia.AgregarPermiso(familia.Id, permiso.Id);
+            return dao_familia.ExisteFamilia(familia.Nombre);
         }
-        public void QuitarPermiso(SER_Permiso permiso)
+        public void AgregarPermisoFamilia(SER_Familia familia, SER_Componente componente)
         {
+            if (componente is SER_Permiso p)
+            {
+                dao_familia.AgregarPermiso(familia.Id, p.Id);
+            }
+            else if (componente is SER_Familia f)
+            {
+                dao_familia.AgregarFamilia(familia.Id, f.Id);
+            }
+        }
+        public SER_Familia ObtenerIdPorNombre(SER_Familia familia)
+        {
+            SER_Familia familiaAux = null;
+            SqlDataReader dr = dao_familia.ObtenerIdPorNombre(familia.Nombre);
+            while (dr.Read())
+            {
+                object[] datos = new object[dr.FieldCount];
+                dr.GetValues(datos);
+                familiaAux = new SER_Familia(datos);
+            }
+            dr.Close();
+            return familiaAux;
+        }
 
-        }
-        public void AgregarFamilia(SER_Familia familia)
-        {
-
-        }
-        public void QuitarFamilia(SER_Familia familia)
-        {
-
-        }
-        public bool ExistePermiso(SER_Familia familia, SER_Permiso permiso)
-        {
-            return dao_familia.ExistePermiso(familia.Id, permiso.Id);
-        }
         public SER_Familia ObtenerArbol(int idFamilia)
         {
             SER_Familia familia = ConsultarFamilia(idFamilia);

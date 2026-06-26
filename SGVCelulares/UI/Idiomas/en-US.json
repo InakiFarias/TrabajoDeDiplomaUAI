@@ -38,6 +38,7 @@
   "FrmGestionUsuarios.lblApellido": "Last name",
   "FrmGestionUsuarios.lblCorreo": "Email",
   "FrmGestionUsuarios.lblFiltro": "FILTER",
+  "FrmGestionUsuarios.lblNumeroUsuarios": "Number of users:",
   "FrmGestionUsuarios.radioButton1": "Active",
   "FrmGestionUsuarios.radioButton2": "All",
 
@@ -61,6 +62,7 @@
   "FrmGestionRoles.label3": "Components",
   "FrmGestionRoles.label4": "Role preview",
   "FrmGestionRoles.label2": "Name",
+  "FrmGestionRoles.label5": "Roles",
   "FrmGestionRoles.btnCrear": "Create",
   "FrmGestionRoles.radRol": "Role",
   "FrmGestionRoles.radFamilia": "Family",

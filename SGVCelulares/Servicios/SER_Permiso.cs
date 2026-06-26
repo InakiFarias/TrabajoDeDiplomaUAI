@@ -1,6 +1,6 @@
 ﻿namespace Servicio
 {
-    public class SER_Permiso : SER_Rol
+    public class SER_Permiso : SER_Componente
     {
         public SER_Permiso(int id, string nombre) : base(id, nombre)
         {

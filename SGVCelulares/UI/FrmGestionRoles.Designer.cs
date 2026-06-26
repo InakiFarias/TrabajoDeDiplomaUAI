@@ -40,6 +40,8 @@
             btnEliminarSeleccionados = new Button();
             label3 = new Label();
             label4 = new Label();
+            cbxRoles = new ComboBox();
+            label5 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -74,6 +76,7 @@
             btnCrear.Name = "btnCrear";
             btnCrear.Size = new Size(149, 33);
             btnCrear.TabIndex = 22;
+            btnCrear.Tag = "Crear Familia";
             btnCrear.Text = "Crear";
             btnCrear.UseVisualStyleBackColor = true;
             btnCrear.Click += btnCrear_Click;
@@ -157,11 +160,31 @@
             label4.TabIndex = 32;
             label4.Text = "Vista previa del rol";
             // 
+            // cbxRoles
+            // 
+            cbxRoles.FormattingEnabled = true;
+            cbxRoles.Location = new Point(299, 351);
+            cbxRoles.Name = "cbxRoles";
+            cbxRoles.Size = new Size(257, 23);
+            cbxRoles.TabIndex = 33;
+            cbxRoles.SelectedIndexChanged += cbxRoles_SelectedIndexChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(299, 333);
+            label5.Name = "label5";
+            label5.Size = new Size(35, 15);
+            label5.TabIndex = 34;
+            label5.Text = "Roles";
+            // 
             // FrmGestionRoles
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(746, 344);
+            ClientSize = new Size(746, 386);
+            Controls.Add(label5);
+            Controls.Add(cbxRoles);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(btnEliminarSeleccionados);
@@ -194,5 +217,7 @@
         private Button btnEliminarSeleccionados;
         private Label label3;
         private Label label4;
+        private ComboBox cbxRoles;
+        private Label label5;
     }
 }

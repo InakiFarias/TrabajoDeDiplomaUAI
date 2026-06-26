@@ -56,9 +56,9 @@
             // 
             cboIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
             cboIdioma.FormattingEnabled = true;
-            cboIdioma.Location = new Point(235, 12);
+            cboIdioma.Location = new Point(200, 12);
             cboIdioma.Name = "cboIdioma";
-            cboIdioma.Size = new Size(121, 25);
+            cboIdioma.Size = new Size(156, 25);
             cboIdioma.TabIndex = 1;
             cboIdioma.SelectedIndexChanged += cboIdioma_SelectedIndexChanged;
             // 

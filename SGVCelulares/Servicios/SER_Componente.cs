@@ -1,31 +1,32 @@
-﻿namespace Servicio
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Servicio
 {
-    public class SER_Rol
+    abstract public class SER_Componente
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public List<SER_Componente> Componentes { get; set; }
-        public SER_Rol(int id, string nombre) 
+        public SER_Componente(int id, string nombre)
         {
             Id = id;
             Nombre = nombre;
-            Componentes = new List<SER_Componente>();
         }
-        public SER_Rol(string nombre)
+        public SER_Componente(string nombre)
         {
             Nombre = nombre;
-            Componentes = new List<SER_Componente>();
         }
-        public SER_Rol(object[] datos)
+        public SER_Componente(object[] datos)
         {
             Id = Convert.ToInt16(datos[0]);
             Nombre = Convert.ToString(datos[1]);
-            Componentes = new List<SER_Componente>();
         }
         public override string ToString()
         {
             return $"{this.Nombre}";
         }
     }
-
 }

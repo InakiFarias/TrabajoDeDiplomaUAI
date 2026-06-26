@@ -7,9 +7,11 @@ namespace BLL
     public class BLL_Familia : IABMC<SER_Familia>
     {
         MAP_Familia map_familia;
+        BLL_Bitacora bll_bitacora;
         public BLL_Familia()
         {
             map_familia = new MAP_Familia();
+            bll_bitacora = new BLL_Bitacora();
         }
         public void Agregar(SER_Familia familia)
         {
@@ -34,25 +36,48 @@ namespace BLL
         {
             throw new NotImplementedException();
         }
-
-        public void AgregarPermiso(SER_Familia familia, SER_Permiso permiso)
+        public void Agregar(SER_Familia familia, List<SER_Componente> componentes)
         {
-            if (familia == null) throw new Exception("Debe seleccionar una familia");
-            if (permiso == null) throw new Exception("Debe seleccionar un permiso");
-            if (map_familia.ExistePermiso(familia, permiso)) throw new Exception("La familia ya posee ese permiso");
-            map_familia.AgregarPermiso(familia, permiso);
+            if (componentes.Count == 0) throw new Exception("No hay permisos o familias cargadas!");
+            if (map_familia.ExisteFamilia(familia)) throw new Exception("Ya existe la familia!");
+            if (ValidarPermisosRepetidos(componentes)) throw new Exception("Existe un permiso repetido!");
+            map_familia.Agregar(familia);
+            familia.Id = map_familia.ObtenerIdPorNombre(familia).Id;
+
+            foreach (SER_Componente c in componentes)
+            {
+                map_familia.AgregarPermisoFamilia(familia, c);
+            }
+            bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Crear familia", 1));
         }
-        public void QuitarPermiso(SER_Familia familia, SER_Permiso permiso)
+        public bool ValidarPermisosRepetidos(List<SER_Componente> componentes)
         {
-
+            bool rdo = false;
+            HashSet<int> permisos = new HashSet<int>();
+            foreach (SER_Componente componente in componentes)
+            {
+                if (!AgregarPermisos(componente, permisos)) rdo = true;
+            }
+            return rdo;
         }
-        public void AgregarFamilia(SER_Familia familia, SER_Permiso permiso)
+        private bool AgregarPermisos(SER_Componente componente, HashSet<int> permisos)
         {
+            if (componente is SER_Permiso permiso)
+            {
+                return permisos.Add(permiso.Id);
+            }
 
-        }
-        public void QuitarFamilia(SER_Familia familia, SER_Permiso permiso)
-        {
-
+            if (componente is SER_Familia familia)
+            {
+                foreach (SER_Componente hijo in familia.Componentes)
+                {
+                    if (!AgregarPermisos(hijo, permisos))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

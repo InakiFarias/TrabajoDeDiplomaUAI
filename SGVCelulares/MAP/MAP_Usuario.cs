@@ -7,14 +7,16 @@ namespace MAP
     public class MAP_Usuario : IABMC<SER_Usuario>
     {
         DAO_Usuario dao_usuario;
+        MAP_Rol map_rol;
         public MAP_Usuario()
         {
             dao_usuario = new DAO_Usuario();
+            map_rol = new MAP_Rol();
         }
 
         public void Agregar(SER_Usuario usuario)
         {
-            dao_usuario.Agregar(usuario.Dni, usuario.Nombre, usuario.Apellido, usuario.Correo, usuario.NombreUsuario, usuario.Password, usuario.Bloqueo, usuario.Activo, usuario.CantIntentos, usuario.IdRol, usuario.IdIdioma);
+            dao_usuario.Agregar(usuario.Dni, usuario.Nombre, usuario.Apellido, usuario.Correo, usuario.NombreUsuario, usuario.Password, usuario.Bloqueo, usuario.Activo, usuario.CantIntentos, usuario.Rol.Id, usuario.IdIdioma);
         }
 
         public void Borrar(SER_Usuario usuario)
@@ -39,7 +41,18 @@ namespace MAP
             {
                 object[] datos = new object[dr.FieldCount];
                 dr.GetValues(datos);
-                lista.Add(new SER_Usuario(datos));
+                lista.Add(
+                        new SER_Usuario(
+                                Convert.ToString(datos[0]),
+                                Convert.ToString(datos[1]),
+                                Convert.ToString(datos[2]),
+                                Convert.ToString(datos[3]),
+                                Convert.ToString(datos[4]),
+                                Convert.ToBoolean(datos[6]),
+                                Convert.ToBoolean(datos[7]),
+                                map_rol.ObtenerRolPorId(Convert.ToInt16(datos[9]))
+                            )
+                    );
             }
             dr.Close();
             return lista;
@@ -65,7 +78,17 @@ namespace MAP
             {
                 object[] datos = new object[dr.FieldCount];
                 dr.GetValues(datos);
-                usuarioAux = new SER_Usuario(datos);
+                usuarioAux = new SER_Usuario(
+                                Convert.ToString(datos[0]),
+                                Convert.ToString(datos[1]),
+                                Convert.ToString(datos[2]),
+                                Convert.ToString(datos[3]),
+                                Convert.ToString(datos[4]),
+                                Convert.ToString(datos[5]),
+                                Convert.ToBoolean(datos[6]),
+                                Convert.ToBoolean(datos[7]),
+                                map_rol.ObtenerRolPorId(Convert.ToInt16(datos[9]))
+                            );
             }
             dr.Close();
             return usuarioAux;

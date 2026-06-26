@@ -31,6 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pnlTopbar = new Panel();
+            lblNumero = new Label();
             lblNumeroUsuarios = new Label();
             lblTitulo = new Label();
             pnlContenido = new Panel();
@@ -42,6 +43,8 @@
             btnAplicarCambios = new Button();
             btnSalir = new Button();
             pnlFormulario = new Panel();
+            cbxRoles = new ComboBox();
+            lblRol = new Label();
             label1 = new Label();
             txtNombreUsuario = new TextBox();
             lblDni = new Label();
@@ -68,6 +71,7 @@
             // pnlTopbar
             // 
             pnlTopbar.BackColor = Color.FromArgb(21, 32, 48);
+            pnlTopbar.Controls.Add(lblNumero);
             pnlTopbar.Controls.Add(lblNumeroUsuarios);
             pnlTopbar.Controls.Add(lblTitulo);
             pnlTopbar.Dock = DockStyle.Top;
@@ -76,17 +80,29 @@
             pnlTopbar.Size = new Size(1060, 48);
             pnlTopbar.TabIndex = 0;
             // 
+            // lblNumero
+            // 
+            lblNumero.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblNumero.AutoSize = true;
+            lblNumero.Font = new Font("Segoe UI", 9F);
+            lblNumero.ForeColor = Color.FromArgb(148, 163, 184);
+            lblNumero.Location = new Point(933, 18);
+            lblNumero.Name = "lblNumero";
+            lblNumero.Size = new Size(14, 15);
+            lblNumero.TabIndex = 2;
+            lblNumero.Text = "X";
+            // 
             // lblNumeroUsuarios
             // 
             lblNumeroUsuarios.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblNumeroUsuarios.AutoSize = true;
             lblNumeroUsuarios.Font = new Font("Segoe UI", 9F);
             lblNumeroUsuarios.ForeColor = Color.FromArgb(148, 163, 184);
-            lblNumeroUsuarios.Location = new Point(900, 16);
+            lblNumeroUsuarios.Location = new Point(819, 18);
             lblNumeroUsuarios.Name = "lblNumeroUsuarios";
-            lblNumeroUsuarios.Size = new Size(126, 15);
+            lblNumeroUsuarios.Size = new Size(117, 15);
             lblNumeroUsuarios.TabIndex = 1;
-            lblNumeroUsuarios.Text = "Número de usuarios: 0";
+            lblNumeroUsuarios.Text = "Número de usuarios:";
             // 
             // lblTitulo
             // 
@@ -141,6 +157,7 @@
             btnCrearUsuario.Name = "btnCrearUsuario";
             btnCrearUsuario.Size = new Size(156, 38);
             btnCrearUsuario.TabIndex = 0;
+            btnCrearUsuario.Tag = "Crear Usuario";
             btnCrearUsuario.Text = "Crear";
             btnCrearUsuario.UseVisualStyleBackColor = false;
             btnCrearUsuario.Click += btnCrearUsuario_Click;
@@ -158,6 +175,7 @@
             btnDesbloquearUsuario.Name = "btnDesbloquearUsuario";
             btnDesbloquearUsuario.Size = new Size(156, 38);
             btnDesbloquearUsuario.TabIndex = 1;
+            btnDesbloquearUsuario.Tag = "Desbloquear Usuario";
             btnDesbloquearUsuario.Text = "Desbloquear";
             btnDesbloquearUsuario.UseVisualStyleBackColor = false;
             btnDesbloquearUsuario.Click += btnDesbloquearUsuario_Click;
@@ -175,6 +193,7 @@
             btnModificarUsuario.Name = "btnModificarUsuario";
             btnModificarUsuario.Size = new Size(156, 38);
             btnModificarUsuario.TabIndex = 2;
+            btnModificarUsuario.Tag = "Modificar Usuario";
             btnModificarUsuario.Text = "Modificar";
             btnModificarUsuario.UseVisualStyleBackColor = false;
             btnModificarUsuario.Click += btnModificarUsuario_Click;
@@ -192,6 +211,7 @@
             btnCambiarEstadoUsuario.Name = "btnCambiarEstadoUsuario";
             btnCambiarEstadoUsuario.Size = new Size(156, 38);
             btnCambiarEstadoUsuario.TabIndex = 3;
+            btnCambiarEstadoUsuario.Tag = "Activar Usuario";
             btnCambiarEstadoUsuario.Text = "Activar / Desactivar";
             btnCambiarEstadoUsuario.UseVisualStyleBackColor = false;
             btnCambiarEstadoUsuario.Click += btnCambiarEstadoUsuario_Click;
@@ -233,6 +253,8 @@
             // pnlFormulario
             // 
             pnlFormulario.BackColor = Color.FromArgb(25, 37, 53);
+            pnlFormulario.Controls.Add(cbxRoles);
+            pnlFormulario.Controls.Add(lblRol);
             pnlFormulario.Controls.Add(label1);
             pnlFormulario.Controls.Add(txtNombreUsuario);
             pnlFormulario.Controls.Add(lblDni);
@@ -248,6 +270,25 @@
             pnlFormulario.Padding = new Padding(16);
             pnlFormulario.Size = new Size(820, 216);
             pnlFormulario.TabIndex = 2;
+            // 
+            // cbxRoles
+            // 
+            cbxRoles.FormattingEnabled = true;
+            cbxRoles.Location = new Point(561, 54);
+            cbxRoles.Name = "cbxRoles";
+            cbxRoles.Size = new Size(240, 25);
+            cbxRoles.TabIndex = 11;
+            // 
+            // lblRol
+            // 
+            lblRol.AutoSize = true;
+            lblRol.Font = new Font("Segoe UI", 9F);
+            lblRol.ForeColor = Color.FromArgb(148, 163, 184);
+            lblRol.Location = new Point(487, 60);
+            lblRol.Name = "lblRol";
+            lblRol.Size = new Size(24, 15);
+            lblRol.TabIndex = 10;
+            lblRol.Text = "Rol";
             // 
             // label1
             // 
@@ -495,5 +536,8 @@
         private System.Windows.Forms.Button btnSalir;
         private Label label1;
         private TextBox txtNombreUsuario;
+        private Label lblNumero;
+        private ComboBox cbxRoles;
+        private Label lblRol;
     }
 }

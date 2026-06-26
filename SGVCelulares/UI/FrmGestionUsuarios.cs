@@ -9,6 +9,7 @@ namespace UI
     {
         BLL_Usuario bll_usuario;
         BLL_Idioma bll_idioma = new BLL_Idioma();
+        BLL_Rol bll_rol;
         public FrmGestionUsuarios()
         {
             InitializeComponent();
@@ -18,20 +19,26 @@ namespace UI
         private void FrmUsuarios_Load(object sender, EventArgs e)
         {
             grillaUsuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            cbxRoles.DropDownStyle = ComboBoxStyle.DropDownList;
             grillaUsuarios.MultiSelect = false;
             bll_usuario = new BLL_Usuario();
+            bll_rol = new BLL_Rol();
             Mostrar(grillaUsuarios, bll_usuario.ConsultarActivos());
+            foreach (var c in bll_rol.Consultar())
+            {
+                cbxRoles.Items.Add(c);
+            }
         }
         private void Mostrar(DataGridView grilla, object datos)
         {
             grilla.DataSource = null;
             grilla.DataSource = datos;
-            ContarUsuarios(lblNumeroUsuarios);
+            ContarUsuarios(lblNumero);
         }
         private void ContarUsuarios(Label lbl) 
         {
             int cant = bll_usuario.Consultar().Count();
-            lbl.Text = $"Número de usuarios: {cant}";
+            lbl.Text = $"{cant}";
         }
         private bool ValidarDatos(string texto, string expresionRegular)
         {
@@ -55,10 +62,13 @@ namespace UI
                 if (!ValidarDatos(correo, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")) throw new Exception("El formato del correo es incorrecto!");
 
 
-                SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, false, true, 1, "es-AR");
+                SER_Rol rol = (SER_Rol)cbxRoles.SelectedItem;
+                SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, false, true, rol, "es-AR");
+                
+
                 bll_usuario.Agregar(usuario);
                 MessageBox.Show("Usuario creado con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                LimpiarTextBox();
                 if (radioButton1.Checked)
                 {
                     Mostrar(grillaUsuarios, bll_usuario.ConsultarActivos());
@@ -167,16 +177,15 @@ namespace UI
                 radioButton2.Checked = false;
                 
                 string dni = txtDni.Text;
-
                 string nombre = txtNombre.Text;
-
                 string apellido = txtApellido.Text;
-
                 string correo = txtCorreo.Text;
-
                 string nombreUsuario = txtNombreUsuario.Text;
+                SER_Rol rol = (SER_Rol)cbxRoles.SelectedItem;
+
 
                 SER_Usuario usuario = new SER_Usuario(dni, nombre, apellido, correo, nombreUsuario);
+                usuario.Rol = rol;
                 Mostrar(grillaUsuarios, bll_usuario.ConsultarFiltrado(usuario));
             }
             catch (Exception)
@@ -233,6 +242,7 @@ namespace UI
             lblApellido.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblApellido");
             lblCorreo.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblCorreo");
             lblFiltro.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblFiltro");
+            lblNumeroUsuarios.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblNumeroUsuarios");
             radioButton1.Text = bll_idioma.Traducir("FrmGestionUsuarios.radioButton1");
             radioButton2.Text = bll_idioma.Traducir("FrmGestionUsuarios.radioButton2");
         }
@@ -241,6 +251,15 @@ namespace UI
         {
             bll_idioma.Desuscribir(this);
             base.OnFormClosed(e);
+        }
+        private void LimpiarTextBox()
+        {
+            txtDni.Text = "";
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            txtCorreo.Text = "";
+            txtNombreUsuario.Text = "";
+            cbxRoles.SelectedIndex = 0;
         }
     }
 }
