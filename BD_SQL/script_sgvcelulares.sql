@@ -101,7 +101,7 @@ values
 ('Crear Rol'),
 ('Crear Familia');
 
--- INSERT para idiomas
+
 insert into idioma (idIdioma, nombre)
 values
 ('es-AR','Spanish (Argentina)'),
@@ -111,28 +111,44 @@ insert into rol (nombre)
 values
 ('Administrador');
 
+INSERT INTO usuario
+(
+    dni,
+    nombre,
+    apellido,
+    correo,
+    nombreUsuario,
+    password,
+    bloqueo,
+    activo,
+    cantIntentos,
+    idRol,
+    idIdioma
+)
+VALUES
+(
+    '12345678',
+    'Administrador',
+    'Sistema',
+    'admin@sgv.com',
+    'admin',
+    LOWER(CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', 'Admin!123'), 2)),
+    0,
+    1,
+    0,
+    1,
+    'es-AR'
+);
 
 select * from idioma;
 select * from usuario;
 select * from bitacora;
 select * from permiso;
-
 select * from rol;
-select * from rol_permiso;
-select * from rol_familia;
-
 select * from familia;
 
-delete from familia where idFamilia = 5;
-delete from permiso_familia where idFamilia=5;
-select * from familia_familia;
-select * from permiso_familia;
-select * from rol_permiso
-
-
-update usuario set cantIntentos=0 where dni=12345678;
 -- Consulto a una familia determinada
-
+select idFamilia, nombre from familia where idFamilia = 1;
 
 -- Consulto los permisos de una familia determinada
 select p.idPermiso, p.nombre from permiso p
@@ -146,11 +162,6 @@ inner join familia_familia ff
 on f.idFamilia = ff.idFamiliaHija
 where ff.idFamiliaPadre = 1;
 
--- usuario admin
-INSERT INTO usuario
-(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo,cantIntentos,idRol,idIdioma)
-VALUES
-('12345678','Administrador','Sistema','admin@sgv.com','admin',LOWER(CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', 'Admin!123'), 2)),0,1,0,1,'es-AR');
 
 /*
     usuarios test:
@@ -160,3 +171,4 @@ VALUES
         gaymer77777777
         Gaymer!123
 */
+
