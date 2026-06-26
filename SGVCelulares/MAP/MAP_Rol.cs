@@ -129,5 +129,6 @@ namespace MAP
             return rol;
         }
         public void Borrar(SER_Rol rol) => dao_rol.Borrar(rol.Id);
+        public bool EstaEnUso(SER_Rol rol) => dao_rol.EstaEnUso(rol.Id);
     }
 }

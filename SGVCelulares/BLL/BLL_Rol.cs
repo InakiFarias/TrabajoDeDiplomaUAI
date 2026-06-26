@@ -81,6 +81,8 @@ namespace BLL
         }
         public void Borrar(SER_Rol rol)
         {
+            if (map_rol.EstaEnUso(rol))
+                throw new Exception("No se puede borrar: el rol está asignado a uno o más usuarios.");
             map_rol.Borrar(rol);
             bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Borrar rol", 1));
         }

@@ -104,5 +104,15 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
+        public bool EstaEnUso(int idRol)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
+            cm.CommandText = "SELECT COUNT(*) FROM usuario WHERE idRol=@idRol";
+            con.Open();
+            bool enUso = Convert.ToInt32(cm.ExecuteScalar()) > 0;
+            con.Close();
+            return enUso;
+        }
     }
 }
