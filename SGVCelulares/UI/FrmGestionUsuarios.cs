@@ -141,7 +141,7 @@ namespace UI
                 string apellido = Interaction.InputBox("Ingrese apellido del usuario", "Modificar usuario", grillaUsuarios.SelectedRows[0].Cells["Apellido"].Value.ToString());
                 if (!ValidarDatos(apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}$")) throw new Exception("El formato del apellido es incorrecto!");
 
-                string nombreUsuario = Interaction.InputBox("Ingrese nombre de usuario", "Modificar usuario", grillaUsuarios.SelectedRows[0].Cells["Login"].Value.ToString());
+                string nombreUsuario = Interaction.InputBox("Ingrese nombre de usuario", "Modificar usuario", grillaUsuarios.SelectedRows[0].Cells["Usuario"].Value.ToString());
                 if (!ValidarDatos(nombreUsuario, @"^[a-zA-Z0-9_]{1,50}$")) throw new Exception("El formato del nombre de usuario es incorrecto!");
 
                 us.Nombre = nombre;

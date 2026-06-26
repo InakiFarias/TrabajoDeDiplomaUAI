@@ -87,7 +87,9 @@ namespace MAP
                                 Convert.ToString(datos[5]),
                                 Convert.ToBoolean(datos[6]),
                                 Convert.ToBoolean(datos[7]),
-                                map_rol.ObtenerRolPorId(Convert.ToInt16(datos[9]))
+                                Convert.ToInt16(datos[8]),
+                                map_rol.ObtenerRolPorId(Convert.ToInt16(datos[9])),
+                                Convert.ToString(datos[10])
                             );
             }
             dr.Close();

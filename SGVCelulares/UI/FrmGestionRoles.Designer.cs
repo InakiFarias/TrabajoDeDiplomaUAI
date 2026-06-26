@@ -42,6 +42,10 @@
             label4 = new Label();
             cbxRoles = new ComboBox();
             label5 = new Label();
+            label6 = new Label();
+            cbxFamilias = new ComboBox();
+            btnBorrarRol = new Button();
+            btnBorrarFamilia = new Button();
             SuspendLayout();
             // 
             // label1
@@ -178,11 +182,53 @@
             label5.TabIndex = 34;
             label5.Text = "Roles";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(572, 333);
+            label6.Name = "label6";
+            label6.Size = new Size(50, 15);
+            label6.TabIndex = 36;
+            label6.Text = "Familias";
+            // 
+            // cbxFamilias
+            // 
+            cbxFamilias.FormattingEnabled = true;
+            cbxFamilias.Location = new Point(572, 351);
+            cbxFamilias.Name = "cbxFamilias";
+            cbxFamilias.Size = new Size(257, 23);
+            cbxFamilias.TabIndex = 37;
+            cbxFamilias.SelectedIndexChanged += cbxFamilias_SelectedIndexChanged;
+            // 
+            // btnBorrarRol
+            // 
+            btnBorrarRol.Location = new Point(299, 380);
+            btnBorrarRol.Name = "btnBorrarRol";
+            btnBorrarRol.Size = new Size(68, 26);
+            btnBorrarRol.TabIndex = 38;
+            btnBorrarRol.Text = "Borrar";
+            btnBorrarRol.UseVisualStyleBackColor = true;
+            btnBorrarRol.Click += btnBorrarRol_Click;
+            // 
+            // btnBorrarFamilia
+            // 
+            btnBorrarFamilia.Location = new Point(572, 380);
+            btnBorrarFamilia.Name = "btnBorrarFamilia";
+            btnBorrarFamilia.Size = new Size(68, 26);
+            btnBorrarFamilia.TabIndex = 39;
+            btnBorrarFamilia.Text = "Borrar";
+            btnBorrarFamilia.UseVisualStyleBackColor = true;
+            btnBorrarFamilia.Click += btnBorrarFamilia_Click;
+            // 
             // FrmGestionRoles
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(746, 386);
+            ClientSize = new Size(884, 574);
+            Controls.Add(btnBorrarFamilia);
+            Controls.Add(btnBorrarRol);
+            Controls.Add(cbxFamilias);
+            Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(cbxRoles);
             Controls.Add(label4);
@@ -219,5 +265,10 @@
         private Label label4;
         private ComboBox cbxRoles;
         private Label label5;
+        private Label label6;
+        private ComboBox comboBox1;
+        private Button btnBorrarRol;
+        private ComboBox cbxFamilias;
+        private Button btnBorrarFamilia;
     }
 }

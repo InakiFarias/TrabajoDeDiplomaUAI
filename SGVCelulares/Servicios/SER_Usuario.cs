@@ -46,7 +46,7 @@
             Bloqueo = bloqueo;
             Activo = activo;
         }
-        public SER_Usuario(string dni, string nombre, string apellido, string correo, string nombreUsuario, string password, bool bloqueo, bool activo, SER_Rol rol)
+        public SER_Usuario(string dni, string nombre, string apellido, string correo, string nombreUsuario, string password, bool bloqueo, bool activo, int cantIntentos, SER_Rol rol, string idIdioma)
         {
             Dni = dni;
             Nombre = nombre;
@@ -56,7 +56,9 @@
             Password = password;
             Bloqueo = bloqueo;
             Activo = activo;
+            CantIntentos = cantIntentos;
             Rol = rol;
+            IdIdioma = idIdioma;
         }
         public SER_Usuario(string dni, string nombre, string apellido, string correo, string nombreUsuario, bool bloqueo, bool activo, SER_Rol rol)
         {

@@ -152,19 +152,6 @@ namespace UI
             base.OnFormClosed(e);
         }
         private void btnSalir_Click(object sender, EventArgs e) => this.Close();
-
-        private void cbxRoles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (cbxRoles.SelectedItem is SER_Rol rol)
-                {
-                    MostrarRolEnTreeView(rol);
-                }
-            }
-            catch (Exception) { }
-        }
-
         private void MostrarRolEnTreeView(SER_Rol rol)
         {
             tvNodosComposite.BeginUpdate();
@@ -181,6 +168,32 @@ namespace UI
             raiz.ExpandAll();
 
             tvNodosComposite.EndUpdate();
+        }
+        private void cbxRoles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cbxRoles.SelectedItem is SER_Rol rol)
+                {
+                    MostrarRolEnTreeView(rol);
+                }
+            }
+            catch (Exception) { }
+        }
+
+        private void cbxFamilias_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBorrarRol_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBorrarFamilia_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
