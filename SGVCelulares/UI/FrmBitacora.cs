@@ -94,10 +94,10 @@ namespace UI
                 if (grillaBitacora.SelectedRows.Count == 0)
                     return;
 
-                if (grillaBitacora.SelectedRows[0].Cells["Login"].Value == null)
+                if (grillaBitacora.SelectedRows[0].Cells["Usuario"].Value == null)
                     return;
 
-                string login = grillaBitacora.SelectedRows[0].Cells["Login"].Value.ToString();
+                string login = grillaBitacora.SelectedRows[0].Cells["Usuario"].Value.ToString();
 
                 SER_Usuario us = bll_bitacora.ConsultarPorNombreUsuario(login);
 
