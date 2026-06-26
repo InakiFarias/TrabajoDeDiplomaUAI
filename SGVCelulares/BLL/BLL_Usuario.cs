@@ -147,6 +147,8 @@ namespace BLL
 
             rdo = true;
             SER_SesionManager sesion = SER_SesionManager.ObtenerSesion();
+            map_usuario.ReiniciarIntentos(obj);
+            obj.Rol = map_rol.ObtenerArbol(obj.Rol.Id);
             sesion.Usuario = obj;
             try
             {
