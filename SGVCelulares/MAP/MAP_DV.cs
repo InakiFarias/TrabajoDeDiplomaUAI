@@ -13,10 +13,17 @@ namespace MAP
     {
 
         DAO_DV dao_dv;
-        public MAP_DV() { dao_dv = new DAO_DV(); }
+        public MAP_DV() 
+        { 
+            dao_dv = new DAO_DV(); 
+        }
         public void AgregarDVH(SER_DVH dvh)
         {
             dao_dv.AgregarDVH(dvh.NombreTabla, dvh.IdRegistro, dvh.Valor);
+        }
+        public void BorrarDVH(string nombreTabla, string idRegistro)
+        {
+            dao_dv.BorrarDVH(nombreTabla, idRegistro);
         }
 
         public void ModificarDVH(SER_DVH dvh)
@@ -28,28 +35,67 @@ namespace MAP
         {
             dao_dv.AgregarDVV(dvv.NombreTabla, dvv.Valor);
         }
+        public void ModificarDVV(SER_DVV dvv)
+        {
+            dao_dv.ModificarDVV(dvv.NombreTabla, dvv.Valor);
+        }
         public bool ExisteDVH(string nombreTabla, string id)
         {
             return dao_dv.ExisteDVH(nombreTabla, id);
         }
-        public List<SER_DVH> ConsultarDVH(string nombreTabla)
+        public bool ExisteDVV(string nombreTabla)
         {
-            List<SER_DVH> listaDVH = new List<SER_DVH>();
+            return dao_dv.ExisteDVV(nombreTabla);
+        }
+        public List<string> ConsultarDVHValores(string nombreTabla)
+        {
+            List<string> valores = new List<string>();
 
             SqlDataReader dr = dao_dv.ConsultarDVH(nombreTabla);
 
             while (dr.Read())
             {
-                object[] datos = new object[dr.FieldCount];
-                dr.GetValues(datos);
-                SER_DVH dvh = new SER_DVH(datos);
-                listaDVH.Add(dvh);
+                string valor = dr["Valor"].ToString();
+                valores.Add(valor);
             }
 
             dr.Close();
 
-            return listaDVH;
+            return valores;
         }
+
+        public SER_DVH ObtenerDVH(string nombreTabla, string idRegistro)
+        {
+            SER_DVH dvh = null;
+
+            SqlDataReader dr = dao_dv.ObtenerDVH(nombreTabla, idRegistro);
+
+            if (dr.Read())
+            {
+                object[] datos = new object[dr.FieldCount];
+                dr.GetValues(datos);
+
+                dvh = new SER_DVH(datos);
+            }
+
+            dr.Close();
+
+            return dvh;
+        }
+        public SER_DVV ObtenerDVV(string nombreTabla)
+        {
+            SER_DVV dvv = null;
+            SqlDataReader dr = dao_dv.ObtenerDVV(nombreTabla);
+            if (dr.Read())
+            {
+                object[] datos = new object[dr.FieldCount];
+                dr.GetValues(datos);
+                dvv = new SER_DVV(datos);
+            }
+            dr.Close();
+            return dvv;
+        }
+
 
     }
 }

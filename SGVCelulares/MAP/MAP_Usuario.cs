@@ -65,7 +65,19 @@ namespace MAP
             {
                 object[] datos = new object[dr.FieldCount];
                 dr.GetValues(datos);
-                usuarioAux = new SER_Usuario(datos);
+                usuarioAux = new SER_Usuario(
+                               Convert.ToString(datos[0]),
+                               Convert.ToString(datos[1]),
+                               Convert.ToString(datos[2]),
+                               Convert.ToString(datos[3]),
+                               Convert.ToString(datos[4]),
+                               Convert.ToString(datos[5]),
+                               Convert.ToBoolean(datos[6]),
+                               Convert.ToBoolean(datos[7]),
+                               Convert.ToInt16(datos[8]),
+                               map_rol.ObtenerRolPorId(Convert.ToInt16(datos[9])),
+                               Convert.ToString(datos[10])
+                           );
             }
             dr.Close();
             return usuarioAux;

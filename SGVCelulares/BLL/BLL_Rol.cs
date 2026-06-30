@@ -7,10 +7,14 @@ namespace BLL
     {
         MAP_Rol map_rol;
         BLL_Bitacora bll_bitacora;
+        BLL_DV bll_dv;
+        /* falta generar dvh y dvv al agregar un rol nuevo*/
+
         public BLL_Rol()
         {
             map_rol = new MAP_Rol();
             bll_bitacora = new BLL_Bitacora();
+            bll_dv = new BLL_DV();
         }
         public List<SER_Rol> Consultar()
         {
@@ -29,6 +33,7 @@ namespace BLL
             {
                 map_rol.AgregarPermisoFamilia(rol, c);
             }
+
             bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Crear rol", 1));
         }
         private bool ValidarPermisosRepetidos(List<SER_Componente> componentes)
@@ -64,6 +69,10 @@ namespace BLL
             if (map_rol.EstaEnUso(rol))
                 throw new Exception("No se puede borrar: el rol está asignado a uno o más usuarios.");
             map_rol.Borrar(rol);
+            
+            /*bll_dv.BorrarDVH("rol", rol.Id.ToString());
+            bll_dv.GenerarDVV("rol"); */
+            
             bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Borrar rol", 1));
         }
     }

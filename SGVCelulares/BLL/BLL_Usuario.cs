@@ -10,6 +10,7 @@ namespace BLL
         BLL_Idioma bll_idioma;
         MAP_Rol map_rol;
         BLL_DV bll_dv;
+        //FALTA COMPLETAR EL LOGIN PARA QUE UTILICE CORRECTAMENTE LA BLL DV
         public BLL_Usuario()
         {
             map_usuario = new MAP_Usuario();
@@ -28,8 +29,10 @@ namespace BLL
                 string passwordHasheado = SER_Cripto.Encriptar(usuario.Password);
                 usuario.Password = passwordHasheado;
                 map_usuario.Agregar(usuario);
-                bll_dv.GenerarDVH(usuario, usuario.Dni, "Usuario");
-                bll_dv.GenerarDVV("Usuario");
+                
+                bll_dv.GenerarDVH(usuario, usuario.Dni, "usuario");
+                bll_dv.GenerarDVV("usuario");
+                
                 SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Crear usuario", 2);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
@@ -49,6 +52,10 @@ namespace BLL
             SER_Usuario usuAux = map_usuario.ConsultarPorNombreUsuario(usuario);
             if (usuAux != null && usuAux.Dni != usuario.Dni) throw new Exception("Ya existe usuario con este nombre de usuario");
             map_usuario.Modificar(usuario);
+            
+            bll_dv.GenerarDVH(usuario, usuario.Dni, "usuario");
+            bll_dv.GenerarDVV("usuario");
+            
             SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Modificar usuario", 2);
             bll_bitacora.RegistrarBitacora(bitacora);
         }
@@ -61,6 +68,10 @@ namespace BLL
             string claveNuevaHasheada = SER_Cripto.Encriptar(claveNueva);
             map_usuario.ModificarPassword(usuario, claveNuevaHasheada);
 
+            usuario.Password = claveNuevaHasheada;
+            bll_dv.GenerarDVH(usuario, usuario.Dni, "usuario");
+            bll_dv.GenerarDVV("usuario");
+            
             SER_Bitacora bitacora = new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Cambiar clave", 1);
             bll_bitacora.RegistrarBitacora(bitacora);
         }
@@ -141,17 +152,37 @@ namespace BLL
             if (!CompararPassword(obj, usuario.Password))
             {
                 map_usuario.SumarCantidadIntento(obj);
+                obj.CantIntentos += 1; 
+                bll_dv.GenerarDVH(obj, obj.Dni, "usuario");
+                bll_dv.GenerarDVV("usuario");
+                
                 if (map_usuario.ConsultarPorNombreUsuario(usuario).CantIntentos >= 3)
                 {
                     map_usuario.Bloquear(obj);
+                    obj.Bloqueo = true;
+                    bll_dv.GenerarDVH(obj, obj.Dni, "usuario");
+                    bll_dv.GenerarDVV("usuario");
                     throw new Exception("Se bloqueó el usuario por motivos de seguridad!");
                 }
                 throw new Exception("No se pudo iniciar sesion");
             }
 
+            /*
+            bool integro = bll_dv.VerificarIntegridad();
+            bool esAdmin = obj.Rol.Id == 1; 
+
+            if (!integro && !esAdmin)throw new Exception("El sistema no se encuentra disponible.Contacte con un admin si el problema persiste.");
+            if(!integro && esAdmin) FALTA IMPLEMENTAR EL CASO CUANDO ES UN ADMINISTRADOR Y HAY INCONSISTENCIA*/
+
+
             rdo = true;
             SER_SesionManager sesion = SER_SesionManager.ObtenerSesion();
             map_usuario.ReiniciarIntentos(obj);
+            
+            obj.CantIntentos = 0;
+            bll_dv.GenerarDVH(obj, obj.Dni, "usuario");
+            bll_dv.GenerarDVV("usuario");
+            
             obj.Rol = map_rol.ObtenerArbol(obj.Rol.Id);
             sesion.Usuario = obj;
             try
@@ -177,10 +208,15 @@ namespace BLL
                 usuario.IdIdioma = bll_idioma.IdiomaActual;
                 map_usuario.ModificarIdioma(usuario);
 
+                bll_dv.GenerarDVH(usuario, usuario.Dni, "usuario");
+                bll_dv.GenerarDVV("usuario");
+
+
                 bll_bitacora.RegistrarBitacora(new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Logout", 2));
                 SER_SesionManager.CerrarSesion();
             }
         }
+
         private bool CompararPassword(SER_Usuario usuario, string password)
         {
             bool rdo = false;
@@ -206,9 +242,20 @@ namespace BLL
             {
                 SER_Usuario usuarioAux = ConsultarPorId(usuario);
                 if (!EstaBloqueado(usuarioAux)) throw new Exception("El usuario no está bloqueado!");
+
                 map_usuario.Desbloquear(usuarioAux);
-                map_usuario.ModificarPassword(usuarioAux, SER_Cripto.Encriptar(usuarioAux.Dni + usuarioAux.Apellido));
+                usuarioAux.Bloqueo = false;
+
+                string nuevaPasswordHasheada = SER_Cripto.Encriptar(usuarioAux.Dni + usuarioAux.Apellido);
+                map_usuario.ModificarPassword(usuarioAux, nuevaPasswordHasheada);
+                usuarioAux.Password = nuevaPasswordHasheada;
+
                 map_usuario.ReiniciarIntentos(usuarioAux);
+                usuarioAux.CantIntentos = 0;
+
+                bll_dv.GenerarDVH(usuarioAux, usuarioAux.Dni, "usuario");
+                bll_dv.GenerarDVV("usuario");
+
                 SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Desbloquear usuario", 2);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
@@ -224,9 +271,14 @@ namespace BLL
             {
                 usuarioAux.Activo = !usuarioAux.Activo;
                 map_usuario.CambiarEstadoActivo(usuarioAux);
+
+                bll_dv.GenerarDVH(usuarioAux, usuarioAux.Dni, "usuario");
+                bll_dv.GenerarDVV("usuario");
+                
                 if (usuarioAux.Activo)
                 {
                     SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Activar usuario", 3);
+                    
                     bll_bitacora.RegistrarBitacora(bitacora);
                 }
                 else

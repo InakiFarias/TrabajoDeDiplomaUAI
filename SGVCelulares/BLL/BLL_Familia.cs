@@ -1,5 +1,6 @@
 ﻿using DAL;
 using MAP;
+using Microsoft.VisualBasic;
 using Servicio;
 
 namespace BLL
@@ -8,14 +9,19 @@ namespace BLL
     {
         MAP_Familia map_familia;
         BLL_Bitacora bll_bitacora;
+        BLL_DV bll_dv;
+        /* falta generar dvh y dvv al agregar una familia nueva*/
+
         public BLL_Familia()
         {
             map_familia = new MAP_Familia();
             bll_bitacora = new BLL_Bitacora();
+            bll_dv = new BLL_DV();
         }
         public void Agregar(SER_Familia familia)
         {
             map_familia.Agregar(familia);
+          
         }
 
         public void Borrar(SER_Familia familia)
@@ -23,6 +29,10 @@ namespace BLL
             if (map_familia.EstaEnUso(familia))
                 throw new Exception("No se puede borrar: la familia está asignada a un rol u otra familia.");
             map_familia.Borrar(familia);
+            
+            /*bll_dv.BorrarDVH("familia", familia.Id.ToString());
+            bll_dv.GenerarDVV("familia");*/
+            
             bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Borrar familia", 1));
         }
 
