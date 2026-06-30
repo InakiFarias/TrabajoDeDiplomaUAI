@@ -17,6 +17,8 @@
   "FrmMenu.btnRelogin": "Re-Login",
   "FrmMenu.btnCambiarClave": "Change Password",
   "FrmMenu.btnLogout": "⇠  Sign out",
+  "FrmMenu.msgCerrarSesion": "Are you sure you want to log out?",
+  "FrmMenu.msgConfirmacion": "Confirmation",
 
   "frmCambiarClave.Form": "Change password",
   "frmCambiarClave.lblTitulo": "Change password",

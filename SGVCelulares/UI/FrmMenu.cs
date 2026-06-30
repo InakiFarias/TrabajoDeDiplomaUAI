@@ -86,7 +86,12 @@ namespace UI
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Seguro que desea cerrar la sesión?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult res = MessageBox.Show(
+                bll_idioma.Traducir("FrmMenu.msgCerrarSesion"),
+                bll_idioma.Traducir("FrmMenu.msgConfirmacion"),
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
             if (res == DialogResult.Yes)
             {
                 bll_usuario.Logout();
