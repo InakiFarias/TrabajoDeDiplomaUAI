@@ -101,6 +101,10 @@ values
 ('Crear Rol'),
 ('Crear Familia');
 
+insert into permiso (nombre)
+values
+('Eliminar Rol'),
+('Eliminar Familia');
 
 insert into idioma (idIdioma, nombre)
 values

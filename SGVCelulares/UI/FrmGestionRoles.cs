@@ -130,6 +130,9 @@ namespace UI
 
                     bll_rol.Agregar(rol, permisos);
                     MessageBox.Show($"El rol {rol.Nombre} se creó con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarDatos();
+                    ActualizarTreeView();
+                    txtNombreFamilia.Text = "";
                 }
                 else
                 {
@@ -143,6 +146,9 @@ namespace UI
 
                     bll_familia.Agregar(familia, permisos);
                     MessageBox.Show($"La familia {familia.Nombre} se creó con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarDatos();
+                    ActualizarTreeView();
+                    txtNombreFamilia.Text = "";
                 }
             }
             catch (Exception ex)
@@ -230,7 +236,7 @@ namespace UI
                 bll_rol.Borrar(rol);
                 MessageBox.Show($"El rol '{rol.Nombre}' se borró con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                cbxRoles.SelectedIndex = -1;
+                txtNombreFamilia.Text = "";
                 tvNodosComposite.Nodes.Clear();
                 CargarDatos();
             }
@@ -254,7 +260,7 @@ namespace UI
                 bll_familia.Borrar(familia);
                 MessageBox.Show($"La familia '{familia.Nombre}' se borró con éxito!", "INFORMACIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                cbxFamilias.SelectedIndex = -1;
+                txtNombreFamilia.Text = "";
                 tvNodosComposite.Nodes.Clear();
                 CargarDatos();
             }
