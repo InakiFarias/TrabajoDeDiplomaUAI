@@ -116,6 +116,19 @@ namespace UI
         {
             grilla.DataSource = null;
             grilla.DataSource = datos;
+            TraducirColumnas(grilla);
+        }
+
+        private void TraducirColumnas(DataGridView grilla)
+        {
+            if (grilla.Columns.Count == 0) return;
+
+            grilla.Columns["Usuario"].HeaderText = bll_idioma.Traducir("FrmBitacora.colUsuario");
+            grilla.Columns["Fecha"].HeaderText = bll_idioma.Traducir("FrmBitacora.colFecha");
+            grilla.Columns["Hora"].HeaderText = bll_idioma.Traducir("FrmBitacora.colHora");
+            grilla.Columns["Modulo"].HeaderText = bll_idioma.Traducir("FrmBitacora.colModulo");
+            grilla.Columns["Evento"].HeaderText = bll_idioma.Traducir("FrmBitacora.colEvento");
+            grilla.Columns["Criticidad"].HeaderText = bll_idioma.Traducir("FrmBitacora.colCriticidad");
         }
         private void btnSalir_Click(object sender, EventArgs e)
         {
@@ -293,6 +306,7 @@ namespace UI
             btnAplicar.Text = bll_idioma.Traducir("FrmBitacora.btnAplicar");
             btnLimpiar.Text = bll_idioma.Traducir("FrmBitacora.btnLimpiar");
             btnSalir.Text = bll_idioma.Traducir("FrmBitacora.btnSalir");
+            TraducirColumnas(grillaBitacora);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

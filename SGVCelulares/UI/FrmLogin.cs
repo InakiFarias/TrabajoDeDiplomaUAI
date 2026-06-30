@@ -44,6 +44,10 @@ namespace UI
                     FrmMenu frmMenu = new FrmMenu();
                     frmMenu.ShowDialog();
                     this.Show();
+
+                    cargandoIdiomas = true;
+                    cboIdioma.SelectedValue = bll_idioma.IdiomaActual;
+                    cargandoIdiomas = false;
                 }
             }
             catch (Exception ex)
@@ -54,9 +58,10 @@ namespace UI
         private void CargarIdiomas()
         {
             cargandoIdiomas = true;
-            cboIdioma.DisplayMember = "NativeName";
-            cboIdioma.ValueMember = "Name";
+            cboIdioma.DisplayMember = "Nombre";   
+            cboIdioma.ValueMember = "Codigo";   
             cboIdioma.DataSource = bll_idioma.ObtenerIdiomasDisponibles();
+            cboIdioma.SelectedValue = bll_idioma.IdiomaActual;
             cargandoIdiomas = false;
         }
 

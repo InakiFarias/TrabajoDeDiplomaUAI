@@ -47,7 +47,7 @@ namespace BLL
         {
             return idiomaActual.Textos.TryGetValue(clave, out string valor) ? valor : clave;
         }
-        public List<CultureInfo> ObtenerIdiomasDisponibles()
+        public List<SER_Idioma> ObtenerIdiomasDisponibles()
         {
             return map_idioma.ObtenerIdiomasDisponibles();
         }

@@ -27,6 +27,12 @@ namespace Servicio
             Codigo = codigo;
             Textos = textos ?? new Dictionary<string, string>();
         }
+        public SER_Idioma(string codigo, string nombre)
+        {
+            Codigo = codigo;
+            Nombre = nombre;
+            Textos = new Dictionary<string, string>();
+        }
 
     }
 }

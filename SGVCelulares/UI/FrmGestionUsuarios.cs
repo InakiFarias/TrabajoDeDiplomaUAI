@@ -33,7 +33,20 @@ namespace UI
         {
             grilla.DataSource = null;
             grilla.DataSource = datos;
+            TraducirColumnas(grilla);
             ContarUsuarios(lblNumero);
+        }
+        private void TraducirColumnas(DataGridView grilla)
+        {
+            if (grilla.Columns.Count == 0) return;  
+
+            grilla.Columns["DNI"].HeaderText = bll_idioma.Traducir("FrmGestionUsuarios.colDni");
+            grilla.Columns["Nombre"].HeaderText = bll_idioma.Traducir("FrmGestionUsuarios.colNombre");
+            grilla.Columns["Apellido"].HeaderText = bll_idioma.Traducir("FrmGestionUsuarios.colApellido");
+            grilla.Columns["Usuario"].HeaderText = bll_idioma.Traducir("FrmGestionUsuarios.colUsuario");
+            grilla.Columns["Activo"].HeaderText = bll_idioma.Traducir("FrmGestionUsuarios.colActivo");
+            grilla.Columns["Bloqueado"].HeaderText = bll_idioma.Traducir("FrmGestionUsuarios.colBloqueado");
+            grilla.Columns["Rol"].HeaderText = bll_idioma.Traducir("FrmGestionUsuarios.colRol");
         }
         private void ContarUsuarios(Label lbl) 
         {
@@ -245,6 +258,8 @@ namespace UI
             lblNumeroUsuarios.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblNumeroUsuarios");
             radioButton1.Text = bll_idioma.Traducir("FrmGestionUsuarios.radioButton1");
             radioButton2.Text = bll_idioma.Traducir("FrmGestionUsuarios.radioButton2");
+            TraducirColumnas(grillaUsuarios);   
+
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

@@ -112,8 +112,8 @@ namespace UI
         private void CargarIdiomas()
         {
             cargandoIdiomas = true;
-            cboIdioma.DisplayMember = "NativeName";
-            cboIdioma.ValueMember = "Name";
+            cboIdioma.DisplayMember = "Nombre";
+            cboIdioma.ValueMember = "Codigo";
             cboIdioma.DataSource = bll_idioma.ObtenerIdiomasDisponibles();
             cboIdioma.SelectedValue = bll_idioma.IdiomaActual;
             cargandoIdiomas = false;
