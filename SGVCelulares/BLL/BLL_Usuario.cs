@@ -9,12 +9,14 @@ namespace BLL
         BLL_Bitacora bll_bitacora;
         BLL_Idioma bll_idioma;
         MAP_Rol map_rol;
+        BLL_DV bll_dv;
         public BLL_Usuario()
         {
             map_usuario = new MAP_Usuario();
             bll_bitacora = new BLL_Bitacora();
             bll_idioma = new BLL_Idioma();
             map_rol = new MAP_Rol();
+            bll_dv = new BLL_DV();
         }
 
         public void Agregar(SER_Usuario usuario)
@@ -26,6 +28,8 @@ namespace BLL
                 string passwordHasheado = SER_Cripto.Encriptar(usuario.Password);
                 usuario.Password = passwordHasheado;
                 map_usuario.Agregar(usuario);
+                bll_dv.GenerarDVH(usuario, usuario.Dni, "Usuario");
+                bll_dv.GenerarDVV("Usuario");
                 SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Usuarios", "Crear usuario", 2);
                 bll_bitacora.RegistrarBitacora(bitacora);
             }
