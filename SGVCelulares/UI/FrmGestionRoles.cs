@@ -36,6 +36,14 @@ namespace UI
                 }
             }
             CargarDatos();
+
+            SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
+            btnBorrarRol.Enabled = usuario.Rol.TienePermiso("Eliminar Rol");
+            btnBorrarFamilia.Enabled = usuario.Rol.TienePermiso("Eliminar Familia");
+            AplicarPermisoCrear();
+
+            radRol.CheckedChanged += (s, e) => AplicarPermisoCrear();
+            radFamilia.CheckedChanged += (s, e) => AplicarPermisoCrear();
         }
         private void CargarDatos()
         {
@@ -59,6 +67,16 @@ namespace UI
             listbox.DataSource = null;
             listbox.DataSource = datos;
         }
+        private void AplicarPermisoCrear()
+        {
+            SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
+
+            if (radRol.Checked)
+                btnCrear.Enabled = usuario.Rol.TienePermiso("Crear Rol");
+            else
+                btnCrear.Enabled = usuario.Rol.TienePermiso("Crear Familia");
+        }
+
         private void clbComponentes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             BeginInvoke(new Action(ActualizarTreeView));

@@ -18,7 +18,21 @@ namespace UI
         private void FrmMenu_Load(object sender, EventArgs e)
         {
             bll_usuario = new BLL_Usuario();
-            UIHelperPermisos.AplicarPermisos(this.Controls);
+
+            SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
+
+            btnUsuarios.Visible = TieneAlgun(usuario, "Crear Usuario", "Modificar Usuario", "Desbloquear Usuario", "Activar Usuario");
+            btnGestionRoles.Visible = TieneAlgun(usuario, "Crear Rol", "Crear Familia", "Eliminar Rol", "Eliminar Familia");
+            btnBitacora.Visible = TieneAlgun(usuario, "Consultar Bitácora");
+        }
+        private bool TieneAlgun(SER_Usuario usuario, params string[] permisos)
+        {
+            foreach (string permiso in permisos)
+            {
+                if (usuario.Rol.TienePermiso(permiso))
+                    return true;
+            }
+            return false;
         }
         private void btnUsuarios_Click(object sender, EventArgs e)
         {

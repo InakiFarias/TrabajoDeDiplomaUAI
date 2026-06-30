@@ -75,6 +75,8 @@ namespace UI
             txtApellido.ReadOnly = true;
             Mostrar(grillaBitacora, bll_bitacora.ConsultarParaGrilla3Dias());
             ActualizarTxt();
+            SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
+            btnImprimirBitacora.Enabled = usuario.Rol.TienePermiso("Exportar Bitácora");
         }
 
         private void MostrarTodosLosEventos()

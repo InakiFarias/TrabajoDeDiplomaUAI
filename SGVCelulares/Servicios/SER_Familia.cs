@@ -17,5 +17,14 @@
         {
             Componentes = new List<SER_Componente>();
         }
+        public override bool TienePermiso(string nombrePermiso)
+        {
+            foreach (SER_Componente hijo in Componentes)
+            {
+                if (hijo.TienePermiso(nombrePermiso))
+                    return true;
+            }
+            return false;
+        }
     }
 }

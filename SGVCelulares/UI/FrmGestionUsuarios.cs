@@ -28,6 +28,12 @@ namespace UI
             {
                 cbxRoles.Items.Add(c);
             }
+            SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
+
+            btnCrearUsuario.Enabled = usuario.Rol.TienePermiso("Crear Usuario");
+            btnModificarUsuario.Enabled = usuario.Rol.TienePermiso("Modificar Usuario");
+            btnDesbloquearUsuario.Enabled = usuario.Rol.TienePermiso("Desbloquear Usuario");
+            btnCambiarEstadoUsuario.Enabled = usuario.Rol.TienePermiso("Activar Usuario");
         }
         private void Mostrar(DataGridView grilla, object datos)
         {

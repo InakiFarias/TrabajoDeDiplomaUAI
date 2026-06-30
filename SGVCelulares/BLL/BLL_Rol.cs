@@ -59,26 +59,6 @@ namespace BLL
             }
             return true;
         }
-        public bool TienePermiso(SER_Rol rol, string nombrePermiso)
-        {
-            foreach (SER_Componente componente in rol.Componentes)
-            {
-                if (BuscarPermiso(componente, nombrePermiso)) return true;
-            }
-            return false;
-        }
-        private bool BuscarPermiso(SER_Componente componente, string nombrePermiso)
-        {
-            if (componente.Nombre == nombrePermiso) return true;
-            if (componente is SER_Familia familia)
-            {
-                foreach (SER_Componente hijo in familia.Componentes)
-                {
-                    if (BuscarPermiso(hijo, nombrePermiso)) return true;
-                }
-            }
-            return false;
-        }
         public void Borrar(SER_Rol rol)
         {
             if (map_rol.EstaEnUso(rol))

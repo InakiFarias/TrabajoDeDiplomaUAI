@@ -1,6 +1,6 @@
 ﻿namespace Servicio
 {
-    public class SER_Rol
+    public class SER_Rol 
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
@@ -25,6 +25,15 @@
         public override string ToString()
         {
             return $"{this.Nombre}";
+        }
+        public bool TienePermiso(string nombrePermiso)
+        {
+            foreach (SER_Componente hijo in Componentes)
+            {
+                if (hijo.TienePermiso(nombrePermiso))
+                    return true;
+            }
+            return false;
         }
     }
 

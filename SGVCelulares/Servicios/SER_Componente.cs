@@ -28,5 +28,6 @@ namespace Servicio
         {
             return $"{this.Nombre}";
         }
+        public abstract bool TienePermiso(string nombrePermiso);
     }
 }
