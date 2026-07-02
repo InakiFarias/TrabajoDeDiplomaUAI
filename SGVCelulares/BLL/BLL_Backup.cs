@@ -19,6 +19,7 @@ namespace BLL
             map_backup.Restore(ruta);
             SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Respaldo", "Generar restore", 1);
             bll_bitacora.RegistrarBitacora(bitacora);
+            
         }
     }
 }

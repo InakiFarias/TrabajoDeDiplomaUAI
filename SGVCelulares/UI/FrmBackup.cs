@@ -14,6 +14,7 @@ namespace UI
     public partial class FrmBackup : Form
     {
         BLL_Backup bll_backup;
+        public bool RestoreRealizado { get; private set; } = false;
         public FrmBackup()
         {
             InitializeComponent();
@@ -45,6 +46,9 @@ namespace UI
             {
                 bll_backup.Restore(openDialog.FileName);
                 MessageBox.Show("Restore realizado correctamente!", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Cerrando la sesión!", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RestoreRealizado = true;
+                this.Close();
             }
         }
 

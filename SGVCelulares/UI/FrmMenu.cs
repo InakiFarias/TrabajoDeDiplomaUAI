@@ -135,6 +135,12 @@ namespace UI
             {
                 FrmBackup frmBackup = new FrmBackup();
                 frmBackup.ShowDialog();
+                if (frmBackup.RestoreRealizado)
+                {
+                    bll_usuario.Logout();
+                    FrmLogin login = new FrmLogin();
+                    this.Close(); 
+                }
             }
             else
             {
