@@ -174,23 +174,31 @@ namespace BLL
                 throw new Exception("No se pudo iniciar sesión");
             }
 
-             /* bool integro = true;
+            /* bool integro = true;
+
+           try
+           {
+               bll_dv.VerificarIntegridad();
+           }
+           catch (Exception ex)
+           {
+               integro = false;
+               mensajeInconsistencia = ex.Message;
+           }
+
+           bool esAdmin = obj.Rol.Id == 1;
+
+           if (!integro && !esAdmin)throw new Exception("El sistema no se encuentra disponible. Contacte con un administrador si el problema persiste."); */
+
 
             try
             {
-                bll_dv.VerificarIntegridad();
+                bll_idioma.CambiarIdioma(obj.IdIdioma);
             }
-            catch (Exception ex)
+            catch
             {
-                integro = false;
-                mensajeInconsistencia = ex.Message;
+                try { bll_idioma.CambiarIdioma("es-AR"); } catch { }
             }
-
-            bool esAdmin = obj.Rol.Id == 1;
-
-            if (!integro && !esAdmin)throw new Exception("El sistema no se encuentra disponible. Contacte con un administrador si el problema persiste."); */
-
-            
 
             rdo = true;
 
@@ -207,15 +215,6 @@ namespace BLL
 
             sesion.Usuario = obj;
 
-            try
-            {
-                bll_idioma.CambiarIdioma(obj.IdIdioma);
-            }
-            catch
-            {
-                try { bll_idioma.CambiarIdioma("es-AR"); } catch { }
-            }
-
             SER_Bitacora bitacora = new SER_Bitacora(obj, DateTime.Now, "Usuarios", "Login", 1);
             bll_bitacora.RegistrarBitacora(bitacora);
 
@@ -231,6 +230,7 @@ namespace BLL
                 map_usuario.ModificarIdioma(usuario);
 
                 bll_bitacora.RegistrarBitacora(new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Logout", 2));
+                bll_bitacora.RegistrarBitacora(new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Cambiar Idioma", 3));
                 SER_SesionManager.CerrarSesion();
             }
             bll_idioma.CambiarIdioma("es-AR");

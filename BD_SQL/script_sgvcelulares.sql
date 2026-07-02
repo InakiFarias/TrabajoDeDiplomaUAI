@@ -131,33 +131,8 @@ values
 ('Administrador');
 
 INSERT INTO usuario
-(
-    dni,
-    nombre,
-    apellido,
-    correo,
-    nombreUsuario,
-    password,
-    bloqueo,
-    activo,
-    cantIntentos,
-    idRol,
-    idIdioma
-)
-VALUES
-(
-    '12345678',
-    'Administrador',
-    'Sistema',
-    'admin@sgv.com',
-    'admin',
-    LOWER(CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', 'Admin!123'), 2)),
-    0,
-    1,
-    0,
-    1,
-    'es-AR'
-);
+(dni,nombre,apellido,correo,nombreUsuario,password,bloqueo,activo,cantIntentos,idRol,idIdioma)
+VALUES('12345678','Administrador','Sistema','admin@sgv.com','admin',LOWER(CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', 'Admin!123'), 2)),0,1,0,1,'es-AR');
 
 select * from idioma;
 select * from usuario;
@@ -166,6 +141,8 @@ select * from permiso;
 select * from rol;
 select * from familia;
 
+
+-- CONSULTAS TEST PARA ARMAR EL COMPOSITE
 -- Consulto a una familia determinada
 select idFamilia, nombre from familia where idFamilia = 1;
 
@@ -190,4 +167,3 @@ where ff.idFamiliaPadre = 1;
         gaymer77777777
         Gaymer!123
 */
-
