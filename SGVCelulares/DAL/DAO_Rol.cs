@@ -61,6 +61,22 @@ namespace DAL
             con.Open();
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
+        public SqlDataReader ConsultarRolFamilia()
+        {
+            cm.Parameters.Clear();
+            cm.CommandText = "select * from rol_familia";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        public SqlDataReader ConsultarRolPermiso()
+        {
+            cm.Parameters.Clear();
+            cm.CommandText = "select * from rol_permiso";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+
+
         public bool ExisteRol(string nombreRol)
         {
             cm.Parameters.Clear();

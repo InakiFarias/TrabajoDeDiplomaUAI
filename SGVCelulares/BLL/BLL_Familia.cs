@@ -28,17 +28,36 @@ namespace BLL
         {
             if (map_familia.EstaEnUso(familia))
                 throw new Exception("No se puede borrar: la familia está asignada a un rol u otra familia.");
+
             map_familia.Borrar(familia);
-            
-            /*bll_dv.BorrarDVH("familia", familia.Id.ToString());
-            bll_dv.GenerarDVV("familia");*/
-            
+
+            bll_dv.BorrarDVH("familia", familia.Id.ToString());
+
+            foreach (var componente in familia.Componentes)
+            {
+                string tabla = componente is SER_Familia ? "familia_familia" : "permiso_familia";
+                string id = $"{familia.Id}-{componente.Id}";
+                bll_dv.BorrarDVH(tabla, id);
+            }
+
+            bll_dv.GenerarDVV("familia");
+            bll_dv.GenerarDVV("familia_familia");
+            bll_dv.GenerarDVV("permiso_familia");
+
             bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Borrar familia", 1));
         }
 
         public List<SER_Familia> Consultar()
         {
             return map_familia.Consultar();
+        }
+        public List<object[]> ConsultarFamiliaFamilia()
+        {
+            return map_familia.ConsultarFamiliaFamilia();
+        }
+        public List<object[]> ConsultarFamiliaPermiso()
+        {
+            return map_familia.ConsultarFamiliaPermiso();
         }
         public SER_Familia ConsultarPorId(SER_Familia familia)
         {
@@ -56,10 +75,23 @@ namespace BLL
             if (ValidarPermisosRepetidos(componentes)) throw new Exception("Existe un permiso repetido!");
             map_familia.Agregar(familia);
             familia.Id = map_familia.ObtenerIdPorNombre(familia).Id;
-
+            
+            bll_dv.GenerarDVH(familia, familia.Id.ToString(),"familia");
+            bll_dv.GenerarDVV("familia");
+            
             foreach (SER_Componente c in componentes)
             {
                 map_familia.AgregarPermisoFamilia(familia, c);
+                if (c is SER_Familia familiaHijo)
+                {
+                    bll_dv.GenerarDVH(new List<string>() { familia.Id.ToString(), c.Id.ToString() }, "familia_familia");
+                    bll_dv.GenerarDVV("familia_familia");
+                }
+                else if (c is SER_Permiso permiso)
+                {
+                    bll_dv.GenerarDVH(new List<string>() { familia.Id.ToString(), c.Id.ToString() }, "permiso_familia");
+                    bll_dv.GenerarDVV("permiso_familia");
+                }
             }
             bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Crear familia", 1));
         }

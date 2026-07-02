@@ -36,13 +36,30 @@ namespace UI
                 string password = txtPassword.Text;
                 if (password.Length == 0) throw new Exception("Datos erróneos!");
 
-                if (bll_usuario.Login(new SER_Usuario(nombreUsuario, password)))
+                string mensajeInconsistencia;
+
+                if (bll_usuario.Login(new SER_Usuario(nombreUsuario, password), out mensajeInconsistencia))
                 {
+                    /*if (!string.IsNullOrEmpty(mensajeInconsistencia))
+                    {
+                        MessageBox.Show(
+                            mensajeInconsistencia,
+                            "Inconsistencia detectada",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+
+                        FrmRepararInconsistencia frmRepararInconsistencia = new FrmRepararInconsistencia();
+                        frmRepararInconsistencia.ShowDialog();
+                    } */
+
                     txtNombreUsuario.Text = "";
                     txtPassword.Text = "";
+
                     this.Hide();
+
                     FrmMenu frmMenu = new FrmMenu();
                     frmMenu.ShowDialog();
+
                     this.Show();
 
                     cargandoIdiomas = true;

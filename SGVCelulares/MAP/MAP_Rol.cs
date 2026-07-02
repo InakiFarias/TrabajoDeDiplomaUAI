@@ -34,6 +34,32 @@ namespace MAP
             }
             return lista;
         }
+        public List<object[]> ConsultarRolFamilia()
+        {
+            List<object[]> listaAux = new List<object[]>();
+            SqlDataReader dr = dao_rol.ConsultarRolFamilia();
+            while (dr.Read())
+            {
+                object[] datos = new object[dr.FieldCount];
+                dr.GetValues(datos);
+                listaAux.Add(datos); // datos[0] = IdRol, datos[1] = IdFamilia
+            }
+            dr.Close();
+            return listaAux;
+        }
+        public List<object[]> ConsultarRolPermiso()
+        {
+            List<object[]> listaAux = new List<object[]>();
+            SqlDataReader dr = dao_rol.ConsultarRolPermiso();
+            while (dr.Read())
+            {
+                object[] datos = new object[dr.FieldCount];
+                dr.GetValues(datos);
+                listaAux.Add(datos); // datos[0] = IdRol, datos[1] = IdPermiso
+            }
+            dr.Close();
+            return listaAux;
+        }
         public SER_Rol ObtenerArbol(int idRol)
         {
             SER_Rol rol = ConsultarRol(idRol);

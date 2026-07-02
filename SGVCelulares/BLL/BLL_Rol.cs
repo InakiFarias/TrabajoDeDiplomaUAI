@@ -1,5 +1,6 @@
 ﻿using MAP;
 using Servicio;
+using System.Net.Http.Headers;
 
 namespace BLL
 {
@@ -8,7 +9,6 @@ namespace BLL
         MAP_Rol map_rol;
         BLL_Bitacora bll_bitacora;
         BLL_DV bll_dv;
-        /* falta generar dvh y dvv al agregar un rol nuevo*/
 
         public BLL_Rol()
         {
@@ -20,6 +20,14 @@ namespace BLL
         {
             return map_rol.Consultar();
         }
+        public List<object[]> ConsultarRolFamilia()
+        {
+            return map_rol.ConsultarRolFamilia();
+        }
+        public List<object[]> ConsultarRolPermiso()
+        {
+            return map_rol.ConsultarRolPermiso();
+        }
 
         public void Agregar(SER_Rol rol, List<SER_Componente> componentes)
         {
@@ -28,12 +36,24 @@ namespace BLL
             if (ValidarPermisosRepetidos(componentes)) throw new Exception("El permiso repite con otro");
             map_rol.Agregar(rol);
             rol.Id = map_rol.ObtenerIdPorNombre(rol).Id;
-
+            bll_dv.GenerarDVH(rol, rol.Id.ToString(),"rol");
+            bll_dv.GenerarDVV("rol");
+            
             foreach (SER_Componente c in componentes)
             {
                 map_rol.AgregarPermisoFamilia(rol, c);
+                if(c is SER_Familia familia)
+                {
+                    bll_dv.GenerarDVH(new List<string>() { rol.Id.ToString(), c.Id.ToString() }, "rol_familia");
+                    bll_dv.GenerarDVV("rol_familia");
+                }
+                else if (c is SER_Permiso permiso)
+                {
+                    bll_dv.GenerarDVH(new List<string>() { rol.Id.ToString(), c.Id.ToString() }, "rol_permiso");
+                    bll_dv.GenerarDVV("rol_permiso");
+                }
             }
-
+            
             bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Crear rol", 1));
         }
         private bool ValidarPermisosRepetidos(List<SER_Componente> componentes)
@@ -68,12 +88,24 @@ namespace BLL
         {
             if (map_rol.EstaEnUso(rol))
                 throw new Exception("No se puede borrar: el rol está asignado a uno o más usuarios.");
+
             map_rol.Borrar(rol);
-            
-            /*bll_dv.BorrarDVH("rol", rol.Id.ToString());
-            bll_dv.GenerarDVV("rol"); */
-            
-            bll_bitacora.RegistrarBitacora(new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Borrar rol", 1));
+
+            bll_dv.BorrarDVH("rol", rol.Id.ToString());
+
+            foreach (var componente in rol.Componentes)
+            {
+                string tabla = componente is SER_Familia ? "rol_familia" : "rol_permiso";
+                string id = $"{rol.Id}-{componente.Id}";
+                bll_dv.BorrarDVH(tabla, id);
+            }
+
+            bll_dv.GenerarDVV("rol");
+            bll_dv.GenerarDVV("rol_familia");
+            bll_dv.GenerarDVV("rol_permiso");
+
+            bll_bitacora.RegistrarBitacora(new SER_Bitacora(
+                SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Roles", "Borrar rol", 1));
         }
     }
 }

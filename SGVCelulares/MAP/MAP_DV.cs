@@ -35,6 +35,10 @@ namespace MAP
         {
             dao_dv.AgregarDVV(dvv.NombreTabla, dvv.Valor);
         }
+        public void BorrarDVV(string nombreTabla)
+        {
+            dao_dv.BorrarDVV(nombreTabla);
+        }
         public void ModificarDVV(SER_DVV dvv)
         {
             dao_dv.ModificarDVV(dvv.NombreTabla, dvv.Valor);

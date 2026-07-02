@@ -10,7 +10,6 @@ namespace BLL
         BLL_Idioma bll_idioma;
         MAP_Rol map_rol;
         BLL_DV bll_dv;
-        //FALTA COMPLETAR EL LOGIN PARA QUE UTILICE CORRECTAMENTE LA BLL DV
         public BLL_Usuario()
         {
             map_usuario = new MAP_Usuario();
@@ -141,50 +140,73 @@ namespace BLL
             return consulta.ToList<object>();
         }
 
-        public bool Login(SER_Usuario usuario)
+        public bool Login(SER_Usuario usuario, out string mensajeInconsistencia)
         {
+            mensajeInconsistencia = null;
+
             bool rdo = false;
+
             SER_Usuario obj = map_usuario.ConsultarPorNombreUsuario(usuario);
             if (obj == null) throw new Exception("Datos erróneos!");
 
             if (EstaBloqueado(obj)) throw new Exception("La cuenta está bloqueada!");
             if (!EstaActivo(obj)) throw new Exception("El usuario se encuentra desactivado!");
+
             if (!CompararPassword(obj, usuario.Password))
             {
                 map_usuario.SumarCantidadIntento(obj);
-                obj.CantIntentos += 1; 
+                obj.CantIntentos += 1;
+
                 bll_dv.GenerarDVH(obj, obj.Dni, "usuario");
                 bll_dv.GenerarDVV("usuario");
-                
+
                 if (map_usuario.ConsultarPorNombreUsuario(usuario).CantIntentos >= 3)
                 {
                     map_usuario.Bloquear(obj);
                     obj.Bloqueo = true;
+
                     bll_dv.GenerarDVH(obj, obj.Dni, "usuario");
                     bll_dv.GenerarDVV("usuario");
+
                     throw new Exception("Se bloqueó el usuario por motivos de seguridad!");
                 }
-                throw new Exception("No se pudo iniciar sesion");
+
+                throw new Exception("No se pudo iniciar sesión");
             }
 
-            /*
-            bool integro = bll_dv.VerificarIntegridad();
-            bool esAdmin = obj.Rol.Id == 1; 
+             /* bool integro = true;
 
-            if (!integro && !esAdmin)throw new Exception("El sistema no se encuentra disponible.Contacte con un admin si el problema persiste.");
-            if(!integro && esAdmin) FALTA IMPLEMENTAR EL CASO CUANDO ES UN ADMINISTRADOR Y HAY INCONSISTENCIA*/
+            try
+            {
+                bll_dv.VerificarIntegridad();
+            }
+            catch (Exception ex)
+            {
+                integro = false;
+                mensajeInconsistencia = ex.Message;
+            }
 
+            bool esAdmin = obj.Rol.Id == 1;
+
+            if (!integro && !esAdmin)throw new Exception("El sistema no se encuentra disponible. Contacte con un administrador si el problema persiste."); */
+
+            
 
             rdo = true;
+
             SER_SesionManager sesion = SER_SesionManager.ObtenerSesion();
+
             map_usuario.ReiniciarIntentos(obj);
-            
+
             obj.CantIntentos = 0;
+
             bll_dv.GenerarDVH(obj, obj.Dni, "usuario");
             bll_dv.GenerarDVV("usuario");
-            
+
             obj.Rol = map_rol.ObtenerArbol(obj.Rol.Id);
+
             sesion.Usuario = obj;
+
             try
             {
                 bll_idioma.CambiarIdioma(obj.IdIdioma);
@@ -208,13 +230,10 @@ namespace BLL
                 usuario.IdIdioma = bll_idioma.IdiomaActual;
                 map_usuario.ModificarIdioma(usuario);
 
-                bll_dv.GenerarDVH(usuario, usuario.Dni, "usuario");
-                bll_dv.GenerarDVV("usuario");
-
-
                 bll_bitacora.RegistrarBitacora(new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Logout", 2));
                 SER_SesionManager.CerrarSesion();
             }
+            bll_idioma.CambiarIdioma("es-AR");
         }
 
         private bool CompararPassword(SER_Usuario usuario, string password)

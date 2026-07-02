@@ -76,6 +76,16 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
+        public void BorrarDVV(params object[] T)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@NombreTabla", SqlDbType.VarChar).Value = T[0];
+            cm.CommandText = @"DELETE FROM dvv
+                           WHERE NombreTabla=@NombreTabla";
+            con.Open();
+            cm.ExecuteNonQuery();
+            con.Close();
+        }
         public void ModificarDVV(params object[] T)
         {
             cm.Parameters.Clear();
@@ -123,20 +133,30 @@ namespace DAL
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@NombreTabla", SqlDbType.VarChar).Value = nombreTabla;
+
             if (nombreTabla == "rol" || nombreTabla == "familia")
             {
                 cm.CommandText = @"SELECT *
-                       FROM dvh
-                       WHERE NombreTabla = @NombreTabla
-                       ORDER BY CAST(IdRegistro AS INT)";
+               FROM dvh
+               WHERE NombreTabla = @NombreTabla
+               ORDER BY CAST(IdRegistro AS INT)";
             }
-            else
+            else if (nombreTabla == "usuario")
             {
                 cm.CommandText = @"SELECT *
-                       FROM dvh
-                       WHERE NombreTabla = @NombreTabla
-                       ORDER BY IdRegistro";
+               FROM dvh
+               WHERE NombreTabla = @NombreTabla
+               ORDER BY IdRegistro";
             }
+            else // tablas intermedias: rol_familia, rol_permiso, familia_familia, permiso_familia, etc.
+            {
+                cm.CommandText = @"SELECT *
+               FROM dvh
+               WHERE NombreTabla = @NombreTabla
+               ORDER BY CAST(SUBSTRING(IdRegistro, 1, CHARINDEX('-', IdRegistro) - 1) AS INT),
+                        CAST(SUBSTRING(IdRegistro, CHARINDEX('-', IdRegistro) + 1, LEN(IdRegistro)) AS INT)";
+            }
+
             con.Open();
             SqlDataReader reader = cm.ExecuteReader(CommandBehavior.CloseConnection);
             return reader;

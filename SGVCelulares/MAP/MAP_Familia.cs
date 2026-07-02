@@ -40,6 +40,32 @@ namespace MAP
             }
             return lista;
         }
+        public List<object[]> ConsultarFamiliaFamilia()
+        {
+            List<object[]> listaAux = new List<object[]>();
+            SqlDataReader dr = dao_familia.ConsultarFamiliaFamilia();
+            while (dr.Read())
+            {
+                object[] datos = new object[dr.FieldCount];
+                dr.GetValues(datos);
+                listaAux.Add(datos); // datos[0] = IdFamilia, datos[1] = IdFamilia
+            }
+            dr.Close();
+            return listaAux;
+        }
+        public List<object[]> ConsultarFamiliaPermiso()
+        {
+            List<object[]> listaAux = new List<object[]>();
+            SqlDataReader dr = dao_familia.ConsultarFamiliaPermiso();
+            while (dr.Read())
+            {
+                object[] datos = new object[dr.FieldCount];
+                dr.GetValues(datos);
+                listaAux.Add(datos); // datos[0] = IdFamilia, datos[1] = IdPermiso
+            }
+            dr.Close();
+            return listaAux;
+        }
 
         public SER_Familia ConsultarPorId(SER_Familia familia)
         {

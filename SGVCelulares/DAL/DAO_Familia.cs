@@ -41,7 +41,20 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
-
+        public SqlDataReader ConsultarFamiliaFamilia()
+        {
+            cm.Parameters.Clear();
+            cm.CommandText = "select * from familia_familia";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        public SqlDataReader ConsultarFamiliaPermiso()
+        {
+            cm.Parameters.Clear();
+            cm.CommandText = "select * from permiso_familia";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
         public bool ValidarRepetido(string id)
         {
             throw new NotImplementedException();
