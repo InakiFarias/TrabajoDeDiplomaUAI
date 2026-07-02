@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -70,8 +65,6 @@ namespace DAL
                            VALUES
                            (@NombreTabla, @Valor)";
 
-          
-
             con.Open();
             cm.ExecuteNonQuery();
             con.Close();
@@ -128,7 +121,28 @@ namespace DAL
             con.Close();
             return cantidad > 0;
         }
-
+        public SqlDataReader ObtenerDVH(string nombreTabla, string idRegistro)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.AddWithValue("@NombreTabla", nombreTabla);
+            cm.Parameters.AddWithValue("@IdRegistro", idRegistro);
+            cm.CommandText =(@"SELECT NombreTabla, IdRegistro, Valor
+                              FROM dvh
+                              WHERE NombreTabla = @NombreTabla
+                              AND IdRegistro = @IdRegistro");
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        public SqlDataReader ObtenerDVV(string nombreTabla)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.AddWithValue("@NombreTabla", nombreTabla);
+            cm.CommandText = (@"SELECT NombreTabla, Valor
+                                FROM dvv
+                                WHERE NombreTabla = @NombreTabla");
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
         public SqlDataReader ConsultarDVH(string nombreTabla)
         {
             cm.Parameters.Clear();
@@ -161,31 +175,5 @@ namespace DAL
             SqlDataReader reader = cm.ExecuteReader(CommandBehavior.CloseConnection);
             return reader;
         }
-        public SqlDataReader ObtenerDVH(string nombreTabla, string idRegistro)
-        {
-            cm.Parameters.Clear();
-            cm.Parameters.AddWithValue("@NombreTabla", nombreTabla);
-            cm.Parameters.AddWithValue("@IdRegistro", idRegistro);
-            cm.CommandText =(@"SELECT NombreTabla, IdRegistro, Valor
-                              FROM dvh
-                              WHERE NombreTabla = @NombreTabla
-                              AND IdRegistro = @IdRegistro");
-
-           
-
-            con.Open();
-            return cm.ExecuteReader(CommandBehavior.CloseConnection);
-        }
-        public SqlDataReader ObtenerDVV(string nombreTabla)
-        {
-            cm.Parameters.Clear();
-            cm.Parameters.AddWithValue("@NombreTabla", nombreTabla);
-            cm.CommandText = (@"SELECT NombreTabla, Valor
-                                FROM dvv
-                                WHERE NombreTabla = @NombreTabla");
-            con.Open();
-            return cm.ExecuteReader(CommandBehavior.CloseConnection);
-        }
-
     }
 }
