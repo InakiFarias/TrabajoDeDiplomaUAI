@@ -66,45 +66,52 @@ namespace BLL
 
             // Usuarios
             var usuarios = bll_usuario.Consultar().OrderBy(u => u.Dni).ToList();
-            if (usuarios.Count > 0)
-            {
-                foreach (var usuario in usuarios)
-                {
-                    GenerarDVH(usuario, usuario.Dni, "usuario");
-                }
-
-                GenerarDVV("usuario");
-            }
+            BorrarDVHHuerfanos("usuario", usuarios.Select(u => u.Dni).ToList());
+            foreach (var usuario in usuarios)
+                GenerarDVH(usuario, usuario.Dni, "usuario");
+            GenerarDVV("usuario");
 
             // Roles
             var roles = bll_rol.Consultar().OrderBy(r => r.Id).ToList();
-            if (roles.Count > 0)
-            {
-                foreach (var rol in roles)
-                {
-                    GenerarDVH(rol, rol.Id.ToString(), "rol");
-                }
-
-                GenerarDVV("rol");
-            }
+            BorrarDVHHuerfanos("rol", roles.Select(r => r.Id.ToString()).ToList());
+            foreach (var rol in roles)
+                GenerarDVH(rol, rol.Id.ToString(), "rol");
+            GenerarDVV("rol");
 
             // Familias
             var familias = bll_familia.Consultar().OrderBy(f => f.Id).ToList();
-            if (familias.Count > 0)
-            {
-                foreach (var familia in familias)
-                {
-                    GenerarDVH(familia, familia.Id.ToString(), "familia");
-                }
-
-                GenerarDVV("familia");
-            }
+            BorrarDVHHuerfanos("familia", familias.Select(f => f.Id.ToString()).ToList());
+            foreach (var familia in familias)
+                GenerarDVH(familia, familia.Id.ToString(), "familia");
+            GenerarDVV("familia");
 
             // Tablas intermedias
             RecalcularTablaIntermedia(bll_rol.ConsultarRolFamilia(), "rol_familia");
-            RecalcularTablaIntermedia(bll_rol.ConsultarRolPermiso(), "rol_permiso");
+                   
             RecalcularTablaIntermedia(bll_familia.ConsultarFamiliaFamilia(), "familia_familia");
             RecalcularTablaIntermedia(bll_familia.ConsultarFamiliaPermiso(), "permiso_familia");
+            RecalcularTablaIntermedia(bll_rol.ConsultarRolPermiso(), "rol_permiso");
+        }
+
+        private void RecalcularTablaIntermedia(List<object[]> registros, string nombreTabla)
+        {
+            var idsReales = registros.Select(r => $"{r[0]}{SEPARADOR_ID}{r[1]}").ToList();
+            BorrarDVHHuerfanos(nombreTabla, idsReales);
+
+            foreach (var reg in registros)
+                GenerarDVH(new List<string>() { reg[0].ToString(), reg[1].ToString() }, nombreTabla);
+
+            GenerarDVV(nombreTabla);
+        }
+        private void BorrarDVHHuerfanos(string nombreTabla, List<string> idsReales)
+        {
+            List<string> idsDVH = map_dv.ConsultarDVHIds(nombreTabla);
+
+            foreach (var id in idsDVH)
+            {
+                if (!idsReales.Contains(id))
+                    BorrarDVH(nombreTabla, id);
+            }
         }
         public void BorrarDVH(string nombreTabla, string id)
         {
@@ -113,8 +120,26 @@ namespace BLL
                 map_dv.BorrarDVH(nombreTabla, id);
             }
         }
+        // Para FrmRepararInconsistencia: junta todo, no corta nunca
+        public List<SER_Inconsistencia> ObtenerInconsistencias()
+        {
+            return VerificarTodasLasTablas();
+        }
+
+        // Para el resto del sistema (ej. login): mantiene el comportamiento actual de cortar con excepción
         public bool VerificarIntegridad()
         {
+            var inconsistencias = VerificarTodasLasTablas();
+
+            if (inconsistencias.Count > 0)
+                throw new Exception("Se detecto inconsistencia en la base de datos. \n Redirigiendo a formulario de reparación.");
+
+            return true;
+        }
+        private List<SER_Inconsistencia> VerificarTodasLasTablas()
+        {
+            var inconsistencias = new List<SER_Inconsistencia>();
+
             var bll_usuario = new BLL_Usuario();
             var bll_rol = new BLL_Rol();
             var bll_familia = new BLL_Familia();
@@ -122,53 +147,80 @@ namespace BLL
             var usuarios = bll_usuario.Consultar().OrderBy(u => u.Dni).ToList();
             var roles = bll_rol.Consultar().OrderBy(r => r.Id).ToList();
             var familias = bll_familia.Consultar().OrderBy(f => f.Id).ToList();
-
             var rolFamilia = OrdenarCompuesta(bll_rol.ConsultarRolFamilia());
             var rolPermiso = OrdenarCompuesta(bll_rol.ConsultarRolPermiso());
             var familiaFamilia = OrdenarCompuesta(bll_familia.ConsultarFamiliaFamilia());
             var familiaPermiso = OrdenarCompuesta(bll_familia.ConsultarFamiliaPermiso());
 
-            Func<object[], string> getIdCompuesto = x => $"{x[0]}-{x[1]}";
+            Func<object[], string> getIdCompuesto = x => $"{x[0]}{SEPARADOR_ID}{x[1]}";
 
-            return VerificarTabla("usuario", usuarios, u => u.Dni)
-                && VerificarTabla("rol", roles, r => Convert.ToString(r.Id))
-                && VerificarTabla("familia", familias, f => Convert.ToString(f.Id))
-                && VerificarTabla("rol_familia", rolFamilia, getIdCompuesto)
-                && VerificarTabla("rol_permiso", rolPermiso, getIdCompuesto)
-                && VerificarTabla("familia_familia", familiaFamilia, getIdCompuesto)
-                && VerificarTabla("permiso_familia", familiaPermiso, getIdCompuesto);
+            VerificarTabla("usuario", usuarios, u => u.Dni, inconsistencias);
+            VerificarTabla("rol", roles, r => Convert.ToString(r.Id), inconsistencias);
+            VerificarTabla("familia", familias, f => Convert.ToString(f.Id), inconsistencias);
+            VerificarTabla("rol_familia", rolFamilia, getIdCompuesto, inconsistencias);
+            VerificarTabla("rol_permiso", rolPermiso, getIdCompuesto, inconsistencias);
+            VerificarTabla("familia_familia", familiaFamilia, getIdCompuesto, inconsistencias);
+            VerificarTabla("permiso_familia", familiaPermiso, getIdCompuesto, inconsistencias);
+
+            return inconsistencias;
         }
-        private bool VerificarTabla<T>(string nombreTabla, List<T> registros, Func<T, string> getId)
+        private void VerificarTabla<T>(string nombreTabla, List<T> registros, Func<T, string> getId, List<SER_Inconsistencia> inconsistencias)
         {
             int cantidadDVH = map_dv.ConsultarDVHValores(nombreTabla).Count;
 
             if (registros.Count == 0 && cantidadDVH == 0 && !map_dv.ExisteDVV(nombreTabla))
-                return true;
+                return;
 
             if (cantidadDVH > registros.Count)
-                throw new Exception($"La tabla '{nombreTabla}' tiene más entradas en DVH ({cantidadDVH}) que registros reales ({registros.Count}). Posible eliminación directa en BD.");
+            {
+                inconsistencias.Add(new SER_Inconsistencia(nombreTabla, "-",
+                    $"La tabla '{nombreTabla}' tiene más entradas en DVH ({cantidadDVH}) que registros reales ({registros.Count}). Posible eliminación directa en BD."));
+                return;
+            }
 
-            var dvhCalculados = registros.Select(reg =>
+            var dvhCalculados = new List<string>();
+            bool huboErrorRegistro = false;
+
+            foreach (var reg in registros)
             {
                 string dvhCalc = CalcularHash(reg);
                 SER_DVH dvh = map_dv.ObtenerDVH(nombreTabla, getId(reg));
 
                 if (dvh == null)
-                    throw new Exception($"No se encontró el DVH para el registro con Datos: {MostrarDatos(reg)}");
+                {
+                    inconsistencias.Add(new SER_Inconsistencia(nombreTabla, getId(reg),
+                        $"No se encontró el DVH para el registro con Datos(POSIBLE INSERCIÓN):{Environment.NewLine}{MostrarDatos(reg, nombreTabla)}"));
+                    huboErrorRegistro = true;
+                    continue;
+                }
 
                 if (dvhCalc != dvh.Valor)
-                    throw new Exception($"El DVH para el registro con Datos: {MostrarDatos(reg)} no coincide.");
+                {
+                    inconsistencias.Add(new SER_Inconsistencia(nombreTabla, getId(reg),
+                        $"No coincide El DVH para el registro con Datos(POSIBLE MODIFICACIÓN):{Environment.NewLine}{MostrarDatos(reg, nombreTabla)}."));
+                    huboErrorRegistro = true;
+                    continue;
+                }
 
-                return dvhCalc;
-            }).ToList();
+                dvhCalculados.Add(dvhCalc);
+            }
+
+            if (huboErrorRegistro) return; // el DVV va a fallar como consecuencia directa; reportarlo también sería ruido
 
             SER_DVV dvv = map_dv.ObtenerDVV(nombreTabla);
-            if (dvv == null) return false;
+            if (dvv == null)
+            {
+                inconsistencias.Add(new SER_Inconsistencia(nombreTabla, "(tabla completa)",
+                    $"La tabla '{nombreTabla}' tiene registros con DVH válido, pero no existe un DVV generado para la tabla.{Environment.NewLine}Posible eliminación directa del DVV en la base de datos."));
+                return;
+            }
 
             string dvvCalc = CalcularHash(dvhCalculados);
-            if (dvvCalc == dvv.Valor) return true;
-
-            throw new Exception($"El DVV para la tabla {nombreTabla} no coincide con el valor calculado.");
+            if (dvvCalc != dvv.Valor)
+            {
+                inconsistencias.Add(new SER_Inconsistencia(nombreTabla, "(tabla completa)",
+                    $"El DVV para la tabla '{nombreTabla}' no coincide con el valor calculado.{Environment.NewLine}..."));
+            }
         }
         private string Concatenar(object obj)
         {
@@ -189,8 +241,23 @@ namespace BLL
             return string.Join(SEPARADOR_HASH,
                 propiedades.Select(p => p.GetValue(obj)?.ToString() ?? string.Empty));
         }
-        private string MostrarDatos(object obj)
+        private string MostrarDatos(object obj, string nombreTabla = null)
         {
+            if (obj is object[] valores)
+            {
+                string[] nombresCampos = ObtenerNombresCampos(nombreTabla);
+
+                var lineas = valores.Select((v, i) =>
+                {
+                    string nombreCampo = (nombresCampos != null && i < nombresCampos.Length)
+                        ? nombresCampos[i]
+                        : $"Campo{i}";
+                    return $"{nombreCampo}: {v?.ToString() ?? "null"}";
+                });
+
+                return string.Join(Environment.NewLine, lineas);
+            }
+
             StringBuilder sb = new StringBuilder();
             PropertyInfo[] propiedades = obj.GetType().GetProperties()
                 .Where(p => p.PropertyType == typeof(string) ||
@@ -200,9 +267,21 @@ namespace BLL
             foreach (PropertyInfo propiedad in propiedades)
             {
                 object valor = propiedad.GetValue(obj);
-                sb.Append($"{propiedad.Name}: {valor} | ");
+                sb.Append($"{propiedad.Name}: {valor}").Append(Environment.NewLine);
             }
-            return sb.ToString().TrimEnd('|', ' ');
+            return sb.ToString().TrimEnd();
+        }
+
+        private string[] ObtenerNombresCampos(string nombreTabla)
+        {
+            switch (nombreTabla)
+            {
+                case "rol_familia": return new[] { "IdRol", "IdFamilia" };
+                case "rol_permiso": return new[] { "IdRol", "IdPermiso" };
+                case "familia_familia": return new[] { "IdFamiliaPadre", "IdFamiliaHija" };
+                case "permiso_familia": return new[] { "IdFamilia", "IdPermiso" };
+                default: return null;
+            }
         }
 
         private List<object[]> OrdenarCompuesta(List<object[]> lista)
@@ -211,16 +290,7 @@ namespace BLL
                         .ThenBy(x => Convert.ToInt32(x[1]))
                         .ToList();
         }
-        private void RecalcularTablaIntermedia(List<object[]> registros, string nombreTabla)
-        {
-            if (registros.Count == 0) return;
-
-            foreach (var reg in registros)
-            {
-                GenerarDVH(new List<string>() { reg[0].ToString(), reg[1].ToString() }, nombreTabla);
-            }
-            GenerarDVV(nombreTabla);
-        }
+      
         public string CalcularHash(object o) => SER_Cripto.Encriptar(Concatenar(o));
     }
 }

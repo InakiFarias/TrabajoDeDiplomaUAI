@@ -10,7 +10,6 @@ namespace BLL
         MAP_Familia map_familia;
         BLL_Bitacora bll_bitacora;
         BLL_DV bll_dv;
-        /* falta generar dvh y dvv al agregar una familia nueva*/
 
         public BLL_Familia()
         {

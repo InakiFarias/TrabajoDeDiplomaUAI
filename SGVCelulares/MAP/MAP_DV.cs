@@ -67,5 +67,16 @@ namespace MAP
             dr.Close();
             return valores;
         }
+        public List<string> ConsultarDVHIds(string nombreTabla)
+        {
+            List<string> ids = new List<string>();
+            SqlDataReader dr = dao_dv.ConsultarDVH(nombreTabla);
+            while (dr.Read())
+            {
+                ids.Add(dr["IdRegistro"].ToString());
+            }
+            dr.Close();
+            return ids;
+        }
     }
 }

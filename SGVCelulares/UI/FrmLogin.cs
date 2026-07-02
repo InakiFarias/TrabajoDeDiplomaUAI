@@ -40,31 +40,42 @@ namespace UI
 
                 if (bll_usuario.Login(new SER_Usuario(nombreUsuario, password), out mensajeInconsistencia))
                 {
-                    /*if (!string.IsNullOrEmpty(mensajeInconsistencia))
+                    if (!string.IsNullOrEmpty(mensajeInconsistencia))
                     {
                         MessageBox.Show(
                             mensajeInconsistencia,
                             "Inconsistencia detectada",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
+                       
+                        txtNombreUsuario.Text = "";
+                        txtPassword.Text = "";
 
+                        this.Hide();
+                        
                         FrmRepararInconsistencia frmRepararInconsistencia = new FrmRepararInconsistencia();
                         frmRepararInconsistencia.ShowDialog();
-                    } */
+                        this.Show();
 
-                    txtNombreUsuario.Text = "";
-                    txtPassword.Text = "";
+                    }
+                    else 
+                    {
 
-                    this.Hide();
+                        txtNombreUsuario.Text = "";
+                        txtPassword.Text = "";
 
-                    FrmMenu frmMenu = new FrmMenu();
-                    frmMenu.ShowDialog();
+                        this.Hide();
 
-                    this.Show();
+                        FrmMenu frmMenu = new FrmMenu();
+                        frmMenu.ShowDialog();
 
-                    cargandoIdiomas = true;
-                    cboIdioma.SelectedValue = bll_idioma.IdiomaActual;
-                    cargandoIdiomas = false;
+                        this.Show();
+
+                        cargandoIdiomas = true;
+                        cboIdioma.SelectedValue = bll_idioma.IdiomaActual;
+                        cargandoIdiomas = false;
+                    }
+
                 }
             }
             catch (Exception ex)

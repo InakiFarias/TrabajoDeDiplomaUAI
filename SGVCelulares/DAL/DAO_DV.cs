@@ -31,7 +31,7 @@ namespace DAL
             cm.Parameters.Clear();
             cm.Parameters.Add("@NombreTabla", SqlDbType.VarChar).Value = T[0];
             cm.Parameters.Add("@IdRegistro", SqlDbType.VarChar).Value = T[1];
-            cm.CommandText = @"DELETE FROM dvh
+                cm.CommandText = @"DELETE FROM dvh
                            WHERE NombreTabla=@NombreTabla
                            AND IdRegistro=@IdRegistro";
             con.Open();

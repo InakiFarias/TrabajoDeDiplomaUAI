@@ -24,6 +24,7 @@ namespace UI
             btnUsuarios.Visible = TieneAlgun(usuario, "Crear Usuario", "Modificar Usuario", "Desbloquear Usuario", "Activar Usuario");
             btnGestionRoles.Visible = TieneAlgun(usuario, "Crear Rol", "Crear Familia", "Eliminar Rol", "Eliminar Familia");
             btnBitacora.Visible = TieneAlgun(usuario, "Consultar Bitácora");
+            btnGestionRespaldo.Visible = TieneAlgun(usuario, "Realizar Backup", "Realizar Restore");
         }
         private bool TieneAlgun(SER_Usuario usuario, params string[] permisos)
         {

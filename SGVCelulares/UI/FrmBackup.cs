@@ -17,6 +17,9 @@ namespace UI
         private void FrmBackup_Load(object sender, EventArgs e)
         {
             bll_backup = new();
+            SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
+            btnBackup.Enabled = usuario.Rol.TienePermiso("Realizar Backup");
+            btnRestore.Enabled = usuario.Rol.TienePermiso("Realizar Restore");
         }
         private void btnBackup_Click(object sender, EventArgs e)
         {

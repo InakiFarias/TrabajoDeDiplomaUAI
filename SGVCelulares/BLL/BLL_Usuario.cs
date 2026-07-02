@@ -174,7 +174,7 @@ namespace BLL
                 throw new Exception("No se pudo iniciar sesión");
             }
 
-            /* bool integro = true;
+            bool integro = true;
 
            try
            {
@@ -188,7 +188,7 @@ namespace BLL
 
            bool esAdmin = obj.Rol.Id == 1;
 
-           if (!integro && !esAdmin)throw new Exception("El sistema no se encuentra disponible. Contacte con un administrador si el problema persiste."); */
+           if (!integro && !esAdmin)throw new Exception("El sistema no se encuentra disponible. Contacte con un administrador si el problema persiste."); 
 
 
             try
@@ -207,10 +207,14 @@ namespace BLL
             map_usuario.ReiniciarIntentos(obj);
 
             obj.CantIntentos = 0;
+            
+            if (integro)
+            {
+                bll_dv.GenerarDVH(obj, obj.Dni, "usuario");
+                bll_dv.GenerarDVV("usuario");
+            }
 
-            bll_dv.GenerarDVH(obj, obj.Dni, "usuario");
-            bll_dv.GenerarDVV("usuario");
-
+           
             obj.Rol = map_rol.ObtenerArbol(obj.Rol.Id);
 
             sesion.Usuario = obj;
@@ -228,7 +232,10 @@ namespace BLL
             {
                 usuario.IdIdioma = bll_idioma.IdiomaActual;
                 map_usuario.ModificarIdioma(usuario);
-
+                
+                bll_dv.GenerarDVH(usuario, usuario.Dni, "usuario");
+                bll_dv.GenerarDVV("usuario");
+                
                 bll_bitacora.RegistrarBitacora(new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Logout", 2));
                 bll_bitacora.RegistrarBitacora(new SER_Bitacora(usuario, DateTime.Now, "Usuarios", "Cambiar Idioma", 3));
                 SER_SesionManager.CerrarSesion();
