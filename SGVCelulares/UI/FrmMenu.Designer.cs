@@ -33,6 +33,7 @@
             lblUsuario = new Label();
             lblTituloTopbar = new Label();
             pnlSidebar = new Panel();
+            btnGestionRespaldo = new Button();
             btnGestionRoles = new Button();
             btnLogout = new Button();
             btnCambiarClave = new Button();
@@ -44,7 +45,6 @@
             btnUsuarios = new Button();
             lblSeccionNav = new Label();
             pnlContenido = new Panel();
-            btnGestionRespaldo = new Button();
             pnlTopbar.SuspendLayout();
             pnlSidebar.SuspendLayout();
             SuspendLayout();
@@ -65,9 +65,9 @@
             // 
             cboIdioma.DropDownStyle = ComboBoxStyle.DropDownList;
             cboIdioma.FormattingEnabled = true;
-            cboIdioma.Location = new Point(745, 14);
+            cboIdioma.Location = new Point(735, 14);
             cboIdioma.Name = "cboIdioma";
-            cboIdioma.Size = new Size(192, 25);
+            cboIdioma.Size = new Size(213, 25);
             cboIdioma.TabIndex = 2;
             cboIdioma.SelectedIndexChanged += cboIdioma_SelectedIndexChanged;
             // 
@@ -111,8 +111,27 @@
             pnlSidebar.Dock = DockStyle.Left;
             pnlSidebar.Location = new Point(0, 48);
             pnlSidebar.Name = "pnlSidebar";
-            pnlSidebar.Size = new Size(190, 572);
+            pnlSidebar.Size = new Size(211, 572);
             pnlSidebar.TabIndex = 1;
+            // 
+            // btnGestionRespaldo
+            // 
+            btnGestionRespaldo.BackColor = Color.FromArgb(25, 37, 53);
+            btnGestionRespaldo.Cursor = Cursors.Hand;
+            btnGestionRespaldo.FlatAppearance.BorderSize = 0;
+            btnGestionRespaldo.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnGestionRespaldo.FlatStyle = FlatStyle.Flat;
+            btnGestionRespaldo.Font = new Font("Segoe UI", 9.5F);
+            btnGestionRespaldo.ForeColor = Color.FromArgb(148, 163, 184);
+            btnGestionRespaldo.Location = new Point(16, 160);
+            btnGestionRespaldo.Name = "btnGestionRespaldo";
+            btnGestionRespaldo.Padding = new Padding(10, 0, 0, 0);
+            btnGestionRespaldo.Size = new Size(174, 38);
+            btnGestionRespaldo.TabIndex = 13;
+            btnGestionRespaldo.Text = "💾 Gestión respaldo";
+            btnGestionRespaldo.TextAlign = ContentAlignment.MiddleLeft;
+            btnGestionRespaldo.UseVisualStyleBackColor = false;
+            btnGestionRespaldo.Click += btnGestionRespaldo_Click;
             // 
             // btnGestionRoles
             // 
@@ -123,13 +142,13 @@
             btnGestionRoles.FlatStyle = FlatStyle.Flat;
             btnGestionRoles.Font = new Font("Segoe UI", 9.5F);
             btnGestionRoles.ForeColor = Color.FromArgb(148, 163, 184);
-            btnGestionRoles.Location = new Point(4, 116);
+            btnGestionRoles.Location = new Point(16, 116);
             btnGestionRoles.Name = "btnGestionRoles";
             btnGestionRoles.Padding = new Padding(10, 0, 0, 0);
             btnGestionRoles.Size = new Size(174, 38);
             btnGestionRoles.TabIndex = 12;
             btnGestionRoles.Tag = "Gestion roles";
-            btnGestionRoles.Text = "📝  Gestión Roles";
+            btnGestionRoles.Text = "👥 Gestión Roles";
             btnGestionRoles.TextAlign = ContentAlignment.MiddleLeft;
             btnGestionRoles.UseVisualStyleBackColor = false;
             btnGestionRoles.Click += btnGestionRoles_Click;
@@ -143,12 +162,12 @@
             btnLogout.FlatStyle = FlatStyle.Flat;
             btnLogout.Font = new Font("Segoe UI", 9.5F);
             btnLogout.ForeColor = Color.FromArgb(148, 163, 184);
-            btnLogout.Location = new Point(10, 317);
+            btnLogout.Location = new Point(16, 317);
             btnLogout.Name = "btnLogout";
             btnLogout.Padding = new Padding(10, 0, 0, 0);
             btnLogout.Size = new Size(174, 38);
             btnLogout.TabIndex = 11;
-            btnLogout.Text = "⇠  Cerrar sesión";
+            btnLogout.Text = "🎚️ Cerrar sesión";
             btnLogout.TextAlign = ContentAlignment.MiddleLeft;
             btnLogout.UseVisualStyleBackColor = false;
             btnLogout.Click += btnLogout_Click;
@@ -162,12 +181,12 @@
             btnCambiarClave.FlatStyle = FlatStyle.Flat;
             btnCambiarClave.Font = new Font("Segoe UI", 9.5F);
             btnCambiarClave.ForeColor = Color.FromArgb(148, 163, 184);
-            btnCambiarClave.Location = new Point(4, 273);
+            btnCambiarClave.Location = new Point(16, 273);
             btnCambiarClave.Name = "btnCambiarClave";
             btnCambiarClave.Padding = new Padding(10, 0, 0, 0);
             btnCambiarClave.Size = new Size(174, 38);
             btnCambiarClave.TabIndex = 10;
-            btnCambiarClave.Text = "📝  Cambiar clave";
+            btnCambiarClave.Text = "🔑 Cambiar clave";
             btnCambiarClave.TextAlign = ContentAlignment.MiddleLeft;
             btnCambiarClave.UseVisualStyleBackColor = false;
             btnCambiarClave.Click += btnCambiarClave_Click;
@@ -181,12 +200,12 @@
             btnRelogin.FlatStyle = FlatStyle.Flat;
             btnRelogin.Font = new Font("Segoe UI", 9.5F);
             btnRelogin.ForeColor = Color.FromArgb(148, 163, 184);
-            btnRelogin.Location = new Point(10, 229);
+            btnRelogin.Location = new Point(16, 229);
             btnRelogin.Name = "btnRelogin";
             btnRelogin.Padding = new Padding(10, 0, 0, 0);
             btnRelogin.Size = new Size(174, 38);
             btnRelogin.TabIndex = 9;
-            btnRelogin.Text = "👤  Re-Login";
+            btnRelogin.Text = "🔄 Re-Login";
             btnRelogin.TextAlign = ContentAlignment.MiddleLeft;
             btnRelogin.UseVisualStyleBackColor = false;
             btnRelogin.Click += btnRelogin_Click;
@@ -211,12 +230,12 @@
             btnAyuda.FlatStyle = FlatStyle.Flat;
             btnAyuda.Font = new Font("Segoe UI", 9.5F);
             btnAyuda.ForeColor = Color.FromArgb(148, 163, 184);
-            btnAyuda.Location = new Point(10, 456);
+            btnAyuda.Location = new Point(16, 456);
             btnAyuda.Name = "btnAyuda";
             btnAyuda.Padding = new Padding(10, 0, 0, 0);
             btnAyuda.Size = new Size(174, 38);
             btnAyuda.TabIndex = 6;
-            btnAyuda.Text = "❓  Ayuda";
+            btnAyuda.Text = "❓ Ayuda";
             btnAyuda.TextAlign = ContentAlignment.MiddleLeft;
             btnAyuda.UseVisualStyleBackColor = false;
             // 
@@ -229,12 +248,12 @@
             btnReportes.FlatStyle = FlatStyle.Flat;
             btnReportes.Font = new Font("Segoe UI", 9.5F);
             btnReportes.ForeColor = Color.FromArgb(148, 163, 184);
-            btnReportes.Location = new Point(10, 412);
+            btnReportes.Location = new Point(16, 412);
             btnReportes.Name = "btnReportes";
             btnReportes.Padding = new Padding(10, 0, 0, 0);
             btnReportes.Size = new Size(174, 38);
             btnReportes.TabIndex = 3;
-            btnReportes.Text = "📊  Reportes";
+            btnReportes.Text = "📊 Reportes";
             btnReportes.TextAlign = ContentAlignment.MiddleLeft;
             btnReportes.UseVisualStyleBackColor = false;
             // 
@@ -247,13 +266,13 @@
             btnBitacora.FlatStyle = FlatStyle.Flat;
             btnBitacora.Font = new Font("Segoe UI", 9.5F);
             btnBitacora.ForeColor = Color.FromArgb(148, 163, 184);
-            btnBitacora.Location = new Point(4, 72);
+            btnBitacora.Location = new Point(16, 72);
             btnBitacora.Name = "btnBitacora";
             btnBitacora.Padding = new Padding(10, 0, 0, 0);
             btnBitacora.Size = new Size(174, 38);
             btnBitacora.TabIndex = 2;
             btnBitacora.Tag = "Gestion bitacora";
-            btnBitacora.Text = "📝  Bitácora";
+            btnBitacora.Text = "📜 Bitácora";
             btnBitacora.TextAlign = ContentAlignment.MiddleLeft;
             btnBitacora.UseVisualStyleBackColor = false;
             btnBitacora.Click += btnBitacora_Click;
@@ -267,13 +286,13 @@
             btnUsuarios.FlatStyle = FlatStyle.Flat;
             btnUsuarios.Font = new Font("Segoe UI", 9.5F);
             btnUsuarios.ForeColor = Color.FromArgb(148, 163, 184);
-            btnUsuarios.Location = new Point(4, 30);
+            btnUsuarios.Location = new Point(16, 28);
             btnUsuarios.Name = "btnUsuarios";
             btnUsuarios.Padding = new Padding(10, 0, 0, 0);
             btnUsuarios.Size = new Size(174, 38);
             btnUsuarios.TabIndex = 1;
             btnUsuarios.Tag = "Gestion usuario";
-            btnUsuarios.Text = "👤  Gestión Usuarios";
+            btnUsuarios.Text = "\U0001f9d1‍💻 Gestión Usuarios";
             btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
             btnUsuarios.UseVisualStyleBackColor = false;
             btnUsuarios.Click += btnUsuarios_Click;
@@ -293,30 +312,11 @@
             // 
             pnlContenido.BackColor = Color.FromArgb(30, 42, 58);
             pnlContenido.Dock = DockStyle.Fill;
-            pnlContenido.Location = new Point(190, 48);
+            pnlContenido.Location = new Point(211, 48);
             pnlContenido.Name = "pnlContenido";
             pnlContenido.Padding = new Padding(24);
-            pnlContenido.Size = new Size(770, 572);
+            pnlContenido.Size = new Size(749, 572);
             pnlContenido.TabIndex = 2;
-            // 
-            // btnGestionRespaldo
-            // 
-            btnGestionRespaldo.BackColor = Color.FromArgb(25, 37, 53);
-            btnGestionRespaldo.Cursor = Cursors.Hand;
-            btnGestionRespaldo.FlatAppearance.BorderSize = 0;
-            btnGestionRespaldo.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
-            btnGestionRespaldo.FlatStyle = FlatStyle.Flat;
-            btnGestionRespaldo.Font = new Font("Segoe UI", 9.5F);
-            btnGestionRespaldo.ForeColor = Color.FromArgb(148, 163, 184);
-            btnGestionRespaldo.Location = new Point(3, 160);
-            btnGestionRespaldo.Name = "btnGestionRespaldo";
-            btnGestionRespaldo.Padding = new Padding(10, 0, 0, 0);
-            btnGestionRespaldo.Size = new Size(174, 38);
-            btnGestionRespaldo.TabIndex = 13;
-            btnGestionRespaldo.Text = "⇠  Gestión respaldo";
-            btnGestionRespaldo.TextAlign = ContentAlignment.MiddleLeft;
-            btnGestionRespaldo.UseVisualStyleBackColor = false;
-            btnGestionRespaldo.Click += btnGestionRespaldo_Click;
             // 
             // FrmMenu
             // 

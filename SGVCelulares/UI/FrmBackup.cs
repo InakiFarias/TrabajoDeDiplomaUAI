@@ -47,11 +47,6 @@ namespace UI
             }
         }
 
-        private void btnSalir_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         public void ActualizarIdioma()
         {
             this.Text = bll_idioma.Traducir("FrmBackup.Form");
@@ -60,5 +55,6 @@ namespace UI
             btnSalir.Text = bll_idioma.Traducir("FrmBackup.btnSalir");
 
         }
+        private void btnSalir_Click(object sender, EventArgs e) => this.Close();
     }
 }
