@@ -31,7 +31,7 @@ namespace UI
                 {
                     string ruta = saveDialog.FileName;
                     bll_backup.Backup(ruta);
-                    MessageBox.Show("Backup realizado correctamente!", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(bll_idioma.Traducir("FrmBackup.msgOperacionExitosaBackup"), bll_idioma.Traducir("FrmBackup.msgInformacion"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -51,14 +51,14 @@ namespace UI
                 {
                     string ruta = openDialog.FileName;
                     string nombreArchivo = Path.GetFileName(ruta);
-                    DialogResult rdo = MessageBox.Show($"¿Desea restaurar el respaldo?\nArchivo seleccionado: {nombreArchivo}\nLa base de datos actual será reemplazada y la sesión se cerrará automáticamente", "Confirmar operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult rdo = MessageBox.Show(bll_idioma.Traducir("FrmBackup.msgConfirmarRestore"), bll_idioma.Traducir("FrmBackup.msgConfirmarOperacion"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (rdo == DialogResult.Yes)
                     {
                         Cursor = Cursors.WaitCursor;
                         bll_backup.Restore(ruta);
                         Cursor = Cursors.Default;
-                        MessageBox.Show("La base de datos fue restaurada correctamente!\nLa sesión se cerrará para aplicar los cambios", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(bll_idioma.Traducir("FrmBackup.msgOperacionExitosaRestore"), bll_idioma.Traducir("FrmBackup.msgInformacion"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RestoreRealizado = true;
                         this.Close();
                     }
@@ -67,7 +67,7 @@ namespace UI
             catch (Exception ex)
             {
                 Cursor = Cursors.Default;
-                MessageBox.Show("No fue posible restaurar la base de datos\nVerifique que el archivo de respaldo sea válido y que SQL Server tenga permisos para acceder a él", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(bll_idioma.Traducir("FrmBackup.msgError"), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

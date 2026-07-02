@@ -32,7 +32,7 @@
   "FrmGestionUsuarios.btnCrearUsuario": "Create",
   "FrmGestionUsuarios.btnDesbloquearUsuario": "Unlock",
   "FrmGestionUsuarios.btnModificarUsuario": "Edit",
-  "FrmGestionUsuarios.btnCambiarEstadoUsuario": "Activate / Deactivate",
+  "FrmGestionUsuarios.btnCambiarEstadoUsuario": "Activate / Desactivate",
   "FrmGestionUsuarios.btnAplicarCambios": "Apply",
   "FrmGestionUsuarios.btnSalir": "Close",
   "FrmGestionUsuarios.label1": "Username",
@@ -91,5 +91,11 @@
   "FrmBackup.Form": "Backup Management",
   "FrmBackup.btnBackup": "Backup",
   "FrmBackup.btnRestore": "Restore",
-  "FrmBackup.btnSalir": "Close"
+  "FrmBackup.btnSalir": "Close",
+  "FrmBackup.msgOperacionExitosaBackup": "Backup completed successfully!",
+  "FrmBackup.msgOperacionExitosaRestore": "The database was restored successfully!\nThe session will close to apply the changes",
+  "FrmBackup.msgConfirmarRestore": "Do you want to restore the database?\nThe current database will be replaced and the session will close automatically",
+  "FrmBackup.msgError": "The database could not be restored.\nVerify that the backup file is valid and that SQL Server has permissions to access it",
+  "FrmBackup.msgInformacion": "Information",
+  "FrmBackup.msgConfirmarOperacion": "Confirm operation"
 }
