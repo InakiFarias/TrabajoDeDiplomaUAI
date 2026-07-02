@@ -1,23 +1,18 @@
 ﻿using BLL;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using Servicio;
 
 namespace UI
 {
-    public partial class FrmBackup : Form
+    public partial class FrmBackup : Form, IObservadorIdioma
     {
         BLL_Backup bll_backup;
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         public bool RestoreRealizado { get; private set; } = false;
         public FrmBackup()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
+            ActualizarIdioma();
         }
         private void FrmBackup_Load(object sender, EventArgs e)
         {
@@ -55,6 +50,15 @@ namespace UI
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FrmBackup.Form");
+            btnBackup.Text = bll_idioma.Traducir("FrmBackup.btnBackup");
+            btnRestore.Text = bll_idioma.Traducir("FrmBackup.btnRestore");
+            btnSalir.Text = bll_idioma.Traducir("FrmBackup.btnSalir");
+
         }
     }
 }

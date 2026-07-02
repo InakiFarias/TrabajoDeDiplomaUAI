@@ -47,6 +47,8 @@ CREATE TABLE dvh(
     valor varchar(64) not null,
     constraint PK_DVH primary key (nombreTabla, idRegistro)
 );
+
+drop table dvv;
 -- Composite
 
 create table rol (
@@ -110,7 +112,9 @@ values
 ('Consultar Bitácora'),
 ('Exportar Bitácora'),
 ('Crear Rol'),
-('Crear Familia');
+('Crear Familia'),
+('Realizar Backup'),
+('Realizar Restore');
 
 insert into permiso (nombre)
 values

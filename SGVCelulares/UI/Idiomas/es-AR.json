@@ -12,6 +12,7 @@
   "FrmMenu.btnUsuarios": "Gestión Usuarios",
   "FrmMenu.btnBitacora": "Bitácora",
   "FrmMenu.btnGestionRoles": "Gestión Roles",
+  "FrmMenu.btnGestionRespaldo": "Gestión de Respaldo",
   "FrmMenu.btnReportes": "Reportes",
   "FrmMenu.btnAyuda": "Ayuda",
   "FrmMenu.btnRelogin": "Re-Login",
@@ -85,5 +86,10 @@
   "FrmGestionRoles.radRol": "Rol",
   "FrmGestionRoles.radFamilia": "Familia",
   "FrmGestionRoles.btnEliminarSeleccionados": "Eliminar seleccionados",
-  "FrmGestionRoles.btnSalir": "Salir"
+  "FrmGestionRoles.btnSalir": "Salir",
+
+  "FrmBackup.Form": "Gestión de Respaldo",
+  "FrmBackup.btnBackup": "Generar copia de seguridad",
+  "FrmBackup.btnRestore": "Generar resturación",
+  "FrmBackup.btnSalir": "Salir"
 }

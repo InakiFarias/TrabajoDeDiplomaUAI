@@ -12,11 +12,12 @@
   "FrmMenu.btnUsuarios": "User Management",
   "FrmMenu.btnBitacora": "Audit Log",
   "FrmMenu.btnGestionRoles": "Role Management",
+  "FrmMenu.btnGestionRespaldo": "Backup management",
   "FrmMenu.btnReportes": "Reports",
   "FrmMenu.btnAyuda": "Help",
   "FrmMenu.btnRelogin": "Re-Login",
   "FrmMenu.btnCambiarClave": "Change Password",
-  "FrmMenu.btnLogout": "⇠  Sign out",
+  "FrmMenu.btnLogout": "⇠Sign out",
   "FrmMenu.msgCerrarSesion": "Are you sure you want to log out?",
   "FrmMenu.msgConfirmacion": "Confirmation",
 
@@ -85,5 +86,10 @@
   "FrmGestionRoles.radRol": "Role",
   "FrmGestionRoles.radFamilia": "Family",
   "FrmGestionRoles.btnEliminarSeleccionados": "Delete selected",
-  "FrmGestionRoles.btnSalir": "Close"
+  "FrmGestionRoles.btnSalir": "Close",
+
+  "FrmBackup.Form": "Backup Management",
+  "FrmBackup.btnBackup": "Backup",
+  "FrmBackup.btnRestore": "Restore",
+  "FrmBackup.btnSalir": "Close"
 }

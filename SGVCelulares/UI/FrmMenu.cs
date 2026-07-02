@@ -180,6 +180,7 @@ namespace UI
             btnUsuarios.Text = bll_idioma.Traducir("FrmMenu.btnUsuarios");
             btnBitacora.Text = bll_idioma.Traducir("FrmMenu.btnBitacora");
             btnGestionRoles.Text = bll_idioma.Traducir("FrmMenu.btnGestionRoles");
+            btnGestionRespaldo.Text = bll_idioma.Traducir("FrmMenu.btnGestionRespaldo");
             btnReportes.Text = bll_idioma.Traducir("FrmMenu.btnReportes");
             btnAyuda.Text = bll_idioma.Traducir("FrmMenu.btnAyuda");
             btnRelogin.Text = bll_idioma.Traducir("FrmMenu.btnRelogin");
