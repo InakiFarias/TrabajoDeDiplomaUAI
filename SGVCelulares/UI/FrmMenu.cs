@@ -128,6 +128,21 @@ namespace UI
                 frm.Focus();
             }
         }
+        private void btnGestionRespaldo_Click(object sender, EventArgs e)
+        {
+            Form frm = Application.OpenForms["FrmBackup"];
+            if (frm == null)
+            {
+                FrmBackup frmBackup = new FrmBackup();
+                frmBackup.ShowDialog();
+            }
+            else
+            {
+                frm.WindowState = FormWindowState.Normal;
+                frm.BringToFront();
+                frm.Focus();
+            }
+        }
         private void CargarIdiomas()
         {
             cargandoIdiomas = true;

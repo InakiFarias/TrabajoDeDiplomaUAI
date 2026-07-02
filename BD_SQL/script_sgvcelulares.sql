@@ -35,7 +35,18 @@ CREATE TABLE bitacora (
     CONSTRAINT FK_bitacora_usuario FOREIGN KEY (dni) REFERENCES usuario(dni)
 );
 
+CREATE TABLE DVV(
+    nombreTabla varchar(50) not null,
+    valor varchar(64) not null,
+    constraint PK_DVV primary key (nombreTabla)
+);
 
+CREATE TABLE DVH(
+    nombreTabla varchar(50) not null,
+    idRegistro varchar(50) not null,
+    valor varchar(64) not null,
+    constraint PK_DVH primary key (nombreTabla, idRegistro)
+);
 -- Composite
 
 create table rol (

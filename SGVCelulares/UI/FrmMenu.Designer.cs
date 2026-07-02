@@ -44,6 +44,7 @@
             btnUsuarios = new Button();
             lblSeccionNav = new Label();
             pnlContenido = new Panel();
+            btnGestionRespaldo = new Button();
             pnlTopbar.SuspendLayout();
             pnlSidebar.SuspendLayout();
             SuspendLayout();
@@ -96,6 +97,7 @@
             // pnlSidebar
             // 
             pnlSidebar.BackColor = Color.FromArgb(25, 37, 53);
+            pnlSidebar.Controls.Add(btnGestionRespaldo);
             pnlSidebar.Controls.Add(btnGestionRoles);
             pnlSidebar.Controls.Add(btnLogout);
             pnlSidebar.Controls.Add(btnCambiarClave);
@@ -297,6 +299,25 @@
             pnlContenido.Size = new Size(770, 572);
             pnlContenido.TabIndex = 2;
             // 
+            // btnGestionRespaldo
+            // 
+            btnGestionRespaldo.BackColor = Color.FromArgb(25, 37, 53);
+            btnGestionRespaldo.Cursor = Cursors.Hand;
+            btnGestionRespaldo.FlatAppearance.BorderSize = 0;
+            btnGestionRespaldo.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnGestionRespaldo.FlatStyle = FlatStyle.Flat;
+            btnGestionRespaldo.Font = new Font("Segoe UI", 9.5F);
+            btnGestionRespaldo.ForeColor = Color.FromArgb(148, 163, 184);
+            btnGestionRespaldo.Location = new Point(3, 160);
+            btnGestionRespaldo.Name = "btnGestionRespaldo";
+            btnGestionRespaldo.Padding = new Padding(10, 0, 0, 0);
+            btnGestionRespaldo.Size = new Size(174, 38);
+            btnGestionRespaldo.TabIndex = 13;
+            btnGestionRespaldo.Text = "⇠  Gestión respaldo";
+            btnGestionRespaldo.TextAlign = ContentAlignment.MiddleLeft;
+            btnGestionRespaldo.UseVisualStyleBackColor = false;
+            btnGestionRespaldo.Click += btnGestionRespaldo_Click;
+            // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -338,5 +359,6 @@
         private Label label1;
         private Button btnGestionRoles;
         private ComboBox cboIdioma;
+        private Button btnGestionRespaldo;
     }
 }
