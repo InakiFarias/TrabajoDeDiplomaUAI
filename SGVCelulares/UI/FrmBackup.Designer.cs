@@ -30,13 +30,14 @@
         {
             btnBackup = new Button();
             btnRestore = new Button();
+            btnSalir = new Button();
             SuspendLayout();
             // 
             // btnBackup
             // 
             btnBackup.Location = new Point(50, 63);
             btnBackup.Name = "btnBackup";
-            btnBackup.Size = new Size(119, 65);
+            btnBackup.Size = new Size(138, 65);
             btnBackup.TabIndex = 0;
             btnBackup.Text = "BACKUP";
             btnBackup.UseVisualStyleBackColor = true;
@@ -44,19 +45,30 @@
             // 
             // btnRestore
             // 
-            btnRestore.Location = new Point(50, 163);
+            btnRestore.Location = new Point(50, 134);
             btnRestore.Name = "btnRestore";
-            btnRestore.Size = new Size(119, 65);
+            btnRestore.Size = new Size(138, 65);
             btnRestore.TabIndex = 1;
             btnRestore.Text = "RESTORE";
             btnRestore.UseVisualStyleBackColor = true;
             btnRestore.Click += btnRestore_Click;
+            // 
+            // btnSalir
+            // 
+            btnSalir.Location = new Point(50, 214);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(138, 27);
+            btnSalir.TabIndex = 2;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = true;
+            btnSalir.Click += btnSalir_Click;
             // 
             // FrmBackup
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(354, 315);
+            Controls.Add(btnSalir);
             Controls.Add(btnRestore);
             Controls.Add(btnBackup);
             Name = "FrmBackup";
@@ -69,5 +81,6 @@
 
         private Button btnBackup;
         private Button btnRestore;
+        private Button btnSalir;
     }
 }

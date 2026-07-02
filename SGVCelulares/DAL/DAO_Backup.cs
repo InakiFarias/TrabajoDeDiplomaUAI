@@ -15,6 +15,9 @@ namespace DAL
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(cadena);
             builder.InitialCatalog = "master";
             con = new SqlConnection(builder.ConnectionString);
+            cm = new SqlCommand();
+            cm.Connection = con;
+            cm.CommandType = CommandType.Text;
         }
 
         public void Backup(string ruta)
