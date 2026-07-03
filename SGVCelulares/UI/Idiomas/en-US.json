@@ -103,5 +103,7 @@
   "FrmRepararInconsistencia.btnRealizarRespaldo": "Perform backup",
   "FrmRepararInconsistencia.btnRestaurarDV": "Recalculate check digits",
   "FrmRepararInconsistencia.btnSalir": "Close",
-  "FrmRepararInconsistencia.lblTitulo": "FIX INCONSISTENCIES"
+  "FrmRepararInconsistencia.lblTitulo": "FIX INCONSISTENCIES",
+  "FrmRepararInconsistencia.colNombreTabla": "Table",
+  "FrmRepararInconsistencia.colIdRegistro": "Record ID"
 }

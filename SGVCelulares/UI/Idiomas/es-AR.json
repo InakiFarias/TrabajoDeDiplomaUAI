@@ -103,5 +103,7 @@
   "FrmRepararInconsistencia.btnRealizarRespaldo": "Realizar respaldo",
   "FrmRepararInconsistencia.btnRestaurarDV": "Recalcular Dígitos Verificadores",
   "FrmRepararInconsistencia.btnSalir": "Salir",
-  "FrmRepararInconsistencia.lblTitulo": "REPARAR INCONSISTENCIAS"
+  "FrmRepararInconsistencia.lblTitulo": "REPARAR INCONSISTENCIAS",
+  "FrmRepararInconsistencia.colNombreTabla": "Tabla",
+  "FrmRepararInconsistencia.colIdRegistro": "IdRegistro"
 }

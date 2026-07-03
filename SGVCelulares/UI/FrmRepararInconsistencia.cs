@@ -8,6 +8,7 @@ namespace UI
         BLL_DV bll_dv;
         BLL_Backup bll_backup;
         BLL_Idioma bll_idioma = new BLL_Idioma();
+        BLL_Usuario bLL_Usuario;
         private List<SER_Inconsistencia> inconsistencias;
 
         public FrmRepararInconsistencia()
@@ -21,6 +22,7 @@ namespace UI
         {
             bll_dv = new BLL_DV();
             bll_backup = new BLL_Backup();
+            bLL_Usuario = new BLL_Usuario();
             try
             {
                 inconsistencias = bll_dv.ObtenerInconsistencias();
@@ -55,10 +57,17 @@ namespace UI
                 DataPropertyName = "IdRegistro",
             });
 
-            grillaInconsistencias.DataSource = null; ; grillaInconsistencias.DataSource = inconsistencias;
+            grillaInconsistencias.DataSource = null; ; 
+            grillaInconsistencias.DataSource = inconsistencias;
+            TraducirColumnas(grillaInconsistencias);
         }
+        private void TraducirColumnas(DataGridView grilla)
+        {
+            if (grilla.Columns.Count == 0) return;
 
-
+            grilla.Columns["NombreTabla"].HeaderText = bll_idioma.Traducir("FrmRepararInconsistencia.colNombreTabla");
+            grilla.Columns["IdRegistro"].HeaderText = bll_idioma.Traducir("FrmRepararInconsistencia.colIdRegistro");
+        }
         private void btnRealizarRespaldo_Click(object sender, EventArgs e)
         {
             try
@@ -115,11 +124,19 @@ namespace UI
             btnRestaurarDV.Text = bll_idioma.Traducir("FrmRepararInconsistencia.btnRestaurarDV");
             lblTitulo.Text = bll_idioma.Traducir("FrmRepararInconsistencia.lblTitulo");
             btnSalir.Text = bll_idioma.Traducir("FrmRepararInconsistencia.btnSalir");
+            TraducirColumnas(grillaInconsistencias);
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+            bll_idioma.Desuscribir(this);
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            bLL_Usuario.Logout();
+            base.OnFormClosed(e);
         }
     }
 }
