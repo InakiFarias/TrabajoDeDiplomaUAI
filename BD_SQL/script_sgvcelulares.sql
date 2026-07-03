@@ -147,6 +147,7 @@ values
 ('es-AR','Español (Argentina)'),
 ('en-US','English (United States)');
 
+
 insert into rol (nombre)
 values
 ('Administrador');
