@@ -144,7 +144,7 @@ values
 
 insert into idioma (idIdioma, nombre)
 values
-('es-AR','Spanish (Argentina)'),
+('es-AR','Español (Argentina)'),
 ('en-US','English (United States)');
 
 insert into rol (nombre)
@@ -187,7 +187,6 @@ where ff.idFamiliaPadre = 1;
 
 -- Pruebas de inconsistencia
 insert into rol(nombre) values ('test');
-
 /*
     usuarios test:
         admin
