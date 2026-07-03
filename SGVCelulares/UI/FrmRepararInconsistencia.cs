@@ -1,34 +1,26 @@
 ﻿using BLL;
 using Servicio;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class FrmRepararInconsistencia : Form
+    public partial class FrmRepararInconsistencia : Form, IObservadorIdioma
     {
         BLL_DV bll_dv;
         BLL_Backup bll_backup;
-        BLL_Idioma bll_idioma;
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         private List<SER_Inconsistencia> inconsistencias;
 
         public FrmRepararInconsistencia()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
+            ActualizarIdioma();
         }
 
         private void FrmRepararInconsistencia_Load(object sender, EventArgs e)
         {
             bll_dv = new BLL_DV();
             bll_backup = new BLL_Backup();
-            bll_idioma = new BLL_Idioma();
             try
             {
                 inconsistencias = bll_dv.ObtenerInconsistencias();
@@ -37,7 +29,7 @@ namespace UI
                 grillaInconsistencias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 MostrarGrilla();
 
-               
+
             }
             catch (Exception ex)
             {
@@ -116,10 +108,18 @@ namespace UI
             var seleccionada = (SER_Inconsistencia)grillaInconsistencias.SelectedRows[0].DataBoundItem;
             richTextBox1.Text = seleccionada.Mensaje;
         }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        public void ActualizarIdioma()
         {
+            this.Text = bll_idioma.Traducir("FrmRepararInconsistencia.Form");
+            btnRealizarRespaldo.Text = bll_idioma.Traducir("FrmRepararInconsistencia.btnRealizarRespaldo");
+            btnRestaurarDV.Text = bll_idioma.Traducir("FrmRepararInconsistencia.btnRestaurarDV");
+            lblTitulo.Text = bll_idioma.Traducir("FrmRepararInconsistencia.lblTitulo");
+            btnSalir.Text = bll_idioma.Traducir("FrmRepararInconsistencia.btnSalir");
+        }
 
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -36,6 +36,7 @@
             grillaInconsistencias = new DataGridView();
             richTextBox1 = new RichTextBox();
             pnlBotones = new Panel();
+            btnSalir = new Button();
             btnRealizarRespaldo = new Button();
             btnRestaurarDV = new Button();
             pnlTopbar.SuspendLayout();
@@ -124,11 +125,11 @@
             richTextBox1.Size = new Size(456, 374);
             richTextBox1.TabIndex = 1;
             richTextBox1.Text = "";
-            richTextBox1.TextChanged += richTextBox1_TextChanged;
             // 
             // pnlBotones
             // 
             pnlBotones.BackColor = Color.FromArgb(25, 37, 53);
+            pnlBotones.Controls.Add(btnSalir);
             pnlBotones.Controls.Add(btnRealizarRespaldo);
             pnlBotones.Controls.Add(btnRestaurarDV);
             pnlBotones.Dock = DockStyle.Bottom;
@@ -137,6 +138,23 @@
             pnlBotones.Padding = new Padding(24, 8, 24, 8);
             pnlBotones.Size = new Size(900, 90);
             pnlBotones.TabIndex = 2;
+            // 
+            // btnSalir
+            // 
+            btnSalir.BackColor = Color.FromArgb(45, 60, 82);
+            btnSalir.Cursor = Cursors.Hand;
+            btnSalir.FlatAppearance.BorderSize = 0;
+            btnSalir.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
+            btnSalir.FlatStyle = FlatStyle.Flat;
+            btnSalir.Font = new Font("Segoe UI", 9.5F);
+            btnSalir.ForeColor = Color.FromArgb(226, 232, 240);
+            btnSalir.Location = new Point(708, 26);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(168, 38);
+            btnSalir.TabIndex = 2;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = false;
+            btnSalir.Click += btnSalir_Click;
             // 
             // btnRealizarRespaldo
             // 
@@ -147,9 +165,9 @@
             btnRealizarRespaldo.FlatStyle = FlatStyle.Flat;
             btnRealizarRespaldo.Font = new Font("Segoe UI", 9.5F);
             btnRealizarRespaldo.ForeColor = Color.FromArgb(226, 232, 240);
-            btnRealizarRespaldo.Location = new Point(24, 26);
+            btnRealizarRespaldo.Location = new Point(16, 26);
             btnRealizarRespaldo.Name = "btnRealizarRespaldo";
-            btnRealizarRespaldo.Size = new Size(180, 38);
+            btnRealizarRespaldo.Size = new Size(198, 38);
             btnRealizarRespaldo.TabIndex = 0;
             btnRealizarRespaldo.Text = "Realizar respaldo";
             btnRealizarRespaldo.UseVisualStyleBackColor = false;
@@ -164,9 +182,9 @@
             btnRestaurarDV.FlatStyle = FlatStyle.Flat;
             btnRestaurarDV.Font = new Font("Segoe UI", 9.5F);
             btnRestaurarDV.ForeColor = Color.FromArgb(226, 232, 240);
-            btnRestaurarDV.Location = new Point(220, 26);
+            btnRestaurarDV.Location = new Point(233, 26);
             btnRestaurarDV.Name = "btnRestaurarDV";
-            btnRestaurarDV.Size = new Size(180, 38);
+            btnRestaurarDV.Size = new Size(198, 38);
             btnRestaurarDV.TabIndex = 1;
             btnRestaurarDV.Text = "Recalcular DV";
             btnRestaurarDV.UseVisualStyleBackColor = false;
@@ -205,5 +223,6 @@
         private Button btnRestaurarDV;
         private DataGridView grillaInconsistencias;
         private RichTextBox richTextBox1;
+        private Button btnSalir;
     }
 }

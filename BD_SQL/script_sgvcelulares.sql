@@ -141,9 +141,6 @@ values
 ('Eliminar Rol'),
 ('Eliminar Familia');
 
-insert into permiso (nombre)
-values
-
 
 insert into idioma (idIdioma, nombre)
 values
@@ -187,6 +184,9 @@ inner join familia_familia ff
 on f.idFamilia = ff.idFamiliaHija
 where ff.idFamiliaPadre = 1;
 
+
+-- Pruebas de inconsistencia
+insert into rol(nombre) values ('test');
 
 /*
     usuarios test:
