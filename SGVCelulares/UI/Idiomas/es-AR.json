@@ -1,6 +1,6 @@
 {
   "FrmLogin.Form": "Login",
-  "FrmLogin.lblTitulo": "Sistema de Gestión",
+  "FrmLogin.lblTitulo": "Biblioteca Popular Rivadavia",
   "FrmLogin.lblUsuario": "Usuario",
   "FrmLogin.lblPassword": "Contraseña",
   "FrmLogin.btnEntrar": "Entrar",

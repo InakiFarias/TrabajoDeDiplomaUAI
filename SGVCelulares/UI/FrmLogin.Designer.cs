@@ -65,13 +65,13 @@
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 11F);
+            lblTitulo.Font = new Font("Segoe UI", 10F);
             lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
             lblTitulo.Location = new Point(16, 14);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(136, 20);
+            lblTitulo.Size = new Size(178, 19);
             lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "Sistema de Gestión";
+            lblTitulo.Text = "Biblioteca Popular Rivadavia";
             // 
             // pnlContenido
             // 

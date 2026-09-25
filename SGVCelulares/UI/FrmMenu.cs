@@ -1,4 +1,4 @@
-﻿using BLL;
+﻿using BLL.BLL_SER;
 using Servicio;
 
 namespace UI
@@ -140,7 +140,7 @@ namespace UI
                 {
                     bll_usuario.Logout();
                     FrmLogin login = new FrmLogin();
-                    this.Close(); 
+                    this.Close();
                 }
             }
             else
@@ -192,6 +192,18 @@ namespace UI
         {
             bll_idioma.Desuscribir(this);
             base.OnFormClosed(e);
+        }
+
+        private void btnRegistrarPrestamo_Click(object sender, EventArgs e)
+        {
+            using FormPrestamo frm = new FormPrestamo();
+            frm.ShowDialog(this);
+        }
+
+        private void btnRegistrarDevolucion_Click(object sender, EventArgs e)
+        {
+            using FormDevolucion frm = new FormDevolucion();
+            frm.ShowDialog(this);
         }
     }
 }

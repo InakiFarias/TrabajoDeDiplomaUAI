@@ -33,6 +33,9 @@
             lblUsuario = new Label();
             lblTituloTopbar = new Label();
             pnlSidebar = new Panel();
+            btnRegistrarDevolucion = new Button();
+            label2 = new Label();
+            btnRegistrarPrestamo = new Button();
             btnGestionRespaldo = new Button();
             btnGestionRoles = new Button();
             btnLogout = new Button();
@@ -97,6 +100,9 @@
             // pnlSidebar
             // 
             pnlSidebar.BackColor = Color.FromArgb(25, 37, 53);
+            pnlSidebar.Controls.Add(btnRegistrarDevolucion);
+            pnlSidebar.Controls.Add(label2);
+            pnlSidebar.Controls.Add(btnRegistrarPrestamo);
             pnlSidebar.Controls.Add(btnGestionRespaldo);
             pnlSidebar.Controls.Add(btnGestionRoles);
             pnlSidebar.Controls.Add(btnLogout);
@@ -114,6 +120,57 @@
             pnlSidebar.Size = new Size(211, 572);
             pnlSidebar.TabIndex = 1;
             // 
+            // btnRegistrarDevolucion
+            // 
+            btnRegistrarDevolucion.BackColor = Color.FromArgb(25, 37, 53);
+            btnRegistrarDevolucion.Cursor = Cursors.Hand;
+            btnRegistrarDevolucion.FlatAppearance.BorderSize = 0;
+            btnRegistrarDevolucion.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnRegistrarDevolucion.FlatStyle = FlatStyle.Flat;
+            btnRegistrarDevolucion.Font = new Font("Segoe UI", 9.5F);
+            btnRegistrarDevolucion.ForeColor = Color.FromArgb(148, 163, 184);
+            btnRegistrarDevolucion.Location = new Point(16, 81);
+            btnRegistrarDevolucion.Name = "btnRegistrarDevolucion";
+            btnRegistrarDevolucion.Padding = new Padding(10, 0, 0, 0);
+            btnRegistrarDevolucion.Size = new Size(174, 38);
+            btnRegistrarDevolucion.TabIndex = 16;
+            btnRegistrarDevolucion.Tag = "Gestion bitacora";
+            btnRegistrarDevolucion.Text = "Registrar devolución";
+            btnRegistrarDevolucion.TextAlign = ContentAlignment.MiddleLeft;
+            btnRegistrarDevolucion.UseVisualStyleBackColor = false;
+            btnRegistrarDevolucion.Click += btnRegistrarDevolucion_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            label2.ForeColor = Color.FromArgb(71, 85, 105);
+            label2.Location = new Point(12, 22);
+            label2.Name = "label2";
+            label2.Size = new Size(65, 12);
+            label2.TabIndex = 15;
+            label2.Text = "PRESTAMOS";
+            // 
+            // btnRegistrarPrestamo
+            // 
+            btnRegistrarPrestamo.BackColor = Color.FromArgb(25, 37, 53);
+            btnRegistrarPrestamo.Cursor = Cursors.Hand;
+            btnRegistrarPrestamo.FlatAppearance.BorderSize = 0;
+            btnRegistrarPrestamo.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 60, 82);
+            btnRegistrarPrestamo.FlatStyle = FlatStyle.Flat;
+            btnRegistrarPrestamo.Font = new Font("Segoe UI", 9.5F);
+            btnRegistrarPrestamo.ForeColor = Color.FromArgb(148, 163, 184);
+            btnRegistrarPrestamo.Location = new Point(16, 37);
+            btnRegistrarPrestamo.Name = "btnRegistrarPrestamo";
+            btnRegistrarPrestamo.Padding = new Padding(10, 0, 0, 0);
+            btnRegistrarPrestamo.Size = new Size(174, 38);
+            btnRegistrarPrestamo.TabIndex = 14;
+            btnRegistrarPrestamo.Tag = "Gestion bitacora";
+            btnRegistrarPrestamo.Text = "Registrar préstamo";
+            btnRegistrarPrestamo.TextAlign = ContentAlignment.MiddleLeft;
+            btnRegistrarPrestamo.UseVisualStyleBackColor = false;
+            btnRegistrarPrestamo.Click += btnRegistrarPrestamo_Click;
+            // 
             // btnGestionRespaldo
             // 
             btnGestionRespaldo.BackColor = Color.FromArgb(25, 37, 53);
@@ -123,7 +180,7 @@
             btnGestionRespaldo.FlatStyle = FlatStyle.Flat;
             btnGestionRespaldo.Font = new Font("Segoe UI", 9.5F);
             btnGestionRespaldo.ForeColor = Color.FromArgb(148, 163, 184);
-            btnGestionRespaldo.Location = new Point(16, 160);
+            btnGestionRespaldo.Location = new Point(12, 291);
             btnGestionRespaldo.Name = "btnGestionRespaldo";
             btnGestionRespaldo.Padding = new Padding(10, 0, 0, 0);
             btnGestionRespaldo.Size = new Size(174, 38);
@@ -142,7 +199,7 @@
             btnGestionRoles.FlatStyle = FlatStyle.Flat;
             btnGestionRoles.Font = new Font("Segoe UI", 9.5F);
             btnGestionRoles.ForeColor = Color.FromArgb(148, 163, 184);
-            btnGestionRoles.Location = new Point(16, 116);
+            btnGestionRoles.Location = new Point(12, 247);
             btnGestionRoles.Name = "btnGestionRoles";
             btnGestionRoles.Padding = new Padding(10, 0, 0, 0);
             btnGestionRoles.Size = new Size(174, 38);
@@ -162,7 +219,7 @@
             btnLogout.FlatStyle = FlatStyle.Flat;
             btnLogout.Font = new Font("Segoe UI", 9.5F);
             btnLogout.ForeColor = Color.FromArgb(148, 163, 184);
-            btnLogout.Location = new Point(16, 317);
+            btnLogout.Location = new Point(12, 448);
             btnLogout.Name = "btnLogout";
             btnLogout.Padding = new Padding(10, 0, 0, 0);
             btnLogout.Size = new Size(174, 38);
@@ -181,7 +238,7 @@
             btnCambiarClave.FlatStyle = FlatStyle.Flat;
             btnCambiarClave.Font = new Font("Segoe UI", 9.5F);
             btnCambiarClave.ForeColor = Color.FromArgb(148, 163, 184);
-            btnCambiarClave.Location = new Point(16, 273);
+            btnCambiarClave.Location = new Point(12, 404);
             btnCambiarClave.Name = "btnCambiarClave";
             btnCambiarClave.Padding = new Padding(10, 0, 0, 0);
             btnCambiarClave.Size = new Size(174, 38);
@@ -200,7 +257,7 @@
             btnRelogin.FlatStyle = FlatStyle.Flat;
             btnRelogin.Font = new Font("Segoe UI", 9.5F);
             btnRelogin.ForeColor = Color.FromArgb(148, 163, 184);
-            btnRelogin.Location = new Point(16, 229);
+            btnRelogin.Location = new Point(12, 360);
             btnRelogin.Name = "btnRelogin";
             btnRelogin.Padding = new Padding(10, 0, 0, 0);
             btnRelogin.Size = new Size(174, 38);
@@ -215,7 +272,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             label1.ForeColor = Color.FromArgb(71, 85, 105);
-            label1.Location = new Point(12, 214);
+            label1.Location = new Point(8, 345);
             label1.Name = "label1";
             label1.Size = new Size(50, 12);
             label1.TabIndex = 8;
@@ -230,7 +287,7 @@
             btnAyuda.FlatStyle = FlatStyle.Flat;
             btnAyuda.Font = new Font("Segoe UI", 9.5F);
             btnAyuda.ForeColor = Color.FromArgb(148, 163, 184);
-            btnAyuda.Location = new Point(16, 456);
+            btnAyuda.Location = new Point(16, 532);
             btnAyuda.Name = "btnAyuda";
             btnAyuda.Padding = new Padding(10, 0, 0, 0);
             btnAyuda.Size = new Size(174, 38);
@@ -248,7 +305,7 @@
             btnReportes.FlatStyle = FlatStyle.Flat;
             btnReportes.Font = new Font("Segoe UI", 9.5F);
             btnReportes.ForeColor = Color.FromArgb(148, 163, 184);
-            btnReportes.Location = new Point(16, 412);
+            btnReportes.Location = new Point(16, 488);
             btnReportes.Name = "btnReportes";
             btnReportes.Padding = new Padding(10, 0, 0, 0);
             btnReportes.Size = new Size(174, 38);
@@ -266,7 +323,7 @@
             btnBitacora.FlatStyle = FlatStyle.Flat;
             btnBitacora.Font = new Font("Segoe UI", 9.5F);
             btnBitacora.ForeColor = Color.FromArgb(148, 163, 184);
-            btnBitacora.Location = new Point(16, 72);
+            btnBitacora.Location = new Point(12, 203);
             btnBitacora.Name = "btnBitacora";
             btnBitacora.Padding = new Padding(10, 0, 0, 0);
             btnBitacora.Size = new Size(174, 38);
@@ -286,7 +343,7 @@
             btnUsuarios.FlatStyle = FlatStyle.Flat;
             btnUsuarios.Font = new Font("Segoe UI", 9.5F);
             btnUsuarios.ForeColor = Color.FromArgb(148, 163, 184);
-            btnUsuarios.Location = new Point(16, 28);
+            btnUsuarios.Location = new Point(12, 159);
             btnUsuarios.Name = "btnUsuarios";
             btnUsuarios.Padding = new Padding(10, 0, 0, 0);
             btnUsuarios.Size = new Size(174, 38);
@@ -302,7 +359,7 @@
             lblSeccionNav.AutoSize = true;
             lblSeccionNav.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             lblSeccionNav.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionNav.Location = new Point(12, 8);
+            lblSeccionNav.Location = new Point(8, 139);
             lblSeccionNav.Name = "lblSeccionNav";
             lblSeccionNav.Size = new Size(40, 12);
             lblSeccionNav.TabIndex = 0;
@@ -360,5 +417,8 @@
         private Button btnGestionRoles;
         private ComboBox cboIdioma;
         private Button btnGestionRespaldo;
+        private Button btnRegistrarPrestamo;
+        private Button btnRegistrarDevolucion;
+        private Label label2;
     }
 }
