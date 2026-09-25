@@ -1,23 +1,22 @@
-# SISTEMA DE VENTA DE CELULARES Y ACCESORIOS
+# Sistema de Gestión de Biblioteca (SGB)
 
-### Descripción del sistema
+| | |
+|---|---|
+| **Versión** | 0.1 (en desarrollo) |
+| **Fecha de lanzamiento** | Septiembre de 2026 |
+| **Institución** | Biblioteca Popular Rivadavia |
+| **Contexto** | Trabajo de Diploma – Ingeniería de Software – UAI |
 
-El Sistema de Venta de Celulares y Accesorios es una solución de gestión e inteligencia comercial orientada a negocios dedicados a la comercialización de celulares, accesorios y servicios técnicos.
+## Descripción
 
-El sistema permite centralizar y administrar las operaciones principales de la empresa, incluyendo ventas, gestión de usuarios, control de stock, auditoría de eventos y seguridad del sistema, reemplazando procesos manuales y registros dispersos por una plataforma integrada y organizada.
+El Sistema de Gestión de Biblioteca centraliza la información relacionada con los libros y sus préstamos en la Biblioteca Popular Rivadavia: los datos de los socios, el catálogo de libros y sus ejemplares, los préstamos y devoluciones realizados y las multas generadas por atraso. Reemplaza el registro manual en comprobantes de papel y planillas Excel, que provocaba inconsistencias en los datos y pérdida de ejemplares.
 
-Entre sus principales funcionalidades se encuentran:
+Sus funcionalidades principales son:
 
-- Gestión de usuarios y control de acceso.
-- Inicio y cierre de sesión con auditoría de eventos.
-- Control de bloqueo y desbloqueo de usuarios.
-- Gestión de cambios de contraseña.
-- Registro de eventos críticos mediante bitácora.
-- Administración de operaciones comerciales y persistencia de datos.
-- Prevención de SQL Injection mediante consultas parametrizadas.
-- Seguridad basada en hashing SHA-256 para contraseñas.
+- **Gestión de préstamos (RF-001):** registro de préstamos, devoluciones y cobro de multas por atraso, con validación de la habilitación del socio y de la disponibilidad de los ejemplares.
+- **Gestión de dashboards (RF-002):** indicadores sobre la actividad de préstamos, como los libros, temas y autores más solicitados.
 
-El sistema fue desarrollado utilizando arquitectura en capas, separando responsabilidades entre interfaz gráfica, lógica de negocio, mapeadores, acceso a datos y servicios técnicos.
+Además incluye los módulos de seguridad: inicio de sesión, encriptado de contraseñas, perfiles de usuario, bitácora, backup y restore, dígitos verificadores y multi-idioma.
 
 ---
 
@@ -25,85 +24,88 @@ El sistema fue desarrollado utilizando arquitectura en capas, separando responsa
 
 ## Requisitos previos
 
-Antes de ejecutar el sistema, asegurarse de contar con:
-
 - Windows 10 o superior.
-- SQL Server instalado.
-- .NET Framework / .NET compatible con la solución.
-- Visual Studio 2022 o superior (recomendado).
+- SQL Server y SQL Server Management Studio (SSMS).
+- .NET 8 SDK.
+- Visual Studio 2022 o superior.
 
----
+## 1. Crear la base de datos
 
-## Configuración de la base de datos
+Abrir SSMS, conectarse al servidor y ejecutar los scripts de la carpeta `BD_SQL` **en este orden**:
 
-1. Abrir SQL Server Management Studio.
-2. Ejecutar los scripts SQL ubicados dentro de la carpeta:
+| Orden | Script | Contenido |
+|---|---|---|
+| 1 | `01_seguridad.sql` | Crea la base `bd_sgb`, las tablas de seguridad y el usuario administrador. |
+| 2 | `02_negocio.sql` | Crea las tablas del negocio (socios, catálogo, préstamos, devoluciones y multas). |
+| 3 | `03_carga_inicial.sql` | Carga los socios y el catálogo preexistentes de la biblioteca. |
 
-```text
-BD_SQL
+Cada script se ejecuta una sola vez. Para empezar de cero, eliminar primero la base:
+
+```sql
+USE master;
+ALTER DATABASE bd_sgb SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+DROP DATABASE bd_sgb;
 ```
 
-3. Verificar que la base de datos haya sido creada correctamente.
+## 2. Configurar la conexión
 
----
+La cadena de conexión se lee desde un archivo `.env`, que **no se incluye en el repositorio**. Crearlo en la carpeta del proyecto `UI` con este contenido, reemplazando `Server` por el nombre del servidor que se usa en SSMS (`localhost`, `.\SQLEXPRESS`, etc.):
 
-## Configuración de conexión
-
-La conexión a la base de datos se administra mediante variables de entorno utilizadas por la capa DAL.
-
-Configurar la cadena de conexión correspondiente antes de ejecutar el sistema.
-
-Ejemplo de configuración:
-
-```text
-Data Source=.;
-Initial Catalog=bd_sgvcelulares;
-Integrated Security=true;
-TrustServerCertificate=true
+```env
+DB_CONNECTION=Server=localhost;Database=bd_sgb;Trusted_Connection=True;TrustServerCertificate=True
 ```
 
----
+En Visual Studio, seleccionar el archivo `.env` → Propiedades → **Copiar en el directorio de salida: Copiar si es posterior**.
 
-## Ejecución del sistema
+## 3. Ejecutar el sistema
 
-1. Abrir la solución del proyecto en Visual Studio.
-2. Restaurar dependencias si fueran necesarias.
-3. Compilar la solución.
-4. Ejecutar el proyecto principal WinForms.
+1. Abrir `SGB/SGB.sln` en Visual Studio.
+2. Compilar la solución (las dependencias NuGet se restauran automáticamente).
+3. Ejecutar el proyecto `UI`.
 
 ---
 
 # Credenciales iniciales
 
-## Usuario administrador inicial
-
 ```text
-Usuario: admin
-Contraseña: 12345678Admin
+Usuario:    admin
+Contraseña: Admin!123
 ```
 
-> La contraseña puede modificarse desde la funcionalidad “Cambiar Clave”.
+> Se recomienda cambiar la contraseña desde la opción **Cambiar clave** después del primer inicio de sesión.
+
+---
+
+# Estructura del proyecto
+
+El sistema sigue una arquitectura N-Tier de seis capas:
+
+```text
+UI         → Interfaz gráfica (Windows Forms)
+BLL        → Lógica de negocio
+MAP        → Mapeo entre los datos y las entidades
+DAL        → Acceso a datos (ADO.NET)
+BE         → Entidades de negocio
+Servicios  → Servicios técnicos (seguridad, bitácora, idiomas, dígitos verificadores)
+```
+
+Dentro de BLL, MAP y DAL, las clases del negocio se encuentran en las carpetas `_NEG` y las de servicios técnicos en `_SER`.
+
+---
+
+# Tecnologías
+
+- C# sobre .NET 8, aplicación de escritorio Windows Forms.
+- SQL Server con ADO.NET (`Microsoft.Data.SqlClient`).
+- `DotNetEnv` para la configuración de la conexión.
+- `QuestPDF` para la exportación de reportes.
 
 ---
 
 # Consideraciones de seguridad
 
-- Las contraseñas son almacenadas utilizando hashing SHA-256.
-- El sistema implementa consultas SQL parametrizadas para evitar SQL Injection.
-- Las operaciones sensibles son registradas automáticamente en la bitácora del sistema.
-- Solo usuarios administradores pueden acceder a la auditoría de eventos.
-
----
-
-# Estructura general del proyecto
-
-El sistema se encuentra organizado mediante arquitectura en capas:
-
-```text
-UI   → Interfaz gráfica
-BLL  → Lógica de negocio
-MAP  → Mapeadores
-DAL  → Acceso a datos
-SER  → Servicios técnicos
-BE   → Entidades de negocio
-```
+- Las contraseñas se almacenan con hashing SHA-256.
+- Todas las consultas SQL son parametrizadas para prevenir SQL Injection.
+- Las operaciones sensibles quedan registradas en la bitácora.
+- La integridad de los datos se controla mediante dígitos verificadores horizontales y verticales.
+- El acceso a cada funcionalidad depende de los permisos del rol asignado al usuario.
