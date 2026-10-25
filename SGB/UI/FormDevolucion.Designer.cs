@@ -97,6 +97,7 @@ namespace UI
             txtNumeroPrestamo.Name = "txtNumeroPrestamo";
             txtNumeroPrestamo.Size = new Size(150, 24);
             txtNumeroPrestamo.TabIndex = 3;
+            txtNumeroPrestamo.KeyDown += txtNumeroPrestamo_KeyDown;
             // 
             // btnBuscarPrestamo
             // 
@@ -112,6 +113,7 @@ namespace UI
             btnBuscarPrestamo.TabIndex = 4;
             btnBuscarPrestamo.Text = "🔍 Buscar";
             btnBuscarPrestamo.UseVisualStyleBackColor = false;
+            btnBuscarPrestamo.Click += btnBuscarPrestamo_Click;
             // 
             // lblSocio
             // 
@@ -283,6 +285,7 @@ namespace UI
             btnCancelar.TabIndex = 15;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // btnConfirmar
             // 
@@ -300,6 +303,7 @@ namespace UI
             btnConfirmar.TabIndex = 16;
             btnConfirmar.Text = "Confirmar";
             btnConfirmar.UseVisualStyleBackColor = false;
+            btnConfirmar.Click += btnConfirmar_Click;
             // 
             // FormDevolucion
             // 
@@ -332,6 +336,7 @@ namespace UI
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Registrar devolución";
+            Load += FormDevolucion_Load;
             ((System.ComponentModel.ISupportInitialize)dgvEjemplares).EndInit();
             ResumeLayout(false);
             PerformLayout();

@@ -14,6 +14,7 @@ BEGIN TRANSACTION;
 -- =====================================================================
 -- Socios
 -- =====================================================================
+SET IDENTITY_INSERT Socio ON;
 INSERT INTO Socio (NumeroSocio, Nombre, Apellido, Dni, Estado)
 VALUES
     (1001, N'María', N'González', N'28456123', N'Activo'),
@@ -31,6 +32,7 @@ VALUES
     (1013, N'Elena', N'Benítez', N'16789012', N'Baja'),
     (1014, N'Diego', N'Acosta', N'31456789', N'Baja'),
     (1015, N'Camila', N'Medina', N'42345612', N'Activo');
+SET IDENTITY_INSERT Socio OFF;
 
 -- =====================================================================
 -- Autores
@@ -131,7 +133,7 @@ VALUES
     ('LIB-0022', 18),
     ('LIB-0023', 19);
 
--- 'Crónicas de Villa Crespo' queda sin tema asignado a propósito (caso "Sin tema" de RF-002)
+-- 'Crónicas de Villa Crespo' queda sin tema asignado
 INSERT INTO Libro_Tema (CodigoLibro, CodigoTema)
 VALUES
     ('LIB-0001', 1),

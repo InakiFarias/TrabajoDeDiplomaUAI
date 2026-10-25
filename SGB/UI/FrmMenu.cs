@@ -205,5 +205,35 @@ namespace UI
             using FormDevolucion frm = new FormDevolucion();
             frm.ShowDialog(this);
         }
+
+        private void btnCobrarMultas_Click(object sender, EventArgs e)
+        {
+            using FormMulta frm = new FormMulta();
+            frm.ShowDialog(this);
+        }
+
+        private void btnRegistrarDonacion_Click(object sender, EventArgs e)
+        {
+            using FormDonacion frm = new FormDonacion();
+            frm.ShowDialog(this);
+        }
+
+        private void btnGestionSocios_Click(object sender, EventArgs e)
+        {
+            using FormSocio frm = new FormSocio();
+            frm.ShowDialog(this);
+        }
+
+        private void btnGestionLibros_Click(object sender, EventArgs e)
+        {
+            using FormLibro frm = new FormLibro();
+            frm.ShowDialog(this);
+        }
+
+        private void btnGestionEjemplares_Click(object sender, EventArgs e)
+        {
+            using FormEjemplar frm = new FormEjemplar();
+            frm.ShowDialog(this);
+        }
     }
 }

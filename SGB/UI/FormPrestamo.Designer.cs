@@ -39,8 +39,8 @@ namespace UI
             DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             lblTitulo = new Label();
             lblSeccionSocio = new Label();
-            lblNumeroSocio = new Label();
-            txtNumeroSocio = new TextBox();
+            lblDni = new Label();
+            txtDni = new TextBox();
             btnAgregarSocio = new Button();
             dgvSocios = new DataGridView();
             colSocNumero = new DataGridViewTextBoxColumn();
@@ -96,26 +96,26 @@ namespace UI
             lblSeccionSocio.TabIndex = 1;
             lblSeccionSocio.Text = "SOCIO";
             // 
-            // lblNumeroSocio
+            // lblDni
             // 
-            lblNumeroSocio.AutoSize = true;
-            lblNumeroSocio.ForeColor = Color.FromArgb(148, 163, 184);
-            lblNumeroSocio.Location = new Point(16, 70);
-            lblNumeroSocio.Name = "lblNumeroSocio";
-            lblNumeroSocio.Size = new Size(251, 17);
-            lblNumeroSocio.TabIndex = 2;
-            lblNumeroSocio.Text = "Número de socio (búsqueda incremental)";
+            lblDni.AutoSize = true;
+            lblDni.ForeColor = Color.FromArgb(148, 163, 184);
+            lblDni.Location = new Point(16, 70);
+            lblDni.Name = "lblDni";
+            lblDni.Size = new Size(251, 17);
+            lblDni.TabIndex = 2;
+            lblDni.Text = "DNI del socio (búsqueda incremental)";
             // 
-            // txtNumeroSocio
+            // txtDni
             // 
-            txtNumeroSocio.BackColor = Color.FromArgb(21, 32, 48);
-            txtNumeroSocio.BorderStyle = BorderStyle.FixedSingle;
-            txtNumeroSocio.ForeColor = Color.FromArgb(226, 232, 240);
-            txtNumeroSocio.Location = new Point(16, 90);
-            txtNumeroSocio.Name = "txtNumeroSocio";
-            txtNumeroSocio.Size = new Size(300, 24);
-            txtNumeroSocio.TabIndex = 3;
-            txtNumeroSocio.TextChanged += txtNumeroSocio_TextChanged;
+            txtDni.BackColor = Color.FromArgb(21, 32, 48);
+            txtDni.BorderStyle = BorderStyle.FixedSingle;
+            txtDni.ForeColor = Color.FromArgb(226, 232, 240);
+            txtDni.Location = new Point(16, 90);
+            txtDni.Name = "txtDni";
+            txtDni.Size = new Size(300, 24);
+            txtDni.TabIndex = 3;
+            txtDni.TextChanged += txtDni_TextChanged;
             // 
             // btnAgregarSocio
             // 
@@ -513,8 +513,8 @@ namespace UI
             Controls.Add(lblDatosSocio);
             Controls.Add(dgvSocios);
             Controls.Add(btnAgregarSocio);
-            Controls.Add(txtNumeroSocio);
-            Controls.Add(lblNumeroSocio);
+            Controls.Add(txtDni);
+            Controls.Add(lblDni);
             Controls.Add(lblSeccionSocio);
             Controls.Add(lblTitulo);
             Font = new Font("Segoe UI", 9.5F);
@@ -537,8 +537,8 @@ namespace UI
 
         private Label lblTitulo;
         private Label lblSeccionSocio;
-        private Label lblNumeroSocio;
-        private TextBox txtNumeroSocio;
+        private Label lblDni;
+        private TextBox txtDni;
         private Button btnAgregarSocio;
         private DataGridView dgvSocios;
         private DataGridViewTextBoxColumn colSocNumero;

@@ -7,8 +7,9 @@ namespace BLL.BLL_NEG
 {
     public class BLL_Prestamo
     {
-        private const int MAXIMO_PRESTAMOS_VIGENTES = 3; // TODO: valor definido por la Comisión Directiva
-        private const int PLAZO_PRESTAMO_DIAS = 14;      // TODO: valor definido por la Comisión Directiva
+        // Políticas de préstamo definidas por la Comisión Directiva
+        public const int MAXIMO_PRESTAMOS_VIGENTES = 3;
+        public const int PLAZO_PRESTAMO_DIAS = 14;
 
         MAP_Prestamo map_prestamo;
         BLL_Bitacora bll_bitacora;
@@ -18,18 +19,25 @@ namespace BLL.BLL_NEG
             bll_bitacora = new BLL_Bitacora();
         }
 
-        public void ValidarLimite(BE_Socio socio)
-        {
-            if (map_prestamo.ContarPrestamosVigentes(socio.NumeroSocio) >= MAXIMO_PRESTAMOS_VIGENTES)
-                throw new Exception($"El socio alcanzó el límite de {MAXIMO_PRESTAMOS_VIGENTES} préstamos vigentes.");
-        }
-
         public DateTime CalcularFechaDevolucionPrevista(DateTime fechaPrestamo) => fechaPrestamo.Date.AddDays(PLAZO_PRESTAMO_DIAS);
 
         public DateTime? ObtenerFechaDevolucionPrevista(string codigoEjemplar) => map_prestamo.ObtenerFechaDevolucionPrevista(codigoEjemplar);
 
+        public BE_Prestamo BuscarVigente(string numeroPrestamo)
+        {
+            if (!int.TryParse(numeroPrestamo?.Trim(), out int numero) || numero <= 0)
+                throw new Exception("Ingrese un número de préstamo válido.");
+
+            BE_Prestamo? prestamo = map_prestamo.ObtenerPrestamoVigente(numero);
+            if (prestamo == null) throw new Exception("No se encontró un préstamo vigente con el número ingresado.");
+            return prestamo;
+        }
+
         public BE_Comprobante Registrar(BE_Prestamo prestamo)
         {
+            if (prestamo.Socio == null) throw new Exception("Debe seleccionar un socio.");
+            if (prestamo.Ejemplares == null || prestamo.Ejemplares.Count == 0) throw new Exception("Debe seleccionar al menos un ejemplar.");
+
             prestamo.FechaPrestamo = DateTime.Today;
             prestamo.FechaDevolucionPrevista = CalcularFechaDevolucionPrevista(prestamo.FechaPrestamo);
             prestamo.Estado = "Vigente";

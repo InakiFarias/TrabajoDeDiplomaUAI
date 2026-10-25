@@ -1,5 +1,6 @@
 using BE;
 using DAL;
+using Microsoft.Data.SqlClient;
 
 namespace MAP
 {
@@ -11,7 +12,34 @@ namespace MAP
             dao_prestamo = new DAO_Prestamo();
         }
 
-        public int ContarPrestamosVigentes(int numeroSocio) => dao_prestamo.ContarPrestamosVigentes(numeroSocio);
+        public BE_Prestamo? ObtenerPrestamoVigente(int numeroPrestamo)
+        {
+            BE_Prestamo? prestamo = null;
+            SqlDataReader dr = dao_prestamo.ObtenerPrestamoVigente(numeroPrestamo);
+            if (dr.Read())
+            {
+                BE_Socio socio = new BE_Socio(
+                    Convert.ToInt32(dr["NumeroSocio"]),
+                    Convert.ToString(dr["Nombre"]),
+                    Convert.ToString(dr["Apellido"]),
+                    Convert.ToString(dr["Dni"]),
+                    Convert.ToString(dr["EstadoSocio"]));
+
+                prestamo = new BE_Prestamo(
+                    Convert.ToInt32(dr["NumeroPrestamo"]),
+                    socio,
+                    Convert.ToDateTime(dr["FechaPrestamo"]),
+                    Convert.ToDateTime(dr["FechaDevolucionPrevista"]),
+                    Convert.ToString(dr["EstadoPrestamo"]),
+                    new List<BE_Ejemplar>());
+            }
+            dr.Close();
+
+            if (prestamo != null)
+                prestamo.Ejemplares = new MAP_Ejemplar().ObtenerPorPrestamo(prestamo.NumeroPrestamo);
+
+            return prestamo;
+        }
 
         public int InsertarPrestamo(BE_Prestamo prestamo)
         {

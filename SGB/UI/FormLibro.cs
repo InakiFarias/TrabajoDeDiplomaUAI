@@ -1,0 +1,261 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using BE;
+using BLL.BLL_NEG;
+
+namespace UI
+{
+    public partial class FormLibro : Form
+    {
+        BLL_Libro bll_Libro;
+        List<BE_Libro> librosMostrados = new List<BE_Libro>();
+        BE_Libro? libroSeleccionado;
+
+        // Autores: la lista visible se filtra con el buscador, por eso las marcas se guardan aparte
+        List<BE_Autor> todosLosAutores = new List<BE_Autor>();
+        HashSet<int> autoresMarcados = new HashSet<int>();
+        bool cargandoAutores;
+
+        public FormLibro()
+        {
+            InitializeComponent();
+        }
+
+        private void FormLibro_Load(object sender, EventArgs e)
+        {
+            bll_Libro = new BLL_Libro();
+
+            dgvLibros.AutoGenerateColumns = false;
+            colLibCodigo.DataPropertyName = "Codigo";
+            colLibTitulo.DataPropertyName = "Titulo";
+            colLibAutores.DataPropertyName = "Autores";
+            colLibTemas.DataPropertyName = "Temas";
+            colLibEstado.DataPropertyName = "Estado";
+
+            CargarAutores(new List<int>());
+            CargarTemas(new List<int>());
+            CargarLibros();
+            this.Shown += FormLibro_Shown;
+        }
+
+        // La grilla selecciona la primera fila al mostrarse; se limpia para no precargar los datos de un libro
+        private void FormLibro_Shown(object? sender, EventArgs e)
+        {
+            dgvLibros.ClearSelection();
+            Limpiar();
+        }
+
+        private void CargarLibros()
+        {
+            librosMostrados = bll_Libro.BuscarPorTexto(txtBuscar.Text);
+            dgvLibros.DataSource = null;
+            dgvLibros.DataSource = bll_Libro.ConsultarParaGrilla(librosMostrados);
+            dgvLibros.ClearSelection();
+            Limpiar();
+        }
+
+        private void CargarAutores(List<int> codigosMarcados)
+        {
+            todosLosAutores = bll_Libro.ObtenerAutores();
+            MarcarAutores(codigosMarcados);
+        }
+
+        // Muestra solo los autores que coinciden con el buscador, conservando los que ya estaban marcados
+        private void FiltrarAutores()
+        {
+            List<BE_Autor> filtrados = bll_Libro.FiltrarAutores(todosLosAutores, txtBuscarAutor.Text);
+
+            cargandoAutores = true;
+            clbAutores.Items.Clear();
+            foreach (BE_Autor autor in filtrados)
+                clbAutores.Items.Add(autor, autoresMarcados.Contains(autor.CodigoAutor));
+            cargandoAutores = false;
+
+            bool sinResultados = filtrados.Count == 0 && txtBuscarAutor.Text.Trim() != "";
+            lblAutores.Text = sinResultados
+                ? "Autores: el autor no está registrado, podés agregarlo abajo"
+                : $"Autores (al menos uno) - marcados: {autoresMarcados.Count}";
+        }
+
+        private void txtBuscarAutor_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarAutores();
+        }
+
+        private void clbAutores_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (cargandoAutores) return;
+
+            int codigo = ((BE_Autor)clbAutores.Items[e.Index]).CodigoAutor;
+            if (e.NewValue == CheckState.Checked) autoresMarcados.Add(codigo);
+            else autoresMarcados.Remove(codigo);
+            lblAutores.Text = $"Autores (al menos uno) - marcados: {autoresMarcados.Count}";
+        }
+
+        private void CargarTemas(List<int> codigosMarcados)
+        {
+            clbTemas.Items.Clear();
+            foreach (BE_Tema tema in bll_Libro.ObtenerTemas())
+                clbTemas.Items.Add(tema, codigosMarcados.Contains(tema.CodigoTema));
+        }
+
+        private List<BE_Autor> AutoresMarcados() => todosLosAutores.Where(a => autoresMarcados.Contains(a.CodigoAutor)).ToList();
+
+        private List<BE_Tema> TemasMarcados() => clbTemas.CheckedItems.Cast<BE_Tema>().ToList();
+
+        private void MarcarAutores(List<int> codigos)
+        {
+            autoresMarcados = new HashSet<int>(codigos);
+            FiltrarAutores();
+        }
+
+        private void MarcarTemas(List<int> codigos)
+        {
+            for (int i = 0; i < clbTemas.Items.Count; i++)
+                clbTemas.SetItemChecked(i, codigos.Contains(((BE_Tema)clbTemas.Items[i]).CodigoTema));
+        }
+
+        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        {
+            CargarLibros();
+        }
+
+        private void dgvLibros_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvLibros.SelectedRows.Count == 0) return;
+
+            string codigo = dgvLibros.SelectedRows[0].Cells[colLibCodigo.Index].Value?.ToString() ?? "";
+            libroSeleccionado = librosMostrados.FirstOrDefault(l => l.CodigoLibro == codigo);
+            if (libroSeleccionado == null) return;
+
+            lblCodigo.Text = $"Código: {libroSeleccionado.CodigoLibro} ({libroSeleccionado.Estado})";
+            txtTituloLibro.Text = libroSeleccionado.Titulo;
+            txtBuscarAutor.Clear();
+            MarcarAutores(libroSeleccionado.Autores.Select(a => a.CodigoAutor).ToList());
+            MarcarTemas(libroSeleccionado.Temas.Select(t => t.CodigoTema).ToList());
+        }
+
+        private void Limpiar()
+        {
+            libroSeleccionado = null;
+            lblCodigo.Text = "Código: — (se asigna al dar de alta)";
+            txtTituloLibro.Clear();
+            txtBuscarAutor.Clear();
+            MarcarAutores(new List<int>());
+            MarcarTemas(new List<int>());
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            dgvLibros.ClearSelection();
+            Limpiar();
+            txtTituloLibro.Focus();
+        }
+
+        // ------------------------------------------------------------ Autores y temas nuevos
+        private void btnAgregarAutor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<int> marcados = AutoresMarcados().Select(a => a.CodigoAutor).ToList();
+                BE_Autor autor = bll_Libro.AgregarAutor(txtAutorNombre.Text, txtAutorApellido.Text);
+                marcados.Add(autor.CodigoAutor);
+                txtBuscarAutor.Clear();
+                CargarAutores(marcados);
+                txtAutorNombre.Clear();
+                txtAutorApellido.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnAgregarTema_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<int> marcados = TemasMarcados().Select(t => t.CodigoTema).ToList();
+                BE_Tema tema = bll_Libro.AgregarTema(txtTema.Text);
+                marcados.Add(tema.CodigoTema);
+                CargarTemas(marcados);
+                txtTema.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // ------------------------------------------------------------ Alta
+        private void btnAlta_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BE_Libro libro = new BE_Libro("", txtTituloLibro.Text, AutoresMarcados(), TemasMarcados());
+                bll_Libro.Alta(libro);
+
+                MessageBox.Show($"Libro dado de alta correctamente con el código {libro.CodigoLibro}.", "Alta de libro", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarLibros();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // ------------------------------------------------------------ Modificación
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (libroSeleccionado == null) throw new Exception("Seleccione el libro a modificar.");
+
+                BE_Libro libro = new BE_Libro(libroSeleccionado.CodigoLibro, txtTituloLibro.Text, AutoresMarcados(), TemasMarcados());
+                libro.Estado = libroSeleccionado.Estado;
+                if (MessageBox.Show($"¿Confirma la modificación del libro {libro.CodigoLibro}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                bll_Libro.Modificar(libro);
+                MessageBox.Show("Libro modificado correctamente.", "Modificación de libro", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarLibros();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // ------------------------------------------------------------ Baja
+        private void btnBaja_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (libroSeleccionado == null) throw new Exception("Seleccione el libro a dar de baja.");
+
+                if (MessageBox.Show($"¿Confirma la baja del libro \"{libroSeleccionado.Titulo}\"?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                bll_Libro.Baja(libroSeleccionado);
+                MessageBox.Show("Libro dado de baja correctamente.", "Baja de libro", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarLibros();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}

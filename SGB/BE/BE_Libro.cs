@@ -4,6 +4,7 @@ namespace BE
     {
         public string CodigoLibro { get; set; }
         public string Titulo { get; set; }
+        public string Estado { get; set; }
         public List<BE_Autor> Autores { get; set; }
         public List<BE_Tema> Temas { get; set; }
 

@@ -11,15 +11,17 @@ namespace DAL
             cm = new SqlCommand("select * from Prestamo", con);
         }
 
-        public int ContarPrestamosVigentes(int numeroSocio)
+        public SqlDataReader ObtenerPrestamoVigente(int numeroPrestamo)
         {
             cm.Parameters.Clear();
-            cm.Parameters.Add("@numeroSocio", SqlDbType.Int).Value = numeroSocio;
-            cm.CommandText = "SELECT COUNT(*) FROM Prestamo WHERE NumeroSocio = @numeroSocio AND Estado = 'Vigente'";
+            cm.Parameters.Add("@numeroPrestamo", SqlDbType.Int).Value = numeroPrestamo;
+            cm.CommandText = @"SELECT p.NumeroPrestamo, p.FechaPrestamo, p.FechaDevolucionPrevista, p.Estado AS EstadoPrestamo,
+                                      s.NumeroSocio, s.Nombre, s.Apellido, s.Dni, s.Estado AS EstadoSocio
+                               FROM Prestamo p
+                               INNER JOIN Socio s ON s.NumeroSocio = p.NumeroSocio
+                               WHERE p.NumeroPrestamo = @numeroPrestamo AND p.Estado = 'Vigente'";
             con.Open();
-            int cantidad = Convert.ToInt32(cm.ExecuteScalar());
-            con.Close();
-            return cantidad;
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
         public int InsertarPrestamo(int numeroSocio, DateTime fechaPrestamo, DateTime fechaDevolucionPrevista, string estado)

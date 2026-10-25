@@ -9,12 +9,15 @@
 
 ## Descripción
 
-El Sistema de Gestión de Biblioteca centraliza la información relacionada con los libros y sus préstamos en la Biblioteca Popular Rivadavia: los datos de los socios, el catálogo de libros y sus ejemplares, los préstamos y devoluciones realizados y las multas generadas por atraso. Reemplaza el registro manual en comprobantes de papel y planillas Excel, que provocaba inconsistencias en los datos y pérdida de ejemplares.
+El Sistema de Gestión de Biblioteca centraliza la información relacionada con los libros y sus préstamos en la Biblioteca Popular Rivadavia: los datos de los socios, el catálogo de libros y sus ejemplares, los préstamos y devoluciones realizados, las multas generadas por atraso y su cobro, y las donaciones de libros recibidas. Reemplaza el registro manual en comprobantes de papel y planillas Excel, que provocaba inconsistencias en los datos y pérdida de ejemplares.
 
 Sus funcionalidades principales son:
 
-- **Gestión de préstamos (RF-001):** registro de préstamos, devoluciones y cobro de multas por atraso, con validación de la habilitación del socio y de la disponibilidad de los ejemplares.
-- **Gestión de dashboards (RF-002):** indicadores sobre la actividad de préstamos, como los libros, temas y autores más solicitados.
+- **Gestión de préstamos (RF-001):** registro de préstamos y devoluciones, con validación de la habilitación del socio y de la disponibilidad de los ejemplares, y generación de multas por atraso.
+- **Gestión de multas y donaciones (RF-002):** cobro de las multas pendientes de pago y registro de las donaciones de libros que realizan los socios.
+- **Gestión de socios, libros y ejemplares:** alta, baja y modificación de los socios, del catálogo de libros (con sus autores y temas) y de los ejemplares del acervo.
+
+Los comprobantes de préstamo y de pago y los recibos de donación se generan en PDF y se guardan en `Documentos\SGB\Comprobantes`.
 
 Además incluye los módulos de seguridad: inicio de sesión, encriptado de contraseñas, perfiles de usuario, bitácora, backup y restore, dígitos verificadores y multi-idioma.
 
@@ -36,8 +39,9 @@ Abrir SSMS, conectarse al servidor y ejecutar los scripts de la carpeta `BD_SQL`
 | Orden | Script | Contenido |
 |---|---|---|
 | 1 | `01_seguridad.sql` | Crea la base `bd_sgb`, las tablas de seguridad y el usuario administrador. |
-| 2 | `02_negocio.sql` | Crea las tablas del negocio (socios, catálogo, préstamos, devoluciones y multas). |
+| 2 | `02_negocio.sql` | Crea las tablas del negocio (socios, catálogo, préstamos, devoluciones, multas y donaciones). |
 | 3 | `03_carga_inicial.sql` | Carga los socios y el catálogo preexistentes de la biblioteca. |
+| 4 | `04_datos_prueba.sql` | *(Opcional)* Carga préstamos, multas y donaciones de prueba. Los casos están descriptos al inicio del script. |
 
 Cada script se ejecuta una sola vez. Para empezar de cero, eliminar primero la base:
 

@@ -39,8 +39,9 @@ namespace UI
                 }
             }
             ConfigurarGrillas();
-            
-            Mostrar(dgvSocios, bll_Socio.ObtenerSocios());
+
+            Mostrar(dgvSocios, bll_Socio.ObtenerActivos());
+            MostrarFechas();
         }
 
         private void ConfigurarGrillas()
@@ -68,15 +69,23 @@ namespace UI
             grilla.DataSource = null;
             grilla.DataSource = datos;
         }
-        private void txtNumeroSocio_TextChanged(object sender, EventArgs e)
+        private void MostrarFechas()
         {
-            Mostrar(dgvSocios, bll_Socio.BuscarPorNumero(txtNumeroSocio.Text));
+            lblFechaPrestamo.Text = $"Fecha del préstamo: {DateTime.Today:dd/MM/yyyy}";
+            lblFechaDevolucion.Text = $"Fecha de devolución prevista: {bll_Prestamo.CalcularFechaDevolucionPrevista(DateTime.Today):dd/MM/yyyy}";
+        }
+
+        // ------------------------------------------------------------ Socio
+        private void txtDni_TextChanged(object sender, EventArgs e)
+        {
+            Mostrar(dgvSocios, bll_Socio.BuscarActivosPorDni(txtDni.Text));
         }
 
         private void btnAgregarSocio_Click(object sender, EventArgs e)
         {
             try
             {
+                if (dgvSocios.Rows.Count == 0) throw new Exception("No existe un socio registrado con el DNI ingresado.");
                 if (dgvSocios.SelectedRows.Count == 0) throw new Exception("Seleccione un socio.");
 
                 BE_Socio socio = (BE_Socio)dgvSocios.SelectedRows[0].DataBoundItem;
@@ -85,7 +94,7 @@ namespace UI
                 lblDatosSocio.Text = $"Socio: {socio.Apellido}, {socio.Nombre} - DNI {socio.Dni}";
                 lblEstadoSocio.Text = $"Estado: {habilitacion}";
 
-                if (habilitacion != "Habilitado")
+                if (habilitacion != BLL_Socio.HABILITADO)
                 {
                     socioSeleccionado = null;
                     throw new Exception($"El socio no puede realizar préstamos. Motivo: {habilitacion}.");
@@ -108,7 +117,8 @@ namespace UI
         {
             try
             {
-                if (socioSeleccionado == null) throw new Exception("Primero debe agregar un socio.");
+                if (socioSeleccionado == null) throw new Exception("Primero debe agregar un socio habilitado.");
+                if (dgvResultados.Rows.Count == 0) throw new Exception("No existe un ejemplar que coincida con la búsqueda.");
                 if (dgvResultados.SelectedRows.Count == 0) throw new Exception("Seleccione un ejemplar.");
 
                 string codigo = dgvResultados.SelectedRows[0].Cells[colResCodigo.Index].Value.ToString();
@@ -141,16 +151,16 @@ namespace UI
         {
             try
             {
-                if (socioSeleccionado == null) throw new Exception("Debe agregar un socio.");
+                if (socioSeleccionado == null) throw new Exception("Debe agregar un socio habilitado.");
                 if (detalle.Count == 0) throw new Exception("Debe agregar al menos un ejemplar.");
 
-                bll_Prestamo.ValidarLimite(socioSeleccionado);
-
                 DateTime fechaDevolucion = bll_Prestamo.CalcularFechaDevolucionPrevista(DateTime.Today);
-                lblFechaPrestamo.Text = $"Fecha del préstamo: {DateTime.Today:dd/MM/yyyy}";
-                lblFechaDevolucion.Text = $"Fecha de devolución prevista: {fechaDevolucion:dd/MM/yyyy}";
+                string resumen = $"Socio: {socioSeleccionado.Apellido}, {socioSeleccionado.Nombre}\n" +
+                                 $"Ejemplares: {detalle.Count}\n" +
+                                 $"Fecha de devolución prevista: {fechaDevolucion:dd/MM/yyyy}\n\n" +
+                                 "¿Confirma el préstamo?";
 
-                if (MessageBox.Show("¿Confirma el préstamo?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                if (MessageBox.Show(resumen, "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
                 BE_Prestamo prestamo = new BE_Prestamo();
@@ -159,13 +169,18 @@ namespace UI
 
                 BE_Comprobante comprobante = bll_Prestamo.Registrar(prestamo);
 
-                MessageBox.Show($"Préstamo registrado correctamente.\n\n" +
-                                $"Comprobante N° {comprobante.NumeroComprobante}\n" +
-                                $"Préstamo N° {prestamo.NumeroPrestamo}\n" +
-                                $"Socio: {prestamo.Socio.Apellido}, {prestamo.Socio.Nombre}\n" +
-                                $"Ejemplares: {prestamo.Ejemplares.Count}\n" +
+                MessageBox.Show($"Préstamo N° {prestamo.NumeroPrestamo} registrado correctamente.\n" +
                                 $"Devolver antes del: {prestamo.FechaDevolucionPrevista:dd/MM/yyyy}",
-                                "Comprobante", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                "Préstamo registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                try
+                {
+                    ComprobantesPDF.ComprobantePrestamo(comprobante);
+                }
+                catch (Exception exPdf)
+                {
+                    MessageBox.Show($"El préstamo quedó registrado, pero no se pudo generar el comprobante en PDF.\n{exPdf.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 this.Close();
             }
             catch (Exception ex)

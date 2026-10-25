@@ -14,5 +14,7 @@ namespace BE
             Nombre = nombre;
             Apellido = apellido;
         }
+
+        public override string ToString() => $"{Apellido}, {Nombre}";
     }
 }

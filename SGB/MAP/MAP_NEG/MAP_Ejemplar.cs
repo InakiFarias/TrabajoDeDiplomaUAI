@@ -12,10 +12,10 @@ namespace MAP
             dao_ejemplar = new DAO_Ejemplar();
         }
 
-        public List<BE_Ejemplar> BuscarPorTexto(string texto)
+        public List<BE_Ejemplar> BuscarPorTexto(string texto, bool incluirBajas)
         {
             List<BE_Ejemplar> lista = new List<BE_Ejemplar>();
-            SqlDataReader dr = dao_ejemplar.BuscarPorTexto(texto);
+            SqlDataReader dr = dao_ejemplar.BuscarPorTexto(texto, incluirBajas);
             while (dr.Read())
             {
                 lista.Add(Mapear(dr));
@@ -40,6 +40,32 @@ namespace MAP
 
             return ejemplar;
         }
+
+        public List<BE_Ejemplar> ObtenerPorPrestamo(int numeroPrestamo)
+        {
+            List<BE_Ejemplar> lista = new List<BE_Ejemplar>();
+            SqlDataReader dr = dao_ejemplar.ObtenerPorPrestamo(numeroPrestamo);
+            while (dr.Read())
+            {
+                lista.Add(Mapear(dr));
+            }
+            dr.Close();
+
+            foreach (BE_Ejemplar ejemplar in lista)
+                ejemplar.Libro.Autores = ObtenerAutores(ejemplar.Libro.CodigoLibro);
+
+            return lista;
+        }
+
+        public string ObtenerSiguienteCodigo() => dao_ejemplar.ObtenerSiguienteCodigo();
+
+        public void InsertarEjemplar(BE_Ejemplar ejemplar) => dao_ejemplar.InsertarEjemplar(ejemplar.CodigoEjemplar, ejemplar.Libro.CodigoLibro, ejemplar.Estado);
+
+        public void ModificarLibroDeEjemplar(BE_Ejemplar ejemplar) => dao_ejemplar.ModificarLibroDeEjemplar(ejemplar.CodigoEjemplar, ejemplar.Libro.CodigoLibro);
+
+        public void ActualizarEstado(BE_Ejemplar ejemplar, string estado) => dao_ejemplar.ActualizarEstado(ejemplar.CodigoEjemplar, estado);
+
+        public int ContarPrestamosVigentes(BE_Ejemplar ejemplar) => dao_ejemplar.ContarPrestamosVigentes(ejemplar.CodigoEjemplar);
 
         private List<BE_Autor> ObtenerAutores(string codigoLibro)
         {

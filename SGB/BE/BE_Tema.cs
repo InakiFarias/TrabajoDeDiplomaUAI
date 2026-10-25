@@ -12,5 +12,7 @@ namespace BE
             CodigoTema = codigoTema;
             Descripcion = descripcion;
         }
+
+        public override string ToString() => Descripcion;
     }
 }

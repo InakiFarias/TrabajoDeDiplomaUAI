@@ -5,6 +5,7 @@ namespace BE
         public int NumeroDevolucion { get; set; }
         public BE_Prestamo Prestamo { get; set; }
         public DateTime FechaDevolucion { get; set; }
+        public BE_Multa? Multa { get; set; }
 
         public BE_Devolucion() { }
 
