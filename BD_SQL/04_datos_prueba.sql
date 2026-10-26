@@ -27,9 +27,6 @@
       L) Martín Ruiz       (DNI 38901234): multa ya pagada (con comprobante). No aparece en Cobrar multas y está habilitado.
       M) Camila Medina     (DNI 42345612): préstamo devuelto en término, sin multa. Está habilitada.
 
-    Donaciones
-      E) Graciela Álvarez  (DNI 11234987): donó el ejemplar EJ-00045, que ya no puede donarse otra vez.
-
     Bajas (para probar Reactivar)
       N) Socios Elena Benítez (DNI 16789012) y Diego Acosta (DNI 31456789) dados de baja (vienen del script 03).
          Ejemplar EJ-00044 (Cosmos) dado de baja con su libro activo: se puede reactivar directamente.
