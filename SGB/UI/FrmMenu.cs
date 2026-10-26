@@ -8,6 +8,13 @@ namespace UI
         BLL_Usuario bll_usuario;
         BLL_Idioma bll_idioma = new BLL_Idioma();
         bool cargandoIdiomas;
+
+        // Navegación: las pantallas se abren dentro del área de contenido
+        Form? pantallaActual;
+        BotonSGB? botonActivo;
+        bool cambiandoPantalla;
+        bool cerrandoMenu;
+
         public FrmMenu()
         {
             InitializeComponent();
@@ -15,17 +22,23 @@ namespace UI
             CargarIdiomas();
             ActualizarIdioma();
         }
+
         private void FrmMenu_Load(object sender, EventArgs e)
         {
             bll_usuario = new BLL_Usuario();
 
             SER_Usuario usuario = SER_SesionManager.ObtenerSesion().Usuario;
+            lblUsuario.Text = usuario.NombreUsuario;
 
             btnUsuarios.Visible = TieneAlgun(usuario, "Crear Usuario", "Modificar Usuario", "Desbloquear Usuario", "Activar Usuario");
             btnGestionRoles.Visible = TieneAlgun(usuario, "Crear Rol", "Crear Familia", "Eliminar Rol", "Eliminar Familia");
             btnBitacora.Visible = TieneAlgun(usuario, "Consultar Bitácora");
             btnGestionRespaldo.Visible = TieneAlgun(usuario, "Realizar Backup", "Realizar Restore");
+            lblSeccionNav.Visible = btnUsuarios.Visible || btnGestionRoles.Visible || btnBitacora.Visible || btnGestionRespaldo.Visible;
+
+            MostrarInicio();
         }
+
         private bool TieneAlgun(SER_Usuario usuario, params string[] permisos)
         {
             foreach (string permiso in permisos)
@@ -35,55 +48,94 @@ namespace UI
             }
             return false;
         }
-        private void btnUsuarios_Click(object sender, EventArgs e)
-        {
-            Form frm = Application.OpenForms["FrmUsuarios"];
 
-            if (frm == null)
-            {
-                FrmGestionUsuarios frmUsuarios = new FrmGestionUsuarios();
-                frmUsuarios.ShowDialog();
-            }
-            else
-            {
-                frm.WindowState = FormWindowState.Normal;
-                frm.BringToFront();
-                frm.Focus();
-            }
-        }
-        private void btnBitacora_Click(object sender, EventArgs e)
-        {
-            Form frm = Application.OpenForms["FrmBitacora"];
+        // ------------------------------------------------------------ Navegación
 
-            if (frm == null)
-            {
-                FrmBitacora frmBitacora = new FrmBitacora();
-                frmBitacora.ShowDialog();
-            }
-            else
-            {
-                frm.WindowState = FormWindowState.Normal;
-                frm.BringToFront();
-                frm.Focus();
-            }
+        private void Abrir<T>(BotonSGB boton) where T : Form, new()
+        {
+            // Si la pantalla ya está abierta se deja como está, sin perder lo cargado
+            if (pantallaActual is T) return;
+            AbrirPantalla(new T(), boton);
         }
 
-        private void btnCambiarClave_Click(object sender, EventArgs e)
+        private void AbrirPantalla(Form pantalla, BotonSGB boton)
         {
-            Form frm = Application.OpenForms["FrmCambiarClave"];
+            CerrarPantallaActual();
 
-            if (frm == null)
-            {
-                frmCambiarClave frmCambiarClave = new frmCambiarClave();
-                frmCambiarClave.ShowDialog();
-            }
-            else
-            {
-                frm.WindowState = FormWindowState.Normal;
-                frm.BringToFront();
-                frm.Focus();
-            }
+            pantalla.TopLevel = false;
+            pantalla.FormBorderStyle = FormBorderStyle.None;
+            pantalla.Dock = DockStyle.Fill;
+            pantalla.FormClosed += Pantalla_FormClosed;
+            pantalla.TextChanged += Pantalla_TextChanged;
+
+            pantallaActual = pantalla;
+            pnlContenido.Controls.Add(pantalla);
+            MarcarBoton(boton);
+            lblPantalla.Text = pantalla.Text;
+            pantalla.Show();
+            pantalla.BringToFront();
         }
+
+        private void CerrarPantallaActual()
+        {
+            if (pantallaActual == null) return;
+            cambiandoPantalla = true;
+            pantallaActual.Close();
+            cambiandoPantalla = false;
+            pantallaActual = null;
+        }
+
+        private void MostrarInicio()
+        {
+            if (IsDisposed || cerrandoMenu) return;
+            AbrirPantalla(new FormInicio(), btnInicio);
+        }
+
+        private void MarcarBoton(BotonSGB boton)
+        {
+            if (botonActivo != null) botonActivo.Activo = false;
+            botonActivo = boton;
+            botonActivo.Activo = true;
+        }
+
+        private void Pantalla_TextChanged(object? sender, EventArgs e)
+        {
+            if (sender == pantallaActual && pantallaActual != null)
+                lblPantalla.Text = pantallaActual.Text;
+        }
+
+        // Cuando una pantalla se cierra con sus propios botones (Cerrar, Cancelar, Salir) se vuelve al inicio
+        private void Pantalla_FormClosed(object? sender, FormClosedEventArgs e)
+        {
+            if (cerrandoMenu || cambiandoPantalla || sender != pantallaActual) return;
+            pantallaActual = null;
+
+            // Después de un restore la sesión se cierra, como en el resto del sistema
+            if (sender is FrmBackup backup && backup.RestoreRealizado)
+            {
+                bll_usuario.Logout();
+                this.Close();
+                return;
+            }
+
+            if (!IsDisposed) BeginInvoke(new Action(MostrarInicio));
+        }
+
+        // ------------------------------------------------------------ Opciones del menú
+
+        private void btnInicio_Click(object sender, EventArgs e) => Abrir<FormInicio>(btnInicio);
+        private void btnRegistrarPrestamo_Click(object sender, EventArgs e) => Abrir<FormPrestamo>(btnRegistrarPrestamo);
+        private void btnRegistrarDevolucion_Click(object sender, EventArgs e) => Abrir<FormDevolucion>(btnRegistrarDevolucion);
+        private void btnCobrarMultas_Click(object sender, EventArgs e) => Abrir<FormMulta>(btnCobrarMultas);
+        private void btnRegistrarDonacion_Click(object sender, EventArgs e) => Abrir<FormDonacion>(btnRegistrarDonacion);
+        private void btnGestionSocios_Click(object sender, EventArgs e) => Abrir<FormSocio>(btnGestionSocios);
+        private void btnGestionLibros_Click(object sender, EventArgs e) => Abrir<FormLibro>(btnGestionLibros);
+        private void btnGestionEjemplares_Click(object sender, EventArgs e) => Abrir<FormEjemplar>(btnGestionEjemplares);
+        private void btnUsuarios_Click(object sender, EventArgs e) => Abrir<FrmGestionUsuarios>(btnUsuarios);
+        private void btnGestionRoles_Click(object sender, EventArgs e) => Abrir<FrmGestionRoles>(btnGestionRoles);
+        private void btnBitacora_Click(object sender, EventArgs e) => Abrir<FrmBitacora>(btnBitacora);
+        private void btnGestionRespaldo_Click(object sender, EventArgs e) => Abrir<FrmBackup>(btnGestionRespaldo);
+        private void btnCambiarClave_Click(object sender, EventArgs e) => Abrir<frmCambiarClave>(btnCambiarClave);
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
@@ -93,16 +145,9 @@ namespace UI
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
+            // El logout se hace al cerrar el menú (FrmMenu_FormClosing)
             if (res == DialogResult.Yes)
-            {
-                bll_usuario.Logout();
                 this.Close();
-            }
-        }
-
-        private void FrmMenu_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            bll_usuario.Logout();
         }
 
         private void btnRelogin_Click(object sender, EventArgs e)
@@ -110,46 +155,18 @@ namespace UI
             FrmLogin frmLogin = new FrmLogin();
             this.Hide();
             frmLogin.ShowDialog();
-
         }
 
-        private void btnGestionRoles_Click(object sender, EventArgs e)
+        private void FrmMenu_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Form frm = Application.OpenForms["FrmRoles"];
+            cerrandoMenu = true;
+            // Primero se cierra la pantalla abierta para que deje de escuchar el cambio de idioma del logout
+            CerrarPantallaActual();
+            bll_usuario.Logout();
+        }
 
-            if (frm == null)
-            {
-                FrmGestionRoles frmRoles = new FrmGestionRoles();
-                frmRoles.ShowDialog();
-            }
-            else
-            {
-                frm.WindowState = FormWindowState.Normal;
-                frm.BringToFront();
-                frm.Focus();
-            }
-        }
-        private void btnGestionRespaldo_Click(object sender, EventArgs e)
-        {
-            Form frm = Application.OpenForms["FrmBackup"];
-            if (frm == null)
-            {
-                FrmBackup frmBackup = new FrmBackup();
-                frmBackup.ShowDialog();
-                if (frmBackup.RestoreRealizado)
-                {
-                    bll_usuario.Logout();
-                    FrmLogin login = new FrmLogin();
-                    this.Close();
-                }
-            }
-            else
-            {
-                frm.WindowState = FormWindowState.Normal;
-                frm.BringToFront();
-                frm.Focus();
-            }
-        }
+        // ------------------------------------------------------------ Idioma
+
         private void CargarIdiomas()
         {
             cargandoIdiomas = true;
@@ -172,10 +189,23 @@ namespace UI
                 MessageBox.Show(ex.Message);
             }
         }
+
         public void ActualizarIdioma()
         {
             this.Text = bll_idioma.Traducir("FrmMenu.Form");
             lblTituloTopbar.Text = bll_idioma.Traducir("FrmMenu.lblTituloTopbar");
+            btnInicio.Text = bll_idioma.Traducir("FrmMenu.btnInicio");
+            label2.Text = bll_idioma.Traducir("FrmMenu.label2");
+            btnRegistrarPrestamo.Text = bll_idioma.Traducir("FrmMenu.btnRegistrarPrestamo");
+            btnRegistrarDevolucion.Text = bll_idioma.Traducir("FrmMenu.btnRegistrarDevolucion");
+            label3.Text = bll_idioma.Traducir("FrmMenu.label3");
+            btnCobrarMultas.Text = bll_idioma.Traducir("FrmMenu.btnCobrarMultas");
+            btnRegistrarDonacion.Text = bll_idioma.Traducir("FrmMenu.btnRegistrarDonacion");
+            label4.Text = bll_idioma.Traducir("FrmMenu.label4");
+            btnGestionSocios.Text = bll_idioma.Traducir("FrmMenu.btnGestionSocios");
+            btnGestionLibros.Text = bll_idioma.Traducir("FrmMenu.btnGestionLibros");
+            btnGestionEjemplares.Text = bll_idioma.Traducir("FrmMenu.btnGestionEjemplares");
+            label5.Text = bll_idioma.Traducir("FrmMenu.label5");
             lblSeccionNav.Text = bll_idioma.Traducir("FrmMenu.lblSeccionNav");
             label1.Text = bll_idioma.Traducir("FrmMenu.label1");
             btnUsuarios.Text = bll_idioma.Traducir("FrmMenu.btnUsuarios");
@@ -187,53 +217,13 @@ namespace UI
             btnRelogin.Text = bll_idioma.Traducir("FrmMenu.btnRelogin");
             btnCambiarClave.Text = bll_idioma.Traducir("FrmMenu.btnCambiarClave");
             btnLogout.Text = bll_idioma.Traducir("FrmMenu.btnLogout");
+            if (pantallaActual != null) lblPantalla.Text = pantallaActual.Text;
         }
+
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             bll_idioma.Desuscribir(this);
             base.OnFormClosed(e);
-        }
-
-        private void btnRegistrarPrestamo_Click(object sender, EventArgs e)
-        {
-            using FormPrestamo frm = new FormPrestamo();
-            frm.ShowDialog(this);
-        }
-
-        private void btnRegistrarDevolucion_Click(object sender, EventArgs e)
-        {
-            using FormDevolucion frm = new FormDevolucion();
-            frm.ShowDialog(this);
-        }
-
-        private void btnCobrarMultas_Click(object sender, EventArgs e)
-        {
-            using FormMulta frm = new FormMulta();
-            frm.ShowDialog(this);
-        }
-
-        private void btnRegistrarDonacion_Click(object sender, EventArgs e)
-        {
-            using FormDonacion frm = new FormDonacion();
-            frm.ShowDialog(this);
-        }
-
-        private void btnGestionSocios_Click(object sender, EventArgs e)
-        {
-            using FormSocio frm = new FormSocio();
-            frm.ShowDialog(this);
-        }
-
-        private void btnGestionLibros_Click(object sender, EventArgs e)
-        {
-            using FormLibro frm = new FormLibro();
-            frm.ShowDialog(this);
-        }
-
-        private void btnGestionEjemplares_Click(object sender, EventArgs e)
-        {
-            using FormEjemplar frm = new FormEjemplar();
-            frm.ShowDialog(this);
         }
     }
 }

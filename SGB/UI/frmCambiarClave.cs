@@ -63,6 +63,8 @@ namespace UI
             lblClaveActual.Text = bll_idioma.Traducir("frmCambiarClave.lblClaveActual");
             lblClaveNueva.Text = bll_idioma.Traducir("frmCambiarClave.lblClaveNueva");
             btnConfirmar.Text = bll_idioma.Traducir("frmCambiarClave.btnConfirmar");
+            lblRequisitos.Text = bll_idioma.Traducir("frmCambiarClave.lblRequisitos");
+            lblAviso.Text = bll_idioma.Traducir("frmCambiarClave.lblAviso");
         }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {

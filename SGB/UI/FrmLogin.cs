@@ -114,6 +114,10 @@ namespace UI
             lblUsuario.Text = bll_idioma.Traducir("FrmLogin.lblUsuario");
             lblPassword.Text = bll_idioma.Traducir("FrmLogin.lblPassword");
             btnEntrar.Text = bll_idioma.Traducir("FrmLogin.btnEntrar");
+            lblSistema.Text = bll_idioma.Traducir("FrmLogin.lblSistema");
+            lblBienvenida.Text = bll_idioma.Traducir("FrmLogin.lblBienvenida");
+            lblIndicacion.Text = bll_idioma.Traducir("FrmLogin.lblIndicacion");
+            lblPie.Text = bll_idioma.Traducir("FrmLogin.lblPie");
         }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {

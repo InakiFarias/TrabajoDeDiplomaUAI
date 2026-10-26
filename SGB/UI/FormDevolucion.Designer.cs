@@ -31,170 +31,301 @@ namespace UI
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            lblTitulo = new Label();
+            tlpPrincipal = new TableLayoutPanel();
+            crdPrestamo = new TarjetaSGB();
             lblSeccionPrestamo = new Label();
-            lblNumeroPrestamo = new Label();
-            txtNumeroPrestamo = new TextBox();
-            btnBuscarPrestamo = new Button();
+            lblBuscar = new Label();
+            txtBuscar = new TextBox();
+            dgvPrestamos = new GrillaSGB();
+            colPreNumero = new DataGridViewTextBoxColumn();
+            colPreSocio = new DataGridViewTextBoxColumn();
+            colPreDni = new DataGridViewTextBoxColumn();
+            colPreFecha = new DataGridViewTextBoxColumn();
+            colPrePrevista = new DataGridViewTextBoxColumn();
+            crdResumen = new TarjetaSGB();
+            lblSeccionResumen = new Label();
             lblSocio = new Label();
             lblFechaPrestamo = new Label();
             lblFechaDevolucionPrevista = new Label();
-            lblSeccionEjemplares = new Label();
-            dgvEjemplares = new DataGridView();
-            colCodigo = new DataGridViewTextBoxColumn();
-            colTitulo = new DataGridViewTextBoxColumn();
-            colAutor = new DataGridViewTextBoxColumn();
-            chkRecepcionCompleta = new CheckBox();
-            lblSeccionResumen = new Label();
             lblFechaDevolucion = new Label();
             lblDiasAtraso = new Label();
             lblMulta = new Label();
-            btnCancelar = new Button();
-            btnConfirmar = new Button();
+            chkRecepcionCompleta = new CheckBox();
+            crdEjemplares = new TarjetaSGB();
+            lblSeccionEjemplares = new Label();
+            dgvEjemplares = new GrillaSGB();
+            colCodigo = new DataGridViewTextBoxColumn();
+            colTitulo = new DataGridViewTextBoxColumn();
+            colAutor = new DataGridViewTextBoxColumn();
+            pnlAcciones = new FlowLayoutPanel();
+            btnConfirmar = new BotonSGB();
+            btnCancelar = new BotonSGB();
+            tlpPrincipal.SuspendLayout();
+            crdPrestamo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPrestamos).BeginInit();
+            crdResumen.SuspendLayout();
+            crdEjemplares.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvEjemplares).BeginInit();
+            pnlAcciones.SuspendLayout();
             SuspendLayout();
             // 
-            // lblTitulo
+            // tlpPrincipal
             // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 14F);
-            lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
-            lblTitulo.Location = new Point(16, 12);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(182, 25);
-            lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "Registrar devolución";
+            tlpPrincipal.BackColor = Color.FromArgb(244, 245, 247);
+            tlpPrincipal.ColumnCount = 2;
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+            tlpPrincipal.Controls.Add(crdPrestamo, 0, 0);
+            tlpPrincipal.Controls.Add(crdResumen, 1, 0);
+            tlpPrincipal.Controls.Add(crdEjemplares, 0, 1);
+            tlpPrincipal.Controls.Add(pnlAcciones, 0, 2);
+            tlpPrincipal.Dock = DockStyle.Fill;
+            tlpPrincipal.Name = "tlpPrincipal";
+            tlpPrincipal.Padding = new Padding(12);
+            tlpPrincipal.RowCount = 3;
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 58.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 42.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Absolute, 56.0F));
+            tlpPrincipal.Size = new Size(1100, 640);
+            tlpPrincipal.TabIndex = 0;
+            tlpPrincipal.SetColumnSpan(crdEjemplares, 2);
+            tlpPrincipal.SetColumnSpan(pnlAcciones, 2);
+            // 
+            // crdPrestamo
+            // 
+            crdPrestamo.Controls.Add(lblSeccionPrestamo);
+            crdPrestamo.Controls.Add(lblBuscar);
+            crdPrestamo.Controls.Add(txtBuscar);
+            crdPrestamo.Controls.Add(dgvPrestamos);
+            crdPrestamo.Dock = DockStyle.Fill;
+            crdPrestamo.Margin = new Padding(8);
+            crdPrestamo.Name = "crdPrestamo";
+            crdPrestamo.Size = new Size(522, 309);
+            crdPrestamo.TabIndex = 0;
             // 
             // lblSeccionPrestamo
             // 
             lblSeccionPrestamo.AutoSize = true;
-            lblSeccionPrestamo.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionPrestamo.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionPrestamo.Location = new Point(16, 52);
+            lblSeccionPrestamo.BackColor = Color.Transparent;
+            lblSeccionPrestamo.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionPrestamo.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionPrestamo.Location = new Point(20, 16);
             lblSeccionPrestamo.Name = "lblSeccionPrestamo";
-            lblSeccionPrestamo.Size = new Size(59, 12);
-            lblSeccionPrestamo.TabIndex = 1;
-            lblSeccionPrestamo.Text = "PRÉSTAMO";
+            lblSeccionPrestamo.Size = new Size(144, 20);
+            lblSeccionPrestamo.TabIndex = 0;
+            lblSeccionPrestamo.Text = "Préstamos vigentes";
             // 
-            // lblNumeroPrestamo
+            // lblBuscar
             // 
-            lblNumeroPrestamo.AutoSize = true;
-            lblNumeroPrestamo.ForeColor = Color.FromArgb(148, 163, 184);
-            lblNumeroPrestamo.Location = new Point(16, 70);
-            lblNumeroPrestamo.Name = "lblNumeroPrestamo";
-            lblNumeroPrestamo.Size = new Size(129, 17);
-            lblNumeroPrestamo.TabIndex = 2;
-            lblNumeroPrestamo.Text = "Número de préstamo";
+            lblBuscar.AutoSize = true;
+            lblBuscar.BackColor = Color.Transparent;
+            lblBuscar.Font = new Font("Segoe UI", 10F);
+            lblBuscar.ForeColor = Color.FromArgb(75, 85, 99);
+            lblBuscar.Location = new Point(20, 52);
+            lblBuscar.Name = "lblBuscar";
+            lblBuscar.Size = new Size(456, 20);
+            lblBuscar.TabIndex = 1;
+            lblBuscar.Text = "Número de préstamo o DNI del socio (búsqueda incremental)";
             // 
-            // txtNumeroPrestamo
+            // txtBuscar
             // 
-            txtNumeroPrestamo.BackColor = Color.FromArgb(21, 32, 48);
-            txtNumeroPrestamo.BorderStyle = BorderStyle.FixedSingle;
-            txtNumeroPrestamo.ForeColor = Color.FromArgb(226, 232, 240);
-            txtNumeroPrestamo.Location = new Point(16, 90);
-            txtNumeroPrestamo.Name = "txtNumeroPrestamo";
-            txtNumeroPrestamo.Size = new Size(150, 24);
-            txtNumeroPrestamo.TabIndex = 3;
-            txtNumeroPrestamo.KeyDown += txtNumeroPrestamo_KeyDown;
+            txtBuscar.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscar.ForeColor = Color.FromArgb(31, 41, 55);
+            txtBuscar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtBuscar.Location = new Point(20, 74);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.PlaceholderText = "Ej.: 15 o 28456123";
+            txtBuscar.Size = new Size(482, 27);
+            txtBuscar.TabIndex = 2;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
-            // btnBuscarPrestamo
+            // dgvPrestamos
             // 
-            btnBuscarPrestamo.BackColor = Color.FromArgb(45, 60, 82);
-            btnBuscarPrestamo.Cursor = Cursors.Hand;
-            btnBuscarPrestamo.FlatAppearance.BorderSize = 0;
-            btnBuscarPrestamo.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnBuscarPrestamo.FlatStyle = FlatStyle.Flat;
-            btnBuscarPrestamo.ForeColor = Color.FromArgb(226, 232, 240);
-            btnBuscarPrestamo.Location = new Point(174, 89);
-            btnBuscarPrestamo.Name = "btnBuscarPrestamo";
-            btnBuscarPrestamo.Size = new Size(90, 27);
-            btnBuscarPrestamo.TabIndex = 4;
-            btnBuscarPrestamo.Text = "🔍 Buscar";
-            btnBuscarPrestamo.UseVisualStyleBackColor = false;
-            btnBuscarPrestamo.Click += btnBuscarPrestamo_Click;
+            dgvPrestamos.Columns.AddRange(new DataGridViewColumn[] { colPreNumero, colPreSocio, colPreDni, colPreFecha, colPrePrevista });
+            dgvPrestamos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvPrestamos.Location = new Point(20, 116);
+            dgvPrestamos.Name = "dgvPrestamos";
+            dgvPrestamos.Size = new Size(482, 173);
+            dgvPrestamos.TabIndex = 3;
+            // 
+            // colPreNumero
+            // 
+            colPreNumero.FillWeight = 11F;
+            colPreNumero.HeaderText = "N°";
+            colPreNumero.Name = "colPreNumero";
+            colPreNumero.ReadOnly = true;
+            // 
+            // colPreSocio
+            // 
+            colPreSocio.FillWeight = 35F;
+            colPreSocio.HeaderText = "Socio";
+            colPreSocio.Name = "colPreSocio";
+            colPreSocio.ReadOnly = true;
+            // 
+            // colPreDni
+            // 
+            colPreDni.FillWeight = 18F;
+            colPreDni.HeaderText = "DNI";
+            colPreDni.Name = "colPreDni";
+            colPreDni.ReadOnly = true;
+            // 
+            // colPreFecha
+            // 
+            colPreFecha.FillWeight = 18F;
+            colPreFecha.HeaderText = "Préstamo";
+            colPreFecha.Name = "colPreFecha";
+            colPreFecha.ReadOnly = true;
+            // 
+            // colPrePrevista
+            // 
+            colPrePrevista.FillWeight = 18F;
+            colPrePrevista.HeaderText = "Vence";
+            colPrePrevista.Name = "colPrePrevista";
+            colPrePrevista.ReadOnly = true;
+            dgvPrestamos.SelectionChanged += dgvPrestamos_SelectionChanged;
+            // 
+            // crdResumen
+            // 
+            crdResumen.Controls.Add(lblSeccionResumen);
+            crdResumen.Controls.Add(lblSocio);
+            crdResumen.Controls.Add(lblFechaPrestamo);
+            crdResumen.Controls.Add(lblFechaDevolucionPrevista);
+            crdResumen.Controls.Add(lblFechaDevolucion);
+            crdResumen.Controls.Add(lblDiasAtraso);
+            crdResumen.Controls.Add(lblMulta);
+            crdResumen.Controls.Add(chkRecepcionCompleta);
+            crdResumen.Dock = DockStyle.Fill;
+            crdResumen.Margin = new Padding(8);
+            crdResumen.Name = "crdResumen";
+            crdResumen.Size = new Size(522, 309);
+            crdResumen.TabIndex = 1;
+            // 
+            // lblSeccionResumen
+            // 
+            lblSeccionResumen.AutoSize = true;
+            lblSeccionResumen.BackColor = Color.Transparent;
+            lblSeccionResumen.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionResumen.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionResumen.Location = new Point(20, 16);
+            lblSeccionResumen.Name = "lblSeccionResumen";
+            lblSeccionResumen.Size = new Size(192, 20);
+            lblSeccionResumen.TabIndex = 0;
+            lblSeccionResumen.Text = "Resumen de la devolución";
             // 
             // lblSocio
             // 
             lblSocio.AutoSize = true;
-            lblSocio.ForeColor = Color.FromArgb(226, 232, 240);
-            lblSocio.Location = new Point(284, 72);
+            lblSocio.BackColor = Color.Transparent;
+            lblSocio.Font = new Font("Segoe UI", 11F);
+            lblSocio.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSocio.Location = new Point(20, 56);
             lblSocio.Name = "lblSocio";
-            lblSocio.Size = new Size(58, 17);
-            lblSocio.TabIndex = 5;
+            lblSocio.Size = new Size(64, 20);
+            lblSocio.TabIndex = 1;
             lblSocio.Text = "Socio: —";
             // 
             // lblFechaPrestamo
             // 
             lblFechaPrestamo.AutoSize = true;
-            lblFechaPrestamo.ForeColor = Color.FromArgb(148, 163, 184);
-            lblFechaPrestamo.Location = new Point(284, 92);
+            lblFechaPrestamo.BackColor = Color.Transparent;
+            lblFechaPrestamo.Font = new Font("Segoe UI", 11F);
+            lblFechaPrestamo.ForeColor = Color.FromArgb(31, 41, 55);
+            lblFechaPrestamo.Location = new Point(20, 84);
             lblFechaPrestamo.Name = "lblFechaPrestamo";
-            lblFechaPrestamo.Size = new Size(139, 17);
-            lblFechaPrestamo.TabIndex = 6;
+            lblFechaPrestamo.Size = new Size(168, 20);
+            lblFechaPrestamo.TabIndex = 2;
             lblFechaPrestamo.Text = "Fecha del préstamo: —";
             // 
             // lblFechaDevolucionPrevista
             // 
             lblFechaDevolucionPrevista.AutoSize = true;
-            lblFechaDevolucionPrevista.ForeColor = Color.FromArgb(148, 163, 184);
-            lblFechaDevolucionPrevista.Location = new Point(284, 112);
+            lblFechaDevolucionPrevista.BackColor = Color.Transparent;
+            lblFechaDevolucionPrevista.Font = new Font("Segoe UI", 11F);
+            lblFechaDevolucionPrevista.ForeColor = Color.FromArgb(31, 41, 55);
+            lblFechaDevolucionPrevista.Location = new Point(20, 112);
             lblFechaDevolucionPrevista.Name = "lblFechaDevolucionPrevista";
-            lblFechaDevolucionPrevista.Size = new Size(189, 17);
-            lblFechaDevolucionPrevista.TabIndex = 7;
+            lblFechaDevolucionPrevista.Size = new Size(248, 20);
+            lblFechaDevolucionPrevista.TabIndex = 3;
             lblFechaDevolucionPrevista.Text = "Fecha de devolución prevista: —";
+            // 
+            // lblFechaDevolucion
+            // 
+            lblFechaDevolucion.AutoSize = true;
+            lblFechaDevolucion.BackColor = Color.Transparent;
+            lblFechaDevolucion.Font = new Font("Segoe UI", 11F);
+            lblFechaDevolucion.ForeColor = Color.FromArgb(31, 41, 55);
+            lblFechaDevolucion.Location = new Point(20, 140);
+            lblFechaDevolucion.Name = "lblFechaDevolucion";
+            lblFechaDevolucion.Size = new Size(216, 20);
+            lblFechaDevolucion.TabIndex = 4;
+            lblFechaDevolucion.Text = "Fecha real de devolución: —";
+            // 
+            // lblDiasAtraso
+            // 
+            lblDiasAtraso.AutoSize = true;
+            lblDiasAtraso.BackColor = Color.Transparent;
+            lblDiasAtraso.Font = new Font("Segoe UI", 11F);
+            lblDiasAtraso.ForeColor = Color.FromArgb(31, 41, 55);
+            lblDiasAtraso.Location = new Point(20, 168);
+            lblDiasAtraso.Name = "lblDiasAtraso";
+            lblDiasAtraso.Size = new Size(136, 20);
+            lblDiasAtraso.TabIndex = 5;
+            lblDiasAtraso.Text = "Días de atraso: —";
+            // 
+            // lblMulta
+            // 
+            lblMulta.AutoSize = true;
+            lblMulta.BackColor = Color.Transparent;
+            lblMulta.Font = new Font("Segoe UI Semibold", 11F);
+            lblMulta.ForeColor = Color.FromArgb(123, 30, 46);
+            lblMulta.Location = new Point(20, 196);
+            lblMulta.Name = "lblMulta";
+            lblMulta.Size = new Size(64, 20);
+            lblMulta.TabIndex = 6;
+            lblMulta.Text = "Multa: —";
+            // 
+            // chkRecepcionCompleta
+            // 
+            chkRecepcionCompleta.AutoSize = true;
+            chkRecepcionCompleta.BackColor = Color.Transparent;
+            chkRecepcionCompleta.ForeColor = Color.FromArgb(31, 41, 55);
+            chkRecepcionCompleta.Location = new Point(20, 240);
+            chkRecepcionCompleta.Name = "chkRecepcionCompleta";
+            chkRecepcionCompleta.Size = new Size(344, 24);
+            chkRecepcionCompleta.TabIndex = 7;
+            chkRecepcionCompleta.Text = "Recibí todos los ejemplares del préstamo";
+            chkRecepcionCompleta.UseVisualStyleBackColor = false;
+            // 
+            // crdEjemplares
+            // 
+            crdEjemplares.Controls.Add(lblSeccionEjemplares);
+            crdEjemplares.Controls.Add(dgvEjemplares);
+            crdEjemplares.Dock = DockStyle.Fill;
+            crdEjemplares.Margin = new Padding(8);
+            crdEjemplares.Name = "crdEjemplares";
+            crdEjemplares.Size = new Size(1060, 219);
+            crdEjemplares.TabIndex = 2;
             // 
             // lblSeccionEjemplares
             // 
             lblSeccionEjemplares.AutoSize = true;
-            lblSeccionEjemplares.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionEjemplares.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionEjemplares.Location = new Point(16, 148);
+            lblSeccionEjemplares.BackColor = Color.Transparent;
+            lblSeccionEjemplares.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionEjemplares.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionEjemplares.Location = new Point(20, 16);
             lblSeccionEjemplares.Name = "lblSeccionEjemplares";
-            lblSeccionEjemplares.Size = new Size(129, 12);
-            lblSeccionEjemplares.TabIndex = 8;
-            lblSeccionEjemplares.Text = "EJEMPLARES PRESTADOS";
+            lblSeccionEjemplares.Size = new Size(160, 20);
+            lblSeccionEjemplares.TabIndex = 0;
+            lblSeccionEjemplares.Text = "Ejemplares prestados";
             // 
             // dgvEjemplares
             // 
-            dgvEjemplares.AllowUserToAddRows = false;
-            dgvEjemplares.AllowUserToDeleteRows = false;
-            dgvEjemplares.AllowUserToResizeRows = false;
-            dgvEjemplares.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dgvEjemplares.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvEjemplares.BackgroundColor = Color.FromArgb(21, 32, 48);
-            dgvEjemplares.BorderStyle = BorderStyle.None;
-            dgvEjemplares.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvEjemplares.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvEjemplares.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvEjemplares.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEjemplares.Columns.AddRange(new DataGridViewColumn[] { colCodigo, colTitulo, colAutor });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvEjemplares.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvEjemplares.EnableHeadersVisualStyles = false;
-            dgvEjemplares.GridColor = Color.FromArgb(45, 60, 82);
-            dgvEjemplares.Location = new Point(16, 166);
-            dgvEjemplares.MultiSelect = false;
+            dgvEjemplares.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvEjemplares.Location = new Point(20, 52);
             dgvEjemplares.Name = "dgvEjemplares";
-            dgvEjemplares.ReadOnly = true;
-            dgvEjemplares.RowHeadersVisible = false;
-            dgvEjemplares.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvEjemplares.Size = new Size(717, 180);
-            dgvEjemplares.TabIndex = 9;
+            dgvEjemplares.Size = new Size(1020, 147);
+            dgvEjemplares.TabIndex = 1;
             // 
             // colCodigo
             // 
@@ -217,152 +348,102 @@ namespace UI
             colAutor.Name = "colAutor";
             colAutor.ReadOnly = true;
             // 
-            // chkRecepcionCompleta
+            // pnlAcciones
             // 
-            chkRecepcionCompleta.AutoSize = true;
-            chkRecepcionCompleta.ForeColor = Color.FromArgb(226, 232, 240);
-            chkRecepcionCompleta.Location = new Point(16, 356);
-            chkRecepcionCompleta.Name = "chkRecepcionCompleta";
-            chkRecepcionCompleta.Size = new Size(279, 21);
-            chkRecepcionCompleta.TabIndex = 10;
-            chkRecepcionCompleta.Text = "Recibí todos los ejemplares del préstamo";
-            chkRecepcionCompleta.UseVisualStyleBackColor = true;
-            // 
-            // lblSeccionResumen
-            // 
-            lblSeccionResumen.AutoSize = true;
-            lblSeccionResumen.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionResumen.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionResumen.Location = new Point(16, 396);
-            lblSeccionResumen.Name = "lblSeccionResumen";
-            lblSeccionResumen.Size = new Size(53, 12);
-            lblSeccionResumen.TabIndex = 11;
-            lblSeccionResumen.Text = "RESUMEN";
-            // 
-            // lblFechaDevolucion
-            // 
-            lblFechaDevolucion.AutoSize = true;
-            lblFechaDevolucion.ForeColor = Color.FromArgb(148, 163, 184);
-            lblFechaDevolucion.Location = new Point(16, 414);
-            lblFechaDevolucion.Name = "lblFechaDevolucion";
-            lblFechaDevolucion.Size = new Size(172, 17);
-            lblFechaDevolucion.TabIndex = 12;
-            lblFechaDevolucion.Text = "Fecha real de devolución: —";
-            // 
-            // lblDiasAtraso
-            // 
-            lblDiasAtraso.AutoSize = true;
-            lblDiasAtraso.ForeColor = Color.FromArgb(148, 163, 184);
-            lblDiasAtraso.Location = new Point(16, 434);
-            lblDiasAtraso.Name = "lblDiasAtraso";
-            lblDiasAtraso.Size = new Size(111, 17);
-            lblDiasAtraso.TabIndex = 13;
-            lblDiasAtraso.Text = "Días de atraso: —";
-            // 
-            // lblMulta
-            // 
-            lblMulta.AutoSize = true;
-            lblMulta.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            lblMulta.ForeColor = Color.FromArgb(226, 232, 240);
-            lblMulta.Location = new Point(16, 454);
-            lblMulta.Name = "lblMulta";
-            lblMulta.Size = new Size(61, 17);
-            lblMulta.TabIndex = 14;
-            lblMulta.Text = "Multa: —";
-            // 
-            // btnCancelar
-            // 
-            btnCancelar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCancelar.BackColor = Color.FromArgb(45, 60, 82);
-            btnCancelar.Cursor = Cursors.Hand;
-            btnCancelar.FlatAppearance.BorderSize = 0;
-            btnCancelar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnCancelar.FlatStyle = FlatStyle.Flat;
-            btnCancelar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnCancelar.Location = new Point(527, 528);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(100, 34);
-            btnCancelar.TabIndex = 15;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = false;
-            btnCancelar.Click += btnCancelar_Click;
+            pnlAcciones.BackColor = Color.Transparent;
+            pnlAcciones.Controls.Add(btnConfirmar);
+            pnlAcciones.Controls.Add(btnCancelar);
+            pnlAcciones.FlowDirection = FlowDirection.RightToLeft;
+            pnlAcciones.WrapContents = false;
+            pnlAcciones.Dock = DockStyle.Fill;
+            pnlAcciones.Margin = new Padding(8);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Size = new Size(400, 40);
+            pnlAcciones.TabIndex = 3;
             // 
             // btnConfirmar
             // 
-            btnConfirmar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnConfirmar.BackColor = Color.FromArgb(37, 99, 235);
-            btnConfirmar.Cursor = Cursors.Hand;
-            btnConfirmar.FlatAppearance.BorderSize = 0;
-            btnConfirmar.FlatAppearance.MouseOverBackColor = Color.FromArgb(29, 78, 216);
-            btnConfirmar.FlatStyle = FlatStyle.Flat;
-            btnConfirmar.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            btnConfirmar.ForeColor = Color.White;
-            btnConfirmar.Location = new Point(633, 528);
+            btnConfirmar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnConfirmar.Icono = "\uE73E";
+            btnConfirmar.Margin = new Padding(12, 0, 0, 0);
             btnConfirmar.Name = "btnConfirmar";
-            btnConfirmar.Size = new Size(100, 34);
-            btnConfirmar.TabIndex = 16;
-            btnConfirmar.Text = "Confirmar";
-            btnConfirmar.UseVisualStyleBackColor = false;
+            btnConfirmar.Size = new Size(220, 40);
+            btnConfirmar.TabIndex = 0;
+            btnConfirmar.Text = "Registrar devolución";
             btnConfirmar.Click += btnConfirmar_Click;
+            // 
+            // btnCancelar
+            // 
+            btnCancelar.Estilo = EstiloBoton.Secundario;
+            btnCancelar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnCancelar.Icono = "\uE711";
+            btnCancelar.Margin = new Padding(12, 0, 0, 0);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(140, 40);
+            btnCancelar.TabIndex = 1;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // FormDevolucion
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(30, 42, 58);
-            ClientSize = new Size(749, 572);
-            Controls.Add(btnConfirmar);
-            Controls.Add(btnCancelar);
-            Controls.Add(lblMulta);
-            Controls.Add(lblDiasAtraso);
-            Controls.Add(lblFechaDevolucion);
-            Controls.Add(lblSeccionResumen);
-            Controls.Add(chkRecepcionCompleta);
-            Controls.Add(dgvEjemplares);
-            Controls.Add(lblSeccionEjemplares);
-            Controls.Add(lblFechaDevolucionPrevista);
-            Controls.Add(lblFechaPrestamo);
-            Controls.Add(lblSocio);
-            Controls.Add(btnBuscarPrestamo);
-            Controls.Add(txtNumeroPrestamo);
-            Controls.Add(lblNumeroPrestamo);
-            Controls.Add(lblSeccionPrestamo);
-            Controls.Add(lblTitulo);
-            Font = new Font("Segoe UI", 9.5F);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            MinimizeBox = false;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(244, 245, 247);
+            ClientSize = new Size(1100, 640);
+            Controls.Add(tlpPrincipal);
+            Font = new Font("Segoe UI", 11F);
+            ForeColor = Color.FromArgb(31, 41, 55);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FormDevolucion";
             ShowInTaskbar = false;
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar devolución";
             Load += FormDevolucion_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvPrestamos).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvEjemplares).EndInit();
+            pnlAcciones.ResumeLayout(false);
+            pnlAcciones.PerformLayout();
+            crdEjemplares.ResumeLayout(false);
+            crdEjemplares.PerformLayout();
+            crdResumen.ResumeLayout(false);
+            crdResumen.PerformLayout();
+            crdPrestamo.ResumeLayout(false);
+            crdPrestamo.PerformLayout();
+            tlpPrincipal.ResumeLayout(false);
+            tlpPrincipal.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label lblTitulo;
+        private TableLayoutPanel tlpPrincipal;
+        private TarjetaSGB crdPrestamo;
         private Label lblSeccionPrestamo;
-        private Label lblNumeroPrestamo;
-        private TextBox txtNumeroPrestamo;
-        private Button btnBuscarPrestamo;
+        private Label lblBuscar;
+        private TextBox txtBuscar;
+        private GrillaSGB dgvPrestamos;
+        private DataGridViewTextBoxColumn colPreNumero;
+        private DataGridViewTextBoxColumn colPreSocio;
+        private DataGridViewTextBoxColumn colPreDni;
+        private DataGridViewTextBoxColumn colPreFecha;
+        private DataGridViewTextBoxColumn colPrePrevista;
+        private TarjetaSGB crdResumen;
+        private Label lblSeccionResumen;
         private Label lblSocio;
         private Label lblFechaPrestamo;
         private Label lblFechaDevolucionPrevista;
-        private Label lblSeccionEjemplares;
-        private DataGridView dgvEjemplares;
-        private DataGridViewTextBoxColumn colCodigo;
-        private DataGridViewTextBoxColumn colTitulo;
-        private DataGridViewTextBoxColumn colAutor;
-        private CheckBox chkRecepcionCompleta;
-        private Label lblSeccionResumen;
         private Label lblFechaDevolucion;
         private Label lblDiasAtraso;
         private Label lblMulta;
-        private Button btnCancelar;
-        private Button btnConfirmar;
+        private CheckBox chkRecepcionCompleta;
+        private TarjetaSGB crdEjemplares;
+        private Label lblSeccionEjemplares;
+        private GrillaSGB dgvEjemplares;
+        private DataGridViewTextBoxColumn colCodigo;
+        private DataGridViewTextBoxColumn colTitulo;
+        private DataGridViewTextBoxColumn colAutor;
+        private FlowLayoutPanel pnlAcciones;
+        private BotonSGB btnConfirmar;
+        private BotonSGB btnCancelar;
     }
 }

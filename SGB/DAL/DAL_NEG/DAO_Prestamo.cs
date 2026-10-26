@@ -24,6 +24,22 @@ namespace DAL
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
+        // Préstamos vigentes cuyo número o DNI del socio empieza con el texto ingresado (búsqueda incremental)
+        public SqlDataReader BuscarVigentes(string texto)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@texto", SqlDbType.VarChar).Value = texto + "%";
+            cm.CommandText = @"SELECT p.NumeroPrestamo, p.FechaPrestamo, p.FechaDevolucionPrevista, p.Estado AS EstadoPrestamo,
+                                      s.NumeroSocio, s.Nombre, s.Apellido, s.Dni, s.Estado AS EstadoSocio
+                               FROM Prestamo p
+                               INNER JOIN Socio s ON s.NumeroSocio = p.NumeroSocio
+                               WHERE p.Estado = 'Vigente'
+                                 AND (CAST(p.NumeroPrestamo AS varchar(10)) LIKE @texto OR s.Dni LIKE @texto)
+                               ORDER BY p.FechaDevolucionPrevista, p.NumeroPrestamo";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+
         public int InsertarPrestamo(int numeroSocio, DateTime fechaPrestamo, DateTime fechaDevolucionPrevista, string estado)
         {
             cm.Parameters.Clear();

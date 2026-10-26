@@ -8,6 +8,7 @@ namespace BE
         public string Dni { get; set; }
         public string Estado { get; set; }
         public string EstadoHabilitacion { get; set; }
+        public decimal MontoAdeudado { get; set; }
 
         public BE_Socio() { }
 

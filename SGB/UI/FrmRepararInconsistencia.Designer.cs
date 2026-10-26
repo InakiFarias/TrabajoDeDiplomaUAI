@@ -1,4 +1,7 @@
-﻿namespace UI
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace UI
 {
     partial class FrmRepararInconsistencia
     {
@@ -28,201 +31,196 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            pnlTopbar = new Panel();
+            tlpPrincipal = new TableLayoutPanel();
+            crdRegistros = new TarjetaSGB();
             lblTitulo = new Label();
-            pnlContenido = new Panel();
-            grillaInconsistencias = new DataGridView();
+            grillaInconsistencias = new GrillaSGB();
+            crdDetalle = new TarjetaSGB();
+            lblDetalle = new Label();
             richTextBox1 = new RichTextBox();
-            pnlBotones = new Panel();
-            btnSalir = new Button();
-            btnRealizarRespaldo = new Button();
-            btnRestaurarDV = new Button();
-            pnlTopbar.SuspendLayout();
-            pnlContenido.SuspendLayout();
+            pnlAcciones = new FlowLayoutPanel();
+            btnRestaurarDV = new BotonSGB();
+            btnRealizarRespaldo = new BotonSGB();
+            btnSalir = new BotonSGB();
+            tlpPrincipal.SuspendLayout();
+            crdRegistros.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)grillaInconsistencias).BeginInit();
-            pnlBotones.SuspendLayout();
+            crdDetalle.SuspendLayout();
+            pnlAcciones.SuspendLayout();
             SuspendLayout();
             // 
-            // pnlTopbar
+            // tlpPrincipal
             // 
-            pnlTopbar.BackColor = Color.FromArgb(21, 32, 48);
-            pnlTopbar.Controls.Add(lblTitulo);
-            pnlTopbar.Dock = DockStyle.Top;
-            pnlTopbar.Location = new Point(0, 0);
-            pnlTopbar.Name = "pnlTopbar";
-            pnlTopbar.Size = new Size(900, 48);
-            pnlTopbar.TabIndex = 0;
+            tlpPrincipal.BackColor = Color.FromArgb(244, 245, 247);
+            tlpPrincipal.ColumnCount = 2;
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+            tlpPrincipal.Controls.Add(crdRegistros, 0, 0);
+            tlpPrincipal.Controls.Add(crdDetalle, 1, 0);
+            tlpPrincipal.Controls.Add(pnlAcciones, 0, 1);
+            tlpPrincipal.Dock = DockStyle.Fill;
+            tlpPrincipal.Name = "tlpPrincipal";
+            tlpPrincipal.Padding = new Padding(12);
+            tlpPrincipal.RowCount = 2;
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 100.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Absolute, 56.0F));
+            tlpPrincipal.Size = new Size(1000, 620);
+            tlpPrincipal.TabIndex = 0;
+            tlpPrincipal.SetColumnSpan(pnlAcciones, 2);
+            // 
+            // crdRegistros
+            // 
+            crdRegistros.Controls.Add(lblTitulo);
+            crdRegistros.Controls.Add(grillaInconsistencias);
+            crdRegistros.Dock = DockStyle.Fill;
+            crdRegistros.Margin = new Padding(8);
+            crdRegistros.Name = "crdRegistros";
+            crdRegistros.Size = new Size(472, 524);
+            crdRegistros.TabIndex = 0;
             // 
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
-            lblTitulo.Location = new Point(16, 14);
+            lblTitulo.BackColor = Color.Transparent;
+            lblTitulo.Font = new Font("Segoe UI Semibold", 12F);
+            lblTitulo.ForeColor = Color.FromArgb(31, 41, 55);
+            lblTitulo.Location = new Point(20, 16);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(213, 20);
+            lblTitulo.Size = new Size(232, 20);
             lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "REPARAR INCONSISTENCIAS";
-            // 
-            // pnlContenido
-            // 
-            pnlContenido.BackColor = Color.FromArgb(30, 42, 58);
-            pnlContenido.Controls.Add(grillaInconsistencias);
-            pnlContenido.Controls.Add(richTextBox1);
-            pnlContenido.Dock = DockStyle.Fill;
-            pnlContenido.Location = new Point(0, 48);
-            pnlContenido.Name = "pnlContenido";
-            pnlContenido.Padding = new Padding(24);
-            pnlContenido.Size = new Size(900, 422);
-            pnlContenido.TabIndex = 1;
+            lblTitulo.Text = "Registros con inconsistencias";
             // 
             // grillaInconsistencias
             // 
-            grillaInconsistencias.AllowUserToAddRows = false;
-            grillaInconsistencias.AllowUserToDeleteRows = false;
-            grillaInconsistencias.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            grillaInconsistencias.BackgroundColor = Color.FromArgb(25, 37, 53);
-            grillaInconsistencias.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            grillaInconsistencias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            grillaInconsistencias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            grillaInconsistencias.DefaultCellStyle = dataGridViewCellStyle2;
-            grillaInconsistencias.EnableHeadersVisualStyles = false;
-            grillaInconsistencias.GridColor = Color.FromArgb(45, 60, 82);
-            grillaInconsistencias.Location = new Point(24, 24);
+            grillaInconsistencias.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            grillaInconsistencias.Location = new Point(20, 52);
             grillaInconsistencias.Name = "grillaInconsistencias";
-            grillaInconsistencias.ReadOnly = true;
-            grillaInconsistencias.RowHeadersVisible = false;
-            grillaInconsistencias.Size = new Size(380, 374);
-            grillaInconsistencias.TabIndex = 0;
+            grillaInconsistencias.Size = new Size(432, 452);
+            grillaInconsistencias.TabIndex = 1;
             grillaInconsistencias.SelectionChanged += grillaInconsistencias_SelectionChanged;
+            // 
+            // crdDetalle
+            // 
+            crdDetalle.Controls.Add(lblDetalle);
+            crdDetalle.Controls.Add(richTextBox1);
+            crdDetalle.Dock = DockStyle.Fill;
+            crdDetalle.Margin = new Padding(8);
+            crdDetalle.Name = "crdDetalle";
+            crdDetalle.Size = new Size(472, 524);
+            crdDetalle.TabIndex = 1;
+            // 
+            // lblDetalle
+            // 
+            lblDetalle.AutoSize = true;
+            lblDetalle.BackColor = Color.Transparent;
+            lblDetalle.Font = new Font("Segoe UI Semibold", 12F);
+            lblDetalle.ForeColor = Color.FromArgb(31, 41, 55);
+            lblDetalle.Location = new Point(20, 16);
+            lblDetalle.Name = "lblDetalle";
+            lblDetalle.Size = new Size(56, 20);
+            lblDetalle.TabIndex = 0;
+            lblDetalle.Text = "Detalle";
             // 
             // richTextBox1
             // 
+            richTextBox1.BackColor = Color.White;
+            richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.ForeColor = Color.FromArgb(31, 41, 55);
             richTextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            richTextBox1.BackColor = Color.FromArgb(21, 32, 48);
-            richTextBox1.BorderStyle = BorderStyle.FixedSingle;
-            richTextBox1.Font = new Font("Segoe UI", 9.5F);
-            richTextBox1.ForeColor = Color.FromArgb(226, 232, 240);
-            richTextBox1.Location = new Point(420, 24);
+            richTextBox1.Location = new Point(20, 52);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(456, 374);
+            richTextBox1.Size = new Size(432, 452);
             richTextBox1.TabIndex = 1;
             richTextBox1.Text = "";
             // 
-            // pnlBotones
+            // pnlAcciones
             // 
-            pnlBotones.BackColor = Color.FromArgb(25, 37, 53);
-            pnlBotones.Controls.Add(btnSalir);
-            pnlBotones.Controls.Add(btnRealizarRespaldo);
-            pnlBotones.Controls.Add(btnRestaurarDV);
-            pnlBotones.Dock = DockStyle.Bottom;
-            pnlBotones.Location = new Point(0, 470);
-            pnlBotones.Name = "pnlBotones";
-            pnlBotones.Padding = new Padding(24, 8, 24, 8);
-            pnlBotones.Size = new Size(900, 90);
-            pnlBotones.TabIndex = 2;
-            // 
-            // btnSalir
-            // 
-            btnSalir.BackColor = Color.FromArgb(45, 60, 82);
-            btnSalir.Cursor = Cursors.Hand;
-            btnSalir.FlatAppearance.BorderSize = 0;
-            btnSalir.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnSalir.FlatStyle = FlatStyle.Flat;
-            btnSalir.Font = new Font("Segoe UI", 9.5F);
-            btnSalir.ForeColor = Color.FromArgb(226, 232, 240);
-            btnSalir.Location = new Point(708, 26);
-            btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(168, 38);
-            btnSalir.TabIndex = 2;
-            btnSalir.Text = "Salir";
-            btnSalir.UseVisualStyleBackColor = false;
-            btnSalir.Click += btnSalir_Click;
-            // 
-            // btnRealizarRespaldo
-            // 
-            btnRealizarRespaldo.BackColor = Color.FromArgb(45, 60, 82);
-            btnRealizarRespaldo.Cursor = Cursors.Hand;
-            btnRealizarRespaldo.FlatAppearance.BorderSize = 0;
-            btnRealizarRespaldo.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnRealizarRespaldo.FlatStyle = FlatStyle.Flat;
-            btnRealizarRespaldo.Font = new Font("Segoe UI", 9.5F);
-            btnRealizarRespaldo.ForeColor = Color.FromArgb(226, 232, 240);
-            btnRealizarRespaldo.Location = new Point(16, 26);
-            btnRealizarRespaldo.Name = "btnRealizarRespaldo";
-            btnRealizarRespaldo.Size = new Size(198, 38);
-            btnRealizarRespaldo.TabIndex = 0;
-            btnRealizarRespaldo.Text = "Realizar respaldo";
-            btnRealizarRespaldo.UseVisualStyleBackColor = false;
-            btnRealizarRespaldo.Click += btnRealizarRespaldo_Click;
+            pnlAcciones.BackColor = Color.Transparent;
+            pnlAcciones.Controls.Add(btnRestaurarDV);
+            pnlAcciones.Controls.Add(btnRealizarRespaldo);
+            pnlAcciones.Controls.Add(btnSalir);
+            pnlAcciones.FlowDirection = FlowDirection.RightToLeft;
+            pnlAcciones.WrapContents = false;
+            pnlAcciones.Dock = DockStyle.Fill;
+            pnlAcciones.Margin = new Padding(8);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Size = new Size(400, 40);
+            pnlAcciones.TabIndex = 2;
             // 
             // btnRestaurarDV
             // 
-            btnRestaurarDV.BackColor = Color.FromArgb(45, 60, 82);
-            btnRestaurarDV.Cursor = Cursors.Hand;
-            btnRestaurarDV.FlatAppearance.BorderSize = 0;
-            btnRestaurarDV.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnRestaurarDV.FlatStyle = FlatStyle.Flat;
-            btnRestaurarDV.Font = new Font("Segoe UI", 9.5F);
-            btnRestaurarDV.ForeColor = Color.FromArgb(226, 232, 240);
-            btnRestaurarDV.Location = new Point(233, 26);
+            btnRestaurarDV.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnRestaurarDV.Icono = "\uE73E";
+            btnRestaurarDV.Margin = new Padding(12, 0, 0, 0);
             btnRestaurarDV.Name = "btnRestaurarDV";
-            btnRestaurarDV.Size = new Size(198, 38);
-            btnRestaurarDV.TabIndex = 1;
-            btnRestaurarDV.Text = "Recalcular DV";
-            btnRestaurarDV.UseVisualStyleBackColor = false;
+            btnRestaurarDV.Size = new Size(300, 40);
+            btnRestaurarDV.TabIndex = 0;
+            btnRestaurarDV.Text = "Recalcular dígitos verificadores";
             btnRestaurarDV.Click += btnRestaurarDV_Click;
+            // 
+            // btnRealizarRespaldo
+            // 
+            btnRealizarRespaldo.Estilo = EstiloBoton.Secundario;
+            btnRealizarRespaldo.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnRealizarRespaldo.Icono = "\uE777";
+            btnRealizarRespaldo.Margin = new Padding(12, 0, 0, 0);
+            btnRealizarRespaldo.Name = "btnRealizarRespaldo";
+            btnRealizarRespaldo.Size = new Size(280, 40);
+            btnRealizarRespaldo.TabIndex = 1;
+            btnRealizarRespaldo.Text = "Restaurar copia de seguridad";
+            btnRealizarRespaldo.Click += btnRealizarRespaldo_Click;
+            // 
+            // btnSalir
+            // 
+            btnSalir.Estilo = EstiloBoton.Secundario;
+            btnSalir.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnSalir.Icono = "\uE8BB";
+            btnSalir.Margin = new Padding(12, 0, 0, 0);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(130, 40);
+            btnSalir.TabIndex = 2;
+            btnSalir.Text = "Salir";
+            btnSalir.Click += btnSalir_Click;
             // 
             // FrmRepararInconsistencia
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(30, 42, 58);
-            ClientSize = new Size(900, 560);
-            Controls.Add(pnlContenido);
-            Controls.Add(pnlBotones);
-            Controls.Add(pnlTopbar);
-            Font = new Font("Segoe UI", 9.5F);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            MaximizeBox = false;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(244, 245, 247);
+            ClientSize = new Size(1000, 620);
+            Controls.Add(tlpPrincipal);
+            Font = new Font("Segoe UI", 11F);
+            ForeColor = Color.FromArgb(31, 41, 55);
+            MinimumSize = new Size(900, 560);
             Name = "FrmRepararInconsistencia";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Reparar Inconsistencias";
+            Text = "Reparación de inconsistencias";
             Load += FrmRepararInconsistencia_Load;
-            pnlTopbar.ResumeLayout(false);
-            pnlTopbar.PerformLayout();
-            pnlContenido.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)grillaInconsistencias).EndInit();
-            pnlBotones.ResumeLayout(false);
+            pnlAcciones.ResumeLayout(false);
+            pnlAcciones.PerformLayout();
+            crdDetalle.ResumeLayout(false);
+            crdDetalle.PerformLayout();
+            crdRegistros.ResumeLayout(false);
+            crdRegistros.PerformLayout();
+            tlpPrincipal.ResumeLayout(false);
+            tlpPrincipal.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
-        private Panel pnlTopbar;
+
+        private TableLayoutPanel tlpPrincipal;
+        private TarjetaSGB crdRegistros;
         private Label lblTitulo;
-        private Panel pnlContenido;
-        private Panel pnlBotones;
-        private Button btnRealizarRespaldo;
-        private Button btnRestaurarDV;
-        private DataGridView grillaInconsistencias;
+        private GrillaSGB grillaInconsistencias;
+        private TarjetaSGB crdDetalle;
+        private Label lblDetalle;
         private RichTextBox richTextBox1;
-        private Button btnSalir;
+        private FlowLayoutPanel pnlAcciones;
+        private BotonSGB btnRestaurarDV;
+        private BotonSGB btnRealizarRespaldo;
+        private BotonSGB btnSalir;
     }
 }

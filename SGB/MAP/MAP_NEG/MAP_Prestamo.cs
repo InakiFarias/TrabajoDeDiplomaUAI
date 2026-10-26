@@ -16,29 +16,44 @@ namespace MAP
         {
             BE_Prestamo? prestamo = null;
             SqlDataReader dr = dao_prestamo.ObtenerPrestamoVigente(numeroPrestamo);
-            if (dr.Read())
-            {
-                BE_Socio socio = new BE_Socio(
-                    Convert.ToInt32(dr["NumeroSocio"]),
-                    Convert.ToString(dr["Nombre"]),
-                    Convert.ToString(dr["Apellido"]),
-                    Convert.ToString(dr["Dni"]),
-                    Convert.ToString(dr["EstadoSocio"]));
-
-                prestamo = new BE_Prestamo(
-                    Convert.ToInt32(dr["NumeroPrestamo"]),
-                    socio,
-                    Convert.ToDateTime(dr["FechaPrestamo"]),
-                    Convert.ToDateTime(dr["FechaDevolucionPrevista"]),
-                    Convert.ToString(dr["EstadoPrestamo"]),
-                    new List<BE_Ejemplar>());
-            }
+            if (dr.Read()) prestamo = Mapear(dr);
             dr.Close();
 
             if (prestamo != null)
                 prestamo.Ejemplares = new MAP_Ejemplar().ObtenerPorPrestamo(prestamo.NumeroPrestamo);
 
             return prestamo;
+        }
+
+        // Préstamos vigentes para la grilla de devoluciones (sin ejemplares; se cargan al elegir uno)
+        public List<BE_Prestamo> BuscarVigentes(string texto)
+        {
+            List<BE_Prestamo> lista = new List<BE_Prestamo>();
+            SqlDataReader dr = dao_prestamo.BuscarVigentes(texto);
+            while (dr.Read())
+            {
+                lista.Add(Mapear(dr));
+            }
+            dr.Close();
+            return lista;
+        }
+
+        private BE_Prestamo Mapear(SqlDataReader dr)
+        {
+            BE_Socio socio = new BE_Socio(
+                Convert.ToInt32(dr["NumeroSocio"]),
+                Convert.ToString(dr["Nombre"]),
+                Convert.ToString(dr["Apellido"]),
+                Convert.ToString(dr["Dni"]),
+                Convert.ToString(dr["EstadoSocio"]));
+
+            return new BE_Prestamo(
+                Convert.ToInt32(dr["NumeroPrestamo"]),
+                socio,
+                Convert.ToDateTime(dr["FechaPrestamo"]),
+                Convert.ToDateTime(dr["FechaDevolucionPrevista"]),
+                Convert.ToString(dr["EstadoPrestamo"]),
+                new List<BE_Ejemplar>());
         }
 
         public int InsertarPrestamo(BE_Prestamo prestamo)

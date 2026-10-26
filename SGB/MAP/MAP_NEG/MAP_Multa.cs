@@ -12,6 +12,25 @@ namespace MAP
             dao_multa = new DAO_Multa();
         }
 
+        public List<BE_Socio> ObtenerSociosConMultas(string dni)
+        {
+            List<BE_Socio> lista = new List<BE_Socio>();
+            SqlDataReader dr = dao_multa.ObtenerSociosConMultas(dni);
+            while (dr.Read())
+            {
+                BE_Socio socio = new BE_Socio(
+                    Convert.ToInt32(dr["NumeroSocio"]),
+                    Convert.ToString(dr["Nombre"]),
+                    Convert.ToString(dr["Apellido"]),
+                    Convert.ToString(dr["Dni"]),
+                    Convert.ToString(dr["Estado"]));
+                socio.MontoAdeudado = Convert.ToDecimal(dr["MontoAdeudado"]);
+                lista.Add(socio);
+            }
+            dr.Close();
+            return lista;
+        }
+
         public List<BE_Multa> ObtenerMultasPendientes(BE_Socio socio)
         {
             List<BE_Multa> lista = new List<BE_Multa>();

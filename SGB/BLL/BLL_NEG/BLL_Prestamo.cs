@@ -33,6 +33,23 @@ namespace BLL.BLL_NEG
             return prestamo;
         }
 
+        // Préstamos vigentes que coinciden con el número de préstamo o el DNI del socio
+        public List<BE_Prestamo> BuscarVigentes(string texto) => map_prestamo.BuscarVigentes(texto?.Trim() ?? "");
+
+        public List<object> ConsultarParaGrilla(List<BE_Prestamo> prestamos)
+        {
+            var consulta = from p in prestamos
+                           select new
+                           {
+                               Numero = p.NumeroPrestamo,
+                               Socio = $"{p.Socio.Apellido}, {p.Socio.Nombre}",
+                               Dni = p.Socio.Dni,
+                               FechaPrestamo = p.FechaPrestamo.ToString("dd/MM/yyyy"),
+                               FechaDevolucionPrevista = p.FechaDevolucionPrevista.ToString("dd/MM/yyyy")
+                           };
+            return consulta.ToList<object>();
+        }
+
         public BE_Comprobante Registrar(BE_Prestamo prestamo)
         {
             if (prestamo.Socio == null) throw new Exception("Debe seleccionar un socio.");

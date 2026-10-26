@@ -17,11 +17,8 @@ namespace BLL.BLL_NEG
 
         // ------------------------------------------------ Consultas para las operaciones (sin ejemplares dados de baja)
 
-        public List<BE_Ejemplar> BuscarPorTexto(string texto)
-        {
-            if (string.IsNullOrWhiteSpace(texto)) return new List<BE_Ejemplar>();
-            return map_ejemplar.BuscarPorTexto(texto.Trim(), false);
-        }
+        // Sin texto devuelve todos los ejemplares que no están dados de baja
+        public List<BE_Ejemplar> BuscarPorTexto(string texto) => map_ejemplar.BuscarPorTexto(texto?.Trim() ?? "", false);
 
         // Ejemplar para un préstamo: debe existir, no estar dado de baja y estar disponible
         public BE_Ejemplar BuscarPorCodigo(string codigo)
@@ -72,6 +69,19 @@ namespace BLL.BLL_NEG
             map_ejemplar.ActualizarEstado(ejemplar, "Baja");
             ejemplar.Estado = "Baja";
             RegistrarBitacora("Baja de ejemplar", 2);
+        }
+
+        // Vuelve a dejar disponible un ejemplar dado de baja, siempre que su libro esté activo
+        public void Reactivar(BE_Ejemplar ejemplar)
+        {
+            if (ejemplar.Estado != "Baja") throw new Exception("El ejemplar no se encuentra dado de baja.");
+            bool libroActivo = new BLL_Libro().ObtenerActivos().Any(l => l.CodigoLibro == ejemplar.Libro.CodigoLibro);
+            if (!libroActivo)
+                throw new Exception("No se puede reactivar el ejemplar porque su libro está dado de baja. Primero reactive el libro en Gestión de libros.");
+
+            map_ejemplar.ActualizarEstado(ejemplar, "Disponible");
+            ejemplar.Estado = "Disponible";
+            RegistrarBitacora("Reactivación de ejemplar", 3);
         }
 
         // ------------------------------------------------ Presentación

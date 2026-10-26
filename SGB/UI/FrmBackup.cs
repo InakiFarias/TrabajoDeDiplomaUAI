@@ -80,6 +80,8 @@ namespace UI
             btnBackup.Text = bll_idioma.Traducir("FrmBackup.btnBackup");
             btnRestore.Text = bll_idioma.Traducir("FrmBackup.btnRestore");
             btnSalir.Text = bll_idioma.Traducir("FrmBackup.btnSalir");
+            lblTituloBackup.Text = bll_idioma.Traducir("FrmBackup.lblTituloBackup");
+            lblAyudaBackup.Text = bll_idioma.Traducir("FrmBackup.lblAyudaBackup");
 
         }
         private void btnSalir_Click(object sender, EventArgs e) => this.Close();

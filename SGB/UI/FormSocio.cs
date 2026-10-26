@@ -1,25 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BE;
 using BLL.BLL_NEG;
+using BLL.BLL_SER;
+using Servicio;
 
 namespace UI
 {
-    public partial class FormSocio : Form
+    public partial class FormSocio : Form, IObservadorIdioma
     {
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         BLL_Socio bll_Socio;
         BE_Socio? socioSeleccionado;
 
         public FormSocio()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
         }
 
         private void FormSocio_Load(object sender, EventArgs e)
@@ -34,6 +29,7 @@ namespace UI
             colSocEstado.DataPropertyName = "Estado";
 
             CargarSocios();
+            ActualizarIdioma();
             this.Shown += FormSocio_Shown;
         }
 
@@ -62,19 +58,38 @@ namespace UI
             if (dgvSocios.SelectedRows.Count == 0 || dgvSocios.SelectedRows[0].DataBoundItem == null) return;
 
             socioSeleccionado = (BE_Socio)dgvSocios.SelectedRows[0].DataBoundItem;
-            lblNumero.Text = $"Número de socio: {socioSeleccionado.NumeroSocio} ({socioSeleccionado.Estado})";
             txtNombre.Text = socioSeleccionado.Nombre;
             txtApellido.Text = socioSeleccionado.Apellido;
             txtDni.Text = socioSeleccionado.Dni;
+            MostrarEstado();
+        }
+
+        // Número del socio y botones disponibles según su estado
+        private void MostrarEstado()
+        {
+            if (socioSeleccionado == null)
+            {
+                lblNumero.Text = bll_idioma.Traducir("FormSocio.numeroNuevo");
+                btnModificar.Enabled = false;
+                btnBaja.Enabled = false;
+                btnReactivar.Enabled = false;
+                return;
+            }
+
+            bool dadoDeBaja = socioSeleccionado.Estado == "Baja";
+            lblNumero.Text = $"{bll_idioma.Traducir("FormSocio.lblNumero")} {socioSeleccionado.NumeroSocio} ({socioSeleccionado.Estado})";
+            btnModificar.Enabled = true;
+            btnBaja.Enabled = !dadoDeBaja;
+            btnReactivar.Enabled = dadoDeBaja;
         }
 
         private void Limpiar()
         {
             socioSeleccionado = null;
-            lblNumero.Text = "Número de socio: — (se asigna al dar de alta)";
             txtNombre.Clear();
             txtApellido.Clear();
             txtDni.Clear();
+            MostrarEstado();
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -143,9 +158,60 @@ namespace UI
             }
         }
 
+        // ------------------------------------------------------------ Reactivación (vuelve a dar de alta a un socio dado de baja)
+        private void btnReactivar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (socioSeleccionado == null) throw new Exception("Seleccione el socio a reactivar.");
+
+                if (MessageBox.Show($"¿Confirma la reactivación del socio {socioSeleccionado.Apellido}, {socioSeleccionado.Nombre}?",
+                                    "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                bll_Socio.Reactivar(socioSeleccionado);
+                MessageBox.Show("Socio reactivado correctamente. Ya puede volver a realizar préstamos.", "Reactivación de socio", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarSocios();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // ------------------------------------------------------------ Idioma
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FormSocio.Form");
+            lblSeccionSocios.Text = bll_idioma.Traducir("FormSocio.lblSeccionSocios");
+            lblBuscarDni.Text = bll_idioma.Traducir("FormSocio.lblBuscarDni");
+            colSocNumero.HeaderText = bll_idioma.Traducir("FormSocio.colSocNumero");
+            colSocApellido.HeaderText = bll_idioma.Traducir("FormSocio.colSocApellido");
+            colSocNombre.HeaderText = bll_idioma.Traducir("FormSocio.colSocNombre");
+            colSocDni.HeaderText = bll_idioma.Traducir("FormSocio.colSocDni");
+            colSocEstado.HeaderText = bll_idioma.Traducir("FormSocio.colSocEstado");
+            lblSeccionDatos.Text = bll_idioma.Traducir("FormSocio.lblSeccionDatos");
+            lblNombre.Text = bll_idioma.Traducir("FormSocio.lblNombre");
+            lblApellido.Text = bll_idioma.Traducir("FormSocio.lblApellido");
+            lblDni.Text = bll_idioma.Traducir("FormSocio.lblDni");
+            btnAlta.Text = bll_idioma.Traducir("FormSocio.btnAlta");
+            btnModificar.Text = bll_idioma.Traducir("FormSocio.btnModificar");
+            btnBaja.Text = bll_idioma.Traducir("FormSocio.btnBaja");
+            btnReactivar.Text = bll_idioma.Traducir("FormSocio.btnReactivar");
+            btnLimpiar.Text = bll_idioma.Traducir("FormSocio.btnLimpiar");
+            btnCerrar.Text = bll_idioma.Traducir("FormSocio.btnCerrar");
+            if (bll_Socio != null) MostrarEstado();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

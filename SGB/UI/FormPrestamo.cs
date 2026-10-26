@@ -9,20 +9,26 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BE;
 using BLL.BLL_NEG;
+using BLL.BLL_SER;
+using Servicio;
 
 namespace UI
 {
-    public partial class FormPrestamo : Form
+    public partial class FormPrestamo : Form, IObservadorIdioma
     {
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         BLL_Socio bll_Socio;
         BLL_Ejemplar bll_Ejemplar;
         BLL_Prestamo bll_Prestamo;
         BE_Socio? socioSeleccionado;
+        BE_Socio? socioConsultado;
+        string habilitacionConsultada = "";
         List<BE_Ejemplar> detalle = new List<BE_Ejemplar>();
 
         public FormPrestamo()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
         }
 
         private void FormPrestamo_Load(object sender, EventArgs e)
@@ -41,7 +47,8 @@ namespace UI
             ConfigurarGrillas();
 
             Mostrar(dgvSocios, bll_Socio.ObtenerActivos());
-            MostrarFechas();
+            CargarEjemplares();
+            ActualizarIdioma();
         }
 
         private void ConfigurarGrillas()
@@ -71,8 +78,21 @@ namespace UI
         }
         private void MostrarFechas()
         {
-            lblFechaPrestamo.Text = $"Fecha del préstamo: {DateTime.Today:dd/MM/yyyy}";
-            lblFechaDevolucion.Text = $"Fecha de devolución prevista: {bll_Prestamo.CalcularFechaDevolucionPrevista(DateTime.Today):dd/MM/yyyy}";
+            lblFechaPrestamo.Text = $"{bll_idioma.Traducir("FormPrestamo.lblFechaPrestamo")} {DateTime.Today:dd/MM/yyyy}";
+            lblFechaDevolucion.Text = $"{bll_idioma.Traducir("FormPrestamo.lblFechaDevolucion")} {bll_Prestamo.CalcularFechaDevolucionPrevista(DateTime.Today):dd/MM/yyyy}";
+        }
+
+        // Datos del último socio consultado y su habilitación para préstamos
+        private void MostrarSocio()
+        {
+            if (socioConsultado == null)
+            {
+                lblDatosSocio.Text = $"{bll_idioma.Traducir("FormPrestamo.lblDatosSocio")} —";
+                lblEstadoSocio.Text = $"{bll_idioma.Traducir("FormPrestamo.lblEstadoSocio")} —";
+                return;
+            }
+            lblDatosSocio.Text = $"{bll_idioma.Traducir("FormPrestamo.lblDatosSocio")} {socioConsultado.Apellido}, {socioConsultado.Nombre} - {bll_idioma.Traducir("FormPrestamo.colSocDni")} {socioConsultado.Dni}";
+            lblEstadoSocio.Text = $"{bll_idioma.Traducir("FormPrestamo.lblEstadoSocio")} {habilitacionConsultada}";
         }
 
         // ------------------------------------------------------------ Socio
@@ -91,16 +111,19 @@ namespace UI
                 BE_Socio socio = (BE_Socio)dgvSocios.SelectedRows[0].DataBoundItem;
                 string habilitacion = bll_Socio.ValidarHabilitacion(socio);
 
-                lblDatosSocio.Text = $"Socio: {socio.Apellido}, {socio.Nombre} - DNI {socio.Dni}";
-                lblEstadoSocio.Text = $"Estado: {habilitacion}";
+                socioConsultado = socio;
+                habilitacionConsultada = habilitacion;
+                MostrarSocio();
 
                 if (habilitacion != BLL_Socio.HABILITADO)
                 {
                     socioSeleccionado = null;
+                    MostrarDetalle();
                     throw new Exception($"El socio no puede realizar préstamos. Motivo: {habilitacion}.");
                 }
 
                 socioSeleccionado = socio;
+                MostrarDetalle();
             }
             catch (Exception ex)
             {
@@ -110,8 +133,24 @@ namespace UI
         // ------------------------------------------------------------ Ejemplares
         private void txtBuscarEjemplar_TextChanged(object sender, EventArgs e)
         {
+            CargarEjemplares();
+        }
+
+        // Con el buscador vacío se listan todos los ejemplares, como en la búsqueda de socios
+        private void CargarEjemplares()
+        {
             List<BE_Ejemplar> resultados = bll_Ejemplar.BuscarPorTexto(txtBuscarEjemplar.Text);
             Mostrar(dgvResultados, bll_Ejemplar.ConsultarParaGrilla(resultados));
+        }
+
+        // Detalle del préstamo: socio elegido y ejemplares agregados
+        private void MostrarDetalle()
+        {
+            Mostrar(dgvDetalle, bll_Ejemplar.ConsultarParaGrilla(detalle));
+            lblDetalleSocio.Text = socioSeleccionado == null
+                ? $"{bll_idioma.Traducir("FormPrestamo.lblDetalleSocio")} —"
+                : $"{bll_idioma.Traducir("FormPrestamo.lblDetalleSocio")} {socioSeleccionado.Apellido}, {socioSeleccionado.Nombre} - {bll_idioma.Traducir("FormPrestamo.colSocDni")} {socioSeleccionado.Dni}";
+            lblDetalleCantidad.Text = $"{bll_idioma.Traducir("FormPrestamo.lblDetalleCantidad")} {detalle.Count}";
         }
         private void btnAgregarEjemplar_Click(object sender, EventArgs e)
         {
@@ -125,7 +164,7 @@ namespace UI
                 if (detalle.Any(ej => ej.CodigoEjemplar == codigo)) throw new Exception("El ejemplar ya está en el detalle.");
 
                 detalle.Add(bll_Ejemplar.BuscarPorCodigo(codigo));
-                Mostrar(dgvDetalle, bll_Ejemplar.ConsultarParaGrilla(detalle));
+                MostrarDetalle();
             }
             catch (Exception ex)
             {
@@ -142,7 +181,7 @@ namespace UI
 
             string codigo = dgvDetalle.SelectedRows[0].Cells[colDetCodigo.Index].Value.ToString();
             detalle.RemoveAll(ej => ej.CodigoEjemplar == codigo);
-            Mostrar(dgvDetalle, bll_Ejemplar.ConsultarParaGrilla(detalle));
+            MostrarDetalle();
         }
 
         // ------------------------------------------------------ Confirmar / Cancelar
@@ -191,6 +230,45 @@ namespace UI
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // ------------------------------------------------------------ Idioma
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FormPrestamo.Form");
+            lblSeccionSocio.Text = bll_idioma.Traducir("FormPrestamo.lblSeccionSocio");
+            lblDni.Text = bll_idioma.Traducir("FormPrestamo.lblDni");
+            txtDni.PlaceholderText = bll_idioma.Traducir("FormPrestamo.txtDni");
+            btnAgregarSocio.Text = bll_idioma.Traducir("FormPrestamo.btnAgregarSocio");
+            colSocNumero.HeaderText = bll_idioma.Traducir("FormPrestamo.colSocNumero");
+            colSocApellido.HeaderText = bll_idioma.Traducir("FormPrestamo.colSocApellido");
+            colSocNombre.HeaderText = bll_idioma.Traducir("FormPrestamo.colSocNombre");
+            colSocDni.HeaderText = bll_idioma.Traducir("FormPrestamo.colSocDni");
+            colSocEstado.HeaderText = bll_idioma.Traducir("FormPrestamo.colSocEstado");
+            lblSeccionEjemplares.Text = bll_idioma.Traducir("FormPrestamo.lblSeccionEjemplares");
+            lblBuscarEjemplar.Text = bll_idioma.Traducir("FormPrestamo.lblBuscarEjemplar");
+            btnAgregarEjemplar.Text = bll_idioma.Traducir("FormPrestamo.btnAgregarEjemplar");
+            colResCodigo.HeaderText = bll_idioma.Traducir("FormPrestamo.colResCodigo");
+            colResTitulo.HeaderText = bll_idioma.Traducir("FormPrestamo.colResTitulo");
+            colResAutor.HeaderText = bll_idioma.Traducir("FormPrestamo.colResAutor");
+            colResEstado.HeaderText = bll_idioma.Traducir("FormPrestamo.colResEstado");
+            lblSeccionDetalle.Text = bll_idioma.Traducir("FormPrestamo.lblSeccionDetalle");
+            colDetCodigo.HeaderText = bll_idioma.Traducir("FormPrestamo.colDetCodigo");
+            colDetTitulo.HeaderText = bll_idioma.Traducir("FormPrestamo.colDetTitulo");
+            colDetAutor.HeaderText = bll_idioma.Traducir("FormPrestamo.colDetAutor");
+            btnQuitarEjemplar.Text = bll_idioma.Traducir("FormPrestamo.btnQuitarEjemplar");
+            btnConfirmar.Text = bll_idioma.Traducir("FormPrestamo.btnConfirmar");
+            btnCancelar.Text = bll_idioma.Traducir("FormPrestamo.btnCancelar");
+            MostrarSocio();
+            if (bll_Prestamo == null) return;
+            MostrarFechas();
+            MostrarDetalle();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

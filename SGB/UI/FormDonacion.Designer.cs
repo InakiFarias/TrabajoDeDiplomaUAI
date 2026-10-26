@@ -31,154 +31,140 @@ namespace UI
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            lblTitulo = new Label();
+            tlpPrincipal = new TableLayoutPanel();
+            crdSocio = new TarjetaSGB();
             lblSeccionSocio = new Label();
             lblDni = new Label();
             txtDni = new TextBox();
-            btnAgregarSocio = new Button();
-            lblDatosSocio = new Label();
-            dgvSocios = new DataGridView();
+            btnAgregarSocio = new BotonSGB();
+            dgvSocios = new GrillaSGB();
             colSocNumero = new DataGridViewTextBoxColumn();
             colSocApellido = new DataGridViewTextBoxColumn();
             colSocNombre = new DataGridViewTextBoxColumn();
             colSocDni = new DataGridViewTextBoxColumn();
+            lblDatosSocio = new Label();
+            crdEjemplares = new TarjetaSGB();
             lblSeccionEjemplares = new Label();
             lblBuscarEjemplar = new Label();
             txtBuscarEjemplar = new TextBox();
-            dgvResultados = new DataGridView();
+            btnAgregarEjemplar = new BotonSGB();
+            dgvResultados = new GrillaSGB();
             colResCodigo = new DataGridViewTextBoxColumn();
             colResTitulo = new DataGridViewTextBoxColumn();
             colResAutor = new DataGridViewTextBoxColumn();
             colResEstado = new DataGridViewTextBoxColumn();
-            btnAgregarEjemplar = new Button();
+            crdDetalle = new TarjetaSGB();
             lblSeccionDetalle = new Label();
-            dgvDetalle = new DataGridView();
+            dgvDetalle = new GrillaSGB();
             colDetCodigo = new DataGridViewTextBoxColumn();
             colDetTitulo = new DataGridViewTextBoxColumn();
             colDetAutor = new DataGridViewTextBoxColumn();
-            btnQuitarEjemplar = new Button();
-            btnCancelar = new Button();
-            btnConfirmar = new Button();
+            btnQuitarEjemplar = new BotonSGB();
+            pnlAcciones = new FlowLayoutPanel();
+            btnConfirmar = new BotonSGB();
+            btnCancelar = new BotonSGB();
+            tlpPrincipal.SuspendLayout();
+            crdSocio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSocios).BeginInit();
+            crdEjemplares.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
+            crdDetalle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).BeginInit();
+            pnlAcciones.SuspendLayout();
             SuspendLayout();
             // 
-            // lblTitulo
+            // tlpPrincipal
             // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 14F);
-            lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
-            lblTitulo.Location = new Point(16, 12);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(126, 25);
-            lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "Registrar donación";
+            tlpPrincipal.BackColor = Color.FromArgb(244, 245, 247);
+            tlpPrincipal.ColumnCount = 2;
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+            tlpPrincipal.Controls.Add(crdSocio, 0, 0);
+            tlpPrincipal.Controls.Add(crdEjemplares, 1, 0);
+            tlpPrincipal.Controls.Add(crdDetalle, 0, 1);
+            tlpPrincipal.Controls.Add(pnlAcciones, 0, 2);
+            tlpPrincipal.Dock = DockStyle.Fill;
+            tlpPrincipal.Name = "tlpPrincipal";
+            tlpPrincipal.Padding = new Padding(12);
+            tlpPrincipal.RowCount = 3;
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 55.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 45.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Absolute, 56.0F));
+            tlpPrincipal.Size = new Size(1100, 640);
+            tlpPrincipal.TabIndex = 0;
+            tlpPrincipal.SetColumnSpan(crdDetalle, 2);
+            tlpPrincipal.SetColumnSpan(pnlAcciones, 2);
+            // 
+            // crdSocio
+            // 
+            crdSocio.Controls.Add(lblSeccionSocio);
+            crdSocio.Controls.Add(lblDni);
+            crdSocio.Controls.Add(txtDni);
+            crdSocio.Controls.Add(btnAgregarSocio);
+            crdSocio.Controls.Add(dgvSocios);
+            crdSocio.Controls.Add(lblDatosSocio);
+            crdSocio.Dock = DockStyle.Fill;
+            crdSocio.Margin = new Padding(8);
+            crdSocio.Name = "crdSocio";
+            crdSocio.Size = new Size(522, 292);
+            crdSocio.TabIndex = 0;
             // 
             // lblSeccionSocio
             // 
             lblSeccionSocio.AutoSize = true;
-            lblSeccionSocio.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionSocio.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionSocio.Location = new Point(16, 52);
+            lblSeccionSocio.BackColor = Color.Transparent;
+            lblSeccionSocio.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionSocio.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionSocio.Location = new Point(20, 16);
             lblSeccionSocio.Name = "lblSeccionSocio";
-            lblSeccionSocio.Size = new Size(91, 12);
-            lblSeccionSocio.TabIndex = 1;
-            lblSeccionSocio.Text = "SOCIO DONANTE";
+            lblSeccionSocio.Size = new Size(104, 20);
+            lblSeccionSocio.TabIndex = 0;
+            lblSeccionSocio.Text = "Socio donante";
             // 
             // lblDni
             // 
             lblDni.AutoSize = true;
-            lblDni.ForeColor = Color.FromArgb(148, 163, 184);
-            lblDni.Location = new Point(16, 70);
+            lblDni.BackColor = Color.Transparent;
+            lblDni.Font = new Font("Segoe UI", 10F);
+            lblDni.ForeColor = Color.FromArgb(75, 85, 99);
+            lblDni.Location = new Point(20, 52);
             lblDni.Name = "lblDni";
-            lblDni.Size = new Size(252, 17);
-            lblDni.TabIndex = 2;
+            lblDni.Size = new Size(288, 20);
+            lblDni.TabIndex = 1;
             lblDni.Text = "DNI del socio (búsqueda incremental)";
             // 
             // txtDni
             // 
-            txtDni.BackColor = Color.FromArgb(21, 32, 48);
             txtDni.BorderStyle = BorderStyle.FixedSingle;
-            txtDni.ForeColor = Color.FromArgb(226, 232, 240);
-            txtDni.Location = new Point(16, 90);
+            txtDni.ForeColor = Color.FromArgb(31, 41, 55);
+            txtDni.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtDni.Location = new Point(20, 74);
             txtDni.Name = "txtDni";
-            txtDni.Size = new Size(300, 24);
-            txtDni.TabIndex = 3;
+            txtDni.Size = new Size(322, 27);
+            txtDni.TabIndex = 2;
             txtDni.TextChanged += txtDni_TextChanged;
             // 
             // btnAgregarSocio
             // 
-            btnAgregarSocio.BackColor = Color.FromArgb(45, 60, 82);
-            btnAgregarSocio.Cursor = Cursors.Hand;
-            btnAgregarSocio.FlatAppearance.BorderSize = 0;
-            btnAgregarSocio.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnAgregarSocio.FlatStyle = FlatStyle.Flat;
-            btnAgregarSocio.ForeColor = Color.FromArgb(226, 232, 240);
-            btnAgregarSocio.Location = new Point(324, 89);
+            btnAgregarSocio.Estilo = EstiloBoton.Secundario;
+            btnAgregarSocio.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnAgregarSocio.Icono = "\uE73E";
+            btnAgregarSocio.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarSocio.Location = new Point(352, 71);
             btnAgregarSocio.Name = "btnAgregarSocio";
-            btnAgregarSocio.Size = new Size(120, 27);
-            btnAgregarSocio.TabIndex = 4;
-            btnAgregarSocio.Text = "➕ Agregar socio";
-            btnAgregarSocio.UseVisualStyleBackColor = false;
+            btnAgregarSocio.Size = new Size(150, 32);
+            btnAgregarSocio.TabIndex = 3;
+            btnAgregarSocio.Text = "Seleccionar";
             btnAgregarSocio.Click += btnAgregarSocio_Click;
-            // 
-            // lblDatosSocio
-            // 
-            lblDatosSocio.AutoSize = true;
-            lblDatosSocio.ForeColor = Color.FromArgb(226, 232, 240);
-            lblDatosSocio.Location = new Point(460, 94);
-            lblDatosSocio.Name = "lblDatosSocio";
-            lblDatosSocio.Size = new Size(56, 17);
-            lblDatosSocio.TabIndex = 5;
-            lblDatosSocio.Text = "Socio: —";
             // 
             // dgvSocios
             // 
-            dgvSocios.AllowUserToAddRows = false;
-            dgvSocios.AllowUserToDeleteRows = false;
-            dgvSocios.AllowUserToResizeRows = false;
-            dgvSocios.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dgvSocios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvSocios.BackgroundColor = Color.FromArgb(21, 32, 48);
-            dgvSocios.BorderStyle = BorderStyle.None;
-            dgvSocios.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvSocios.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvSocios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvSocios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSocios.Columns.AddRange(new DataGridViewColumn[] { colSocNumero, colSocApellido, colSocNombre, colSocDni });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvSocios.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvSocios.EnableHeadersVisualStyles = false;
-            dgvSocios.GridColor = Color.FromArgb(45, 60, 82);
-            dgvSocios.Location = new Point(16, 120);
-            dgvSocios.MultiSelect = false;
+            dgvSocios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvSocios.Location = new Point(20, 116);
             dgvSocios.Name = "dgvSocios";
-            dgvSocios.ReadOnly = true;
-            dgvSocios.RowHeadersVisible = false;
-            dgvSocios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvSocios.Size = new Size(717, 90);
-            dgvSocios.TabIndex = 6;
-            dgvSocios.CellDoubleClick += dgvSocios_CellDoubleClick;
+            dgvSocios.Size = new Size(482, 128);
+            dgvSocios.TabIndex = 4;
             // 
             // colSocNumero
             // 
@@ -207,79 +193,90 @@ namespace UI
             colSocDni.HeaderText = "DNI";
             colSocDni.Name = "colSocDni";
             colSocDni.ReadOnly = true;
+            dgvSocios.CellDoubleClick += dgvSocios_CellDoubleClick;
+            // 
+            // lblDatosSocio
+            // 
+            lblDatosSocio.AutoSize = true;
+            lblDatosSocio.BackColor = Color.Transparent;
+            lblDatosSocio.Font = new Font("Segoe UI", 11F);
+            lblDatosSocio.ForeColor = Color.FromArgb(31, 41, 55);
+            lblDatosSocio.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblDatosSocio.Location = new Point(20, 256);
+            lblDatosSocio.Name = "lblDatosSocio";
+            lblDatosSocio.Size = new Size(64, 20);
+            lblDatosSocio.TabIndex = 5;
+            lblDatosSocio.Text = "Socio: —";
+            // 
+            // crdEjemplares
+            // 
+            crdEjemplares.Controls.Add(lblSeccionEjemplares);
+            crdEjemplares.Controls.Add(lblBuscarEjemplar);
+            crdEjemplares.Controls.Add(txtBuscarEjemplar);
+            crdEjemplares.Controls.Add(btnAgregarEjemplar);
+            crdEjemplares.Controls.Add(dgvResultados);
+            crdEjemplares.Dock = DockStyle.Fill;
+            crdEjemplares.Margin = new Padding(8);
+            crdEjemplares.Name = "crdEjemplares";
+            crdEjemplares.Size = new Size(522, 292);
+            crdEjemplares.TabIndex = 1;
             // 
             // lblSeccionEjemplares
             // 
             lblSeccionEjemplares.AutoSize = true;
-            lblSeccionEjemplares.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionEjemplares.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionEjemplares.Location = new Point(16, 222);
+            lblSeccionEjemplares.BackColor = Color.Transparent;
+            lblSeccionEjemplares.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionEjemplares.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionEjemplares.Location = new Point(20, 16);
             lblSeccionEjemplares.Name = "lblSeccionEjemplares";
-            lblSeccionEjemplares.Size = new Size(126, 12);
-            lblSeccionEjemplares.TabIndex = 7;
-            lblSeccionEjemplares.Text = "EJEMPLARES DONADOS";
+            lblSeccionEjemplares.Size = new Size(144, 20);
+            lblSeccionEjemplares.TabIndex = 0;
+            lblSeccionEjemplares.Text = "Ejemplares donados";
             // 
             // lblBuscarEjemplar
             // 
             lblBuscarEjemplar.AutoSize = true;
-            lblBuscarEjemplar.ForeColor = Color.FromArgb(148, 163, 184);
-            lblBuscarEjemplar.Location = new Point(16, 240);
+            lblBuscarEjemplar.BackColor = Color.Transparent;
+            lblBuscarEjemplar.Font = new Font("Segoe UI", 10F);
+            lblBuscarEjemplar.ForeColor = Color.FromArgb(75, 85, 99);
+            lblBuscarEjemplar.Location = new Point(20, 52);
             lblBuscarEjemplar.Name = "lblBuscarEjemplar";
-            lblBuscarEjemplar.Size = new Size(238, 17);
-            lblBuscarEjemplar.TabIndex = 8;
+            lblBuscarEjemplar.Size = new Size(272, 20);
+            lblBuscarEjemplar.TabIndex = 1;
             lblBuscarEjemplar.Text = "Código de ejemplar, título o autor";
             // 
             // txtBuscarEjemplar
             // 
-            txtBuscarEjemplar.BackColor = Color.FromArgb(21, 32, 48);
             txtBuscarEjemplar.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarEjemplar.ForeColor = Color.FromArgb(226, 232, 240);
-            txtBuscarEjemplar.Location = new Point(16, 260);
+            txtBuscarEjemplar.ForeColor = Color.FromArgb(31, 41, 55);
+            txtBuscarEjemplar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtBuscarEjemplar.Location = new Point(20, 74);
             txtBuscarEjemplar.Name = "txtBuscarEjemplar";
-            txtBuscarEjemplar.Size = new Size(300, 24);
-            txtBuscarEjemplar.TabIndex = 9;
+            txtBuscarEjemplar.Size = new Size(322, 27);
+            txtBuscarEjemplar.TabIndex = 2;
             txtBuscarEjemplar.TextChanged += txtBuscarEjemplar_TextChanged;
+            // 
+            // btnAgregarEjemplar
+            // 
+            btnAgregarEjemplar.Estilo = EstiloBoton.Secundario;
+            btnAgregarEjemplar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnAgregarEjemplar.Icono = "\uE710";
+            btnAgregarEjemplar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarEjemplar.Location = new Point(352, 71);
+            btnAgregarEjemplar.Name = "btnAgregarEjemplar";
+            btnAgregarEjemplar.Size = new Size(150, 32);
+            btnAgregarEjemplar.TabIndex = 3;
+            btnAgregarEjemplar.Text = "Agregar";
+            btnAgregarEjemplar.Click += btnAgregarEjemplar_Click;
             // 
             // dgvResultados
             // 
-            dgvResultados.AllowUserToAddRows = false;
-            dgvResultados.AllowUserToDeleteRows = false;
-            dgvResultados.AllowUserToResizeRows = false;
-            dgvResultados.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dgvResultados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvResultados.BackgroundColor = Color.FromArgb(21, 32, 48);
-            dgvResultados.BorderStyle = BorderStyle.None;
-            dgvResultados.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvResultados.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvResultados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dgvResultados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvResultados.Columns.AddRange(new DataGridViewColumn[] { colResCodigo, colResTitulo, colResAutor, colResEstado });
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvResultados.DefaultCellStyle = dataGridViewCellStyle4;
-            dgvResultados.EnableHeadersVisualStyles = false;
-            dgvResultados.GridColor = Color.FromArgb(45, 60, 82);
-            dgvResultados.Location = new Point(16, 292);
-            dgvResultados.MultiSelect = false;
+            dgvResultados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvResultados.Location = new Point(20, 116);
             dgvResultados.Name = "dgvResultados";
-            dgvResultados.ReadOnly = true;
-            dgvResultados.RowHeadersVisible = false;
-            dgvResultados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvResultados.Size = new Size(717, 100);
-            dgvResultados.TabIndex = 10;
-            dgvResultados.CellDoubleClick += dgvResultados_CellDoubleClick;
+            dgvResultados.Size = new Size(482, 156);
+            dgvResultados.TabIndex = 4;
             // 
             // colResCodigo
             // 
@@ -308,73 +305,39 @@ namespace UI
             colResEstado.HeaderText = "Estado";
             colResEstado.Name = "colResEstado";
             colResEstado.ReadOnly = true;
+            dgvResultados.CellDoubleClick += dgvResultados_CellDoubleClick;
             // 
-            // btnAgregarEjemplar
+            // crdDetalle
             // 
-            btnAgregarEjemplar.BackColor = Color.FromArgb(45, 60, 82);
-            btnAgregarEjemplar.Cursor = Cursors.Hand;
-            btnAgregarEjemplar.FlatAppearance.BorderSize = 0;
-            btnAgregarEjemplar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnAgregarEjemplar.FlatStyle = FlatStyle.Flat;
-            btnAgregarEjemplar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnAgregarEjemplar.Location = new Point(16, 398);
-            btnAgregarEjemplar.Name = "btnAgregarEjemplar";
-            btnAgregarEjemplar.Size = new Size(130, 30);
-            btnAgregarEjemplar.TabIndex = 11;
-            btnAgregarEjemplar.Text = "➕ Agregar";
-            btnAgregarEjemplar.UseVisualStyleBackColor = false;
-            btnAgregarEjemplar.Click += btnAgregarEjemplar_Click;
+            crdDetalle.Controls.Add(lblSeccionDetalle);
+            crdDetalle.Controls.Add(dgvDetalle);
+            crdDetalle.Controls.Add(btnQuitarEjemplar);
+            crdDetalle.Dock = DockStyle.Fill;
+            crdDetalle.Margin = new Padding(8);
+            crdDetalle.Name = "crdDetalle";
+            crdDetalle.Size = new Size(1060, 236);
+            crdDetalle.TabIndex = 2;
             // 
             // lblSeccionDetalle
             // 
             lblSeccionDetalle.AutoSize = true;
-            lblSeccionDetalle.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionDetalle.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionDetalle.Location = new Point(16, 438);
+            lblSeccionDetalle.BackColor = Color.Transparent;
+            lblSeccionDetalle.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionDetalle.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionDetalle.Location = new Point(20, 16);
             lblSeccionDetalle.Name = "lblSeccionDetalle";
-            lblSeccionDetalle.Size = new Size(154, 12);
-            lblSeccionDetalle.TabIndex = 12;
-            lblSeccionDetalle.Text = "DETALLE DE LA DONACIÓN";
+            lblSeccionDetalle.Size = new Size(176, 20);
+            lblSeccionDetalle.TabIndex = 0;
+            lblSeccionDetalle.Text = "Detalle de la donación";
             // 
             // dgvDetalle
             // 
-            dgvDetalle.AllowUserToAddRows = false;
-            dgvDetalle.AllowUserToDeleteRows = false;
-            dgvDetalle.AllowUserToResizeRows = false;
-            dgvDetalle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dgvDetalle.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDetalle.BackgroundColor = Color.FromArgb(21, 32, 48);
-            dgvDetalle.BorderStyle = BorderStyle.None;
-            dgvDetalle.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvDetalle.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle5.SelectionForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvDetalle.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            dgvDetalle.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDetalle.Columns.AddRange(new DataGridViewColumn[] { colDetCodigo, colDetTitulo, colDetAutor });
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvDetalle.DefaultCellStyle = dataGridViewCellStyle6;
-            dgvDetalle.EnableHeadersVisualStyles = false;
-            dgvDetalle.GridColor = Color.FromArgb(45, 60, 82);
-            dgvDetalle.Location = new Point(16, 456);
-            dgvDetalle.MultiSelect = false;
+            dgvDetalle.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvDetalle.Location = new Point(20, 52);
             dgvDetalle.Name = "dgvDetalle";
-            dgvDetalle.ReadOnly = true;
-            dgvDetalle.RowHeadersVisible = false;
-            dgvDetalle.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDetalle.Size = new Size(717, 100);
-            dgvDetalle.TabIndex = 13;
+            dgvDetalle.Size = new Size(1020, 120);
+            dgvDetalle.TabIndex = 1;
             // 
             // colDetCodigo
             // 
@@ -399,123 +362,117 @@ namespace UI
             // 
             // btnQuitarEjemplar
             // 
-            btnQuitarEjemplar.BackColor = Color.FromArgb(45, 60, 82);
-            btnQuitarEjemplar.Cursor = Cursors.Hand;
-            btnQuitarEjemplar.FlatAppearance.BorderSize = 0;
-            btnQuitarEjemplar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnQuitarEjemplar.FlatStyle = FlatStyle.Flat;
-            btnQuitarEjemplar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnQuitarEjemplar.Location = new Point(16, 562);
+            btnQuitarEjemplar.Estilo = EstiloBoton.Secundario;
+            btnQuitarEjemplar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnQuitarEjemplar.Icono = "\uE74D";
+            btnQuitarEjemplar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnQuitarEjemplar.Location = new Point(20, 182);
             btnQuitarEjemplar.Name = "btnQuitarEjemplar";
-            btnQuitarEjemplar.Size = new Size(130, 30);
-            btnQuitarEjemplar.TabIndex = 14;
-            btnQuitarEjemplar.Text = "✖ Quitar";
-            btnQuitarEjemplar.UseVisualStyleBackColor = false;
+            btnQuitarEjemplar.Size = new Size(120, 36);
+            btnQuitarEjemplar.TabIndex = 2;
+            btnQuitarEjemplar.Text = "Quitar";
             btnQuitarEjemplar.Click += btnQuitarEjemplar_Click;
             // 
-            // btnCancelar
+            // pnlAcciones
             // 
-            btnCancelar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCancelar.BackColor = Color.FromArgb(45, 60, 82);
-            btnCancelar.Cursor = Cursors.Hand;
-            btnCancelar.FlatAppearance.BorderSize = 0;
-            btnCancelar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnCancelar.FlatStyle = FlatStyle.Flat;
-            btnCancelar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnCancelar.Location = new Point(527, 576);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(100, 34);
-            btnCancelar.TabIndex = 15;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = false;
-            btnCancelar.Click += btnCancelar_Click;
+            pnlAcciones.BackColor = Color.Transparent;
+            pnlAcciones.Controls.Add(btnConfirmar);
+            pnlAcciones.Controls.Add(btnCancelar);
+            pnlAcciones.FlowDirection = FlowDirection.RightToLeft;
+            pnlAcciones.WrapContents = false;
+            pnlAcciones.Dock = DockStyle.Fill;
+            pnlAcciones.Margin = new Padding(8);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Size = new Size(400, 40);
+            pnlAcciones.TabIndex = 3;
             // 
             // btnConfirmar
             // 
-            btnConfirmar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnConfirmar.BackColor = Color.FromArgb(37, 99, 235);
-            btnConfirmar.Cursor = Cursors.Hand;
-            btnConfirmar.FlatAppearance.BorderSize = 0;
-            btnConfirmar.FlatAppearance.MouseOverBackColor = Color.FromArgb(29, 78, 216);
-            btnConfirmar.FlatStyle = FlatStyle.Flat;
-            btnConfirmar.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            btnConfirmar.ForeColor = Color.White;
-            btnConfirmar.Location = new Point(633, 576);
+            btnConfirmar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnConfirmar.Icono = "\uE73E";
+            btnConfirmar.Margin = new Padding(12, 0, 0, 0);
             btnConfirmar.Name = "btnConfirmar";
-            btnConfirmar.Size = new Size(100, 34);
-            btnConfirmar.TabIndex = 16;
-            btnConfirmar.Text = "Confirmar";
-            btnConfirmar.UseVisualStyleBackColor = false;
+            btnConfirmar.Size = new Size(220, 40);
+            btnConfirmar.TabIndex = 0;
+            btnConfirmar.Text = "Confirmar donación";
             btnConfirmar.Click += btnConfirmar_Click;
+            // 
+            // btnCancelar
+            // 
+            btnCancelar.Estilo = EstiloBoton.Secundario;
+            btnCancelar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnCancelar.Icono = "\uE711";
+            btnCancelar.Margin = new Padding(12, 0, 0, 0);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(140, 40);
+            btnCancelar.TabIndex = 1;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // FormDonacion
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(30, 42, 58);
-            ClientSize = new Size(749, 622);
-            Controls.Add(btnConfirmar);
-            Controls.Add(btnCancelar);
-            Controls.Add(btnQuitarEjemplar);
-            Controls.Add(dgvDetalle);
-            Controls.Add(lblSeccionDetalle);
-            Controls.Add(btnAgregarEjemplar);
-            Controls.Add(dgvResultados);
-            Controls.Add(txtBuscarEjemplar);
-            Controls.Add(lblBuscarEjemplar);
-            Controls.Add(lblSeccionEjemplares);
-            Controls.Add(dgvSocios);
-            Controls.Add(lblDatosSocio);
-            Controls.Add(btnAgregarSocio);
-            Controls.Add(txtDni);
-            Controls.Add(lblDni);
-            Controls.Add(lblSeccionSocio);
-            Controls.Add(lblTitulo);
-            Font = new Font("Segoe UI", 9.5F);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            MinimizeBox = false;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(244, 245, 247);
+            ClientSize = new Size(1100, 640);
+            Controls.Add(tlpPrincipal);
+            Font = new Font("Segoe UI", 11F);
+            ForeColor = Color.FromArgb(31, 41, 55);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FormDonacion";
             ShowInTaskbar = false;
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar donación";
             Load += FormDonacion_Load;
             ((System.ComponentModel.ISupportInitialize)dgvSocios).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).EndInit();
+            pnlAcciones.ResumeLayout(false);
+            pnlAcciones.PerformLayout();
+            crdDetalle.ResumeLayout(false);
+            crdDetalle.PerformLayout();
+            crdEjemplares.ResumeLayout(false);
+            crdEjemplares.PerformLayout();
+            crdSocio.ResumeLayout(false);
+            crdSocio.PerformLayout();
+            tlpPrincipal.ResumeLayout(false);
+            tlpPrincipal.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label lblTitulo;
+        private TableLayoutPanel tlpPrincipal;
+        private TarjetaSGB crdSocio;
         private Label lblSeccionSocio;
         private Label lblDni;
         private TextBox txtDni;
-        private Button btnAgregarSocio;
-        private Label lblDatosSocio;
-        private DataGridView dgvSocios;
+        private BotonSGB btnAgregarSocio;
+        private GrillaSGB dgvSocios;
         private DataGridViewTextBoxColumn colSocNumero;
         private DataGridViewTextBoxColumn colSocApellido;
         private DataGridViewTextBoxColumn colSocNombre;
         private DataGridViewTextBoxColumn colSocDni;
+        private Label lblDatosSocio;
+        private TarjetaSGB crdEjemplares;
         private Label lblSeccionEjemplares;
         private Label lblBuscarEjemplar;
         private TextBox txtBuscarEjemplar;
-        private DataGridView dgvResultados;
+        private BotonSGB btnAgregarEjemplar;
+        private GrillaSGB dgvResultados;
         private DataGridViewTextBoxColumn colResCodigo;
         private DataGridViewTextBoxColumn colResTitulo;
         private DataGridViewTextBoxColumn colResAutor;
         private DataGridViewTextBoxColumn colResEstado;
-        private Button btnAgregarEjemplar;
+        private TarjetaSGB crdDetalle;
         private Label lblSeccionDetalle;
-        private DataGridView dgvDetalle;
+        private GrillaSGB dgvDetalle;
         private DataGridViewTextBoxColumn colDetCodigo;
         private DataGridViewTextBoxColumn colDetTitulo;
         private DataGridViewTextBoxColumn colDetAutor;
-        private Button btnQuitarEjemplar;
-        private Button btnCancelar;
-        private Button btnConfirmar;
+        private BotonSGB btnQuitarEjemplar;
+        private FlowLayoutPanel pnlAcciones;
+        private BotonSGB btnConfirmar;
+        private BotonSGB btnCancelar;
     }
 }

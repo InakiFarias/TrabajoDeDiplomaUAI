@@ -1,4 +1,7 @@
-﻿namespace UI
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace UI
 {
     partial class FrmBackup
     {
@@ -28,81 +31,135 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnBackup = new Button();
-            btnRestore = new Button();
-            btnSalir = new Button();
+            tlpPrincipal = new TableLayoutPanel();
+            crdRespaldo = new TarjetaSGB();
+            lblTituloBackup = new Label();
+            lblAyudaBackup = new Label();
+            btnBackup = new BotonSGB();
+            btnRestore = new BotonSGB();
+            btnSalir = new BotonSGB();
+            tlpPrincipal.SuspendLayout();
+            crdRespaldo.SuspendLayout();
             SuspendLayout();
+            // 
+            // tlpPrincipal
+            // 
+            tlpPrincipal.BackColor = Color.FromArgb(244, 245, 247);
+            tlpPrincipal.ColumnCount = 2;
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 580.0F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100.0F));
+            tlpPrincipal.Controls.Add(crdRespaldo, 0, 0);
+            tlpPrincipal.Dock = DockStyle.Fill;
+            tlpPrincipal.Name = "tlpPrincipal";
+            tlpPrincipal.Padding = new Padding(12);
+            tlpPrincipal.RowCount = 2;
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Absolute, 330.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 100.0F));
+            tlpPrincipal.Size = new Size(1100, 640);
+            tlpPrincipal.TabIndex = 0;
+            // 
+            // crdRespaldo
+            // 
+            crdRespaldo.Controls.Add(lblTituloBackup);
+            crdRespaldo.Controls.Add(lblAyudaBackup);
+            crdRespaldo.Controls.Add(btnBackup);
+            crdRespaldo.Controls.Add(btnRestore);
+            crdRespaldo.Controls.Add(btnSalir);
+            crdRespaldo.Dock = DockStyle.Fill;
+            crdRespaldo.Margin = new Padding(8);
+            crdRespaldo.Name = "crdRespaldo";
+            crdRespaldo.Size = new Size(564, 314);
+            crdRespaldo.TabIndex = 0;
+            // 
+            // lblTituloBackup
+            // 
+            lblTituloBackup.AutoSize = true;
+            lblTituloBackup.BackColor = Color.Transparent;
+            lblTituloBackup.Font = new Font("Segoe UI Semibold", 12F);
+            lblTituloBackup.ForeColor = Color.FromArgb(31, 41, 55);
+            lblTituloBackup.Location = new Point(20, 16);
+            lblTituloBackup.Name = "lblTituloBackup";
+            lblTituloBackup.Size = new Size(152, 20);
+            lblTituloBackup.TabIndex = 0;
+            lblTituloBackup.Text = "Copias de seguridad";
+            // 
+            // lblAyudaBackup
+            // 
+            lblAyudaBackup.AutoSize = false;
+            lblAyudaBackup.BackColor = Color.Transparent;
+            lblAyudaBackup.Font = new Font("Segoe UI", 9.5F);
+            lblAyudaBackup.ForeColor = Color.FromArgb(107, 114, 128);
+            lblAyudaBackup.Location = new Point(20, 50);
+            lblAyudaBackup.Name = "lblAyudaBackup";
+            lblAyudaBackup.Size = new Size(524, 44);
+            lblAyudaBackup.TabIndex = 1;
+            lblAyudaBackup.Text = "Generá una copia de la base de datos o restaurá una copia anterior. Al restaurar se cierra la sesión.";
             // 
             // btnBackup
             // 
-            btnBackup.BackColor = Color.FromArgb(45, 60, 82);
-            btnBackup.Cursor = Cursors.Hand;
-            btnBackup.FlatAppearance.BorderSize = 0;
-            btnBackup.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnBackup.FlatStyle = FlatStyle.Flat;
-            btnBackup.Font = new Font("Segoe UI", 9.5F);
-            btnBackup.ForeColor = Color.FromArgb(226, 232, 240);
-            btnBackup.Location = new Point(50, 48);
+            btnBackup.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnBackup.Icono = "\uE74E";
+            btnBackup.Location = new Point(20, 112);
             btnBackup.Name = "btnBackup";
-            btnBackup.Size = new Size(192, 65);
-            btnBackup.TabIndex = 0;
-            btnBackup.Text = "Backup";
-            btnBackup.UseVisualStyleBackColor = false;
+            btnBackup.Size = new Size(524, 40);
+            btnBackup.TabIndex = 2;
+            btnBackup.Text = "Generar copia de seguridad";
             btnBackup.Click += btnBackup_Click;
             // 
             // btnRestore
             // 
-            btnRestore.BackColor = Color.FromArgb(45, 60, 82);
-            btnRestore.Cursor = Cursors.Hand;
-            btnRestore.FlatAppearance.BorderSize = 0;
-            btnRestore.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnRestore.FlatStyle = FlatStyle.Flat;
-            btnRestore.Font = new Font("Segoe UI", 9.5F);
-            btnRestore.ForeColor = Color.FromArgb(226, 232, 240);
-            btnRestore.Location = new Point(50, 119);
+            btnRestore.Estilo = EstiloBoton.Secundario;
+            btnRestore.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnRestore.Icono = "\uE777";
+            btnRestore.Location = new Point(20, 162);
             btnRestore.Name = "btnRestore";
-            btnRestore.Size = new Size(192, 65);
+            btnRestore.Size = new Size(524, 40);
             btnRestore.TabIndex = 3;
-            btnRestore.Text = "Restore";
-            btnRestore.UseVisualStyleBackColor = false;
+            btnRestore.Text = "Restaurar copia de seguridad";
             btnRestore.Click += btnRestore_Click;
             // 
             // btnSalir
             // 
-            btnSalir.BackColor = Color.FromArgb(45, 60, 82);
-            btnSalir.Cursor = Cursors.Hand;
-            btnSalir.FlatAppearance.BorderSize = 0;
-            btnSalir.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnSalir.FlatStyle = FlatStyle.Flat;
-            btnSalir.Font = new Font("Segoe UI", 9.5F);
-            btnSalir.ForeColor = Color.FromArgb(226, 232, 240);
-            btnSalir.Location = new Point(50, 217);
+            btnSalir.Estilo = EstiloBoton.Secundario;
+            btnSalir.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnSalir.Icono = "\uE8BB";
+            btnSalir.Location = new Point(20, 238);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(192, 37);
+            btnSalir.Size = new Size(140, 40);
             btnSalir.TabIndex = 4;
             btnSalir.Text = "Salir";
-            btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
             // 
             // FrmBackup
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(30, 42, 58);
-            ClientSize = new Size(296, 315);
-            Controls.Add(btnSalir);
-            Controls.Add(btnRestore);
-            Controls.Add(btnBackup);
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(244, 245, 247);
+            ClientSize = new Size(1100, 640);
+            Controls.Add(tlpPrincipal);
+            Font = new Font("Segoe UI", 11F);
+            ForeColor = Color.FromArgb(31, 41, 55);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FrmBackup";
-            Text = "FrmBackup";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Gestión de respaldo";
             Load += FrmBackup_Load;
+            crdRespaldo.ResumeLayout(false);
+            crdRespaldo.PerformLayout();
+            tlpPrincipal.ResumeLayout(false);
+            tlpPrincipal.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button btnBackup;
-        private Button btnRestore;
-        private Button btnSalir;
+        private TableLayoutPanel tlpPrincipal;
+        private TarjetaSGB crdRespaldo;
+        private Label lblTituloBackup;
+        private Label lblAyudaBackup;
+        private BotonSGB btnBackup;
+        private BotonSGB btnRestore;
+        private BotonSGB btnSalir;
     }
 }

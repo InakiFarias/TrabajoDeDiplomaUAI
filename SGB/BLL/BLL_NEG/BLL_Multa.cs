@@ -15,6 +15,9 @@ namespace BLL.BLL_NEG
             bll_bitacora = new BLL_Bitacora();
         }
 
+        // Solo los socios que tienen multas pendientes, con el total adeudado
+        public List<BE_Socio> BuscarSociosConMultas(string dni) => map_multa.ObtenerSociosConMultas(dni?.Trim() ?? "");
+
         public List<BE_Multa> ObtenerPendientes(BE_Socio socio)
         {
             List<BE_Multa> multas = map_multa.ObtenerMultasPendientes(socio);

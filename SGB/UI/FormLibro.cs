@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BE;
 using BLL.BLL_NEG;
+using BLL.BLL_SER;
+using Servicio;
 
 namespace UI
 {
-    public partial class FormLibro : Form
+    public partial class FormLibro : Form, IObservadorIdioma
     {
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         BLL_Libro bll_Libro;
         List<BE_Libro> librosMostrados = new List<BE_Libro>();
         BE_Libro? libroSeleccionado;
@@ -22,10 +25,12 @@ namespace UI
         List<BE_Autor> todosLosAutores = new List<BE_Autor>();
         HashSet<int> autoresMarcados = new HashSet<int>();
         bool cargandoAutores;
+        int autoresFiltrados = -1;
 
         public FormLibro()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
         }
 
         private void FormLibro_Load(object sender, EventArgs e)
@@ -42,6 +47,7 @@ namespace UI
             CargarAutores(new List<int>());
             CargarTemas(new List<int>());
             CargarLibros();
+            ActualizarIdioma();
             this.Shown += FormLibro_Shown;
         }
 
@@ -78,10 +84,16 @@ namespace UI
                 clbAutores.Items.Add(autor, autoresMarcados.Contains(autor.CodigoAutor));
             cargandoAutores = false;
 
-            bool sinResultados = filtrados.Count == 0 && txtBuscarAutor.Text.Trim() != "";
+            autoresFiltrados = filtrados.Count;
+            MostrarEtiquetaAutores();
+        }
+
+        private void MostrarEtiquetaAutores()
+        {
+            bool sinResultados = autoresFiltrados == 0 && txtBuscarAutor.Text.Trim() != "";
             lblAutores.Text = sinResultados
-                ? "Autores: el autor no está registrado, podés agregarlo abajo"
-                : $"Autores (al menos uno) - marcados: {autoresMarcados.Count}";
+                ? bll_idioma.Traducir("FormLibro.autorNoRegistrado")
+                : $"{bll_idioma.Traducir("FormLibro.lblAutores")} - {bll_idioma.Traducir("FormLibro.marcados")} {autoresMarcados.Count}";
         }
 
         private void txtBuscarAutor_TextChanged(object sender, EventArgs e)
@@ -96,7 +108,7 @@ namespace UI
             int codigo = ((BE_Autor)clbAutores.Items[e.Index]).CodigoAutor;
             if (e.NewValue == CheckState.Checked) autoresMarcados.Add(codigo);
             else autoresMarcados.Remove(codigo);
-            lblAutores.Text = $"Autores (al menos uno) - marcados: {autoresMarcados.Count}";
+            MostrarEtiquetaAutores();
         }
 
         private void CargarTemas(List<int> codigosMarcados)
@@ -135,7 +147,7 @@ namespace UI
             libroSeleccionado = librosMostrados.FirstOrDefault(l => l.CodigoLibro == codigo);
             if (libroSeleccionado == null) return;
 
-            lblCodigo.Text = $"Código: {libroSeleccionado.CodigoLibro} ({libroSeleccionado.Estado})";
+            MostrarCodigo();
             txtTituloLibro.Text = libroSeleccionado.Titulo;
             txtBuscarAutor.Clear();
             MarcarAutores(libroSeleccionado.Autores.Select(a => a.CodigoAutor).ToList());
@@ -145,11 +157,23 @@ namespace UI
         private void Limpiar()
         {
             libroSeleccionado = null;
-            lblCodigo.Text = "Código: — (se asigna al dar de alta)";
+            MostrarCodigo();
             txtTituloLibro.Clear();
             txtBuscarAutor.Clear();
             MarcarAutores(new List<int>());
             MarcarTemas(new List<int>());
+        }
+
+        private void MostrarCodigo()
+        {
+            bool dadoDeBaja = libroSeleccionado != null && libroSeleccionado.Estado == "Baja";
+            btnModificar.Enabled = libroSeleccionado != null && !dadoDeBaja;
+            btnBaja.Enabled = libroSeleccionado != null && !dadoDeBaja;
+            btnReactivar.Enabled = dadoDeBaja;
+
+            lblCodigo.Text = libroSeleccionado == null
+                ? bll_idioma.Traducir("FormLibro.codigoNuevo")
+                : $"{bll_idioma.Traducir("FormLibro.lblCodigo")} {libroSeleccionado.CodigoLibro} ({libroSeleccionado.Estado})";
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -253,9 +277,67 @@ namespace UI
             }
         }
 
+        // ------------------------------------------------------------ Reactivación (vuelve a dar de alta un libro dado de baja)
+        private void btnReactivar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (libroSeleccionado == null) throw new Exception("Seleccione el libro a reactivar.");
+
+                if (MessageBox.Show($"¿Confirma la reactivación del libro \"{libroSeleccionado.Titulo}\"?\nSus ejemplares dados de baja se reactivan aparte, desde Gestión de ejemplares.", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                bll_Libro.Reactivar(libroSeleccionado);
+                MessageBox.Show("Libro reactivado correctamente.", "Reactivación de libro", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarLibros();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // ------------------------------------------------------------ Idioma
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FormLibro.Form");
+            lblSeccionLibros.Text = bll_idioma.Traducir("FormLibro.lblSeccionLibros");
+            lblBuscar.Text = bll_idioma.Traducir("FormLibro.lblBuscar");
+            colLibCodigo.HeaderText = bll_idioma.Traducir("FormLibro.colLibCodigo");
+            colLibTitulo.HeaderText = bll_idioma.Traducir("FormLibro.colLibTitulo");
+            colLibAutores.HeaderText = bll_idioma.Traducir("FormLibro.colLibAutores");
+            colLibTemas.HeaderText = bll_idioma.Traducir("FormLibro.colLibTemas");
+            colLibEstado.HeaderText = bll_idioma.Traducir("FormLibro.colLibEstado");
+            lblSeccionDatos.Text = bll_idioma.Traducir("FormLibro.lblSeccionDatos");
+            lblTituloLibro.Text = bll_idioma.Traducir("FormLibro.lblTituloLibro");
+            txtBuscarAutor.PlaceholderText = bll_idioma.Traducir("FormLibro.txtBuscarAutor");
+            lblNuevoAutor.Text = bll_idioma.Traducir("FormLibro.lblNuevoAutor");
+            txtAutorNombre.PlaceholderText = bll_idioma.Traducir("FormLibro.txtAutorNombre");
+            txtAutorApellido.PlaceholderText = bll_idioma.Traducir("FormLibro.txtAutorApellido");
+            btnAgregarAutor.Text = bll_idioma.Traducir("FormLibro.btnAgregarAutor");
+            lblTemas.Text = bll_idioma.Traducir("FormLibro.lblTemas");
+            lblNuevoTema.Text = bll_idioma.Traducir("FormLibro.lblNuevoTema");
+            txtTema.PlaceholderText = bll_idioma.Traducir("FormLibro.txtTema");
+            btnAgregarTema.Text = bll_idioma.Traducir("FormLibro.btnAgregarTema");
+            btnAlta.Text = bll_idioma.Traducir("FormLibro.btnAlta");
+            btnModificar.Text = bll_idioma.Traducir("FormLibro.btnModificar");
+            btnBaja.Text = bll_idioma.Traducir("FormLibro.btnBaja");
+            btnReactivar.Text = bll_idioma.Traducir("FormLibro.btnReactivar");
+            btnLimpiar.Text = bll_idioma.Traducir("FormLibro.btnLimpiar");
+            btnCerrar.Text = bll_idioma.Traducir("FormLibro.btnCerrar");
+            MostrarCodigo();
+            MostrarEtiquetaAutores();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

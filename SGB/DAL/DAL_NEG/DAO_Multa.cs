@@ -11,6 +11,23 @@ namespace DAL
             cm = new SqlCommand("select * from Multa", con);
         }
 
+        // Socios con multas pendientes de pago y el total que adeuda cada uno
+        public SqlDataReader ObtenerSociosConMultas(string dni)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni + "%";
+            cm.CommandText = @"SELECT s.NumeroSocio, s.Nombre, s.Apellido, s.Dni, s.Estado, SUM(m.Monto) AS MontoAdeudado
+                               FROM Socio s
+                               INNER JOIN Prestamo p ON p.NumeroSocio = s.NumeroSocio
+                               INNER JOIN Devolucion d ON d.NumeroPrestamo = p.NumeroPrestamo
+                               INNER JOIN Multa m ON m.NumeroDevolucion = d.NumeroDevolucion
+                               WHERE m.Estado = 'Pendiente de pago' AND s.Dni LIKE @dni
+                               GROUP BY s.NumeroSocio, s.Nombre, s.Apellido, s.Dni, s.Estado
+                               ORDER BY s.Apellido, s.Nombre";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+
         public SqlDataReader ObtenerMultasPendientes(int numeroSocio)
         {
             cm.Parameters.Clear();

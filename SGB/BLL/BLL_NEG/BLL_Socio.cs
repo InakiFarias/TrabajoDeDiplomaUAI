@@ -82,6 +82,16 @@ namespace BLL.BLL_NEG
             RegistrarBitacora("Baja de socio", 2);
         }
 
+        // Vuelve a dar de alta a un socio que estaba dado de baja
+        public void Reactivar(BE_Socio socio)
+        {
+            if (socio.Estado != "Baja") throw new Exception("El socio ya se encuentra activo.");
+
+            map_socio.ActualizarEstado(socio, "Activo");
+            socio.Estado = "Activo";
+            RegistrarBitacora("Reactivación de socio", 3);
+        }
+
         private void Validar(BE_Socio socio, int numeroSocioExcluido)
         {
             socio.Nombre = socio.Nombre?.Trim() ?? "";
@@ -92,7 +102,14 @@ namespace BLL.BLL_NEG
             if (socio.Apellido == "") throw new Exception("Ingrese el apellido del socio.");
             if (socio.Nombre.Length > 50 || socio.Apellido.Length > 50) throw new Exception("El nombre y el apellido no pueden superar los 50 caracteres.");
             if (socio.Dni.Length < 7 || socio.Dni.Length > 8 || !socio.Dni.All(char.IsDigit)) throw new Exception("El DNI debe tener 7 u 8 dígitos, sin puntos.");
-            if (map_socio.ExisteDni(socio.Dni, numeroSocioExcluido)) throw new Exception("Ya existe un socio registrado con el DNI ingresado.");
+            if (map_socio.ExisteDni(socio.Dni, numeroSocioExcluido))
+            {
+                // Si el DNI es de un socio dado de baja, se indica cómo reactivarlo en lugar de crear otro
+                BE_Socio? existente = map_socio.BuscarPorDni(socio.Dni, false).FirstOrDefault(s => s.Dni == socio.Dni);
+                if (existente != null && existente.Estado == "Baja")
+                    throw new Exception($"El DNI ingresado pertenece al socio N° {existente.NumeroSocio}, que está dado de baja. Selecciónelo en la grilla y presione Reactivar.");
+                throw new Exception("Ya existe un socio registrado con el DNI ingresado.");
+            }
         }
 
         private void RegistrarBitacora(string evento, int criticidad)

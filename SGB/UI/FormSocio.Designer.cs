@@ -31,18 +31,18 @@ namespace UI
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            lblTitulo = new Label();
+            tlpPrincipal = new TableLayoutPanel();
+            crdSocios = new TarjetaSGB();
             lblSeccionSocios = new Label();
             lblBuscarDni = new Label();
             txtBuscarDni = new TextBox();
-            dgvSocios = new DataGridView();
+            dgvSocios = new GrillaSGB();
             colSocNumero = new DataGridViewTextBoxColumn();
             colSocApellido = new DataGridViewTextBoxColumn();
             colSocNombre = new DataGridViewTextBoxColumn();
             colSocDni = new DataGridViewTextBoxColumn();
             colSocEstado = new DataGridViewTextBoxColumn();
+            crdDatos = new TarjetaSGB();
             lblSeccionDatos = new Label();
             lblNumero = new Label();
             lblNombre = new Label();
@@ -51,97 +51,93 @@ namespace UI
             txtApellido = new TextBox();
             lblDni = new Label();
             txtDni = new TextBox();
-            btnAlta = new Button();
-            btnModificar = new Button();
-            btnBaja = new Button();
-            btnLimpiar = new Button();
-            btnCerrar = new Button();
+            btnAlta = new BotonSGB();
+            btnModificar = new BotonSGB();
+            btnBaja = new BotonSGB();
+            btnReactivar = new BotonSGB();
+            btnLimpiar = new BotonSGB();
+            pnlAcciones = new FlowLayoutPanel();
+            btnCerrar = new BotonSGB();
+            tlpPrincipal.SuspendLayout();
+            crdSocios.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSocios).BeginInit();
+            crdDatos.SuspendLayout();
+            pnlAcciones.SuspendLayout();
             SuspendLayout();
             // 
-            // lblTitulo
+            // tlpPrincipal
             // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 14F);
-            lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
-            lblTitulo.Location = new Point(16, 12);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(119, 25);
-            lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "Gestión de socios";
+            tlpPrincipal.BackColor = Color.FromArgb(244, 245, 247);
+            tlpPrincipal.ColumnCount = 2;
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62.0F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38.0F));
+            tlpPrincipal.Controls.Add(crdSocios, 0, 0);
+            tlpPrincipal.Controls.Add(crdDatos, 1, 0);
+            tlpPrincipal.Controls.Add(pnlAcciones, 0, 1);
+            tlpPrincipal.Dock = DockStyle.Fill;
+            tlpPrincipal.Name = "tlpPrincipal";
+            tlpPrincipal.Padding = new Padding(12);
+            tlpPrincipal.RowCount = 2;
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 100.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Absolute, 56.0F));
+            tlpPrincipal.Size = new Size(1100, 640);
+            tlpPrincipal.TabIndex = 0;
+            tlpPrincipal.SetColumnSpan(pnlAcciones, 2);
+            // 
+            // crdSocios
+            // 
+            crdSocios.Controls.Add(lblSeccionSocios);
+            crdSocios.Controls.Add(lblBuscarDni);
+            crdSocios.Controls.Add(txtBuscarDni);
+            crdSocios.Controls.Add(dgvSocios);
+            crdSocios.Dock = DockStyle.Fill;
+            crdSocios.Margin = new Padding(8);
+            crdSocios.Name = "crdSocios";
+            crdSocios.Size = new Size(651, 544);
+            crdSocios.TabIndex = 0;
             // 
             // lblSeccionSocios
             // 
             lblSeccionSocios.AutoSize = true;
-            lblSeccionSocios.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionSocios.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionSocios.Location = new Point(16, 52);
+            lblSeccionSocios.BackColor = Color.Transparent;
+            lblSeccionSocios.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionSocios.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionSocios.Location = new Point(20, 16);
             lblSeccionSocios.Name = "lblSeccionSocios";
-            lblSeccionSocios.Size = new Size(42, 12);
-            lblSeccionSocios.TabIndex = 1;
-            lblSeccionSocios.Text = "SOCIOS";
+            lblSeccionSocios.Size = new Size(48, 20);
+            lblSeccionSocios.TabIndex = 0;
+            lblSeccionSocios.Text = "Socios";
             // 
             // lblBuscarDni
             // 
             lblBuscarDni.AutoSize = true;
-            lblBuscarDni.ForeColor = Color.FromArgb(148, 163, 184);
-            lblBuscarDni.Location = new Point(16, 70);
+            lblBuscarDni.BackColor = Color.Transparent;
+            lblBuscarDni.Font = new Font("Segoe UI", 10F);
+            lblBuscarDni.ForeColor = Color.FromArgb(75, 85, 99);
+            lblBuscarDni.Location = new Point(20, 52);
             lblBuscarDni.Name = "lblBuscarDni";
-            lblBuscarDni.Size = new Size(182, 17);
-            lblBuscarDni.TabIndex = 2;
+            lblBuscarDni.Size = new Size(208, 20);
+            lblBuscarDni.TabIndex = 1;
             lblBuscarDni.Text = "DNI (búsqueda incremental)";
             // 
             // txtBuscarDni
             // 
-            txtBuscarDni.BackColor = Color.FromArgb(21, 32, 48);
             txtBuscarDni.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarDni.ForeColor = Color.FromArgb(226, 232, 240);
-            txtBuscarDni.Location = new Point(16, 90);
+            txtBuscarDni.ForeColor = Color.FromArgb(31, 41, 55);
+            txtBuscarDni.Location = new Point(20, 74);
             txtBuscarDni.Name = "txtBuscarDni";
-            txtBuscarDni.Size = new Size(300, 24);
-            txtBuscarDni.TabIndex = 3;
+            txtBuscarDni.Size = new Size(300, 27);
+            txtBuscarDni.TabIndex = 2;
             txtBuscarDni.TextChanged += txtBuscarDni_TextChanged;
             // 
             // dgvSocios
             // 
-            dgvSocios.AllowUserToAddRows = false;
-            dgvSocios.AllowUserToDeleteRows = false;
-            dgvSocios.AllowUserToResizeRows = false;
-            dgvSocios.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dgvSocios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvSocios.BackgroundColor = Color.FromArgb(21, 32, 48);
-            dgvSocios.BorderStyle = BorderStyle.None;
-            dgvSocios.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvSocios.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvSocios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvSocios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSocios.Columns.AddRange(new DataGridViewColumn[] { colSocNumero, colSocApellido, colSocNombre, colSocDni, colSocEstado });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvSocios.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvSocios.EnableHeadersVisualStyles = false;
-            dgvSocios.GridColor = Color.FromArgb(45, 60, 82);
-            dgvSocios.Location = new Point(16, 122);
-            dgvSocios.MultiSelect = false;
+            dgvSocios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvSocios.Location = new Point(20, 116);
             dgvSocios.Name = "dgvSocios";
-            dgvSocios.ReadOnly = true;
-            dgvSocios.RowHeadersVisible = false;
-            dgvSocios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvSocios.Size = new Size(717, 230);
-            dgvSocios.TabIndex = 4;
-            dgvSocios.SelectionChanged += dgvSocios_SelectionChanged;
+            dgvSocios.Size = new Size(611, 408);
+            dgvSocios.TabIndex = 3;
             // 
             // colSocNumero
             // 
@@ -152,248 +148,276 @@ namespace UI
             // 
             // colSocApellido
             // 
-            colSocApellido.FillWeight = 28F;
+            colSocApellido.FillWeight = 30F;
             colSocApellido.HeaderText = "Apellido";
             colSocApellido.Name = "colSocApellido";
             colSocApellido.ReadOnly = true;
             // 
             // colSocNombre
             // 
-            colSocNombre.FillWeight = 28F;
+            colSocNombre.FillWeight = 30F;
             colSocNombre.HeaderText = "Nombre";
             colSocNombre.Name = "colSocNombre";
             colSocNombre.ReadOnly = true;
             // 
             // colSocDni
             // 
-            colSocDni.FillWeight = 17F;
+            colSocDni.FillWeight = 25F;
             colSocDni.HeaderText = "DNI";
             colSocDni.Name = "colSocDni";
             colSocDni.ReadOnly = true;
             // 
             // colSocEstado
             // 
-            colSocEstado.FillWeight = 12F;
+            colSocEstado.FillWeight = 15F;
             colSocEstado.HeaderText = "Estado";
             colSocEstado.Name = "colSocEstado";
             colSocEstado.ReadOnly = true;
+            dgvSocios.SelectionChanged += dgvSocios_SelectionChanged;
+            // 
+            // crdDatos
+            // 
+            crdDatos.Controls.Add(lblSeccionDatos);
+            crdDatos.Controls.Add(lblNumero);
+            crdDatos.Controls.Add(lblNombre);
+            crdDatos.Controls.Add(txtNombre);
+            crdDatos.Controls.Add(lblApellido);
+            crdDatos.Controls.Add(txtApellido);
+            crdDatos.Controls.Add(lblDni);
+            crdDatos.Controls.Add(txtDni);
+            crdDatos.Controls.Add(btnAlta);
+            crdDatos.Controls.Add(btnModificar);
+            crdDatos.Controls.Add(btnBaja);
+            crdDatos.Controls.Add(btnReactivar);
+            crdDatos.Controls.Add(btnLimpiar);
+            crdDatos.Dock = DockStyle.Fill;
+            crdDatos.Margin = new Padding(8);
+            crdDatos.Name = "crdDatos";
+            crdDatos.Size = new Size(393, 544);
+            crdDatos.TabIndex = 1;
             // 
             // lblSeccionDatos
             // 
             lblSeccionDatos.AutoSize = true;
-            lblSeccionDatos.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionDatos.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionDatos.Location = new Point(16, 366);
+            lblSeccionDatos.BackColor = Color.Transparent;
+            lblSeccionDatos.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionDatos.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionDatos.Location = new Point(20, 16);
             lblSeccionDatos.Name = "lblSeccionDatos";
-            lblSeccionDatos.Size = new Size(105, 12);
-            lblSeccionDatos.TabIndex = 5;
-            lblSeccionDatos.Text = "DATOS DEL SOCIO";
+            lblSeccionDatos.Size = new Size(120, 20);
+            lblSeccionDatos.TabIndex = 0;
+            lblSeccionDatos.Text = "Datos del socio";
             // 
             // lblNumero
             // 
-            lblNumero.AutoSize = true;
-            lblNumero.ForeColor = Color.FromArgb(226, 232, 240);
-            lblNumero.Location = new Point(16, 384);
+            lblNumero.AutoSize = false;
+            lblNumero.BackColor = Color.Transparent;
+            lblNumero.Font = new Font("Segoe UI", 11F);
+            lblNumero.ForeColor = Color.FromArgb(31, 41, 55);
+            lblNumero.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblNumero.Location = new Point(20, 50);
             lblNumero.Name = "lblNumero";
-            lblNumero.Size = new Size(315, 17);
-            lblNumero.TabIndex = 6;
+            lblNumero.Size = new Size(353, 24);
+            lblNumero.TabIndex = 1;
             lblNumero.Text = "Número de socio: — (se asigna al dar de alta)";
             // 
             // lblNombre
             // 
             lblNombre.AutoSize = true;
-            lblNombre.ForeColor = Color.FromArgb(148, 163, 184);
-            lblNombre.Location = new Point(16, 410);
+            lblNombre.BackColor = Color.Transparent;
+            lblNombre.Font = new Font("Segoe UI", 10F);
+            lblNombre.ForeColor = Color.FromArgb(75, 85, 99);
+            lblNombre.Location = new Point(20, 90);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(42, 17);
-            lblNombre.TabIndex = 7;
+            lblNombre.Size = new Size(48, 20);
+            lblNombre.TabIndex = 2;
             lblNombre.Text = "Nombre";
             // 
             // txtNombre
             // 
-            txtNombre.BackColor = Color.FromArgb(21, 32, 48);
             txtNombre.BorderStyle = BorderStyle.FixedSingle;
-            txtNombre.ForeColor = Color.FromArgb(226, 232, 240);
-            txtNombre.Location = new Point(16, 430);
+            txtNombre.ForeColor = Color.FromArgb(31, 41, 55);
+            txtNombre.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtNombre.Location = new Point(20, 112);
             txtNombre.MaxLength = 50;
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(220, 24);
-            txtNombre.TabIndex = 8;
+            txtNombre.Size = new Size(353, 27);
+            txtNombre.TabIndex = 3;
             // 
             // lblApellido
             // 
             lblApellido.AutoSize = true;
-            lblApellido.ForeColor = Color.FromArgb(148, 163, 184);
-            lblApellido.Location = new Point(252, 410);
+            lblApellido.BackColor = Color.Transparent;
+            lblApellido.Font = new Font("Segoe UI", 10F);
+            lblApellido.ForeColor = Color.FromArgb(75, 85, 99);
+            lblApellido.Location = new Point(20, 152);
             lblApellido.Name = "lblApellido";
-            lblApellido.Size = new Size(56, 17);
-            lblApellido.TabIndex = 9;
+            lblApellido.Size = new Size(64, 20);
+            lblApellido.TabIndex = 4;
             lblApellido.Text = "Apellido";
             // 
             // txtApellido
             // 
-            txtApellido.BackColor = Color.FromArgb(21, 32, 48);
             txtApellido.BorderStyle = BorderStyle.FixedSingle;
-            txtApellido.ForeColor = Color.FromArgb(226, 232, 240);
-            txtApellido.Location = new Point(252, 430);
+            txtApellido.ForeColor = Color.FromArgb(31, 41, 55);
+            txtApellido.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtApellido.Location = new Point(20, 174);
             txtApellido.MaxLength = 50;
             txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(220, 24);
-            txtApellido.TabIndex = 10;
+            txtApellido.Size = new Size(353, 27);
+            txtApellido.TabIndex = 5;
             // 
             // lblDni
             // 
             lblDni.AutoSize = true;
-            lblDni.ForeColor = Color.FromArgb(148, 163, 184);
-            lblDni.Location = new Point(488, 410);
+            lblDni.BackColor = Color.Transparent;
+            lblDni.Font = new Font("Segoe UI", 10F);
+            lblDni.ForeColor = Color.FromArgb(75, 85, 99);
+            lblDni.Location = new Point(20, 214);
             lblDni.Name = "lblDni";
-            lblDni.Size = new Size(112, 17);
-            lblDni.TabIndex = 11;
+            lblDni.Size = new Size(128, 20);
+            lblDni.TabIndex = 6;
             lblDni.Text = "DNI (sin puntos)";
             // 
             // txtDni
             // 
-            txtDni.BackColor = Color.FromArgb(21, 32, 48);
             txtDni.BorderStyle = BorderStyle.FixedSingle;
-            txtDni.ForeColor = Color.FromArgb(226, 232, 240);
-            txtDni.Location = new Point(488, 430);
+            txtDni.ForeColor = Color.FromArgb(31, 41, 55);
+            txtDni.Location = new Point(20, 236);
             txtDni.MaxLength = 8;
             txtDni.Name = "txtDni";
-            txtDni.Size = new Size(150, 24);
-            txtDni.TabIndex = 12;
+            txtDni.Size = new Size(170, 27);
+            txtDni.TabIndex = 7;
             // 
             // btnAlta
             // 
-            btnAlta.BackColor = Color.FromArgb(37, 99, 235);
-            btnAlta.Cursor = Cursors.Hand;
-            btnAlta.FlatAppearance.BorderSize = 0;
-            btnAlta.FlatAppearance.MouseOverBackColor = Color.FromArgb(29, 78, 216);
-            btnAlta.FlatStyle = FlatStyle.Flat;
-            btnAlta.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            btnAlta.ForeColor = Color.White;
-            btnAlta.Location = new Point(16, 476);
+            btnAlta.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnAlta.Icono = "\uE710";
+            btnAlta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnAlta.Location = new Point(20, 290);
             btnAlta.Name = "btnAlta";
-            btnAlta.Size = new Size(120, 34);
-            btnAlta.TabIndex = 13;
-            btnAlta.Text = "➕ Alta";
-            btnAlta.UseVisualStyleBackColor = false;
+            btnAlta.Size = new Size(353, 40);
+            btnAlta.TabIndex = 8;
+            btnAlta.Text = "Dar de alta";
             btnAlta.Click += btnAlta_Click;
             // 
             // btnModificar
             // 
-            btnModificar.BackColor = Color.FromArgb(45, 60, 82);
-            btnModificar.Cursor = Cursors.Hand;
-            btnModificar.FlatAppearance.BorderSize = 0;
-            btnModificar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnModificar.FlatStyle = FlatStyle.Flat;
-            btnModificar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnModificar.Location = new Point(142, 476);
+            btnModificar.Estilo = EstiloBoton.Secundario;
+            btnModificar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnModificar.Icono = "\uE70F";
+            btnModificar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnModificar.Location = new Point(20, 338);
             btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(120, 34);
-            btnModificar.TabIndex = 14;
-            btnModificar.Text = "✏ Modificar";
-            btnModificar.UseVisualStyleBackColor = false;
+            btnModificar.Size = new Size(353, 40);
+            btnModificar.TabIndex = 9;
+            btnModificar.Text = "Modificar";
             btnModificar.Click += btnModificar_Click;
             // 
             // btnBaja
             // 
-            btnBaja.BackColor = Color.FromArgb(127, 29, 29);
-            btnBaja.Cursor = Cursors.Hand;
-            btnBaja.FlatAppearance.BorderSize = 0;
-            btnBaja.FlatAppearance.MouseOverBackColor = Color.FromArgb(153, 27, 27);
-            btnBaja.FlatStyle = FlatStyle.Flat;
-            btnBaja.ForeColor = Color.FromArgb(226, 232, 240);
-            btnBaja.Location = new Point(268, 476);
+            btnBaja.Estilo = EstiloBoton.Peligro;
+            btnBaja.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnBaja.Icono = "\uE74D";
+            btnBaja.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnBaja.Location = new Point(20, 386);
             btnBaja.Name = "btnBaja";
-            btnBaja.Size = new Size(120, 34);
-            btnBaja.TabIndex = 15;
-            btnBaja.Text = "✖ Baja";
-            btnBaja.UseVisualStyleBackColor = false;
+            btnBaja.Size = new Size(353, 40);
+            btnBaja.TabIndex = 10;
+            btnBaja.Text = "Dar de baja";
             btnBaja.Click += btnBaja_Click;
+            // 
+            // btnReactivar
+            // 
+            btnReactivar.Estilo = EstiloBoton.Secundario;
+            btnReactivar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnReactivar.Icono = "\uE8FB";
+            btnReactivar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnReactivar.Location = new Point(20, 434);
+            btnReactivar.Name = "btnReactivar";
+            btnReactivar.Size = new Size(353, 40);
+            btnReactivar.TabIndex = 11;
+            btnReactivar.Text = "Reactivar";
+            btnReactivar.Click += btnReactivar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.BackColor = Color.FromArgb(45, 60, 82);
-            btnLimpiar.Cursor = Cursors.Hand;
-            btnLimpiar.FlatAppearance.BorderSize = 0;
-            btnLimpiar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnLimpiar.FlatStyle = FlatStyle.Flat;
-            btnLimpiar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnLimpiar.Location = new Point(394, 476);
+            btnLimpiar.Estilo = EstiloBoton.Secundario;
+            btnLimpiar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnLimpiar.Icono = "\uE894";
+            btnLimpiar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnLimpiar.Location = new Point(20, 482);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(120, 34);
-            btnLimpiar.TabIndex = 16;
-            btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = false;
+            btnLimpiar.Size = new Size(353, 40);
+            btnLimpiar.TabIndex = 12;
+            btnLimpiar.Text = "Limpiar campos";
             btnLimpiar.Click += btnLimpiar_Click;
+            // 
+            // pnlAcciones
+            // 
+            pnlAcciones.BackColor = Color.Transparent;
+            pnlAcciones.Controls.Add(btnCerrar);
+            pnlAcciones.FlowDirection = FlowDirection.RightToLeft;
+            pnlAcciones.WrapContents = false;
+            pnlAcciones.Dock = DockStyle.Fill;
+            pnlAcciones.Margin = new Padding(8);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Size = new Size(400, 40);
+            pnlAcciones.TabIndex = 2;
             // 
             // btnCerrar
             // 
-            btnCerrar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCerrar.BackColor = Color.FromArgb(45, 60, 82);
-            btnCerrar.Cursor = Cursors.Hand;
-            btnCerrar.FlatAppearance.BorderSize = 0;
-            btnCerrar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnCerrar.FlatStyle = FlatStyle.Flat;
-            btnCerrar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnCerrar.Location = new Point(633, 546);
+            btnCerrar.Estilo = EstiloBoton.Secundario;
+            btnCerrar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnCerrar.Icono = "\uE8BB";
+            btnCerrar.Margin = new Padding(12, 0, 0, 0);
             btnCerrar.Name = "btnCerrar";
-            btnCerrar.Size = new Size(100, 34);
-            btnCerrar.TabIndex = 17;
+            btnCerrar.Size = new Size(140, 40);
+            btnCerrar.TabIndex = 0;
             btnCerrar.Text = "Cerrar";
-            btnCerrar.UseVisualStyleBackColor = false;
             btnCerrar.Click += btnCerrar_Click;
             // 
             // FormSocio
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(30, 42, 58);
-            ClientSize = new Size(749, 592);
-            Controls.Add(btnCerrar);
-            Controls.Add(btnLimpiar);
-            Controls.Add(btnBaja);
-            Controls.Add(btnModificar);
-            Controls.Add(btnAlta);
-            Controls.Add(txtDni);
-            Controls.Add(lblDni);
-            Controls.Add(txtApellido);
-            Controls.Add(lblApellido);
-            Controls.Add(txtNombre);
-            Controls.Add(lblNombre);
-            Controls.Add(lblNumero);
-            Controls.Add(lblSeccionDatos);
-            Controls.Add(dgvSocios);
-            Controls.Add(txtBuscarDni);
-            Controls.Add(lblBuscarDni);
-            Controls.Add(lblSeccionSocios);
-            Controls.Add(lblTitulo);
-            Font = new Font("Segoe UI", 9.5F);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            MinimizeBox = false;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(244, 245, 247);
+            ClientSize = new Size(1100, 640);
+            Controls.Add(tlpPrincipal);
+            Font = new Font("Segoe UI", 11F);
+            ForeColor = Color.FromArgb(31, 41, 55);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FormSocio";
             ShowInTaskbar = false;
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Gestión de socios";
             Load += FormSocio_Load;
             ((System.ComponentModel.ISupportInitialize)dgvSocios).EndInit();
+            pnlAcciones.ResumeLayout(false);
+            pnlAcciones.PerformLayout();
+            crdDatos.ResumeLayout(false);
+            crdDatos.PerformLayout();
+            crdSocios.ResumeLayout(false);
+            crdSocios.PerformLayout();
+            tlpPrincipal.ResumeLayout(false);
+            tlpPrincipal.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label lblTitulo;
+        private TableLayoutPanel tlpPrincipal;
+        private TarjetaSGB crdSocios;
         private Label lblSeccionSocios;
         private Label lblBuscarDni;
         private TextBox txtBuscarDni;
-        private DataGridView dgvSocios;
+        private GrillaSGB dgvSocios;
         private DataGridViewTextBoxColumn colSocNumero;
         private DataGridViewTextBoxColumn colSocApellido;
         private DataGridViewTextBoxColumn colSocNombre;
         private DataGridViewTextBoxColumn colSocDni;
         private DataGridViewTextBoxColumn colSocEstado;
+        private TarjetaSGB crdDatos;
         private Label lblSeccionDatos;
         private Label lblNumero;
         private Label lblNombre;
@@ -402,10 +426,12 @@ namespace UI
         private TextBox txtApellido;
         private Label lblDni;
         private TextBox txtDni;
-        private Button btnAlta;
-        private Button btnModificar;
-        private Button btnBaja;
-        private Button btnLimpiar;
-        private Button btnCerrar;
+        private BotonSGB btnAlta;
+        private BotonSGB btnModificar;
+        private BotonSGB btnBaja;
+        private BotonSGB btnReactivar;
+        private BotonSGB btnLimpiar;
+        private FlowLayoutPanel pnlAcciones;
+        private BotonSGB btnCerrar;
     }
 }

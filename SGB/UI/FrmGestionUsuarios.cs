@@ -249,6 +249,7 @@ namespace UI
         {
             this.Text = bll_idioma.Traducir("FrmGestionUsuarios.Form");
             lblTitulo.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblTitulo");
+            lblSeccionDatos.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblSeccionDatos");
             btnCrearUsuario.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnCrearUsuario");
             btnDesbloquearUsuario.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnDesbloquearUsuario");
             btnModificarUsuario.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnModificarUsuario");
@@ -257,6 +258,7 @@ namespace UI
             btnSalir.Text = bll_idioma.Traducir("FrmGestionUsuarios.btnSalir");
             label1.Text = bll_idioma.Traducir("FrmGestionUsuarios.label1");
             lblDni.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblDni");
+            lblRol.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblRol");
             lblNombre.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblNombre");
             lblApellido.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblApellido");
             lblCorreo.Text = bll_idioma.Traducir("FrmGestionUsuarios.lblCorreo");

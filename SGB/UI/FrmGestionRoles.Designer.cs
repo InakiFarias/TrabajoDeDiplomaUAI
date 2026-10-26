@@ -1,4 +1,7 @@
-﻿namespace UI
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace UI
 {
     partial class FrmGestionRoles
     {
@@ -28,329 +31,382 @@
         /// </summary>
         private void InitializeComponent()
         {
-            pnlTitulo = new Panel();
+            tlpPrincipal = new TableLayoutPanel();
+            crdCrear = new TarjetaSGB();
             label1 = new Label();
-            label3 = new Label();
-            clbComponentes = new CheckedListBox();
-            label4 = new Label();
-            tvNodosComposite = new TreeView();
             label2 = new Label();
             txtNombreFamilia = new TextBox();
             radRol = new RadioButton();
             radFamilia = new RadioButton();
-            btnCrear = new Button();
-            btnEliminarSeleccionados = new Button();
+            label3 = new Label();
+            clbComponentes = new CheckedListBox();
+            btnCrear = new BotonSGB();
+            crdVista = new TarjetaSGB();
+            label4 = new Label();
+            tvNodosComposite = new TreeView();
+            btnEliminarSeleccionados = new BotonSGB();
+            crdExistentes = new TarjetaSGB();
             label5 = new Label();
             cbxRoles = new ComboBox();
-            btnBorrarRol = new Button();
+            btnBorrarRol = new BotonSGB();
             label6 = new Label();
             cbxFamilias = new ComboBox();
-            btnBorrarFamilia = new Button();
-            btnSalir = new Button();
-            pnlTitulo.SuspendLayout();
+            btnBorrarFamilia = new BotonSGB();
+            pnlAcciones = new FlowLayoutPanel();
+            btnSalir = new BotonSGB();
+            tlpPrincipal.SuspendLayout();
+            crdCrear.SuspendLayout();
+            crdVista.SuspendLayout();
+            crdExistentes.SuspendLayout();
+            pnlAcciones.SuspendLayout();
             SuspendLayout();
             // 
-            // pnlTitulo
+            // tlpPrincipal
             // 
-            pnlTitulo.BackColor = Color.FromArgb(21, 32, 48);
-            pnlTitulo.Controls.Add(label1);
-            pnlTitulo.Dock = DockStyle.Top;
-            pnlTitulo.Location = new Point(0, 0);
-            pnlTitulo.Name = "pnlTitulo";
-            pnlTitulo.Size = new Size(872, 48);
-            pnlTitulo.TabIndex = 0;
+            tlpPrincipal.BackColor = Color.FromArgb(244, 245, 247);
+            tlpPrincipal.ColumnCount = 3;
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.34F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            tlpPrincipal.Controls.Add(crdCrear, 0, 0);
+            tlpPrincipal.Controls.Add(crdVista, 1, 0);
+            tlpPrincipal.Controls.Add(crdExistentes, 2, 0);
+            tlpPrincipal.Controls.Add(pnlAcciones, 0, 1);
+            tlpPrincipal.Dock = DockStyle.Fill;
+            tlpPrincipal.Name = "tlpPrincipal";
+            tlpPrincipal.Padding = new Padding(12);
+            tlpPrincipal.RowCount = 2;
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 100.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Absolute, 56.0F));
+            tlpPrincipal.Size = new Size(1100, 640);
+            tlpPrincipal.TabIndex = 0;
+            tlpPrincipal.SetColumnSpan(pnlAcciones, 3);
+            // 
+            // crdCrear
+            // 
+            crdCrear.Controls.Add(label1);
+            crdCrear.Controls.Add(label2);
+            crdCrear.Controls.Add(txtNombreFamilia);
+            crdCrear.Controls.Add(radRol);
+            crdCrear.Controls.Add(radFamilia);
+            crdCrear.Controls.Add(label3);
+            crdCrear.Controls.Add(clbComponentes);
+            crdCrear.Controls.Add(btnCrear);
+            crdCrear.Dock = DockStyle.Fill;
+            crdCrear.Margin = new Padding(8);
+            crdCrear.Name = "crdCrear";
+            crdCrear.Size = new Size(343, 544);
+            crdCrear.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 11F);
-            label1.ForeColor = Color.FromArgb(226, 232, 240);
-            label1.Location = new Point(16, 14);
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI Semibold", 12F);
+            label1.ForeColor = Color.FromArgb(31, 41, 55);
+            label1.Location = new Point(20, 16);
             label1.Name = "label1";
-            label1.Size = new Size(127, 20);
+            label1.Size = new Size(152, 20);
             label1.TabIndex = 0;
-            label1.Text = "Gestión de roles";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            label3.ForeColor = Color.FromArgb(71, 85, 105);
-            label3.Location = new Point(24, 64);
-            label3.Name = "label3";
-            label3.Size = new Size(95, 12);
-            label3.TabIndex = 1;
-            label3.Text = "COMPONENTES";
-            // 
-            // clbComponentes
-            // 
-            clbComponentes.BackColor = Color.FromArgb(21, 32, 48);
-            clbComponentes.BorderStyle = BorderStyle.FixedSingle;
-            clbComponentes.CheckOnClick = true;
-            clbComponentes.ForeColor = Color.FromArgb(226, 232, 240);
-            clbComponentes.FormattingEnabled = true;
-            clbComponentes.Location = new Point(24, 82);
-            clbComponentes.Name = "clbComponentes";
-            clbComponentes.Size = new Size(250, 234);
-            clbComponentes.TabIndex = 2;
-            clbComponentes.ItemCheck += clbComponentes_ItemCheck;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            label4.ForeColor = Color.FromArgb(71, 85, 105);
-            label4.Location = new Point(290, 64);
-            label4.Name = "label4";
-            label4.Size = new Size(133, 12);
-            label4.TabIndex = 3;
-            label4.Text = "VISTA PREVIA DEL ROL";
-            // 
-            // tvNodosComposite
-            // 
-            tvNodosComposite.BackColor = Color.FromArgb(21, 32, 48);
-            tvNodosComposite.BorderStyle = BorderStyle.FixedSingle;
-            tvNodosComposite.ForeColor = Color.FromArgb(226, 232, 240);
-            tvNodosComposite.LineColor = Color.FromArgb(71, 85, 105);
-            tvNodosComposite.Location = new Point(290, 82);
-            tvNodosComposite.Name = "tvNodosComposite";
-            tvNodosComposite.Size = new Size(250, 234);
-            tvNodosComposite.TabIndex = 4;
+            label1.Text = "Crear rol o familia";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F);
-            label2.ForeColor = Color.FromArgb(148, 163, 184);
-            label2.Location = new Point(560, 64);
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe UI", 10F);
+            label2.ForeColor = Color.FromArgb(75, 85, 99);
+            label2.Location = new Point(20, 52);
             label2.Name = "label2";
-            label2.Size = new Size(51, 15);
-            label2.TabIndex = 5;
+            label2.Size = new Size(48, 20);
+            label2.TabIndex = 1;
             label2.Text = "Nombre";
             // 
             // txtNombreFamilia
             // 
-            txtNombreFamilia.BackColor = Color.FromArgb(21, 32, 48);
             txtNombreFamilia.BorderStyle = BorderStyle.FixedSingle;
-            txtNombreFamilia.Font = new Font("Segoe UI", 9.5F);
-            txtNombreFamilia.ForeColor = Color.FromArgb(226, 232, 240);
-            txtNombreFamilia.Location = new Point(560, 82);
+            txtNombreFamilia.ForeColor = Color.FromArgb(31, 41, 55);
+            txtNombreFamilia.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtNombreFamilia.Location = new Point(20, 74);
             txtNombreFamilia.Name = "txtNombreFamilia";
-            txtNombreFamilia.Size = new Size(288, 24);
-            txtNombreFamilia.TabIndex = 6;
+            txtNombreFamilia.Size = new Size(303, 27);
+            txtNombreFamilia.TabIndex = 2;
             txtNombreFamilia.TextChanged += txtNombreFamilia_TextChanged;
             // 
             // radRol
             // 
             radRol.AutoSize = true;
+            radRol.BackColor = Color.Transparent;
             radRol.Checked = true;
-            radRol.ForeColor = Color.FromArgb(226, 232, 240);
-            radRol.Location = new Point(564, 122);
+            radRol.ForeColor = Color.FromArgb(31, 41, 55);
+            radRol.Location = new Point(20, 112);
             radRol.Name = "radRol";
-            radRol.Size = new Size(42, 19);
-            radRol.TabIndex = 7;
+            radRol.Size = new Size(48, 24);
+            radRol.TabIndex = 3;
             radRol.TabStop = true;
             radRol.Text = "Rol";
-            radRol.UseVisualStyleBackColor = true;
+            radRol.UseVisualStyleBackColor = false;
             // 
             // radFamilia
             // 
             radFamilia.AutoSize = true;
-            radFamilia.ForeColor = Color.FromArgb(226, 232, 240);
-            radFamilia.Location = new Point(664, 122);
+            radFamilia.BackColor = Color.Transparent;
+            radFamilia.ForeColor = Color.FromArgb(31, 41, 55);
+            radFamilia.Location = new Point(100, 112);
             radFamilia.Name = "radFamilia";
-            radFamilia.Size = new Size(63, 19);
-            radFamilia.TabIndex = 8;
+            radFamilia.Size = new Size(80, 24);
+            radFamilia.TabIndex = 4;
             radFamilia.Text = "Familia";
-            radFamilia.UseVisualStyleBackColor = true;
+            radFamilia.UseVisualStyleBackColor = false;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Segoe UI", 10F);
+            label3.ForeColor = Color.FromArgb(75, 85, 99);
+            label3.Location = new Point(20, 148);
+            label3.Name = "label3";
+            label3.Size = new Size(88, 20);
+            label3.TabIndex = 5;
+            label3.Text = "Componentes";
+            // 
+            // clbComponentes
+            // 
+            clbComponentes.BorderStyle = BorderStyle.FixedSingle;
+            clbComponentes.CheckOnClick = true;
+            clbComponentes.ForeColor = Color.FromArgb(31, 41, 55);
+            clbComponentes.FormattingEnabled = true;
+            clbComponentes.IntegralHeight = false;
+            clbComponentes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            clbComponentes.Location = new Point(20, 170);
+            clbComponentes.Name = "clbComponentes";
+            clbComponentes.Size = new Size(303, 304);
+            clbComponentes.TabIndex = 6;
+            clbComponentes.ItemCheck += clbComponentes_ItemCheck;
             // 
             // btnCrear
             // 
-            btnCrear.BackColor = Color.FromArgb(45, 60, 82);
-            btnCrear.Cursor = Cursors.Hand;
-            btnCrear.FlatAppearance.BorderSize = 0;
-            btnCrear.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnCrear.FlatStyle = FlatStyle.Flat;
-            btnCrear.Font = new Font("Segoe UI", 9.5F);
-            btnCrear.ForeColor = Color.FromArgb(226, 232, 240);
-            btnCrear.Location = new Point(560, 158);
+            btnCrear.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnCrear.Icono = "\uE710";
+            btnCrear.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnCrear.Location = new Point(20, 486);
             btnCrear.Name = "btnCrear";
-            btnCrear.Size = new Size(288, 38);
-            btnCrear.TabIndex = 9;
+            btnCrear.Size = new Size(303, 40);
+            btnCrear.TabIndex = 7;
             btnCrear.Text = "Crear";
-            btnCrear.UseVisualStyleBackColor = false;
             btnCrear.Click += btnCrear_Click;
+            // 
+            // crdVista
+            // 
+            crdVista.Controls.Add(label4);
+            crdVista.Controls.Add(tvNodosComposite);
+            crdVista.Controls.Add(btnEliminarSeleccionados);
+            crdVista.Dock = DockStyle.Fill;
+            crdVista.Margin = new Padding(8);
+            crdVista.Name = "crdVista";
+            crdVista.Size = new Size(342, 544);
+            crdVista.TabIndex = 1;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Segoe UI Semibold", 12F);
+            label4.ForeColor = Color.FromArgb(31, 41, 55);
+            label4.Location = new Point(20, 16);
+            label4.Name = "label4";
+            label4.Size = new Size(160, 20);
+            label4.TabIndex = 0;
+            label4.Text = "Vista previa del rol";
+            // 
+            // tvNodosComposite
+            // 
+            tvNodosComposite.BorderStyle = BorderStyle.FixedSingle;
+            tvNodosComposite.ForeColor = Color.FromArgb(31, 41, 55);
+            tvNodosComposite.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tvNodosComposite.Location = new Point(20, 52);
+            tvNodosComposite.Name = "tvNodosComposite";
+            tvNodosComposite.Size = new Size(302, 422);
+            tvNodosComposite.TabIndex = 1;
             // 
             // btnEliminarSeleccionados
             // 
-            btnEliminarSeleccionados.BackColor = Color.FromArgb(45, 60, 82);
-            btnEliminarSeleccionados.Cursor = Cursors.Hand;
-            btnEliminarSeleccionados.FlatAppearance.BorderSize = 0;
-            btnEliminarSeleccionados.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnEliminarSeleccionados.FlatStyle = FlatStyle.Flat;
-            btnEliminarSeleccionados.Font = new Font("Segoe UI", 9.5F);
-            btnEliminarSeleccionados.ForeColor = Color.FromArgb(226, 232, 240);
-            btnEliminarSeleccionados.Location = new Point(560, 204);
+            btnEliminarSeleccionados.Estilo = EstiloBoton.Peligro;
+            btnEliminarSeleccionados.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnEliminarSeleccionados.Icono = "\uE74D";
+            btnEliminarSeleccionados.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnEliminarSeleccionados.Location = new Point(20, 486);
             btnEliminarSeleccionados.Name = "btnEliminarSeleccionados";
-            btnEliminarSeleccionados.Size = new Size(288, 38);
-            btnEliminarSeleccionados.TabIndex = 10;
+            btnEliminarSeleccionados.Size = new Size(302, 40);
+            btnEliminarSeleccionados.TabIndex = 2;
             btnEliminarSeleccionados.Text = "Eliminar seleccionados";
-            btnEliminarSeleccionados.UseVisualStyleBackColor = false;
             btnEliminarSeleccionados.Click += btnEliminarSeleccionados_Click;
+            // 
+            // crdExistentes
+            // 
+            crdExistentes.Controls.Add(label5);
+            crdExistentes.Controls.Add(cbxRoles);
+            crdExistentes.Controls.Add(btnBorrarRol);
+            crdExistentes.Controls.Add(label6);
+            crdExistentes.Controls.Add(cbxFamilias);
+            crdExistentes.Controls.Add(btnBorrarFamilia);
+            crdExistentes.Dock = DockStyle.Fill;
+            crdExistentes.Margin = new Padding(8);
+            crdExistentes.Name = "crdExistentes";
+            crdExistentes.Size = new Size(343, 544);
+            crdExistentes.TabIndex = 2;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 9F);
-            label5.ForeColor = Color.FromArgb(148, 163, 184);
-            label5.Location = new Point(24, 332);
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Segoe UI Semibold", 12F);
+            label5.ForeColor = Color.FromArgb(31, 41, 55);
+            label5.Location = new Point(20, 16);
             label5.Name = "label5";
-            label5.Size = new Size(35, 15);
-            label5.TabIndex = 11;
+            label5.Size = new Size(40, 20);
+            label5.TabIndex = 0;
             label5.Text = "Roles";
             // 
             // cbxRoles
             // 
-            cbxRoles.BackColor = Color.FromArgb(21, 32, 48);
             cbxRoles.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbxRoles.FlatStyle = FlatStyle.Flat;
-            cbxRoles.ForeColor = Color.FromArgb(226, 232, 240);
+            cbxRoles.ForeColor = Color.FromArgb(31, 41, 55);
             cbxRoles.FormattingEnabled = true;
-            cbxRoles.Location = new Point(24, 350);
+            cbxRoles.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cbxRoles.Location = new Point(20, 54);
             cbxRoles.Name = "cbxRoles";
-            cbxRoles.Size = new Size(224, 25);
-            cbxRoles.TabIndex = 12;
+            cbxRoles.Size = new Size(303, 28);
+            cbxRoles.TabIndex = 1;
             cbxRoles.SelectedIndexChanged += cbxRoles_SelectedIndexChanged;
             // 
             // btnBorrarRol
             // 
-            btnBorrarRol.BackColor = Color.FromArgb(45, 60, 82);
-            btnBorrarRol.Cursor = Cursors.Hand;
-            btnBorrarRol.FlatAppearance.BorderSize = 0;
-            btnBorrarRol.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnBorrarRol.FlatStyle = FlatStyle.Flat;
-            btnBorrarRol.Font = new Font("Segoe UI", 9.5F);
-            btnBorrarRol.ForeColor = Color.FromArgb(226, 232, 240);
-            btnBorrarRol.Location = new Point(254, 349);
+            btnBorrarRol.Estilo = EstiloBoton.Peligro;
+            btnBorrarRol.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnBorrarRol.Icono = "\uE74D";
+            btnBorrarRol.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnBorrarRol.Location = new Point(20, 94);
             btnBorrarRol.Name = "btnBorrarRol";
-            btnBorrarRol.Size = new Size(96, 28);
-            btnBorrarRol.TabIndex = 13;
+            btnBorrarRol.Size = new Size(303, 40);
+            btnBorrarRol.TabIndex = 2;
             btnBorrarRol.Text = "Borrar";
-            btnBorrarRol.UseVisualStyleBackColor = false;
             btnBorrarRol.Click += btnBorrarRol_Click;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 9F);
-            label6.ForeColor = Color.FromArgb(148, 163, 184);
-            label6.Location = new Point(374, 332);
+            label6.BackColor = Color.Transparent;
+            label6.Font = new Font("Segoe UI Semibold", 12F);
+            label6.ForeColor = Color.FromArgb(31, 41, 55);
+            label6.Location = new Point(20, 168);
             label6.Name = "label6";
-            label6.Size = new Size(50, 15);
-            label6.TabIndex = 14;
+            label6.Size = new Size(64, 20);
+            label6.TabIndex = 3;
             label6.Text = "Familias";
             // 
             // cbxFamilias
             // 
-            cbxFamilias.BackColor = Color.FromArgb(21, 32, 48);
             cbxFamilias.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbxFamilias.FlatStyle = FlatStyle.Flat;
-            cbxFamilias.ForeColor = Color.FromArgb(226, 232, 240);
+            cbxFamilias.ForeColor = Color.FromArgb(31, 41, 55);
             cbxFamilias.FormattingEnabled = true;
-            cbxFamilias.Location = new Point(374, 350);
+            cbxFamilias.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cbxFamilias.Location = new Point(20, 206);
             cbxFamilias.Name = "cbxFamilias";
-            cbxFamilias.Size = new Size(224, 25);
-            cbxFamilias.TabIndex = 15;
+            cbxFamilias.Size = new Size(303, 28);
+            cbxFamilias.TabIndex = 4;
             cbxFamilias.SelectedIndexChanged += cbxFamilias_SelectedIndexChanged;
             // 
             // btnBorrarFamilia
             // 
-            btnBorrarFamilia.BackColor = Color.FromArgb(45, 60, 82);
-            btnBorrarFamilia.Cursor = Cursors.Hand;
-            btnBorrarFamilia.FlatAppearance.BorderSize = 0;
-            btnBorrarFamilia.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnBorrarFamilia.FlatStyle = FlatStyle.Flat;
-            btnBorrarFamilia.Font = new Font("Segoe UI", 9.5F);
-            btnBorrarFamilia.ForeColor = Color.FromArgb(226, 232, 240);
-            btnBorrarFamilia.Location = new Point(604, 349);
+            btnBorrarFamilia.Estilo = EstiloBoton.Peligro;
+            btnBorrarFamilia.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnBorrarFamilia.Icono = "\uE74D";
+            btnBorrarFamilia.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnBorrarFamilia.Location = new Point(20, 246);
             btnBorrarFamilia.Name = "btnBorrarFamilia";
-            btnBorrarFamilia.Size = new Size(96, 28);
-            btnBorrarFamilia.TabIndex = 16;
+            btnBorrarFamilia.Size = new Size(303, 40);
+            btnBorrarFamilia.TabIndex = 5;
             btnBorrarFamilia.Text = "Borrar";
-            btnBorrarFamilia.UseVisualStyleBackColor = false;
             btnBorrarFamilia.Click += btnBorrarFamilia_Click;
+            // 
+            // pnlAcciones
+            // 
+            pnlAcciones.BackColor = Color.Transparent;
+            pnlAcciones.Controls.Add(btnSalir);
+            pnlAcciones.FlowDirection = FlowDirection.RightToLeft;
+            pnlAcciones.WrapContents = false;
+            pnlAcciones.Dock = DockStyle.Fill;
+            pnlAcciones.Margin = new Padding(8);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Size = new Size(400, 40);
+            pnlAcciones.TabIndex = 3;
             // 
             // btnSalir
             // 
-            btnSalir.BackColor = Color.FromArgb(45, 60, 82);
-            btnSalir.Cursor = Cursors.Hand;
-            btnSalir.FlatAppearance.BorderSize = 0;
-            btnSalir.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 85, 105);
-            btnSalir.FlatStyle = FlatStyle.Flat;
-            btnSalir.Font = new Font("Segoe UI", 9.5F);
-            btnSalir.ForeColor = Color.FromArgb(226, 232, 240);
-            btnSalir.Location = new Point(752, 349);
+            btnSalir.Estilo = EstiloBoton.Secundario;
+            btnSalir.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnSalir.Icono = "\uE8BB";
+            btnSalir.Margin = new Padding(12, 0, 0, 0);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(96, 28);
-            btnSalir.TabIndex = 17;
+            btnSalir.Size = new Size(140, 40);
+            btnSalir.TabIndex = 0;
             btnSalir.Text = "Salir";
-            btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
             // 
             // FrmGestionRoles
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(30, 42, 58);
-            ClientSize = new Size(872, 416);
-            Controls.Add(btnSalir);
-            Controls.Add(btnBorrarFamilia);
-            Controls.Add(cbxFamilias);
-            Controls.Add(label6);
-            Controls.Add(btnBorrarRol);
-            Controls.Add(cbxRoles);
-            Controls.Add(label5);
-            Controls.Add(btnEliminarSeleccionados);
-            Controls.Add(btnCrear);
-            Controls.Add(radFamilia);
-            Controls.Add(radRol);
-            Controls.Add(txtNombreFamilia);
-            Controls.Add(label2);
-            Controls.Add(tvNodosComposite);
-            Controls.Add(label4);
-            Controls.Add(clbComponentes);
-            Controls.Add(label3);
-            Controls.Add(pnlTitulo);
-            Font = new Font("Segoe UI", 9.5F);
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(244, 245, 247);
+            ClientSize = new Size(1100, 640);
+            Controls.Add(tlpPrincipal);
+            Font = new Font("Segoe UI", 11F);
+            ForeColor = Color.FromArgb(31, 41, 55);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FrmGestionRoles";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Gestión de roles";
             Load += FrmGestionRoles_Load;
-            pnlTitulo.ResumeLayout(false);
-            pnlTitulo.PerformLayout();
+            pnlAcciones.ResumeLayout(false);
+            pnlAcciones.PerformLayout();
+            crdExistentes.ResumeLayout(false);
+            crdExistentes.PerformLayout();
+            crdVista.ResumeLayout(false);
+            crdVista.PerformLayout();
+            crdCrear.ResumeLayout(false);
+            crdCrear.PerformLayout();
+            tlpPrincipal.ResumeLayout(false);
+            tlpPrincipal.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-        private Panel pnlTitulo;
+
+        private TableLayoutPanel tlpPrincipal;
+        private TarjetaSGB crdCrear;
         private Label label1;
-        private Label label3;
-        private CheckedListBox clbComponentes;
-        private Label label4;
-        private TreeView tvNodosComposite;
         private Label label2;
         private TextBox txtNombreFamilia;
         private RadioButton radRol;
         private RadioButton radFamilia;
-        private Button btnCrear;
-        private Button btnEliminarSeleccionados;
+        private Label label3;
+        private CheckedListBox clbComponentes;
+        private BotonSGB btnCrear;
+        private TarjetaSGB crdVista;
+        private Label label4;
+        private TreeView tvNodosComposite;
+        private BotonSGB btnEliminarSeleccionados;
+        private TarjetaSGB crdExistentes;
         private Label label5;
         private ComboBox cbxRoles;
-        private Button btnBorrarRol;
+        private BotonSGB btnBorrarRol;
         private Label label6;
         private ComboBox cbxFamilias;
-        private Button btnBorrarFamilia;
-        private Button btnSalir;
+        private BotonSGB btnBorrarFamilia;
+        private FlowLayoutPanel pnlAcciones;
+        private BotonSGB btnSalir;
     }
 }

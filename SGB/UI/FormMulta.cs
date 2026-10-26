@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using BE;
+﻿using BE;
 using BLL.BLL_NEG;
+using BLL.BLL_SER;
+using Servicio;
 
 namespace UI
 {
-    public partial class FormMulta : Form
+    public partial class FormMulta : Form, IObservadorIdioma
     {
-        BLL_Socio bll_Socio;
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         BLL_Multa bll_Multa;
         BE_Socio? socioSeleccionado;
         List<BE_Multa> multasPendientes = new List<BE_Multa>();
@@ -22,18 +15,22 @@ namespace UI
         public FormMulta()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
         }
 
         private void FormMulta_Load(object sender, EventArgs e)
         {
-            bll_Socio = new BLL_Socio();
             bll_Multa = new BLL_Multa();
 
+            // Solo se listan los socios que tienen multas pendientes, con el total que adeudan
             dgvSocios.AutoGenerateColumns = false;
             colSocNumero.DataPropertyName = "NumeroSocio";
             colSocApellido.DataPropertyName = "Apellido";
             colSocNombre.DataPropertyName = "Nombre";
             colSocDni.DataPropertyName = "Dni";
+            colSocMonto.DataPropertyName = "MontoAdeudado";
+            colSocMonto.DefaultCellStyle.Format = "N2";
+            colSocMonto.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
             dgvMultas.AutoGenerateColumns = false;
             colMulNumero.DataPropertyName = "Numero";
@@ -42,8 +39,8 @@ namespace UI
             colMulDias.DataPropertyName = "DiasAtraso";
             colMulMonto.DataPropertyName = "Monto";
 
-            Mostrar(dgvSocios, bll_Socio.ObtenerActivos());
-            LimpiarMultas();
+            CargarSocios();
+            ActualizarIdioma();
         }
 
         private void Mostrar(DataGridView grilla, object datos)
@@ -52,10 +49,15 @@ namespace UI
             grilla.DataSource = datos;
         }
 
+        private void CargarSocios()
+        {
+            Mostrar(dgvSocios, bll_Multa.BuscarSociosConMultas(txtDni.Text));
+        }
+
         // ------------------------------------------------------------ Socio
         private void txtDni_TextChanged(object sender, EventArgs e)
         {
-            Mostrar(dgvSocios, bll_Socio.BuscarActivosPorDni(txtDni.Text));
+            CargarSocios();
         }
 
         private void dgvSocios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -69,16 +71,13 @@ namespace UI
             try
             {
                 LimpiarMultas();
-                if (dgvSocios.Rows.Count == 0) throw new Exception("No existe un socio registrado con el DNI ingresado.");
+                if (dgvSocios.Rows.Count == 0) throw new Exception("No hay socios con multas pendientes que coincidan con el DNI ingresado.");
                 if (dgvSocios.SelectedRows.Count == 0) throw new Exception("Seleccione un socio.");
 
                 BE_Socio socio = (BE_Socio)dgvSocios.SelectedRows[0].DataBoundItem;
-                lblSocio.Text = $"Socio: {socio.Apellido}, {socio.Nombre} - DNI {socio.Dni}";
-
                 multasPendientes = bll_Multa.ObtenerPendientes(socio);
                 socioSeleccionado = socio;
-                Mostrar(dgvMultas, bll_Multa.ConsultarParaGrilla(multasPendientes));
-                lblTotal.Text = $"Total adeudado: $ {bll_Multa.CalcularTotalAdeudado(multasPendientes):N2}";
+                MostrarMultas();
             }
             catch (Exception ex)
             {
@@ -86,13 +85,25 @@ namespace UI
             }
         }
 
+        private void MostrarMultas()
+        {
+            if (socioSeleccionado == null)
+            {
+                dgvMultas.DataSource = null;
+                lblSocio.Text = $"{bll_idioma.Traducir("FormMulta.lblSocio")} —";
+                lblTotal.Text = $"{bll_idioma.Traducir("FormMulta.lblTotal")} $ {0m:N2}";
+                return;
+            }
+            lblSocio.Text = $"{bll_idioma.Traducir("FormMulta.lblSocio")} {socioSeleccionado.Apellido}, {socioSeleccionado.Nombre} - {bll_idioma.Traducir("FormMulta.colSocDni")} {socioSeleccionado.Dni}";
+            Mostrar(dgvMultas, bll_Multa.ConsultarParaGrilla(multasPendientes));
+            lblTotal.Text = $"{bll_idioma.Traducir("FormMulta.lblTotal")} $ {bll_Multa.CalcularTotalAdeudado(multasPendientes):N2}";
+        }
+
         private void LimpiarMultas()
         {
             socioSeleccionado = null;
             multasPendientes = new List<BE_Multa>();
-            dgvMultas.DataSource = null;
-            lblSocio.Text = "Socio: —";
-            lblTotal.Text = "Total adeudado: $ 0,00";
+            MostrarMultas();
         }
 
         // ------------------------------------------------------------ Cobro
@@ -133,6 +144,36 @@ namespace UI
             {
                 MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        // ------------------------------------------------------------ Idioma
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FormMulta.Form");
+            lblSeccionSocio.Text = bll_idioma.Traducir("FormMulta.lblSeccionSocio");
+            lblDni.Text = bll_idioma.Traducir("FormMulta.lblDni");
+            txtDni.PlaceholderText = bll_idioma.Traducir("FormMulta.txtDni");
+            btnSeleccionarSocio.Text = bll_idioma.Traducir("FormMulta.btnSeleccionarSocio");
+            colSocNumero.HeaderText = bll_idioma.Traducir("FormMulta.colSocNumero");
+            colSocApellido.HeaderText = bll_idioma.Traducir("FormMulta.colSocApellido");
+            colSocNombre.HeaderText = bll_idioma.Traducir("FormMulta.colSocNombre");
+            colSocDni.HeaderText = bll_idioma.Traducir("FormMulta.colSocDni");
+            colSocMonto.HeaderText = bll_idioma.Traducir("FormMulta.colSocMonto");
+            lblSeccionMultas.Text = bll_idioma.Traducir("FormMulta.lblSeccionMultas");
+            colMulNumero.HeaderText = bll_idioma.Traducir("FormMulta.colMulNumero");
+            colMulPrestamo.HeaderText = bll_idioma.Traducir("FormMulta.colMulPrestamo");
+            colMulFecha.HeaderText = bll_idioma.Traducir("FormMulta.colMulFecha");
+            colMulDias.HeaderText = bll_idioma.Traducir("FormMulta.colMulDias");
+            colMulMonto.HeaderText = bll_idioma.Traducir("FormMulta.colMulMonto");
+            btnConfirmarCobro.Text = bll_idioma.Traducir("FormMulta.btnConfirmarCobro");
+            btnNoAbona.Text = bll_idioma.Traducir("FormMulta.btnNoAbona");
+            if (bll_Multa != null) MostrarMultas();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

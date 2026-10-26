@@ -9,20 +9,25 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BE;
 using BLL.BLL_NEG;
+using BLL.BLL_SER;
+using Servicio;
 
 namespace UI
 {
-    public partial class FormEjemplar : Form
+    public partial class FormEjemplar : Form, IObservadorIdioma
     {
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         BLL_Ejemplar bll_Ejemplar;
         BLL_Libro bll_Libro;
         List<BE_Ejemplar> ejemplaresMostrados = new List<BE_Ejemplar>();
         BE_Ejemplar? ejemplarSeleccionado;
         List<BE_Libro> librosActivos = new List<BE_Libro>();
+        int librosFiltrados;
 
         public FormEjemplar()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
         }
 
         private void FormEjemplar_Load(object sender, EventArgs e)
@@ -43,6 +48,7 @@ namespace UI
             FiltrarLibros();
 
             CargarEjemplares();
+            ActualizarIdioma();
             this.Shown += FormEjemplar_Shown;
         }
 
@@ -80,9 +86,16 @@ namespace UI
             bool hayFiltro = txtBuscarLibro.Text.Trim() != "";
             cboLibro.SelectedIndex = hayFiltro && filtrados.Count > 0 ? 0 : -1;
 
-            lblLibro.Text = hayFiltro && filtrados.Count == 0
-                ? "Libro al que pertenece: no se encontró el libro, registralo primero en Gestión de libros"
-                : hayFiltro ? $"Libro al que pertenece - coincidencias: {filtrados.Count}" : "Libro al que pertenece";
+            librosFiltrados = filtrados.Count;
+            MostrarEtiquetaLibro();
+        }
+
+        private void MostrarEtiquetaLibro()
+        {
+            bool hayFiltro = txtBuscarLibro.Text.Trim() != "";
+            lblLibro.Text = hayFiltro && librosFiltrados == 0
+                ? bll_idioma.Traducir("FormEjemplar.libroNoEncontrado")
+                : hayFiltro ? $"{bll_idioma.Traducir("FormEjemplar.lblLibro")} - {bll_idioma.Traducir("FormEjemplar.coincidencias")} {librosFiltrados}" : bll_idioma.Traducir("FormEjemplar.lblLibro");
         }
 
         private void txtBuscarLibro_TextChanged(object sender, EventArgs e)
@@ -98,7 +111,7 @@ namespace UI
             ejemplarSeleccionado = ejemplaresMostrados.FirstOrDefault(ej => ej.CodigoEjemplar == codigo);
             if (ejemplarSeleccionado == null) return;
 
-            lblCodigo.Text = $"Código: {ejemplarSeleccionado.CodigoEjemplar} ({ejemplarSeleccionado.Estado})";
+            MostrarCodigo();
             txtBuscarLibro.Clear();
             cboLibro.SelectedIndex = -1;
             cboLibro.SelectedValue = ejemplarSeleccionado.Libro.CodigoLibro;
@@ -107,9 +120,21 @@ namespace UI
         private void Limpiar()
         {
             ejemplarSeleccionado = null;
-            lblCodigo.Text = "Código: — (se asigna al dar de alta)";
+            MostrarCodigo();
             txtBuscarLibro.Clear();
             cboLibro.SelectedIndex = -1;
+        }
+
+        private void MostrarCodigo()
+        {
+            bool dadoDeBaja = ejemplarSeleccionado != null && ejemplarSeleccionado.Estado == "Baja";
+            btnModificar.Enabled = ejemplarSeleccionado != null && !dadoDeBaja;
+            btnBaja.Enabled = ejemplarSeleccionado != null && !dadoDeBaja;
+            btnReactivar.Enabled = dadoDeBaja;
+
+            lblCodigo.Text = ejemplarSeleccionado == null
+                ? bll_idioma.Traducir("FormEjemplar.codigoNuevo")
+                : $"{bll_idioma.Traducir("FormEjemplar.lblCodigo")} {ejemplarSeleccionado.CodigoEjemplar} ({ejemplarSeleccionado.Estado})";
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -185,9 +210,58 @@ namespace UI
             }
         }
 
+        // ------------------------------------------------------------ Reactivación (vuelve a dar de alta un ejemplar dado de baja)
+        private void btnReactivar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ejemplarSeleccionado == null) throw new Exception("Seleccione el ejemplar a reactivar.");
+
+                if (MessageBox.Show($"¿Confirma la reactivación del ejemplar {ejemplarSeleccionado.CodigoEjemplar} ({ejemplarSeleccionado.Libro.Titulo})?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                bll_Ejemplar.Reactivar(ejemplarSeleccionado);
+                MessageBox.Show("Ejemplar reactivado correctamente. Vuelve a estar disponible para préstamos.", "Reactivación de ejemplar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarEjemplares();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // ------------------------------------------------------------ Idioma
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FormEjemplar.Form");
+            lblSeccionEjemplares.Text = bll_idioma.Traducir("FormEjemplar.lblSeccionEjemplares");
+            lblBuscar.Text = bll_idioma.Traducir("FormEjemplar.lblBuscar");
+            colEjeCodigo.HeaderText = bll_idioma.Traducir("FormEjemplar.colEjeCodigo");
+            colEjeTitulo.HeaderText = bll_idioma.Traducir("FormEjemplar.colEjeTitulo");
+            colEjeAutor.HeaderText = bll_idioma.Traducir("FormEjemplar.colEjeAutor");
+            colEjeEstado.HeaderText = bll_idioma.Traducir("FormEjemplar.colEjeEstado");
+            lblSeccionDatos.Text = bll_idioma.Traducir("FormEjemplar.lblSeccionDatos");
+            txtBuscarLibro.PlaceholderText = bll_idioma.Traducir("FormEjemplar.txtBuscarLibro");
+            btnAlta.Text = bll_idioma.Traducir("FormEjemplar.btnAlta");
+            btnModificar.Text = bll_idioma.Traducir("FormEjemplar.btnModificar");
+            btnBaja.Text = bll_idioma.Traducir("FormEjemplar.btnBaja");
+            btnReactivar.Text = bll_idioma.Traducir("FormEjemplar.btnReactivar");
+            btnLimpiar.Text = bll_idioma.Traducir("FormEjemplar.btnLimpiar");
+            btnCerrar.Text = bll_idioma.Traducir("FormEjemplar.btnCerrar");
+            if (bll_Libro == null) return;
+            MostrarCodigo();
+            MostrarEtiquetaLibro();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }

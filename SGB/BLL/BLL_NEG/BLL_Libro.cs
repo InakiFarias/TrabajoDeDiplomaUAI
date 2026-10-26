@@ -111,6 +111,16 @@ namespace BLL.BLL_NEG
             RegistrarBitacora("Baja de libro", 2);
         }
 
+        // Vuelve a dar de alta un libro dado de baja (sus ejemplares se reactivan aparte)
+        public void Reactivar(BE_Libro libro)
+        {
+            if (libro.Estado != "Baja") throw new Exception("El libro ya se encuentra activo.");
+
+            map_libro.ActualizarEstado(libro, "Activo");
+            libro.Estado = "Activo";
+            RegistrarBitacora("Reactivación de libro", 3);
+        }
+
         private void Validar(BE_Libro libro)
         {
             libro.Titulo = libro.Titulo?.Trim() ?? "";

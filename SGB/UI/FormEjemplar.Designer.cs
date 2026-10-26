@@ -31,113 +31,110 @@ namespace UI
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            lblTitulo = new Label();
+            tlpPrincipal = new TableLayoutPanel();
+            crdEjemplares = new TarjetaSGB();
             lblSeccionEjemplares = new Label();
             lblBuscar = new Label();
             txtBuscar = new TextBox();
-            dgvEjemplares = new DataGridView();
+            dgvEjemplares = new GrillaSGB();
             colEjeCodigo = new DataGridViewTextBoxColumn();
             colEjeTitulo = new DataGridViewTextBoxColumn();
             colEjeAutor = new DataGridViewTextBoxColumn();
             colEjeEstado = new DataGridViewTextBoxColumn();
+            crdDatos = new TarjetaSGB();
             lblSeccionDatos = new Label();
             lblCodigo = new Label();
             lblLibro = new Label();
             txtBuscarLibro = new TextBox();
             cboLibro = new ComboBox();
-            btnAlta = new Button();
-            btnModificar = new Button();
-            btnBaja = new Button();
-            btnLimpiar = new Button();
-            btnCerrar = new Button();
+            btnAlta = new BotonSGB();
+            btnModificar = new BotonSGB();
+            btnBaja = new BotonSGB();
+            btnReactivar = new BotonSGB();
+            btnLimpiar = new BotonSGB();
+            pnlAcciones = new FlowLayoutPanel();
+            btnCerrar = new BotonSGB();
+            tlpPrincipal.SuspendLayout();
+            crdEjemplares.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvEjemplares).BeginInit();
+            crdDatos.SuspendLayout();
+            pnlAcciones.SuspendLayout();
             SuspendLayout();
             // 
-            // lblTitulo
+            // tlpPrincipal
             // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 14F);
-            lblTitulo.ForeColor = Color.FromArgb(226, 232, 240);
-            lblTitulo.Location = new Point(16, 12);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(147, 25);
-            lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "Gestión de ejemplares";
+            tlpPrincipal.BackColor = Color.FromArgb(244, 245, 247);
+            tlpPrincipal.ColumnCount = 2;
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62.0F));
+            tlpPrincipal.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38.0F));
+            tlpPrincipal.Controls.Add(crdEjemplares, 0, 0);
+            tlpPrincipal.Controls.Add(crdDatos, 1, 0);
+            tlpPrincipal.Controls.Add(pnlAcciones, 0, 1);
+            tlpPrincipal.Dock = DockStyle.Fill;
+            tlpPrincipal.Name = "tlpPrincipal";
+            tlpPrincipal.Padding = new Padding(12);
+            tlpPrincipal.RowCount = 2;
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Percent, 100.0F));
+            tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Absolute, 56.0F));
+            tlpPrincipal.Size = new Size(1100, 640);
+            tlpPrincipal.TabIndex = 0;
+            tlpPrincipal.SetColumnSpan(pnlAcciones, 2);
+            // 
+            // crdEjemplares
+            // 
+            crdEjemplares.Controls.Add(lblSeccionEjemplares);
+            crdEjemplares.Controls.Add(lblBuscar);
+            crdEjemplares.Controls.Add(txtBuscar);
+            crdEjemplares.Controls.Add(dgvEjemplares);
+            crdEjemplares.Dock = DockStyle.Fill;
+            crdEjemplares.Margin = new Padding(8);
+            crdEjemplares.Name = "crdEjemplares";
+            crdEjemplares.Size = new Size(651, 544);
+            crdEjemplares.TabIndex = 0;
             // 
             // lblSeccionEjemplares
             // 
             lblSeccionEjemplares.AutoSize = true;
-            lblSeccionEjemplares.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionEjemplares.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionEjemplares.Location = new Point(16, 52);
+            lblSeccionEjemplares.BackColor = Color.Transparent;
+            lblSeccionEjemplares.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionEjemplares.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionEjemplares.Location = new Point(20, 16);
             lblSeccionEjemplares.Name = "lblSeccionEjemplares";
-            lblSeccionEjemplares.Size = new Size(70, 12);
-            lblSeccionEjemplares.TabIndex = 1;
-            lblSeccionEjemplares.Text = "EJEMPLARES";
+            lblSeccionEjemplares.Size = new Size(80, 20);
+            lblSeccionEjemplares.TabIndex = 0;
+            lblSeccionEjemplares.Text = "Ejemplares";
             // 
             // lblBuscar
             // 
             lblBuscar.AutoSize = true;
-            lblBuscar.ForeColor = Color.FromArgb(148, 163, 184);
-            lblBuscar.Location = new Point(16, 70);
+            lblBuscar.BackColor = Color.Transparent;
+            lblBuscar.Font = new Font("Segoe UI", 10F);
+            lblBuscar.ForeColor = Color.FromArgb(75, 85, 99);
+            lblBuscar.Location = new Point(20, 52);
             lblBuscar.Name = "lblBuscar";
-            lblBuscar.Size = new Size(399, 17);
-            lblBuscar.TabIndex = 2;
+            lblBuscar.Size = new Size(456, 20);
+            lblBuscar.TabIndex = 1;
             lblBuscar.Text = "Código de ejemplar, título o autor (búsqueda incremental)";
             // 
             // txtBuscar
             // 
-            txtBuscar.BackColor = Color.FromArgb(21, 32, 48);
             txtBuscar.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscar.ForeColor = Color.FromArgb(226, 232, 240);
-            txtBuscar.Location = new Point(16, 90);
+            txtBuscar.ForeColor = Color.FromArgb(31, 41, 55);
+            txtBuscar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtBuscar.Location = new Point(20, 74);
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(300, 24);
-            txtBuscar.TabIndex = 3;
+            txtBuscar.Size = new Size(611, 27);
+            txtBuscar.TabIndex = 2;
             txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
             // dgvEjemplares
             // 
-            dgvEjemplares.AllowUserToAddRows = false;
-            dgvEjemplares.AllowUserToDeleteRows = false;
-            dgvEjemplares.AllowUserToResizeRows = false;
-            dgvEjemplares.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dgvEjemplares.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvEjemplares.BackgroundColor = Color.FromArgb(21, 32, 48);
-            dgvEjemplares.BorderStyle = BorderStyle.None;
-            dgvEjemplares.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvEjemplares.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(25, 37, 53);
-            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(148, 163, 184);
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvEjemplares.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvEjemplares.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEjemplares.Columns.AddRange(new DataGridViewColumn[] { colEjeCodigo, colEjeTitulo, colEjeAutor, colEjeEstado });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(21, 32, 48);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(45, 60, 82);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(226, 232, 240);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvEjemplares.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvEjemplares.EnableHeadersVisualStyles = false;
-            dgvEjemplares.GridColor = Color.FromArgb(45, 60, 82);
-            dgvEjemplares.Location = new Point(16, 122);
-            dgvEjemplares.MultiSelect = false;
+            dgvEjemplares.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvEjemplares.Location = new Point(20, 116);
             dgvEjemplares.Name = "dgvEjemplares";
-            dgvEjemplares.ReadOnly = true;
-            dgvEjemplares.RowHeadersVisible = false;
-            dgvEjemplares.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvEjemplares.Size = new Size(717, 230);
-            dgvEjemplares.TabIndex = 4;
-            dgvEjemplares.SelectionChanged += dgvEjemplares_SelectionChanged;
+            dgvEjemplares.Size = new Size(611, 408);
+            dgvEjemplares.TabIndex = 3;
             // 
             // colEjeCodigo
             // 
@@ -166,199 +163,226 @@ namespace UI
             colEjeEstado.HeaderText = "Estado";
             colEjeEstado.Name = "colEjeEstado";
             colEjeEstado.ReadOnly = true;
+            dgvEjemplares.SelectionChanged += dgvEjemplares_SelectionChanged;
+            // 
+            // crdDatos
+            // 
+            crdDatos.Controls.Add(lblSeccionDatos);
+            crdDatos.Controls.Add(lblCodigo);
+            crdDatos.Controls.Add(lblLibro);
+            crdDatos.Controls.Add(txtBuscarLibro);
+            crdDatos.Controls.Add(cboLibro);
+            crdDatos.Controls.Add(btnAlta);
+            crdDatos.Controls.Add(btnModificar);
+            crdDatos.Controls.Add(btnBaja);
+            crdDatos.Controls.Add(btnReactivar);
+            crdDatos.Controls.Add(btnLimpiar);
+            crdDatos.Dock = DockStyle.Fill;
+            crdDatos.Margin = new Padding(8);
+            crdDatos.Name = "crdDatos";
+            crdDatos.Size = new Size(393, 544);
+            crdDatos.TabIndex = 1;
             // 
             // lblSeccionDatos
             // 
             lblSeccionDatos.AutoSize = true;
-            lblSeccionDatos.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            lblSeccionDatos.ForeColor = Color.FromArgb(71, 85, 105);
-            lblSeccionDatos.Location = new Point(16, 366);
+            lblSeccionDatos.BackColor = Color.Transparent;
+            lblSeccionDatos.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionDatos.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionDatos.Location = new Point(20, 16);
             lblSeccionDatos.Name = "lblSeccionDatos";
-            lblSeccionDatos.Size = new Size(126, 12);
-            lblSeccionDatos.TabIndex = 5;
-            lblSeccionDatos.Text = "DATOS DEL EJEMPLAR";
+            lblSeccionDatos.Size = new Size(144, 20);
+            lblSeccionDatos.TabIndex = 0;
+            lblSeccionDatos.Text = "Datos del ejemplar";
             // 
             // lblCodigo
             // 
-            lblCodigo.AutoSize = true;
-            lblCodigo.ForeColor = Color.FromArgb(226, 232, 240);
-            lblCodigo.Location = new Point(16, 384);
+            lblCodigo.AutoSize = false;
+            lblCodigo.BackColor = Color.Transparent;
+            lblCodigo.Font = new Font("Segoe UI", 11F);
+            lblCodigo.ForeColor = Color.FromArgb(31, 41, 55);
+            lblCodigo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblCodigo.Location = new Point(20, 50);
             lblCodigo.Name = "lblCodigo";
-            lblCodigo.Size = new Size(252, 17);
-            lblCodigo.TabIndex = 6;
+            lblCodigo.Size = new Size(353, 24);
+            lblCodigo.TabIndex = 1;
             lblCodigo.Text = "Código: — (se asigna al dar de alta)";
             // 
             // lblLibro
             // 
-            lblLibro.AutoSize = true;
-            lblLibro.ForeColor = Color.FromArgb(148, 163, 184);
-            lblLibro.Location = new Point(16, 410);
+            lblLibro.AutoSize = false;
+            lblLibro.BackColor = Color.Transparent;
+            lblLibro.Font = new Font("Segoe UI", 10F);
+            lblLibro.ForeColor = Color.FromArgb(75, 85, 99);
+            lblLibro.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblLibro.Location = new Point(20, 88);
             lblLibro.Name = "lblLibro";
-            lblLibro.Size = new Size(154, 17);
-            lblLibro.TabIndex = 7;
+            lblLibro.Size = new Size(353, 40);
+            lblLibro.TabIndex = 2;
             lblLibro.Text = "Libro al que pertenece";
             // 
             // txtBuscarLibro
             // 
-            txtBuscarLibro.BackColor = Color.FromArgb(21, 32, 48);
             txtBuscarLibro.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarLibro.ForeColor = Color.FromArgb(226, 232, 240);
-            txtBuscarLibro.Location = new Point(16, 430);
+            txtBuscarLibro.ForeColor = Color.FromArgb(31, 41, 55);
+            txtBuscarLibro.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtBuscarLibro.Location = new Point(20, 130);
             txtBuscarLibro.Name = "txtBuscarLibro";
-            txtBuscarLibro.PlaceholderText = "Buscar libro por código, título o autor";
-            txtBuscarLibro.Size = new Size(260, 24);
-            txtBuscarLibro.TabIndex = 8;
+            txtBuscarLibro.PlaceholderText = "Buscar por código, título o autor";
+            txtBuscarLibro.Size = new Size(353, 27);
+            txtBuscarLibro.TabIndex = 3;
             txtBuscarLibro.TextChanged += txtBuscarLibro_TextChanged;
             // 
             // cboLibro
             // 
-            cboLibro.BackColor = Color.FromArgb(21, 32, 48);
             cboLibro.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboLibro.FlatStyle = FlatStyle.Flat;
-            cboLibro.ForeColor = Color.FromArgb(226, 232, 240);
+            cboLibro.ForeColor = Color.FromArgb(31, 41, 55);
             cboLibro.FormattingEnabled = true;
-            cboLibro.Location = new Point(284, 430);
+            cboLibro.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cboLibro.Location = new Point(20, 168);
             cboLibro.Name = "cboLibro";
-            cboLibro.Size = new Size(449, 25);
-            cboLibro.TabIndex = 9;
+            cboLibro.Size = new Size(353, 28);
+            cboLibro.TabIndex = 4;
             // 
             // btnAlta
             // 
-            btnAlta.BackColor = Color.FromArgb(37, 99, 235);
-            btnAlta.Cursor = Cursors.Hand;
-            btnAlta.FlatAppearance.BorderSize = 0;
-            btnAlta.FlatAppearance.MouseOverBackColor = Color.FromArgb(29, 78, 216);
-            btnAlta.FlatStyle = FlatStyle.Flat;
-            btnAlta.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            btnAlta.ForeColor = Color.White;
-            btnAlta.Location = new Point(16, 476);
+            btnAlta.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnAlta.Icono = "\uE710";
+            btnAlta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnAlta.Location = new Point(20, 228);
             btnAlta.Name = "btnAlta";
-            btnAlta.Size = new Size(120, 34);
-            btnAlta.TabIndex = 10;
-            btnAlta.Text = "➕ Alta";
-            btnAlta.UseVisualStyleBackColor = false;
+            btnAlta.Size = new Size(353, 40);
+            btnAlta.TabIndex = 5;
+            btnAlta.Text = "Dar de alta";
             btnAlta.Click += btnAlta_Click;
             // 
             // btnModificar
             // 
-            btnModificar.BackColor = Color.FromArgb(45, 60, 82);
-            btnModificar.Cursor = Cursors.Hand;
-            btnModificar.FlatAppearance.BorderSize = 0;
-            btnModificar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnModificar.FlatStyle = FlatStyle.Flat;
-            btnModificar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnModificar.Location = new Point(142, 476);
+            btnModificar.Estilo = EstiloBoton.Secundario;
+            btnModificar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnModificar.Icono = "\uE70F";
+            btnModificar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnModificar.Location = new Point(20, 276);
             btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(120, 34);
-            btnModificar.TabIndex = 11;
-            btnModificar.Text = "✏ Modificar";
-            btnModificar.UseVisualStyleBackColor = false;
+            btnModificar.Size = new Size(353, 40);
+            btnModificar.TabIndex = 6;
+            btnModificar.Text = "Modificar";
             btnModificar.Click += btnModificar_Click;
             // 
             // btnBaja
             // 
-            btnBaja.BackColor = Color.FromArgb(127, 29, 29);
-            btnBaja.Cursor = Cursors.Hand;
-            btnBaja.FlatAppearance.BorderSize = 0;
-            btnBaja.FlatAppearance.MouseOverBackColor = Color.FromArgb(153, 27, 27);
-            btnBaja.FlatStyle = FlatStyle.Flat;
-            btnBaja.ForeColor = Color.FromArgb(226, 232, 240);
-            btnBaja.Location = new Point(268, 476);
+            btnBaja.Estilo = EstiloBoton.Peligro;
+            btnBaja.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnBaja.Icono = "\uE74D";
+            btnBaja.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnBaja.Location = new Point(20, 324);
             btnBaja.Name = "btnBaja";
-            btnBaja.Size = new Size(120, 34);
-            btnBaja.TabIndex = 12;
-            btnBaja.Text = "✖ Baja";
-            btnBaja.UseVisualStyleBackColor = false;
+            btnBaja.Size = new Size(353, 40);
+            btnBaja.TabIndex = 7;
+            btnBaja.Text = "Dar de baja";
             btnBaja.Click += btnBaja_Click;
+            // 
+            // btnReactivar
+            // 
+            btnReactivar.Estilo = EstiloBoton.Secundario;
+            btnReactivar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnReactivar.Icono = "\uE8FB";
+            btnReactivar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnReactivar.Location = new Point(20, 372);
+            btnReactivar.Name = "btnReactivar";
+            btnReactivar.Size = new Size(353, 40);
+            btnReactivar.TabIndex = 8;
+            btnReactivar.Text = "Reactivar";
+            btnReactivar.Click += btnReactivar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.BackColor = Color.FromArgb(45, 60, 82);
-            btnLimpiar.Cursor = Cursors.Hand;
-            btnLimpiar.FlatAppearance.BorderSize = 0;
-            btnLimpiar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnLimpiar.FlatStyle = FlatStyle.Flat;
-            btnLimpiar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnLimpiar.Location = new Point(394, 476);
+            btnLimpiar.Estilo = EstiloBoton.Secundario;
+            btnLimpiar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnLimpiar.Icono = "\uE894";
+            btnLimpiar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnLimpiar.Location = new Point(20, 420);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(120, 34);
-            btnLimpiar.TabIndex = 13;
-            btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = false;
+            btnLimpiar.Size = new Size(353, 40);
+            btnLimpiar.TabIndex = 9;
+            btnLimpiar.Text = "Limpiar campos";
             btnLimpiar.Click += btnLimpiar_Click;
+            // 
+            // pnlAcciones
+            // 
+            pnlAcciones.BackColor = Color.Transparent;
+            pnlAcciones.Controls.Add(btnCerrar);
+            pnlAcciones.FlowDirection = FlowDirection.RightToLeft;
+            pnlAcciones.WrapContents = false;
+            pnlAcciones.Dock = DockStyle.Fill;
+            pnlAcciones.Margin = new Padding(8);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Size = new Size(400, 40);
+            pnlAcciones.TabIndex = 2;
             // 
             // btnCerrar
             // 
-            btnCerrar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCerrar.BackColor = Color.FromArgb(45, 60, 82);
-            btnCerrar.Cursor = Cursors.Hand;
-            btnCerrar.FlatAppearance.BorderSize = 0;
-            btnCerrar.FlatAppearance.MouseOverBackColor = Color.FromArgb(59, 75, 99);
-            btnCerrar.FlatStyle = FlatStyle.Flat;
-            btnCerrar.ForeColor = Color.FromArgb(226, 232, 240);
-            btnCerrar.Location = new Point(633, 526);
+            btnCerrar.Estilo = EstiloBoton.Secundario;
+            btnCerrar.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnCerrar.Icono = "\uE8BB";
+            btnCerrar.Margin = new Padding(12, 0, 0, 0);
             btnCerrar.Name = "btnCerrar";
-            btnCerrar.Size = new Size(100, 34);
-            btnCerrar.TabIndex = 14;
+            btnCerrar.Size = new Size(140, 40);
+            btnCerrar.TabIndex = 0;
             btnCerrar.Text = "Cerrar";
-            btnCerrar.UseVisualStyleBackColor = false;
             btnCerrar.Click += btnCerrar_Click;
             // 
             // FormEjemplar
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(30, 42, 58);
-            ClientSize = new Size(749, 572);
-            Controls.Add(btnCerrar);
-            Controls.Add(btnLimpiar);
-            Controls.Add(btnBaja);
-            Controls.Add(btnModificar);
-            Controls.Add(btnAlta);
-            Controls.Add(cboLibro);
-            Controls.Add(txtBuscarLibro);
-            Controls.Add(lblLibro);
-            Controls.Add(lblCodigo);
-            Controls.Add(lblSeccionDatos);
-            Controls.Add(dgvEjemplares);
-            Controls.Add(txtBuscar);
-            Controls.Add(lblBuscar);
-            Controls.Add(lblSeccionEjemplares);
-            Controls.Add(lblTitulo);
-            Font = new Font("Segoe UI", 9.5F);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            MinimizeBox = false;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(244, 245, 247);
+            ClientSize = new Size(1100, 640);
+            Controls.Add(tlpPrincipal);
+            Font = new Font("Segoe UI", 11F);
+            ForeColor = Color.FromArgb(31, 41, 55);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FormEjemplar";
             ShowInTaskbar = false;
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Gestión de ejemplares";
             Load += FormEjemplar_Load;
             ((System.ComponentModel.ISupportInitialize)dgvEjemplares).EndInit();
+            pnlAcciones.ResumeLayout(false);
+            pnlAcciones.PerformLayout();
+            crdDatos.ResumeLayout(false);
+            crdDatos.PerformLayout();
+            crdEjemplares.ResumeLayout(false);
+            crdEjemplares.PerformLayout();
+            tlpPrincipal.ResumeLayout(false);
+            tlpPrincipal.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label lblTitulo;
+        private TableLayoutPanel tlpPrincipal;
+        private TarjetaSGB crdEjemplares;
         private Label lblSeccionEjemplares;
         private Label lblBuscar;
         private TextBox txtBuscar;
-        private DataGridView dgvEjemplares;
+        private GrillaSGB dgvEjemplares;
         private DataGridViewTextBoxColumn colEjeCodigo;
         private DataGridViewTextBoxColumn colEjeTitulo;
         private DataGridViewTextBoxColumn colEjeAutor;
         private DataGridViewTextBoxColumn colEjeEstado;
+        private TarjetaSGB crdDatos;
         private Label lblSeccionDatos;
         private Label lblCodigo;
         private Label lblLibro;
         private TextBox txtBuscarLibro;
         private ComboBox cboLibro;
-        private Button btnAlta;
-        private Button btnModificar;
-        private Button btnBaja;
-        private Button btnLimpiar;
-        private Button btnCerrar;
+        private BotonSGB btnAlta;
+        private BotonSGB btnModificar;
+        private BotonSGB btnBaja;
+        private BotonSGB btnReactivar;
+        private BotonSGB btnLimpiar;
+        private FlowLayoutPanel pnlAcciones;
+        private BotonSGB btnCerrar;
     }
 }

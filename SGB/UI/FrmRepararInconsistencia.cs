@@ -123,6 +123,7 @@ namespace UI
             btnRealizarRespaldo.Text = bll_idioma.Traducir("FrmRepararInconsistencia.btnRealizarRespaldo");
             btnRestaurarDV.Text = bll_idioma.Traducir("FrmRepararInconsistencia.btnRestaurarDV");
             lblTitulo.Text = bll_idioma.Traducir("FrmRepararInconsistencia.lblTitulo");
+            lblDetalle.Text = bll_idioma.Traducir("FrmRepararInconsistencia.lblDetalle");
             btnSalir.Text = bll_idioma.Traducir("FrmRepararInconsistencia.btnSalir");
             TraducirColumnas(grillaInconsistencias);
         }

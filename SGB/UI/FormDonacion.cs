@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BE;
 using BLL.BLL_NEG;
+using BLL.BLL_SER;
+using Servicio;
 
 namespace UI
 {
-    public partial class FormDonacion : Form
+    public partial class FormDonacion : Form, IObservadorIdioma
     {
+        BLL_Idioma bll_idioma = new BLL_Idioma();
         BLL_Socio bll_Socio;
         BLL_Ejemplar bll_Ejemplar;
         BLL_Donacion bll_Donacion;
@@ -23,6 +26,7 @@ namespace UI
         public FormDonacion()
         {
             InitializeComponent();
+            bll_idioma.Suscribir(this);
         }
 
         private void FormDonacion_Load(object sender, EventArgs e)
@@ -49,6 +53,15 @@ namespace UI
             colDetAutor.DataPropertyName = "Autor";
 
             Mostrar(dgvSocios, bll_Socio.ObtenerActivos());
+            CargarEjemplares();
+            ActualizarIdioma();
+        }
+
+        private void MostrarSocio()
+        {
+            lblDatosSocio.Text = socioSeleccionado == null
+                ? $"{bll_idioma.Traducir("FormDonacion.lblDatosSocio")} —"
+                : $"{bll_idioma.Traducir("FormDonacion.lblDatosSocio")} {socioSeleccionado.Apellido}, {socioSeleccionado.Nombre} - {bll_idioma.Traducir("FormDonacion.colSocDni")} {socioSeleccionado.Dni}";
         }
 
         private void Mostrar(DataGridView grilla, object datos)
@@ -77,7 +90,7 @@ namespace UI
                 if (dgvSocios.SelectedRows.Count == 0) throw new Exception("Seleccione un socio.");
 
                 socioSeleccionado = (BE_Socio)dgvSocios.SelectedRows[0].DataBoundItem;
-                lblDatosSocio.Text = $"Socio: {socioSeleccionado.Apellido}, {socioSeleccionado.Nombre} - DNI {socioSeleccionado.Dni}";
+                MostrarSocio();
             }
             catch (Exception ex)
             {
@@ -87,6 +100,12 @@ namespace UI
 
         // ------------------------------------------------------------ Ejemplares donados
         private void txtBuscarEjemplar_TextChanged(object sender, EventArgs e)
+        {
+            CargarEjemplares();
+        }
+
+        // Con el buscador vacío se listan todos los ejemplares
+        private void CargarEjemplares()
         {
             List<BE_Ejemplar> resultados = bll_Ejemplar.BuscarPorTexto(txtBuscarEjemplar.Text);
             Mostrar(dgvResultados, bll_Ejemplar.ConsultarParaGrilla(resultados));
@@ -168,6 +187,40 @@ namespace UI
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        // ------------------------------------------------------------ Idioma
+        public void ActualizarIdioma()
+        {
+            this.Text = bll_idioma.Traducir("FormDonacion.Form");
+            lblSeccionSocio.Text = bll_idioma.Traducir("FormDonacion.lblSeccionSocio");
+            lblDni.Text = bll_idioma.Traducir("FormDonacion.lblDni");
+            btnAgregarSocio.Text = bll_idioma.Traducir("FormDonacion.btnAgregarSocio");
+            colSocNumero.HeaderText = bll_idioma.Traducir("FormDonacion.colSocNumero");
+            colSocApellido.HeaderText = bll_idioma.Traducir("FormDonacion.colSocApellido");
+            colSocNombre.HeaderText = bll_idioma.Traducir("FormDonacion.colSocNombre");
+            colSocDni.HeaderText = bll_idioma.Traducir("FormDonacion.colSocDni");
+            lblSeccionEjemplares.Text = bll_idioma.Traducir("FormDonacion.lblSeccionEjemplares");
+            lblBuscarEjemplar.Text = bll_idioma.Traducir("FormDonacion.lblBuscarEjemplar");
+            btnAgregarEjemplar.Text = bll_idioma.Traducir("FormDonacion.btnAgregarEjemplar");
+            colResCodigo.HeaderText = bll_idioma.Traducir("FormDonacion.colResCodigo");
+            colResTitulo.HeaderText = bll_idioma.Traducir("FormDonacion.colResTitulo");
+            colResAutor.HeaderText = bll_idioma.Traducir("FormDonacion.colResAutor");
+            colResEstado.HeaderText = bll_idioma.Traducir("FormDonacion.colResEstado");
+            lblSeccionDetalle.Text = bll_idioma.Traducir("FormDonacion.lblSeccionDetalle");
+            colDetCodigo.HeaderText = bll_idioma.Traducir("FormDonacion.colDetCodigo");
+            colDetTitulo.HeaderText = bll_idioma.Traducir("FormDonacion.colDetTitulo");
+            colDetAutor.HeaderText = bll_idioma.Traducir("FormDonacion.colDetAutor");
+            btnQuitarEjemplar.Text = bll_idioma.Traducir("FormDonacion.btnQuitarEjemplar");
+            btnConfirmar.Text = bll_idioma.Traducir("FormDonacion.btnConfirmar");
+            btnCancelar.Text = bll_idioma.Traducir("FormDonacion.btnCancelar");
+            MostrarSocio();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma.Desuscribir(this);
+            base.OnFormClosed(e);
         }
     }
 }
