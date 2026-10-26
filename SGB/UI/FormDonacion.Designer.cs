@@ -55,13 +55,21 @@ namespace UI
             lblAyudaLibro = new Label();
             crdDetalle = new TarjetaSGB();
             lblSeccionDetalle = new Label();
+            lblDetalleCantidad = new Label();
             dgvDetalle = new GrillaSGB();
             colDetLibro = new DataGridViewTextBoxColumn();
             colDetTitulo = new DataGridViewTextBoxColumn();
             colDetAutor = new DataGridViewTextBoxColumn();
             btnQuitarEjemplar = new BotonSGB();
             lblAyudaDetalle = new Label();
-            lblDetalleCantidad = new Label();
+            crdDonaciones = new TarjetaSGB();
+            lblSeccionDonaciones = new Label();
+            dgvDonaciones = new GrillaSGB();
+            colDonNumero = new DataGridViewTextBoxColumn();
+            colDonFecha = new DataGridViewTextBoxColumn();
+            colDonSocio = new DataGridViewTextBoxColumn();
+            colDonCantidad = new DataGridViewTextBoxColumn();
+            colDonLibros = new DataGridViewTextBoxColumn();
             pnlAcciones = new FlowLayoutPanel();
             btnConfirmar = new BotonSGB();
             btnCancelar = new BotonSGB();
@@ -72,6 +80,8 @@ namespace UI
             ((System.ComponentModel.ISupportInitialize)dgvLibros).BeginInit();
             crdDetalle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).BeginInit();
+            crdDonaciones.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDonaciones).BeginInit();
             pnlAcciones.SuspendLayout();
             SuspendLayout();
             // 
@@ -84,6 +94,7 @@ namespace UI
             tlpPrincipal.Controls.Add(crdSocio, 0, 0);
             tlpPrincipal.Controls.Add(crdEjemplares, 1, 0);
             tlpPrincipal.Controls.Add(crdDetalle, 0, 1);
+            tlpPrincipal.Controls.Add(crdDonaciones, 1, 1);
             tlpPrincipal.Controls.Add(pnlAcciones, 0, 2);
             tlpPrincipal.Dock = DockStyle.Fill;
             tlpPrincipal.Name = "tlpPrincipal";
@@ -94,7 +105,6 @@ namespace UI
             tlpPrincipal.RowStyles.Add(new RowStyle(SizeType.Absolute, 56.0F));
             tlpPrincipal.Size = new Size(1100, 640);
             tlpPrincipal.TabIndex = 0;
-            tlpPrincipal.SetColumnSpan(crdDetalle, 2);
             tlpPrincipal.SetColumnSpan(pnlAcciones, 2);
             // 
             // crdSocio
@@ -319,14 +329,14 @@ namespace UI
             // crdDetalle
             // 
             crdDetalle.Controls.Add(lblSeccionDetalle);
+            crdDetalle.Controls.Add(lblDetalleCantidad);
             crdDetalle.Controls.Add(dgvDetalle);
             crdDetalle.Controls.Add(btnQuitarEjemplar);
             crdDetalle.Controls.Add(lblAyudaDetalle);
-            crdDetalle.Controls.Add(lblDetalleCantidad);
             crdDetalle.Dock = DockStyle.Fill;
             crdDetalle.Margin = new Padding(8);
             crdDetalle.Name = "crdDetalle";
-            crdDetalle.Size = new Size(1060, 236);
+            crdDetalle.Size = new Size(522, 236);
             crdDetalle.TabIndex = 2;
             // 
             // lblSeccionDetalle
@@ -341,25 +351,38 @@ namespace UI
             lblSeccionDetalle.TabIndex = 0;
             lblSeccionDetalle.Text = "Detalle de la donación";
             // 
+            // lblDetalleCantidad
+            // 
+            lblDetalleCantidad.AutoSize = true;
+            lblDetalleCantidad.BackColor = Color.Transparent;
+            lblDetalleCantidad.Font = new Font("Segoe UI", 11F);
+            lblDetalleCantidad.ForeColor = Color.FromArgb(31, 41, 55);
+            lblDetalleCantidad.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblDetalleCantidad.Location = new Point(372, 20);
+            lblDetalleCantidad.Name = "lblDetalleCantidad";
+            lblDetalleCantidad.Size = new Size(104, 20);
+            lblDetalleCantidad.TabIndex = 1;
+            lblDetalleCantidad.Text = "Ejemplares: 0";
+            // 
             // dgvDetalle
             // 
             dgvDetalle.Columns.AddRange(new DataGridViewColumn[] { colDetLibro, colDetTitulo, colDetAutor });
             dgvDetalle.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetalle.Location = new Point(20, 52);
             dgvDetalle.Name = "dgvDetalle";
-            dgvDetalle.Size = new Size(1020, 120);
-            dgvDetalle.TabIndex = 1;
+            dgvDetalle.Size = new Size(482, 120);
+            dgvDetalle.TabIndex = 2;
             // 
             // colDetLibro
             // 
-            colDetLibro.FillWeight = 18F;
+            colDetLibro.FillWeight = 20F;
             colDetLibro.HeaderText = "Libro";
             colDetLibro.Name = "colDetLibro";
             colDetLibro.ReadOnly = true;
             // 
             // colDetTitulo
             // 
-            colDetTitulo.FillWeight = 50F;
+            colDetTitulo.FillWeight = 48F;
             colDetTitulo.HeaderText = "Título";
             colDetTitulo.Name = "colDetTitulo";
             colDetTitulo.ReadOnly = true;
@@ -380,7 +403,7 @@ namespace UI
             btnQuitarEjemplar.Location = new Point(20, 182);
             btnQuitarEjemplar.Name = "btnQuitarEjemplar";
             btnQuitarEjemplar.Size = new Size(120, 36);
-            btnQuitarEjemplar.TabIndex = 2;
+            btnQuitarEjemplar.TabIndex = 3;
             btnQuitarEjemplar.Text = "Quitar";
             btnQuitarEjemplar.Click += btnQuitarEjemplar_Click;
             // 
@@ -391,24 +414,77 @@ namespace UI
             lblAyudaDetalle.Font = new Font("Segoe UI", 9.5F);
             lblAyudaDetalle.ForeColor = Color.FromArgb(107, 114, 128);
             lblAyudaDetalle.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lblAyudaDetalle.Location = new Point(170, 192);
+            lblAyudaDetalle.Location = new Point(152, 192);
             lblAyudaDetalle.Name = "lblAyudaDetalle";
-            lblAyudaDetalle.Size = new Size(616, 20);
-            lblAyudaDetalle.TabIndex = 3;
-            lblAyudaDetalle.Text = "Cada fila es un ejemplar nuevo; su código se asigna al confirmar la donación.";
+            lblAyudaDetalle.Size = new Size(288, 20);
+            lblAyudaDetalle.TabIndex = 4;
+            lblAyudaDetalle.Text = "Los códigos se asignan al confirmar.";
             // 
-            // lblDetalleCantidad
+            // crdDonaciones
             // 
-            lblDetalleCantidad.AutoSize = true;
-            lblDetalleCantidad.BackColor = Color.Transparent;
-            lblDetalleCantidad.Font = new Font("Segoe UI", 11F);
-            lblDetalleCantidad.ForeColor = Color.FromArgb(31, 41, 55);
-            lblDetalleCantidad.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            lblDetalleCantidad.Location = new Point(890, 190);
-            lblDetalleCantidad.Name = "lblDetalleCantidad";
-            lblDetalleCantidad.Size = new Size(104, 20);
-            lblDetalleCantidad.TabIndex = 4;
-            lblDetalleCantidad.Text = "Ejemplares: 0";
+            crdDonaciones.Controls.Add(lblSeccionDonaciones);
+            crdDonaciones.Controls.Add(dgvDonaciones);
+            crdDonaciones.Dock = DockStyle.Fill;
+            crdDonaciones.Margin = new Padding(8);
+            crdDonaciones.Name = "crdDonaciones";
+            crdDonaciones.Size = new Size(522, 236);
+            crdDonaciones.TabIndex = 3;
+            // 
+            // lblSeccionDonaciones
+            // 
+            lblSeccionDonaciones.AutoSize = true;
+            lblSeccionDonaciones.BackColor = Color.Transparent;
+            lblSeccionDonaciones.Font = new Font("Segoe UI Semibold", 12F);
+            lblSeccionDonaciones.ForeColor = Color.FromArgb(31, 41, 55);
+            lblSeccionDonaciones.Location = new Point(20, 16);
+            lblSeccionDonaciones.Name = "lblSeccionDonaciones";
+            lblSeccionDonaciones.Size = new Size(176, 20);
+            lblSeccionDonaciones.TabIndex = 0;
+            lblSeccionDonaciones.Text = "Donaciones registradas";
+            // 
+            // dgvDonaciones
+            // 
+            dgvDonaciones.Columns.AddRange(new DataGridViewColumn[] { colDonNumero, colDonFecha, colDonSocio, colDonCantidad, colDonLibros });
+            dgvDonaciones.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvDonaciones.Location = new Point(20, 52);
+            dgvDonaciones.Name = "dgvDonaciones";
+            dgvDonaciones.Size = new Size(482, 164);
+            dgvDonaciones.TabIndex = 1;
+            // 
+            // colDonNumero
+            // 
+            colDonNumero.FillWeight = 10F;
+            colDonNumero.HeaderText = "N°";
+            colDonNumero.Name = "colDonNumero";
+            colDonNumero.ReadOnly = true;
+            // 
+            // colDonFecha
+            // 
+            colDonFecha.FillWeight = 18F;
+            colDonFecha.HeaderText = "Fecha";
+            colDonFecha.Name = "colDonFecha";
+            colDonFecha.ReadOnly = true;
+            // 
+            // colDonSocio
+            // 
+            colDonSocio.FillWeight = 30F;
+            colDonSocio.HeaderText = "Socio";
+            colDonSocio.Name = "colDonSocio";
+            colDonSocio.ReadOnly = true;
+            // 
+            // colDonCantidad
+            // 
+            colDonCantidad.FillWeight = 14F;
+            colDonCantidad.HeaderText = "Ejemplares";
+            colDonCantidad.Name = "colDonCantidad";
+            colDonCantidad.ReadOnly = true;
+            // 
+            // colDonLibros
+            // 
+            colDonLibros.FillWeight = 28F;
+            colDonLibros.HeaderText = "Libros";
+            colDonLibros.Name = "colDonLibros";
+            colDonLibros.ReadOnly = true;
             // 
             // pnlAcciones
             // 
@@ -421,7 +497,7 @@ namespace UI
             pnlAcciones.Margin = new Padding(8);
             pnlAcciones.Name = "pnlAcciones";
             pnlAcciones.Size = new Size(400, 40);
-            pnlAcciones.TabIndex = 3;
+            pnlAcciones.TabIndex = 4;
             // 
             // btnConfirmar
             // 
@@ -464,8 +540,11 @@ namespace UI
             ((System.ComponentModel.ISupportInitialize)dgvSocios).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvLibros).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDonaciones).EndInit();
             pnlAcciones.ResumeLayout(false);
             pnlAcciones.PerformLayout();
+            crdDonaciones.ResumeLayout(false);
+            crdDonaciones.PerformLayout();
             crdDetalle.ResumeLayout(false);
             crdDetalle.PerformLayout();
             crdEjemplares.ResumeLayout(false);
@@ -503,13 +582,21 @@ namespace UI
         private Label lblAyudaLibro;
         private TarjetaSGB crdDetalle;
         private Label lblSeccionDetalle;
+        private Label lblDetalleCantidad;
         private GrillaSGB dgvDetalle;
         private DataGridViewTextBoxColumn colDetLibro;
         private DataGridViewTextBoxColumn colDetTitulo;
         private DataGridViewTextBoxColumn colDetAutor;
         private BotonSGB btnQuitarEjemplar;
         private Label lblAyudaDetalle;
-        private Label lblDetalleCantidad;
+        private TarjetaSGB crdDonaciones;
+        private Label lblSeccionDonaciones;
+        private GrillaSGB dgvDonaciones;
+        private DataGridViewTextBoxColumn colDonNumero;
+        private DataGridViewTextBoxColumn colDonFecha;
+        private DataGridViewTextBoxColumn colDonSocio;
+        private DataGridViewTextBoxColumn colDonCantidad;
+        private DataGridViewTextBoxColumn colDonLibros;
         private FlowLayoutPanel pnlAcciones;
         private BotonSGB btnConfirmar;
         private BotonSGB btnCancelar;

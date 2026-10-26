@@ -11,6 +11,23 @@ namespace DAL
             cm = new SqlCommand("select * from Donacion", con);
         }
 
+        // Todas las donaciones con su socio y sus ejemplares (una fila por ejemplar donado)
+        public SqlDataReader ObtenerDonaciones()
+        {
+            cm.Parameters.Clear();
+            cm.CommandText = @"SELECT d.NumeroDonacion, d.FechaDonacion,
+                                      s.NumeroSocio, s.Nombre, s.Apellido, s.Dni, s.Estado AS EstadoSocio,
+                                      e.CodigoEjemplar, e.Estado AS EstadoEjemplar, l.CodigoLibro, l.Titulo
+                               FROM Donacion d
+                               INNER JOIN Socio s ON s.NumeroSocio = d.NumeroSocio
+                               INNER JOIN Donacion_Ejemplar de ON de.NumeroDonacion = d.NumeroDonacion
+                               INNER JOIN Ejemplar e ON e.CodigoEjemplar = de.CodigoEjemplar
+                               INNER JOIN Libro l ON l.CodigoLibro = e.CodigoLibro
+                               ORDER BY d.FechaDonacion DESC, d.NumeroDonacion DESC, e.CodigoEjemplar";
+            con.Open();
+            return cm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+
         public int InsertarDonacion(int numeroSocio, DateTime fechaDonacion)
         {
             cm.Parameters.Clear();

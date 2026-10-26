@@ -302,6 +302,12 @@
   "FormDonacion.colLibAutores": "Autores",
   "FormDonacion.lblAyudaLibro": "Si el libro no está en el catálogo, regístrelo primero en Gestión de libros.",
   "FormDonacion.colDetLibro": "Libro",
-  "FormDonacion.lblAyudaDetalle": "Cada fila es un ejemplar nuevo; su código se asigna al confirmar la donación.",
-  "FormDonacion.lblDetalleCantidad": "Ejemplares:"
+  "FormDonacion.lblAyudaDetalle": "Los códigos se asignan al confirmar.",
+  "FormDonacion.lblDetalleCantidad": "Ejemplares:",
+  "FormDonacion.lblSeccionDonaciones": "Donaciones registradas",
+  "FormDonacion.colDonNumero": "N°",
+  "FormDonacion.colDonFecha": "Fecha",
+  "FormDonacion.colDonSocio": "Socio",
+  "FormDonacion.colDonCantidad": "Ejemplares",
+  "FormDonacion.colDonLibros": "Libros"
 }

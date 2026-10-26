@@ -302,6 +302,12 @@
   "FormDonacion.colLibAutores": "Authors",
   "FormDonacion.lblAyudaLibro": "If the book is not in the catalog, register it first in Book management.",
   "FormDonacion.colDetLibro": "Book",
-  "FormDonacion.lblAyudaDetalle": "Each row is a new copy; its code is assigned when the donation is confirmed.",
-  "FormDonacion.lblDetalleCantidad": "Copies:"
+  "FormDonacion.lblAyudaDetalle": "Codes are assigned on confirmation.",
+  "FormDonacion.lblDetalleCantidad": "Copies:",
+  "FormDonacion.lblSeccionDonaciones": "Recorded donations",
+  "FormDonacion.colDonNumero": "No.",
+  "FormDonacion.colDonFecha": "Date",
+  "FormDonacion.colDonSocio": "Member",
+  "FormDonacion.colDonCantidad": "Copies",
+  "FormDonacion.colDonLibros": "Books"
 }

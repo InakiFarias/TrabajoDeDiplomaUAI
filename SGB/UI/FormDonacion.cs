@@ -54,11 +54,26 @@ namespace UI
             colDetTitulo.DataPropertyName = "Titulo";
             colDetAutor.DataPropertyName = "Autor";
 
+            dgvDonaciones.AutoGenerateColumns = false;
+            colDonNumero.DataPropertyName = "Numero";
+            colDonFecha.DataPropertyName = "Fecha";
+            colDonSocio.DataPropertyName = "Socio";
+            colDonCantidad.DataPropertyName = "Cantidad";
+            colDonLibros.DataPropertyName = "Libros";
+
             Mostrar(dgvSocios, bll_Socio.ObtenerActivos());
             // Los libros activos se cargan una vez y se filtran en memoria con el buscador
             librosActivos = bll_Libro.ObtenerActivos();
             CargarLibros();
+            CargarDonaciones();
             ActualizarIdioma();
+        }
+
+        // Donaciones ya registradas, para consulta
+        private void CargarDonaciones()
+        {
+            Mostrar(dgvDonaciones, bll_Donacion.ConsultarDonacionesParaGrilla(bll_Donacion.ObtenerDonaciones()));
+            dgvDonaciones.ClearSelection();
         }
 
         private void MostrarSocio()
@@ -222,6 +237,12 @@ namespace UI
             colDetAutor.HeaderText = bll_idioma.Traducir("FormDonacion.colDetAutor");
             btnQuitarEjemplar.Text = bll_idioma.Traducir("FormDonacion.btnQuitarEjemplar");
             lblAyudaDetalle.Text = bll_idioma.Traducir("FormDonacion.lblAyudaDetalle");
+            lblSeccionDonaciones.Text = bll_idioma.Traducir("FormDonacion.lblSeccionDonaciones");
+            colDonNumero.HeaderText = bll_idioma.Traducir("FormDonacion.colDonNumero");
+            colDonFecha.HeaderText = bll_idioma.Traducir("FormDonacion.colDonFecha");
+            colDonSocio.HeaderText = bll_idioma.Traducir("FormDonacion.colDonSocio");
+            colDonCantidad.HeaderText = bll_idioma.Traducir("FormDonacion.colDonCantidad");
+            colDonLibros.HeaderText = bll_idioma.Traducir("FormDonacion.colDonLibros");
             btnConfirmar.Text = bll_idioma.Traducir("FormDonacion.btnConfirmar");
             btnCancelar.Text = bll_idioma.Traducir("FormDonacion.btnCancelar");
             MostrarSocio();

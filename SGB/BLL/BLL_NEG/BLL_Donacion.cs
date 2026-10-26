@@ -50,6 +50,23 @@ namespace BLL.BLL_NEG
             return recibo;
         }
 
+        // Donaciones registradas, de la más reciente a la más antigua
+        public List<BE_Donacion> ObtenerDonaciones() => map_donacion.ObtenerDonaciones();
+
+        public List<object> ConsultarDonacionesParaGrilla(List<BE_Donacion> donaciones)
+        {
+            var consulta = from d in donaciones
+                           select new
+                           {
+                               Numero = d.NumeroDonacion,
+                               Fecha = d.FechaDonacion.ToString("dd/MM/yyyy"),
+                               Socio = $"{d.Socio.Apellido}, {d.Socio.Nombre}",
+                               Cantidad = d.Ejemplares.Count,
+                               Libros = string.Join(", ", d.Ejemplares.Select(ej => ej.Libro.Titulo).Distinct())
+                           };
+            return consulta.ToList<object>();
+        }
+
         // Detalle de la donación antes de confirmarla (los ejemplares todavía no tienen código)
         public List<object> ConsultarDetalleParaGrilla(List<BE_Ejemplar> ejemplares)
         {
