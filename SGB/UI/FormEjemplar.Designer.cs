@@ -48,7 +48,6 @@ namespace UI
             txtBuscarLibro = new TextBox();
             cboLibro = new ComboBox();
             btnAlta = new BotonSGB();
-            btnModificar = new BotonSGB();
             btnBaja = new BotonSGB();
             btnReactivar = new BotonSGB();
             btnLimpiar = new BotonSGB();
@@ -173,7 +172,6 @@ namespace UI
             crdDatos.Controls.Add(txtBuscarLibro);
             crdDatos.Controls.Add(cboLibro);
             crdDatos.Controls.Add(btnAlta);
-            crdDatos.Controls.Add(btnModificar);
             crdDatos.Controls.Add(btnBaja);
             crdDatos.Controls.Add(btnReactivar);
             crdDatos.Controls.Add(btnLimpiar);
@@ -256,29 +254,16 @@ namespace UI
             btnAlta.Text = "Dar de alta";
             btnAlta.Click += btnAlta_Click;
             // 
-            // btnModificar
-            // 
-            btnModificar.Estilo = EstiloBoton.Secundario;
-            btnModificar.Font = new Font("Segoe UI Semibold", 10.5F);
-            btnModificar.Icono = "\uE70F";
-            btnModificar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            btnModificar.Location = new Point(20, 276);
-            btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(353, 40);
-            btnModificar.TabIndex = 6;
-            btnModificar.Text = "Modificar";
-            btnModificar.Click += btnModificar_Click;
-            // 
             // btnBaja
             // 
             btnBaja.Estilo = EstiloBoton.Peligro;
             btnBaja.Font = new Font("Segoe UI Semibold", 10.5F);
             btnBaja.Icono = "\uE74D";
             btnBaja.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            btnBaja.Location = new Point(20, 324);
+            btnBaja.Location = new Point(20, 276);
             btnBaja.Name = "btnBaja";
             btnBaja.Size = new Size(353, 40);
-            btnBaja.TabIndex = 7;
+            btnBaja.TabIndex = 6;
             btnBaja.Text = "Dar de baja";
             btnBaja.Click += btnBaja_Click;
             // 
@@ -288,10 +273,10 @@ namespace UI
             btnReactivar.Font = new Font("Segoe UI Semibold", 10.5F);
             btnReactivar.Icono = "\uE8FB";
             btnReactivar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            btnReactivar.Location = new Point(20, 372);
+            btnReactivar.Location = new Point(20, 324);
             btnReactivar.Name = "btnReactivar";
             btnReactivar.Size = new Size(353, 40);
-            btnReactivar.TabIndex = 8;
+            btnReactivar.TabIndex = 7;
             btnReactivar.Text = "Reactivar";
             btnReactivar.Click += btnReactivar_Click;
             // 
@@ -301,10 +286,10 @@ namespace UI
             btnLimpiar.Font = new Font("Segoe UI Semibold", 10.5F);
             btnLimpiar.Icono = "\uE894";
             btnLimpiar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            btnLimpiar.Location = new Point(20, 420);
+            btnLimpiar.Location = new Point(20, 372);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(353, 40);
-            btnLimpiar.TabIndex = 9;
+            btnLimpiar.TabIndex = 8;
             btnLimpiar.Text = "Limpiar campos";
             btnLimpiar.Click += btnLimpiar_Click;
             // 
@@ -378,7 +363,6 @@ namespace UI
         private TextBox txtBuscarLibro;
         private ComboBox cboLibro;
         private BotonSGB btnAlta;
-        private BotonSGB btnModificar;
         private BotonSGB btnBaja;
         private BotonSGB btnReactivar;
         private BotonSGB btnLimpiar;

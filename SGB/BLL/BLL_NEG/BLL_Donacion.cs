@@ -17,23 +17,26 @@ namespace BLL.BLL_NEG
             bll_bitacora = new BLL_Bitacora();
         }
 
-        // Valida que el ejemplar exista y que no pertenezca a otra donación (RF-002-6)
-        public BE_Ejemplar ValidarEjemplar(string codigoEjemplar)
+        // Nuevo ejemplar donado de un libro del catálogo; el código se asigna al registrar la donación
+        public BE_Ejemplar CrearEjemplarDonado(BE_Libro libro)
         {
-            BE_Ejemplar? ejemplar = map_ejemplar.BuscarPorCodigo(codigoEjemplar);
-            if (ejemplar == null) throw new Exception("El ejemplar no existe.");
-            if (ejemplar.Estado == "Baja") throw new Exception("El ejemplar fue dado de baja.");
-
-            int? numeroDonacion = map_donacion.ObtenerDonacionDeEjemplar(codigoEjemplar);
-            if (numeroDonacion != null) throw new Exception($"El ejemplar ya se encuentra asociado a la donación N° {numeroDonacion}.");
-
-            return ejemplar;
+            if (libro == null) throw new Exception("Seleccione el libro donado.");
+            if (libro.Estado == "Baja") throw new Exception("El libro está dado de baja. Reactívelo en Gestión de libros antes de registrar la donación.");
+            return new BE_Ejemplar("", libro, "Disponible");
         }
 
+        // Registra la donación y da de alta un ejemplar disponible por cada copia donada
         public BE_ReciboDonacion Registrar(BE_Donacion donacion)
         {
             if (donacion.Socio == null) throw new Exception("Debe seleccionar al socio donante.");
-            if (donacion.Ejemplares == null || donacion.Ejemplares.Count == 0) throw new Exception("Debe seleccionar al menos un ejemplar donado.");
+            if (donacion.Ejemplares == null || donacion.Ejemplares.Count == 0) throw new Exception("Debe agregar al menos un ejemplar donado.");
+
+            foreach (BE_Ejemplar ejemplar in donacion.Ejemplares)
+            {
+                ejemplar.CodigoEjemplar = map_ejemplar.ObtenerSiguienteCodigo();
+                ejemplar.Estado = "Disponible";
+                map_ejemplar.InsertarEjemplar(ejemplar);
+            }
 
             donacion.FechaDonacion = DateTime.Today;
             donacion.NumeroDonacion = map_donacion.InsertarDonacion(donacion);
@@ -45,6 +48,19 @@ namespace BLL.BLL_NEG
             bll_bitacora.RegistrarBitacora(bitacora);
 
             return recibo;
+        }
+
+        // Detalle de la donación antes de confirmarla (los ejemplares todavía no tienen código)
+        public List<object> ConsultarDetalleParaGrilla(List<BE_Ejemplar> ejemplares)
+        {
+            var consulta = from ej in ejemplares
+                           select new
+                           {
+                               Codigo = ej.Libro.CodigoLibro,
+                               Titulo = ej.Libro.Titulo,
+                               Autor = string.Join(", ", ej.Libro.Autores.Select(a => a.Nombre + " " + a.Apellido))
+                           };
+            return consulta.ToList<object>();
         }
     }
 }

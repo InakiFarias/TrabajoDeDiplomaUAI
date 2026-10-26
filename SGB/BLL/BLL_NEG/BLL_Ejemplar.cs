@@ -17,8 +17,9 @@ namespace BLL.BLL_NEG
 
         // ------------------------------------------------ Consultas para las operaciones (sin ejemplares dados de baja)
 
-        // Sin texto devuelve todos los ejemplares que no están dados de baja
-        public List<BE_Ejemplar> BuscarPorTexto(string texto) => map_ejemplar.BuscarPorTexto(texto?.Trim() ?? "", false);
+        // Ejemplares disponibles para prestar (sin texto devuelve todos los disponibles)
+        public List<BE_Ejemplar> BuscarDisponibles(string texto) =>
+            map_ejemplar.BuscarPorTexto(texto?.Trim() ?? "", false).Where(ej => ej.Estado == "Disponible").ToList();
 
         // Ejemplar para un préstamo: debe existir, no estar dado de baja y estar disponible
         public BE_Ejemplar BuscarPorCodigo(string codigo)
@@ -48,16 +49,6 @@ namespace BLL.BLL_NEG
             ejemplar.Estado = "Disponible";
             map_ejemplar.InsertarEjemplar(ejemplar);
             RegistrarBitacora("Alta de ejemplar", 3);
-        }
-
-        public void Modificar(BE_Ejemplar ejemplar)
-        {
-            if (string.IsNullOrEmpty(ejemplar.CodigoEjemplar)) throw new Exception("Seleccione el ejemplar a modificar.");
-            if (ejemplar.Estado == "Baja") throw new Exception("No se puede modificar un ejemplar dado de baja.");
-            if (ejemplar.Libro == null || string.IsNullOrEmpty(ejemplar.Libro.CodigoLibro)) throw new Exception("Seleccione el libro al que pertenece el ejemplar.");
-
-            map_ejemplar.ModificarLibroDeEjemplar(ejemplar);
-            RegistrarBitacora("Modificación de ejemplar", 3);
         }
 
         public void Baja(BE_Ejemplar ejemplar)

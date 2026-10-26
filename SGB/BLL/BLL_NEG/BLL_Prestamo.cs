@@ -10,6 +10,7 @@ namespace BLL.BLL_NEG
         // Políticas de préstamo definidas por la Comisión Directiva
         public const int MAXIMO_PRESTAMOS_VIGENTES = 3;
         public const int PLAZO_PRESTAMO_DIAS = 14;
+        public const int MAXIMO_EJEMPLARES_POR_PRESTAMO = 5;
 
         MAP_Prestamo map_prestamo;
         BLL_Bitacora bll_bitacora;
@@ -54,6 +55,8 @@ namespace BLL.BLL_NEG
         {
             if (prestamo.Socio == null) throw new Exception("Debe seleccionar un socio.");
             if (prestamo.Ejemplares == null || prestamo.Ejemplares.Count == 0) throw new Exception("Debe seleccionar al menos un ejemplar.");
+            if (prestamo.Ejemplares.Count > MAXIMO_EJEMPLARES_POR_PRESTAMO)
+                throw new Exception($"Un préstamo puede incluir como máximo {MAXIMO_EJEMPLARES_POR_PRESTAMO} ejemplares.");
 
             prestamo.FechaPrestamo = DateTime.Today;
             prestamo.FechaDevolucionPrevista = CalcularFechaDevolucionPrevista(prestamo.FechaPrestamo);

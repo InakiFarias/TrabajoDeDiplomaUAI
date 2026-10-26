@@ -61,8 +61,6 @@ namespace MAP
 
         public void InsertarEjemplar(BE_Ejemplar ejemplar) => dao_ejemplar.InsertarEjemplar(ejemplar.CodigoEjemplar, ejemplar.Libro.CodigoLibro, ejemplar.Estado);
 
-        public void ModificarLibroDeEjemplar(BE_Ejemplar ejemplar) => dao_ejemplar.ModificarLibroDeEjemplar(ejemplar.CodigoEjemplar, ejemplar.Libro.CodigoLibro);
-
         public void ActualizarEstado(BE_Ejemplar ejemplar, string estado) => dao_ejemplar.ActualizarEstado(ejemplar.CodigoEjemplar, estado);
 
         public int ContarPrestamosVigentes(BE_Ejemplar ejemplar) => dao_ejemplar.ContarPrestamosVigentes(ejemplar.CodigoEjemplar);

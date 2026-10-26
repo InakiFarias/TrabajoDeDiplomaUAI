@@ -128,7 +128,10 @@ namespace UI
         private void MostrarCodigo()
         {
             bool dadoDeBaja = ejemplarSeleccionado != null && ejemplarSeleccionado.Estado == "Baja";
-            btnModificar.Enabled = ejemplarSeleccionado != null && !dadoDeBaja;
+            // A un ejemplar existente no se le puede cambiar el libro: con uno seleccionado, el libro es solo de consulta
+            txtBuscarLibro.Enabled = ejemplarSeleccionado == null;
+            cboLibro.Enabled = ejemplarSeleccionado == null;
+            btnAlta.Enabled = ejemplarSeleccionado == null;
             btnBaja.Enabled = ejemplarSeleccionado != null && !dadoDeBaja;
             btnReactivar.Enabled = dadoDeBaja;
 
@@ -161,27 +164,6 @@ namespace UI
                 bll_Ejemplar.Alta(ejemplar);
 
                 MessageBox.Show($"Ejemplar dado de alta correctamente con el código {ejemplar.CodigoEjemplar}.", "Alta de ejemplar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CargarEjemplares();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        // ------------------------------------------------------------ Modificación
-        private void btnModificar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (ejemplarSeleccionado == null) throw new Exception("Seleccione el ejemplar a modificar.");
-
-                BE_Ejemplar ejemplar = new BE_Ejemplar(ejemplarSeleccionado.CodigoEjemplar, LibroElegido(), ejemplarSeleccionado.Estado);
-                if (MessageBox.Show($"¿Confirma la modificación del ejemplar {ejemplar.CodigoEjemplar}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                    return;
-
-                bll_Ejemplar.Modificar(ejemplar);
-                MessageBox.Show("Ejemplar modificado correctamente.", "Modificación de ejemplar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 CargarEjemplares();
             }
             catch (Exception ex)
@@ -248,7 +230,6 @@ namespace UI
             lblSeccionDatos.Text = bll_idioma.Traducir("FormEjemplar.lblSeccionDatos");
             txtBuscarLibro.PlaceholderText = bll_idioma.Traducir("FormEjemplar.txtBuscarLibro");
             btnAlta.Text = bll_idioma.Traducir("FormEjemplar.btnAlta");
-            btnModificar.Text = bll_idioma.Traducir("FormEjemplar.btnModificar");
             btnBaja.Text = bll_idioma.Traducir("FormEjemplar.btnBaja");
             btnReactivar.Text = bll_idioma.Traducir("FormEjemplar.btnReactivar");
             btnLimpiar.Text = bll_idioma.Traducir("FormEjemplar.btnLimpiar");

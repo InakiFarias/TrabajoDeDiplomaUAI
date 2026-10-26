@@ -54,7 +54,6 @@ namespace UI
             colResCodigo = new DataGridViewTextBoxColumn();
             colResTitulo = new DataGridViewTextBoxColumn();
             colResAutor = new DataGridViewTextBoxColumn();
-            colResEstado = new DataGridViewTextBoxColumn();
             crdDetalle = new TarjetaSGB();
             lblSeccionDetalle = new Label();
             lblDetalleSocio = new Label();
@@ -268,9 +267,9 @@ namespace UI
             lblBuscarEjemplar.ForeColor = Color.FromArgb(75, 85, 99);
             lblBuscarEjemplar.Location = new Point(20, 52);
             lblBuscarEjemplar.Name = "lblBuscarEjemplar";
-            lblBuscarEjemplar.Size = new Size(272, 20);
+            lblBuscarEjemplar.Size = new Size(368, 20);
             lblBuscarEjemplar.TabIndex = 1;
-            lblBuscarEjemplar.Text = "Código de ejemplar, título o autor";
+            lblBuscarEjemplar.Text = "Ejemplares disponibles: código, título o autor";
             // 
             // txtBuscarEjemplar
             // 
@@ -298,7 +297,7 @@ namespace UI
             // 
             // dgvResultados
             // 
-            dgvResultados.Columns.AddRange(new DataGridViewColumn[] { colResCodigo, colResTitulo, colResAutor, colResEstado });
+            dgvResultados.Columns.AddRange(new DataGridViewColumn[] { colResCodigo, colResTitulo, colResAutor });
             dgvResultados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvResultados.Location = new Point(20, 116);
             dgvResultados.Name = "dgvResultados";
@@ -314,24 +313,17 @@ namespace UI
             // 
             // colResTitulo
             // 
-            colResTitulo.FillWeight = 40F;
+            colResTitulo.FillWeight = 48F;
             colResTitulo.HeaderText = "Título";
             colResTitulo.Name = "colResTitulo";
             colResTitulo.ReadOnly = true;
             // 
             // colResAutor
             // 
-            colResAutor.FillWeight = 25F;
+            colResAutor.FillWeight = 32F;
             colResAutor.HeaderText = "Autor";
             colResAutor.Name = "colResAutor";
             colResAutor.ReadOnly = true;
-            // 
-            // colResEstado
-            // 
-            colResEstado.FillWeight = 15F;
-            colResEstado.HeaderText = "Estado";
-            colResEstado.Name = "colResEstado";
-            colResEstado.ReadOnly = true;
             dgvResultados.CellDoubleClick += dgvResultados_CellDoubleClick;
             // 
             // crdDetalle
@@ -451,9 +443,9 @@ namespace UI
             lblDetalleCantidad.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblDetalleCantidad.Location = new Point(890, 190);
             lblDetalleCantidad.Name = "lblDetalleCantidad";
-            lblDetalleCantidad.Size = new Size(104, 20);
+            lblDetalleCantidad.Size = new Size(136, 20);
             lblDetalleCantidad.TabIndex = 6;
-            lblDetalleCantidad.Text = "Ejemplares: 0";
+            lblDetalleCantidad.Text = "Ejemplares: 0 / 5";
             // 
             // pnlAcciones
             // 
@@ -547,7 +539,6 @@ namespace UI
         private DataGridViewTextBoxColumn colResCodigo;
         private DataGridViewTextBoxColumn colResTitulo;
         private DataGridViewTextBoxColumn colResAutor;
-        private DataGridViewTextBoxColumn colResEstado;
         private TarjetaSGB crdDetalle;
         private Label lblSeccionDetalle;
         private Label lblDetalleSocio;

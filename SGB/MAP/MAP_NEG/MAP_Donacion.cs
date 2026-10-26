@@ -11,13 +11,6 @@ namespace MAP
             dao_donacion = new DAO_Donacion();
         }
 
-        public int? ObtenerDonacionDeEjemplar(string codigoEjemplar)
-        {
-            object numero = dao_donacion.ObtenerDonacionDeEjemplar(codigoEjemplar);
-            if (numero == null || numero == DBNull.Value) return null;
-            return Convert.ToInt32(numero);
-        }
-
         public int InsertarDonacion(BE_Donacion donacion)
         {
             int numeroDonacion = dao_donacion.InsertarDonacion(donacion.Socio.NumeroSocio, donacion.FechaDonacion);

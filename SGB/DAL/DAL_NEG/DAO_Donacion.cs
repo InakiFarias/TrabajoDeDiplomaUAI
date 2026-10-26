@@ -11,17 +11,6 @@ namespace DAL
             cm = new SqlCommand("select * from Donacion", con);
         }
 
-        public object ObtenerDonacionDeEjemplar(string codigoEjemplar)
-        {
-            cm.Parameters.Clear();
-            cm.Parameters.Add("@codigoEjemplar", SqlDbType.VarChar).Value = codigoEjemplar;
-            cm.CommandText = "SELECT NumeroDonacion FROM Donacion_Ejemplar WHERE CodigoEjemplar = @codigoEjemplar";
-            con.Open();
-            object numeroDonacion = cm.ExecuteScalar();
-            con.Close();
-            return numeroDonacion;
-        }
-
         public int InsertarDonacion(int numeroSocio, DateTime fechaDonacion)
         {
             cm.Parameters.Clear();

@@ -18,9 +18,12 @@ namespace UI
     {
         BLL_Idioma bll_idioma = new BLL_Idioma();
         BLL_Socio bll_Socio;
-        BLL_Ejemplar bll_Ejemplar;
+        BLL_Libro bll_Libro;
         BLL_Donacion bll_Donacion;
         BE_Socio? socioSeleccionado;
+        List<BE_Libro> librosActivos = new List<BE_Libro>();
+        List<BE_Libro> librosMostrados = new List<BE_Libro>();
+        // Ejemplares nuevos que se crean al confirmar la donación (uno por copia donada)
         List<BE_Ejemplar> detalle = new List<BE_Ejemplar>();
 
         public FormDonacion()
@@ -32,7 +35,7 @@ namespace UI
         private void FormDonacion_Load(object sender, EventArgs e)
         {
             bll_Socio = new BLL_Socio();
-            bll_Ejemplar = new BLL_Ejemplar();
+            bll_Libro = new BLL_Libro();
             bll_Donacion = new BLL_Donacion();
 
             dgvSocios.AutoGenerateColumns = false;
@@ -41,19 +44,20 @@ namespace UI
             colSocNombre.DataPropertyName = "Nombre";
             colSocDni.DataPropertyName = "Dni";
 
-            dgvResultados.AutoGenerateColumns = false;
-            colResCodigo.DataPropertyName = "Codigo";
-            colResTitulo.DataPropertyName = "Titulo";
-            colResAutor.DataPropertyName = "Autor";
-            colResEstado.DataPropertyName = "Estado";
+            dgvLibros.AutoGenerateColumns = false;
+            colLibCodigo.DataPropertyName = "Codigo";
+            colLibTitulo.DataPropertyName = "Titulo";
+            colLibAutores.DataPropertyName = "Autores";
 
             dgvDetalle.AutoGenerateColumns = false;
-            colDetCodigo.DataPropertyName = "Codigo";
+            colDetLibro.DataPropertyName = "Codigo";
             colDetTitulo.DataPropertyName = "Titulo";
             colDetAutor.DataPropertyName = "Autor";
 
             Mostrar(dgvSocios, bll_Socio.ObtenerActivos());
-            CargarEjemplares();
+            // Los libros activos se cargan una vez y se filtran en memoria con el buscador
+            librosActivos = bll_Libro.ObtenerActivos();
+            CargarLibros();
             ActualizarIdioma();
         }
 
@@ -98,38 +102,37 @@ namespace UI
             }
         }
 
-        // ------------------------------------------------------------ Ejemplares donados
-        private void txtBuscarEjemplar_TextChanged(object sender, EventArgs e)
+        // ------------------------------------------------------------ Libros donados
+        private void txtBuscarLibro_TextChanged(object sender, EventArgs e)
         {
-            CargarEjemplares();
+            CargarLibros();
         }
 
-        // Con el buscador vacío se listan todos los ejemplares
-        private void CargarEjemplares()
+        // Con el buscador vacío se listan todos los libros activos del catálogo
+        private void CargarLibros()
         {
-            List<BE_Ejemplar> resultados = bll_Ejemplar.BuscarPorTexto(txtBuscarEjemplar.Text);
-            Mostrar(dgvResultados, bll_Ejemplar.ConsultarParaGrilla(resultados));
+            librosMostrados = bll_Libro.FiltrarLibros(librosActivos, txtBuscarLibro.Text);
+            Mostrar(dgvLibros, bll_Libro.ConsultarParaGrilla(librosMostrados));
         }
 
-        private void dgvResultados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvLibros_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             btnAgregarEjemplar_Click(sender, e);
         }
 
+        // Cada clic agrega un ejemplar nuevo del libro elegido; si se donan varias copias, se agrega varias veces
         private void btnAgregarEjemplar_Click(object sender, EventArgs e)
         {
             try
             {
-                if (socioSeleccionado == null) throw new Exception("Primero debe agregar al socio donante.");
-                if (dgvResultados.Rows.Count == 0) throw new Exception("No existe un ejemplar que coincida con la búsqueda.");
-                if (dgvResultados.SelectedRows.Count == 0) throw new Exception("Seleccione un ejemplar.");
+                if (socioSeleccionado == null) throw new Exception("Primero debe seleccionar al socio donante.");
+                if (dgvLibros.Rows.Count == 0) throw new Exception("No existe un libro que coincida con la búsqueda. Regístrelo primero en Gestión de libros.");
+                if (dgvLibros.SelectedRows.Count == 0) throw new Exception("Seleccione un libro.");
 
-                string codigo = dgvResultados.SelectedRows[0].Cells[colResCodigo.Index].Value.ToString();
-                if (detalle.Any(ej => ej.CodigoEjemplar == codigo)) throw new Exception("El ejemplar ya está en el detalle.");
-
-                detalle.Add(bll_Donacion.ValidarEjemplar(codigo));
-                Mostrar(dgvDetalle, bll_Ejemplar.ConsultarParaGrilla(detalle));
+                BE_Libro libro = librosMostrados[dgvLibros.SelectedRows[0].Index];
+                detalle.Add(bll_Donacion.CrearEjemplarDonado(libro));
+                MostrarDetalle();
             }
             catch (Exception ex)
             {
@@ -141,9 +144,14 @@ namespace UI
         {
             if (dgvDetalle.SelectedRows.Count == 0) return;
 
-            string codigo = dgvDetalle.SelectedRows[0].Cells[colDetCodigo.Index].Value.ToString();
-            detalle.RemoveAll(ej => ej.CodigoEjemplar == codigo);
-            Mostrar(dgvDetalle, bll_Ejemplar.ConsultarParaGrilla(detalle));
+            detalle.RemoveAt(dgvDetalle.SelectedRows[0].Index);
+            MostrarDetalle();
+        }
+
+        private void MostrarDetalle()
+        {
+            Mostrar(dgvDetalle, bll_Donacion.ConsultarDetalleParaGrilla(detalle));
+            lblDetalleCantidad.Text = $"{bll_idioma.Traducir("FormDonacion.lblDetalleCantidad")} {detalle.Count}";
         }
 
         // ------------------------------------------------------ Confirmar / Cancelar
@@ -151,12 +159,12 @@ namespace UI
         {
             try
             {
-                if (socioSeleccionado == null) throw new Exception("Debe agregar al socio donante.");
+                if (socioSeleccionado == null) throw new Exception("Debe seleccionar al socio donante.");
                 if (detalle.Count == 0) throw new Exception("Debe agregar al menos un ejemplar donado.");
 
                 string resumen = $"Socio donante: {socioSeleccionado.Apellido}, {socioSeleccionado.Nombre}\n" +
                                  $"Ejemplares donados: {detalle.Count}\n\n" +
-                                 "¿Confirma la donación?";
+                                 "Se darán de alta los ejemplares en el catálogo.\n¿Confirma la donación?";
                 if (MessageBox.Show(resumen, "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
@@ -166,7 +174,8 @@ namespace UI
 
                 BE_ReciboDonacion recibo = bll_Donacion.Registrar(donacion);
 
-                MessageBox.Show($"Donación N° {donacion.NumeroDonacion} registrada correctamente.",
+                string codigos = string.Join(", ", donacion.Ejemplares.Select(ej => ej.CodigoEjemplar));
+                MessageBox.Show($"Donación N° {donacion.NumeroDonacion} registrada correctamente.\nEjemplares dados de alta: {codigos}",
                                 "Donación registrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
                 {
@@ -201,20 +210,22 @@ namespace UI
             colSocNombre.HeaderText = bll_idioma.Traducir("FormDonacion.colSocNombre");
             colSocDni.HeaderText = bll_idioma.Traducir("FormDonacion.colSocDni");
             lblSeccionEjemplares.Text = bll_idioma.Traducir("FormDonacion.lblSeccionEjemplares");
-            lblBuscarEjemplar.Text = bll_idioma.Traducir("FormDonacion.lblBuscarEjemplar");
+            lblBuscarLibro.Text = bll_idioma.Traducir("FormDonacion.lblBuscarLibro");
             btnAgregarEjemplar.Text = bll_idioma.Traducir("FormDonacion.btnAgregarEjemplar");
-            colResCodigo.HeaderText = bll_idioma.Traducir("FormDonacion.colResCodigo");
-            colResTitulo.HeaderText = bll_idioma.Traducir("FormDonacion.colResTitulo");
-            colResAutor.HeaderText = bll_idioma.Traducir("FormDonacion.colResAutor");
-            colResEstado.HeaderText = bll_idioma.Traducir("FormDonacion.colResEstado");
+            colLibCodigo.HeaderText = bll_idioma.Traducir("FormDonacion.colLibCodigo");
+            colLibTitulo.HeaderText = bll_idioma.Traducir("FormDonacion.colLibTitulo");
+            colLibAutores.HeaderText = bll_idioma.Traducir("FormDonacion.colLibAutores");
+            lblAyudaLibro.Text = bll_idioma.Traducir("FormDonacion.lblAyudaLibro");
             lblSeccionDetalle.Text = bll_idioma.Traducir("FormDonacion.lblSeccionDetalle");
-            colDetCodigo.HeaderText = bll_idioma.Traducir("FormDonacion.colDetCodigo");
+            colDetLibro.HeaderText = bll_idioma.Traducir("FormDonacion.colDetLibro");
             colDetTitulo.HeaderText = bll_idioma.Traducir("FormDonacion.colDetTitulo");
             colDetAutor.HeaderText = bll_idioma.Traducir("FormDonacion.colDetAutor");
             btnQuitarEjemplar.Text = bll_idioma.Traducir("FormDonacion.btnQuitarEjemplar");
+            lblAyudaDetalle.Text = bll_idioma.Traducir("FormDonacion.lblAyudaDetalle");
             btnConfirmar.Text = bll_idioma.Traducir("FormDonacion.btnConfirmar");
             btnCancelar.Text = bll_idioma.Traducir("FormDonacion.btnCancelar");
             MostrarSocio();
+            if (bll_Donacion != null) MostrarDetalle();
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

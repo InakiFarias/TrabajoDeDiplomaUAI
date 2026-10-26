@@ -64,7 +64,6 @@ namespace UI
             colResCodigo.DataPropertyName = "Codigo";
             colResTitulo.DataPropertyName = "Titulo";
             colResAutor.DataPropertyName = "Autor";
-            colResEstado.DataPropertyName = "Estado";
 
             dgvDetalle.AutoGenerateColumns = false;
             colDetCodigo.DataPropertyName = "Codigo";
@@ -136,10 +135,13 @@ namespace UI
             CargarEjemplares();
         }
 
-        // Con el buscador vacío se listan todos los ejemplares, como en la búsqueda de socios
+        // Solo se listan los ejemplares disponibles que todavía no están en el detalle
+        // (con el buscador vacío se listan todos, como en la búsqueda de socios)
         private void CargarEjemplares()
         {
-            List<BE_Ejemplar> resultados = bll_Ejemplar.BuscarPorTexto(txtBuscarEjemplar.Text);
+            List<BE_Ejemplar> resultados = bll_Ejemplar.BuscarDisponibles(txtBuscarEjemplar.Text)
+                .Where(ej => !detalle.Any(d => d.CodigoEjemplar == ej.CodigoEjemplar))
+                .ToList();
             Mostrar(dgvResultados, bll_Ejemplar.ConsultarParaGrilla(resultados));
         }
 
@@ -150,14 +152,16 @@ namespace UI
             lblDetalleSocio.Text = socioSeleccionado == null
                 ? $"{bll_idioma.Traducir("FormPrestamo.lblDetalleSocio")} —"
                 : $"{bll_idioma.Traducir("FormPrestamo.lblDetalleSocio")} {socioSeleccionado.Apellido}, {socioSeleccionado.Nombre} - {bll_idioma.Traducir("FormPrestamo.colSocDni")} {socioSeleccionado.Dni}";
-            lblDetalleCantidad.Text = $"{bll_idioma.Traducir("FormPrestamo.lblDetalleCantidad")} {detalle.Count}";
+            lblDetalleCantidad.Text = $"{bll_idioma.Traducir("FormPrestamo.lblDetalleCantidad")} {detalle.Count} / {BLL_Prestamo.MAXIMO_EJEMPLARES_POR_PRESTAMO}";
         }
         private void btnAgregarEjemplar_Click(object sender, EventArgs e)
         {
             try
             {
                 if (socioSeleccionado == null) throw new Exception("Primero debe agregar un socio habilitado.");
-                if (dgvResultados.Rows.Count == 0) throw new Exception("No existe un ejemplar que coincida con la búsqueda.");
+                if (detalle.Count >= BLL_Prestamo.MAXIMO_EJEMPLARES_POR_PRESTAMO)
+                    throw new Exception($"Un préstamo puede incluir como máximo {BLL_Prestamo.MAXIMO_EJEMPLARES_POR_PRESTAMO} ejemplares.");
+                if (dgvResultados.Rows.Count == 0) throw new Exception("No hay ejemplares disponibles que coincidan con la búsqueda.");
                 if (dgvResultados.SelectedRows.Count == 0) throw new Exception("Seleccione un ejemplar.");
 
                 string codigo = dgvResultados.SelectedRows[0].Cells[colResCodigo.Index].Value.ToString();
@@ -165,6 +169,7 @@ namespace UI
 
                 detalle.Add(bll_Ejemplar.BuscarPorCodigo(codigo));
                 MostrarDetalle();
+                CargarEjemplares();
             }
             catch (Exception ex)
             {
@@ -182,6 +187,7 @@ namespace UI
             string codigo = dgvDetalle.SelectedRows[0].Cells[colDetCodigo.Index].Value.ToString();
             detalle.RemoveAll(ej => ej.CodigoEjemplar == codigo);
             MostrarDetalle();
+            CargarEjemplares();
         }
 
         // ------------------------------------------------------ Confirmar / Cancelar
@@ -251,7 +257,6 @@ namespace UI
             colResCodigo.HeaderText = bll_idioma.Traducir("FormPrestamo.colResCodigo");
             colResTitulo.HeaderText = bll_idioma.Traducir("FormPrestamo.colResTitulo");
             colResAutor.HeaderText = bll_idioma.Traducir("FormPrestamo.colResAutor");
-            colResEstado.HeaderText = bll_idioma.Traducir("FormPrestamo.colResEstado");
             lblSeccionDetalle.Text = bll_idioma.Traducir("FormPrestamo.lblSeccionDetalle");
             colDetCodigo.HeaderText = bll_idioma.Traducir("FormPrestamo.colDetCodigo");
             colDetTitulo.HeaderText = bll_idioma.Traducir("FormPrestamo.colDetTitulo");

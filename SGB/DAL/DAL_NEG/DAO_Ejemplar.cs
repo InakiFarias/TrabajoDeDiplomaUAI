@@ -90,17 +90,6 @@ namespace DAL
             con.Close();
         }
 
-        public void ModificarLibroDeEjemplar(string codigoEjemplar, string codigoLibro)
-        {
-            cm.Parameters.Clear();
-            cm.Parameters.Add("@codigoEjemplar", SqlDbType.VarChar).Value = codigoEjemplar;
-            cm.Parameters.Add("@codigoLibro", SqlDbType.VarChar).Value = codigoLibro;
-            cm.CommandText = "UPDATE Ejemplar SET CodigoLibro = @codigoLibro WHERE CodigoEjemplar = @codigoEjemplar";
-            con.Open();
-            cm.ExecuteNonQuery();
-            con.Close();
-        }
-
         public void ActualizarEstado(string codigoEjemplar, string estado)
         {
             cm.Parameters.Clear();
