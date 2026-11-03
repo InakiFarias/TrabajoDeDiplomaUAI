@@ -40,7 +40,7 @@ namespace BLL.BLL_NEG
             return multa;
         }
 
-        public BE_Devolucion Registrar(BE_Prestamo prestamo, bool recepcionCompleta)
+        public BE_ComprobanteDevolucion Registrar(BE_Prestamo prestamo, bool recepcionCompleta)
         {
             if (prestamo == null) throw new Exception("Debe buscar un préstamo vigente.");
             if (!recepcionCompleta) throw new Exception("La devolución debe incluir todos los ejemplares del préstamo. Si el socio no los devuelve todos, la devolución no se registra.");
@@ -64,10 +64,13 @@ namespace BLL.BLL_NEG
             map_devolucion.ActualizarEstadoPrestamo(prestamo, "Finalizado");
             prestamo.Estado = "Finalizado";
 
+            BE_ComprobanteDevolucion comprobante = new BE_ComprobanteDevolucion(0, devolucion, DateTime.Today);
+            comprobante.NumeroComprobante = map_devolucion.InsertarComprobante(comprobante);
+
             SER_Bitacora bitacora = new SER_Bitacora(SER_SesionManager.ObtenerSesion().Usuario, DateTime.Now, "Préstamos", "Registrar devolución", 2);
             bll_bitacora.RegistrarBitacora(bitacora);
 
-            return devolucion;
+            return comprobante;
         }
     }
 }

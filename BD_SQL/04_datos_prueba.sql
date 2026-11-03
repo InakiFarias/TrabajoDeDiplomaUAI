@@ -205,7 +205,7 @@ INSERT INTO Prestamo_Ejemplar (NumeroPrestamo, CodigoEjemplar) VALUES (@prestamo
 INSERT INTO Comprobante (NumeroPrestamo, FechaEmision) VALUES (@prestamo, DATEADD(DAY, -50, @hoy));
 INSERT INTO Devolucion (NumeroPrestamo, FechaDevolucion) VALUES (@prestamo, DATEADD(DAY, -28, @hoy));
 SET @devolucion = SCOPE_IDENTITY();
-INSERT INTO ComprobantePago (NumeroSocio, FechaEmision, Total) VALUES (1012, DATEADD(DAY, -27, @hoy), 4000);
+INSERT INTO ComprobantePago (NumeroSocio, FechaEmision, MetodoPago, Total) VALUES (1012, DATEADD(DAY, -27, @hoy), 'Efectivo', 4000);
 SET @comprobantePago = SCOPE_IDENTITY();
 INSERT INTO Multa (NumeroDevolucion, DiasAtraso, MontoPorDia, Monto, FechaGeneracion, FechaPago, Estado, NumeroComprobantePago)
 VALUES (@devolucion, 8, 500, 4000, DATEADD(DAY, -28, @hoy), DATEADD(DAY, -27, @hoy), 'Pagada', @comprobantePago);

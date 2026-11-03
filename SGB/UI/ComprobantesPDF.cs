@@ -29,6 +29,34 @@ namespace UI
             });
         }
 
+        public static void ComprobanteDevolucion(BE_ComprobanteDevolucion comprobante)
+        {
+            BE_Devolucion devolucion = comprobante.Devolucion;
+            BE_Prestamo prestamo = devolucion.Prestamo;
+            string ruta = ObtenerRuta($"Comprobante_Devolucion_{comprobante.NumeroComprobante:D6}.pdf");
+
+            Generar(ruta, "Comprobante de devolución", comprobante.NumeroComprobante, comprobante.FechaEmision, col =>
+            {
+                col.Item().Text($"Devolución N° {devolucion.NumeroDevolucion} - Préstamo N° {prestamo.NumeroPrestamo}");
+                col.Item().Text($"Socio: {prestamo.Socio.Apellido}, {prestamo.Socio.Nombre} (N° {prestamo.Socio.NumeroSocio}) - DNI {prestamo.Socio.Dni}");
+                col.Item().Text($"Fecha de devolución prevista: {prestamo.FechaDevolucionPrevista:dd/MM/yyyy}");
+                col.Item().Text($"Fecha de devolución: {devolucion.FechaDevolucion:dd/MM/yyyy}");
+
+                col.Item().PaddingTop(10).Text("Ejemplares devueltos").Bold();
+                TablaEjemplares(col, prestamo.Ejemplares);
+
+                if (devolucion.Multa != null)
+                {
+                    col.Item().PaddingTop(15).Text($"Multa por atraso: {devolucion.Multa.DiasAtraso} día(s) x $ {devolucion.Multa.MontoPorDia:N2} = $ {devolucion.Multa.Monto:N2}").FontSize(13).Bold();
+                    col.Item().Text("La multa queda pendiente de pago. El socio no podrá realizar nuevos préstamos hasta abonarla.").FontSize(9);
+                }
+                else
+                {
+                    col.Item().PaddingTop(15).Text("Devolución en término: no se generó multa.");
+                }
+            });
+        }
+
         public static void ComprobantePago(BE_ComprobantePago comprobante)
         {
             string ruta = ObtenerRuta($"Comprobante_Pago_{comprobante.NumeroComprobante:D6}.pdf");
@@ -66,7 +94,8 @@ namespace UI
                     }
                 });
 
-                col.Item().PaddingTop(15).AlignRight().Text($"Total abonado: $ {comprobante.Total:N2}").FontSize(13).Bold();
+                col.Item().PaddingTop(15).AlignRight().Text($"Método de pago: {comprobante.MetodoPago}");
+                col.Item().AlignRight().Text($"Total abonado: $ {comprobante.Total:N2}").FontSize(13).Bold();
             });
         }
 

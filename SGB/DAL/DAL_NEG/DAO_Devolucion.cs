@@ -64,5 +64,19 @@ namespace DAL
             cm.ExecuteNonQuery();
             con.Close();
         }
+
+        public int InsertarComprobante(int numeroDevolucion, DateTime fechaEmision)
+        {
+            cm.Parameters.Clear();
+            cm.Parameters.Add("@numeroDevolucion", SqlDbType.Int).Value = numeroDevolucion;
+            cm.Parameters.Add("@fechaEmision", SqlDbType.Date).Value = fechaEmision;
+            cm.CommandText = @"INSERT INTO ComprobanteDevolucion (NumeroDevolucion, FechaEmision)
+                               OUTPUT INSERTED.NumeroComprobante
+                               VALUES (@numeroDevolucion, @fechaEmision)";
+            con.Open();
+            int numeroComprobante = Convert.ToInt32(cm.ExecuteScalar());
+            con.Close();
+            return numeroComprobante;
+        }
     }
 }

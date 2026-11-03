@@ -44,15 +44,16 @@ namespace DAL
             return cm.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
-        public int InsertarComprobantePago(int numeroSocio, DateTime fechaEmision, decimal total)
+        public int InsertarComprobantePago(int numeroSocio, DateTime fechaEmision, string metodoPago, decimal total)
         {
             cm.Parameters.Clear();
             cm.Parameters.Add("@numeroSocio", SqlDbType.Int).Value = numeroSocio;
             cm.Parameters.Add("@fechaEmision", SqlDbType.Date).Value = fechaEmision;
+            cm.Parameters.Add("@metodoPago", SqlDbType.VarChar).Value = metodoPago;
             cm.Parameters.Add("@total", SqlDbType.Decimal).Value = total;
-            cm.CommandText = @"INSERT INTO ComprobantePago (NumeroSocio, FechaEmision, Total)
+            cm.CommandText = @"INSERT INTO ComprobantePago (NumeroSocio, FechaEmision, MetodoPago, Total)
                                OUTPUT INSERTED.NumeroComprobante
-                               VALUES (@numeroSocio, @fechaEmision, @total)";
+                               VALUES (@numeroSocio, @fechaEmision, @metodoPago, @total)";
             con.Open();
             int numeroComprobante = Convert.ToInt32(cm.ExecuteScalar());
             con.Close();

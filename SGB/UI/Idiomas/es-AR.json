@@ -309,5 +309,9 @@
   "FormDonacion.colDonFecha": "Fecha",
   "FormDonacion.colDonSocio": "Socio",
   "FormDonacion.colDonCantidad": "Ejemplares",
-  "FormDonacion.colDonLibros": "Libros"
+  "FormDonacion.colDonLibros": "Libros",
+  "FormMulta.lblMetodoPago": "Método de pago",
+  "FormMulta.lblNumeroTarjeta": "Número de tarjeta",
+  "FormMulta.cmbMetodoPago.Efectivo": "Efectivo",
+  "FormMulta.cmbMetodoPago.Tarjeta": "Tarjeta"
 }

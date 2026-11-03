@@ -22,6 +22,8 @@ namespace UI
         {
             bll_Multa = new BLL_Multa();
 
+            CargarMetodosPago();
+
             // Solo se listan los socios que tienen multas pendientes, con el total que adeudan
             dgvSocios.AutoGenerateColumns = false;
             colSocNumero.DataPropertyName = "NumeroSocio";
@@ -103,7 +105,35 @@ namespace UI
         {
             socioSeleccionado = null;
             multasPendientes = new List<BE_Multa>();
+            cmbMetodoPago.SelectedIndex = 0;
+            txtNumeroTarjeta.Clear();
             MostrarMultas();
+        }
+
+        // ------------------------------------------------------------ Método de pago
+        // El combo muestra el texto traducido; el valor del método se obtiene por posición (0 = Efectivo, 1 = Tarjeta)
+        private bool cargandoMetodos = false;
+
+        private void CargarMetodosPago()
+        {
+            int indice = cmbMetodoPago.SelectedIndex < 0 ? 0 : cmbMetodoPago.SelectedIndex;
+            cargandoMetodos = true;
+            cmbMetodoPago.Items.Clear();
+            cmbMetodoPago.Items.Add(bll_idioma.Traducir("FormMulta.cmbMetodoPago.Efectivo"));
+            cmbMetodoPago.Items.Add(bll_idioma.Traducir("FormMulta.cmbMetodoPago.Tarjeta"));
+            cmbMetodoPago.SelectedIndex = indice;
+            cargandoMetodos = false;
+        }
+
+        private string ObtenerMetodoPago() => cmbMetodoPago.SelectedIndex == 1 ? BLL_Multa.METODO_TARJETA : BLL_Multa.METODO_EFECTIVO;
+
+        private void cmbMetodoPago_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cargandoMetodos) return;
+            bool tarjeta = ObtenerMetodoPago() == BLL_Multa.METODO_TARJETA;
+            lblNumeroTarjeta.Visible = tarjeta;
+            txtNumeroTarjeta.Visible = tarjeta;
+            if (!tarjeta) txtNumeroTarjeta.Clear();
         }
 
         // ------------------------------------------------------------ Cobro
@@ -123,10 +153,25 @@ namespace UI
                 if (socioSeleccionado == null) throw new Exception("Debe seleccionar un socio con multas pendientes de pago.");
 
                 decimal total = bll_Multa.CalcularTotalAdeudado(multasPendientes);
-                if (MessageBox.Show($"¿Confirma el cobro del total adeudado de $ {total:N2}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                string metodoPago = ObtenerMetodoPago();
+
+                // Con tarjeta, primero se solicita la autorización a la entidad bancaria; si la rechaza no se registra el pago
+                if (metodoPago == BLL_Multa.METODO_TARJETA)
+                {
+                    bool aprobado = bll_Multa.ProcesarPagoConTarjeta(txtNumeroTarjeta.Text, total);
+                    txtNumeroTarjeta.Clear();
+                    if (!aprobado)
+                    {
+                        MessageBox.Show("La entidad bancaria rechazó el pago con tarjeta. No se registró el pago y las multas se mantienen pendientes de pago.",
+                                        "Pago rechazado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                if (MessageBox.Show($"¿Confirma el cobro del total adeudado de $ {total:N2} con método de pago: {cmbMetodoPago.Text}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
-                BE_ComprobantePago comprobante = bll_Multa.RegistrarPago(socioSeleccionado, multasPendientes);
+                BE_ComprobantePago comprobante = bll_Multa.RegistrarPago(socioSeleccionado, multasPendientes, metodoPago);
 
                 MessageBox.Show($"Pago registrado correctamente. Comprobante N° {comprobante.NumeroComprobante}.",
                                 "Pago registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -165,6 +210,9 @@ namespace UI
             colMulFecha.HeaderText = bll_idioma.Traducir("FormMulta.colMulFecha");
             colMulDias.HeaderText = bll_idioma.Traducir("FormMulta.colMulDias");
             colMulMonto.HeaderText = bll_idioma.Traducir("FormMulta.colMulMonto");
+            lblMetodoPago.Text = bll_idioma.Traducir("FormMulta.lblMetodoPago");
+            lblNumeroTarjeta.Text = bll_idioma.Traducir("FormMulta.lblNumeroTarjeta");
+            CargarMetodosPago();
             btnConfirmarCobro.Text = bll_idioma.Traducir("FormMulta.btnConfirmarCobro");
             btnNoAbona.Text = bll_idioma.Traducir("FormMulta.btnNoAbona");
             if (bll_Multa != null) MostrarMultas();

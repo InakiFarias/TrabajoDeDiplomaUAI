@@ -60,7 +60,7 @@ namespace MAP
             return lista;
         }
 
-        public int InsertarComprobantePago(BE_ComprobantePago comprobante) => dao_multa.InsertarComprobantePago(comprobante.Socio.NumeroSocio, comprobante.FechaEmision, comprobante.Total);
+        public int InsertarComprobantePago(BE_ComprobantePago comprobante) => dao_multa.InsertarComprobantePago(comprobante.Socio.NumeroSocio, comprobante.FechaEmision, comprobante.MetodoPago, comprobante.Total);
 
         public void ActualizarPagoMulta(BE_Multa multa, int numeroComprobante) => dao_multa.ActualizarPagoMulta(multa.NumeroMulta, multa.FechaPago.Value, multa.Estado, numeroComprobante);
     }

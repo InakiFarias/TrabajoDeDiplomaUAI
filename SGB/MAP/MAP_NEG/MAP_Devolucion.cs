@@ -18,5 +18,7 @@ namespace MAP
         public void ActualizarEstadoEjemplar(BE_Ejemplar ejemplar, string estado) => dao_devolucion.ActualizarEstadoEjemplar(ejemplar.CodigoEjemplar, estado);
 
         public void ActualizarEstadoPrestamo(BE_Prestamo prestamo, string estado) => dao_devolucion.ActualizarEstadoPrestamo(prestamo.NumeroPrestamo, estado);
+
+        public int InsertarComprobante(BE_ComprobanteDevolucion comprobante) => dao_devolucion.InsertarComprobante(comprobante.Devolucion.NumeroDevolucion, comprobante.FechaEmision);
     }
 }

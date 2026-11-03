@@ -125,14 +125,27 @@ CREATE TABLE Devolucion (
 );
 GO
 
+-- Comprobante que se emite al registrar una devolución
+CREATE TABLE ComprobanteDevolucion (
+    NumeroComprobante int IDENTITY(1,1) NOT NULL,
+    NumeroDevolucion  int               NOT NULL,
+    FechaEmision      date              NOT NULL,
+    CONSTRAINT PK_ComprobanteDevolucion PRIMARY KEY (NumeroComprobante),
+    CONSTRAINT UQ_ComprobanteDevolucion_Devolucion UNIQUE (NumeroDevolucion),
+    CONSTRAINT FK_ComprobanteDevolucion_Devolucion FOREIGN KEY (NumeroDevolucion) REFERENCES Devolucion(NumeroDevolucion)
+);
+GO
+
 -- Comprobante que se emite al cobrar el total adeudado de un socio (RF-002)
 CREATE TABLE ComprobantePago (
     NumeroComprobante int IDENTITY(1,1) NOT NULL,
     NumeroSocio       int               NOT NULL,
     FechaEmision      date              NOT NULL,
+    MetodoPago        varchar(10)       NOT NULL,
     Total             decimal(18,2)     NOT NULL,
     CONSTRAINT PK_ComprobantePago PRIMARY KEY (NumeroComprobante),
     CONSTRAINT FK_ComprobantePago_Socio FOREIGN KEY (NumeroSocio) REFERENCES Socio(NumeroSocio),
+    CONSTRAINT CK_ComprobantePago_MetodoPago CHECK (MetodoPago IN ('Efectivo', 'Tarjeta')),
     CONSTRAINT CK_ComprobantePago_Total CHECK (Total > 0)
 );
 GO

@@ -52,6 +52,10 @@ namespace UI
             colMulFecha = new DataGridViewTextBoxColumn();
             colMulDias = new DataGridViewTextBoxColumn();
             colMulMonto = new DataGridViewTextBoxColumn();
+            lblMetodoPago = new Label();
+            cmbMetodoPago = new ComboBox();
+            lblNumeroTarjeta = new Label();
+            txtNumeroTarjeta = new TextBox();
             lblTotal = new Label();
             pnlAcciones = new FlowLayoutPanel();
             btnConfirmarCobro = new BotonSGB();
@@ -208,6 +212,10 @@ namespace UI
             // 
             crdMultas.Controls.Add(lblSeccionMultas);
             crdMultas.Controls.Add(dgvMultas);
+            crdMultas.Controls.Add(lblMetodoPago);
+            crdMultas.Controls.Add(cmbMetodoPago);
+            crdMultas.Controls.Add(lblNumeroTarjeta);
+            crdMultas.Controls.Add(txtNumeroTarjeta);
             crdMultas.Controls.Add(lblTotal);
             crdMultas.Dock = DockStyle.Fill;
             crdMultas.Margin = new Padding(8);
@@ -233,7 +241,7 @@ namespace UI
             dgvMultas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvMultas.Location = new Point(20, 52);
             dgvMultas.Name = "dgvMultas";
-            dgvMultas.Size = new Size(536, 420);
+            dgvMultas.Size = new Size(536, 330);
             dgvMultas.TabIndex = 1;
             // 
             // colMulNumero
@@ -270,9 +278,60 @@ namespace UI
             colMulMonto.HeaderText = "Monto ($)";
             colMulMonto.Name = "colMulMonto";
             colMulMonto.ReadOnly = true;
-            // 
+            //
+            // lblMetodoPago
+            //
+            lblMetodoPago.AutoSize = true;
+            lblMetodoPago.BackColor = Color.Transparent;
+            lblMetodoPago.Font = new Font("Segoe UI", 10F);
+            lblMetodoPago.ForeColor = Color.FromArgb(75, 85, 99);
+            lblMetodoPago.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblMetodoPago.Location = new Point(20, 400);
+            lblMetodoPago.Name = "lblMetodoPago";
+            lblMetodoPago.Size = new Size(100, 20);
+            lblMetodoPago.TabIndex = 3;
+            lblMetodoPago.Text = "Método de pago";
+            //
+            // cmbMetodoPago
+            //
+            cmbMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbMetodoPago.ForeColor = Color.FromArgb(31, 41, 55);
+            cmbMetodoPago.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            cmbMetodoPago.Location = new Point(170, 396);
+            cmbMetodoPago.Name = "cmbMetodoPago";
+            cmbMetodoPago.Size = new Size(200, 28);
+            cmbMetodoPago.TabIndex = 4;
+            cmbMetodoPago.SelectedIndexChanged += cmbMetodoPago_SelectedIndexChanged;
+            //
+            // lblNumeroTarjeta
+            //
+            lblNumeroTarjeta.AutoSize = true;
+            lblNumeroTarjeta.BackColor = Color.Transparent;
+            lblNumeroTarjeta.Font = new Font("Segoe UI", 10F);
+            lblNumeroTarjeta.ForeColor = Color.FromArgb(75, 85, 99);
+            lblNumeroTarjeta.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblNumeroTarjeta.Location = new Point(20, 442);
+            lblNumeroTarjeta.Name = "lblNumeroTarjeta";
+            lblNumeroTarjeta.Size = new Size(120, 20);
+            lblNumeroTarjeta.TabIndex = 5;
+            lblNumeroTarjeta.Text = "Número de tarjeta";
+            lblNumeroTarjeta.Visible = false;
+            //
+            // txtNumeroTarjeta
+            //
+            txtNumeroTarjeta.BorderStyle = BorderStyle.FixedSingle;
+            txtNumeroTarjeta.ForeColor = Color.FromArgb(31, 41, 55);
+            txtNumeroTarjeta.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            txtNumeroTarjeta.Location = new Point(170, 438);
+            txtNumeroTarjeta.MaxLength = 23;
+            txtNumeroTarjeta.Name = "txtNumeroTarjeta";
+            txtNumeroTarjeta.Size = new Size(260, 27);
+            txtNumeroTarjeta.TabIndex = 6;
+            txtNumeroTarjeta.UseSystemPasswordChar = true;
+            txtNumeroTarjeta.Visible = false;
+            //
             // lblTotal
-            // 
+            //
             lblTotal.AutoSize = false;
             lblTotal.BackColor = Color.Transparent;
             lblTotal.Font = new Font("Segoe UI Semibold", 15F);
@@ -372,6 +431,10 @@ namespace UI
         private DataGridViewTextBoxColumn colMulFecha;
         private DataGridViewTextBoxColumn colMulDias;
         private DataGridViewTextBoxColumn colMulMonto;
+        private Label lblMetodoPago;
+        private ComboBox cmbMetodoPago;
+        private Label lblNumeroTarjeta;
+        private TextBox txtNumeroTarjeta;
         private Label lblTotal;
         private FlowLayoutPanel pnlAcciones;
         private BotonSGB btnConfirmarCobro;

@@ -161,7 +161,8 @@ namespace UI
                 if (MessageBox.Show($"¿Confirma la devolución del préstamo N° {prestamoSeleccionado.NumeroPrestamo}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
-                BE_Devolucion devolucion = bll_Devolucion.Registrar(prestamoSeleccionado, chkRecepcionCompleta.Checked);
+                BE_ComprobanteDevolucion comprobante = bll_Devolucion.Registrar(prestamoSeleccionado, chkRecepcionCompleta.Checked);
+                BE_Devolucion devolucion = comprobante.Devolucion;
 
                 string mensaje = $"Devolución N° {devolucion.NumeroDevolucion} registrada correctamente.";
                 if (devolucion.Multa != null)
@@ -170,6 +171,15 @@ namespace UI
                                "\nEl socio no podrá realizar nuevos préstamos hasta abonarla.";
                 }
                 MessageBox.Show(mensaje, "Devolución registrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                try
+                {
+                    ComprobantesPDF.ComprobanteDevolucion(comprobante);
+                }
+                catch (Exception exPdf)
+                {
+                    MessageBox.Show($"La devolución quedó registrada, pero no se pudo generar el comprobante en PDF.\n{exPdf.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 this.Close();
             }
             catch (Exception ex)
