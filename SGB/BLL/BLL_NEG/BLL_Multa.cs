@@ -12,12 +12,10 @@ namespace BLL.BLL_NEG
 
         MAP_Multa map_multa;
         BLL_Bitacora bll_bitacora;
-        SRV_EntidadBancaria srv_entidadBancaria;
         public BLL_Multa()
         {
             map_multa = new MAP_Multa();
             bll_bitacora = new BLL_Bitacora();
-            srv_entidadBancaria = new SRV_EntidadBancaria();
         }
 
         // Solo los socios que tienen multas pendientes, con el total adeudado
@@ -32,14 +30,34 @@ namespace BLL.BLL_NEG
 
         public decimal CalcularTotalAdeudado(List<BE_Multa> multas) => multas.Sum(m => m.Monto);
 
-        // Solicita la autorización de la entidad bancaria; devuelve false si rechaza el pago. Los datos de la tarjeta no se guardan
+        // Valida el pago con tarjeta; devuelve false si se rechaza. Los datos de la tarjeta no se guardan
         public bool ProcesarPagoConTarjeta(string numeroTarjeta, decimal totalAdeudado)
         {
             string numero = (numeroTarjeta ?? "").Replace(" ", "").Replace("-", "");
             if (numero.Length < 13 || numero.Length > 19 || !numero.All(char.IsDigit))
                 throw new Exception("Ingrese un número de tarjeta válido (solo dígitos, entre 13 y 19).");
 
-            return srv_entidadBancaria.SolicitarAutorizacion(numero, totalAdeudado);
+            if (totalAdeudado <= 0) return false;
+            return NumeroTarjetaValido(numero);
+        }
+
+        // El pago se aprueba si el número de tarjeta es válido (algoritmo de Luhn)
+        private bool NumeroTarjetaValido(string numeroTarjeta)
+        {
+            int suma = 0;
+            bool duplicar = false;
+            for (int i = numeroTarjeta.Length - 1; i >= 0; i--)
+            {
+                int digito = numeroTarjeta[i] - '0';
+                if (duplicar)
+                {
+                    digito *= 2;
+                    if (digito > 9) digito -= 9;
+                }
+                suma += digito;
+                duplicar = !duplicar;
+            }
+            return suma % 10 == 0;
         }
 
         public BE_ComprobantePago RegistrarPago(BE_Socio socio, List<BE_Multa> multas, string metodoPago)

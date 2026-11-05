@@ -155,14 +155,14 @@ namespace UI
                 decimal total = bll_Multa.CalcularTotalAdeudado(multasPendientes);
                 string metodoPago = ObtenerMetodoPago();
 
-                // Con tarjeta, primero se solicita la autorización a la entidad bancaria; si la rechaza no se registra el pago
+                // Con tarjeta, primero se procesa el pago con tarjeta; si se rechaza no se registra el pago
                 if (metodoPago == BLL_Multa.METODO_TARJETA)
                 {
                     bool aprobado = bll_Multa.ProcesarPagoConTarjeta(txtNumeroTarjeta.Text, total);
                     txtNumeroTarjeta.Clear();
                     if (!aprobado)
                     {
-                        MessageBox.Show("La entidad bancaria rechazó el pago con tarjeta. No se registró el pago y las multas se mantienen pendientes de pago.",
+                        MessageBox.Show("El pago con tarjeta fue rechazado. No se registró el pago y las multas se mantienen pendientes de pago.",
                                         "Pago rechazado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
