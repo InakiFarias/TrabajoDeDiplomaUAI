@@ -8,6 +8,7 @@ namespace BLL.BLL_SER
     public class BLL_DV_351FI
     {
         MAP_DV_351FI map_dv_351FI;
+        BLL_Bitacora_351FI bll_bitacora_351FI;
         private const string SEPARADOR_HASH = "|";
 
         // Tablas protegidas por dígito verificador y las columnas de su clave primaria
@@ -17,6 +18,7 @@ namespace BLL.BLL_SER
             { "usuario_351FI",                new[] { "dni_351FI" } },
             { "rol_351FI",                    new[] { "idRol_351FI" } },
             { "familia_351FI",                new[] { "idFamilia_351FI" } },
+            { "permiso_351FI",                new[] { "idPermiso_351FI" } },
             { "rol_familia_351FI",            new[] { "idRol_351FI", "idFamilia_351FI" } },
             { "rol_permiso_351FI",            new[] { "idRol_351FI", "idPermiso_351FI" } },
             { "familia_familia_351FI",        new[] { "idFamiliaPadre_351FI", "idFamiliaHija_351FI" } },
@@ -45,6 +47,7 @@ namespace BLL.BLL_SER
         public BLL_DV_351FI()
         {
             map_dv_351FI = new MAP_DV_351FI();
+            bll_bitacora_351FI = new BLL_Bitacora_351FI();
         }
 
         // ------------------------------------------------ Generación (después de cada alta, baja o modificación)
@@ -117,6 +120,10 @@ namespace BLL.BLL_SER
 
                 GenerarDVV_351FI(nombreTabla);
             }
+
+            // Criticidad alta: se aceptan como válidos datos que pudieron modificarse por fuera del sistema
+            SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Dígitos verificadores", "Recalcular dígitos verificadores", 1);
+            bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
         }
 
         // ------------------------------------------------ Verificación

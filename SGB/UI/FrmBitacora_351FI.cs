@@ -47,6 +47,13 @@ namespace UI
                 {
                     "Auditar bitácora"
                 }
+            },
+            {
+                "Dígitos verificadores",
+                new[]
+                {
+                    "Recalcular dígitos verificadores"
+                }
             }
 
         };
@@ -81,11 +88,12 @@ namespace UI
 
         private void MostrarTodosLosEventos_351FI()
         {
-            cbxModulo_351FI.Items.AddRange(new string[] { "Usuarios", "Roles", "Bitácora" });
+            cbxModulo_351FI.Items.AddRange(new string[] { "Usuarios", "Roles", "Bitácora", "Dígitos verificadores" });
             cbxEvento_351FI.Items.AddRange(new string[] {
                 "Login", "Cambiar clave", "Logout", "Crear usuario", "Desbloquear usuario", "Modificar usuario", "Activar Usuario", "Desactivar Usuario", "Cambiar idioma",
                 "Crear rol", "Modificar rol", "Borrar rol", "Crear familia", "Borrar familia",
-                "Auditar bitácora"
+                "Auditar bitácora",
+                "Recalcular dígitos verificadores"
             });
         }
 
