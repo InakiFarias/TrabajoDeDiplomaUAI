@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="DAL_SER\DAO_Usuario.cs" />
-    <None Include="IABMC.cs" />
+    <None Include="DAL_SER\DAO_Usuario_351FI.cs" />
+    <None Include="IABMC_351FI.cs" />
   </ItemGroup>
 
   <ItemGroup>

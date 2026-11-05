@@ -14,8 +14,8 @@ BEGIN TRANSACTION;
 -- =====================================================================
 -- Socios
 -- =====================================================================
-SET IDENTITY_INSERT Socio ON;
-INSERT INTO Socio (NumeroSocio, Nombre, Apellido, Dni, Estado)
+SET IDENTITY_INSERT Socio_351FI ON;
+INSERT INTO Socio_351FI (NumeroSocio_351FI, Nombre_351FI, Apellido_351FI, Dni_351FI, Estado_351FI)
 VALUES
     (1001, N'María', N'González', N'28456123', N'Activo'),
     (1002, N'Juan Carlos', N'Pérez', N'17234567', N'Activo'),
@@ -32,13 +32,13 @@ VALUES
     (1013, N'Elena', N'Benítez', N'16789012', N'Baja'),
     (1014, N'Diego', N'Acosta', N'31456789', N'Baja'),
     (1015, N'Camila', N'Medina', N'42345612', N'Activo');
-SET IDENTITY_INSERT Socio OFF;
+SET IDENTITY_INSERT Socio_351FI OFF;
 
 -- =====================================================================
 -- Autores
 -- =====================================================================
-SET IDENTITY_INSERT Autor ON;
-INSERT INTO Autor (CodigoAutor, Nombre, Apellido)
+SET IDENTITY_INSERT Autor_351FI ON;
+INSERT INTO Autor_351FI (CodigoAutor_351FI, Nombre_351FI, Apellido_351FI)
 VALUES
     (1, N'Julio', N'Cortázar'),
     (2, N'Jorge Luis', N'Borges'),
@@ -59,13 +59,13 @@ VALUES
     (17, N'Stephen', N'Hawking'),
     (18, N'Carl', N'Sagan'),
     (19, N'Elsa', N'Ferrán');
-SET IDENTITY_INSERT Autor OFF;
+SET IDENTITY_INSERT Autor_351FI OFF;
 
 -- =====================================================================
 -- Temas
 -- =====================================================================
-SET IDENTITY_INSERT Tema ON;
-INSERT INTO Tema (CodigoTema, Descripcion)
+SET IDENTITY_INSERT Tema_351FI ON;
+INSERT INTO Tema_351FI (CodigoTema_351FI, Descripcion_351FI)
 VALUES
     (1, N'Novela'),
     (2, N'Cuento'),
@@ -75,12 +75,12 @@ VALUES
     (6, N'Ensayo'),
     (7, N'Ciencia'),
     (8, N'Literatura infantil');
-SET IDENTITY_INSERT Tema OFF;
+SET IDENTITY_INSERT Tema_351FI OFF;
 
 -- =====================================================================
 -- Libros
 -- =====================================================================
-INSERT INTO Libro (CodigoLibro, Titulo)
+INSERT INTO Libro_351FI (CodigoLibro_351FI, Titulo_351FI)
 VALUES
     ('LIB-0001', N'Rayuela'),
     ('LIB-0002', N'Bestiario'),
@@ -106,7 +106,7 @@ VALUES
     ('LIB-0022', N'Cosmos'),
     ('LIB-0023', N'Crónicas de Villa Crespo');
 
-INSERT INTO Libro_Autor (CodigoLibro, CodigoAutor)
+INSERT INTO Libro_Autor_351FI (CodigoLibro_351FI, CodigoAutor_351FI)
 VALUES
     ('LIB-0001', 1),
     ('LIB-0002', 1),
@@ -134,7 +134,7 @@ VALUES
     ('LIB-0023', 19);
 
 -- 'Crónicas de Villa Crespo' queda sin tema asignado
-INSERT INTO Libro_Tema (CodigoLibro, CodigoTema)
+INSERT INTO Libro_Tema_351FI (CodigoLibro_351FI, CodigoTema_351FI)
 VALUES
     ('LIB-0001', 1),
     ('LIB-0002', 2),
@@ -165,7 +165,7 @@ VALUES
 -- =====================================================================
 -- Ejemplares
 -- =====================================================================
-INSERT INTO Ejemplar (CodigoEjemplar, CodigoLibro, Estado)
+INSERT INTO Ejemplar_351FI (CodigoEjemplar_351FI, CodigoLibro_351FI, Estado_351FI)
 VALUES
     ('EJ-00001', 'LIB-0001', N'Disponible'),
     ('EJ-00002', 'LIB-0001', N'Disponible'),

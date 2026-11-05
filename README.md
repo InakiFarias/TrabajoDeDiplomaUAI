@@ -78,6 +78,8 @@ Contraseña: Admin!123
 
 > Se recomienda cambiar la contraseña desde la opción **Cambiar clave** después del primer inicio de sesión.
 
+> En el primer inicio de sesión el sistema informa inconsistencias de dígito verificador, porque los scripts cargan los datos sin sus DVH y DVV. Presionar **Recalcular dígitos verificadores** en el formulario de reparación para generarlos.
+
 ---
 
 # Estructura del proyecto
