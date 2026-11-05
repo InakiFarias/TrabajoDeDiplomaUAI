@@ -142,36 +142,123 @@ VALUES
     (N'es-AR', N'Español (Argentina)'),
     (N'en-US', N'English (United States)');
 
-INSERT INTO permiso_351FI (nombre_351FI)
+-- ---------------------------------------------------------------------
+-- Permisos base
+-- ---------------------------------------------------------------------
+SET IDENTITY_INSERT permiso_351FI ON;
+INSERT INTO permiso_351FI (idPermiso_351FI, nombre_351FI)
 VALUES
-    (N'Crear Usuario'),
-    (N'Modificar Usuario'),
-    (N'Desbloquear Usuario'),
-    (N'Activar Usuario'),
-    (N'Desactivar Usuario'),
-    (N'Consultar Bitácora'),
-    (N'Exportar Bitácora'),
-    (N'Crear Rol'),
-    (N'Crear Familia'),
-    (N'Realizar Backup'),
-    (N'Realizar Restore'),
-    (N'Eliminar Rol'),
-    (N'Eliminar Familia');
+    -- Técnicos
+    (1,  N'Crear Usuario'),
+    (2,  N'Modificar Usuario'),
+    (3,  N'Desbloquear Usuario'),
+    (4,  N'Activar Usuario'),
+    (5,  N'Desactivar Usuario'),
+    (6,  N'Consultar Bitácora'),
+    (7,  N'Exportar Bitácora'),
+    (8,  N'Crear Rol'),
+    (9,  N'Crear Familia'),
+    (10, N'Realizar Backup'),
+    (11, N'Realizar Restore'),
+    (12, N'Eliminar Rol'),
+    (13, N'Eliminar Familia'),
+    -- Negocio
+    (14, N'Registrar Préstamo'),
+    (15, N'Registrar Devolución'),
+    (16, N'Cobrar Multa'),
+    (17, N'Registrar Donación'),
+    (18, N'Alta Socio'),
+    (19, N'Modificar Socio'),
+    (20, N'Baja Socio'),
+    (21, N'Reactivar Socio'),
+    (22, N'Alta Libro'),
+    (23, N'Modificar Libro'),
+    (24, N'Baja Libro'),
+    (25, N'Reactivar Libro'),
+    (26, N'Alta Ejemplar'),
+    (27, N'Baja Ejemplar'),
+    (28, N'Reactivar Ejemplar');
+SET IDENTITY_INSERT permiso_351FI OFF;
 
-INSERT INTO rol_351FI (nombre_351FI)
-VALUES (N'Administrador');
+-- ---------------------------------------------------------------------
+-- Familias (siguen las secciones del menú principal)
+-- ---------------------------------------------------------------------
+SET IDENTITY_INSERT familia_351FI ON;
+INSERT INTO familia_351FI (idFamilia_351FI, nombre_351FI)
+VALUES
+    -- Negocio
+    (1,  N'Préstamos'),
+    (2,  N'Multas y donaciones'),
+    (3,  N'Gestión de socios'),
+    (4,  N'Gestión de libros'),
+    (5,  N'Gestión de ejemplares'),
+    (6,  N'Socios y catálogo'),
+    -- Técnicas
+    (7,  N'Gestión de usuarios'),
+    (8,  N'Gestión de roles'),
+    (9,  N'Bitácora'),
+    (10, N'Gestión de respaldo'),
+    (11, N'Administración');
+SET IDENTITY_INSERT familia_351FI OFF;
 
--- Usuario administrador inicial (contraseña: Admin!123, hash SHA-256)
+INSERT INTO permiso_familia_351FI (idFamilia_351FI, idPermiso_351FI)
+VALUES
+    -- Préstamos
+    (1, 14), (1, 15),
+    -- Multas y donaciones
+    (2, 16), (2, 17),
+    -- Gestión de socios
+    (3, 18), (3, 19), (3, 20), (3, 21),
+    -- Gestión de libros
+    (4, 22), (4, 23), (4, 24), (4, 25),
+    -- Gestión de ejemplares
+    (5, 26), (5, 27), (5, 28),
+    -- Gestión de usuarios
+    (7, 1), (7, 2), (7, 3), (7, 4), (7, 5),
+    -- Gestión de roles
+    (8, 8), (8, 9), (8, 12), (8, 13),
+    -- Bitácora
+    (9, 6), (9, 7),
+    -- Gestión de respaldo
+    (10, 10), (10, 11);
+
+-- Subfamilias
+INSERT INTO familia_familia_351FI (idFamiliaPadre_351FI, idFamiliaHija_351FI)
+VALUES
+    -- Socios y catálogo = Gestión de socios + Gestión de libros + Gestión de ejemplares
+    (6, 3), (6, 4), (6, 5),
+    -- Administración = Gestión de usuarios + Gestión de roles + Bitácora + Gestión de respaldo
+    (11, 7), (11, 8), (11, 9), (11, 10);
+
+-- ---------------------------------------------------------------------
+-- Roles
+-- ---------------------------------------------------------------------
+SET IDENTITY_INSERT rol_351FI ON;
+INSERT INTO rol_351FI (idRol_351FI, nombre_351FI)
+VALUES
+    (1, N'Administrador'),
+    (2, N'Bibliotecario');
+SET IDENTITY_INSERT rol_351FI OFF;
+
+INSERT INTO rol_familia_351FI (idRol_351FI, idFamilia_351FI)
+VALUES
+    -- Administrador: acciones técnicas y de negocio
+    (1, 11), (1, 1), (1, 2), (1, 6),
+    -- Bibliotecario: solo acciones de negocio
+    (2, 1), (2, 2), (2, 6);
+
+-- ---------------------------------------------------------------------
+-- Usuarios iniciales
+-- ---------------------------------------------------------------------
+-- Administrador (contraseña: Admin!123) y bibliotecario de prueba (contraseña: Biblio!123), hash SHA-256
 INSERT INTO usuario_351FI
     (dni_351FI, nombre_351FI, apellido_351FI, correo_351FI, nombreUsuario_351FI, password_351FI,
      bloqueo_351FI, activo_351FI, cantIntentos_351FI, idRol_351FI, idIdioma_351FI)
 VALUES
     (N'12345678', N'Administrador', N'Sistema', N'admin@sgb.com', N'admin',
      LOWER(CONVERT(varchar(64), HASHBYTES('SHA2_256', 'Admin!123'), 2)),
-     0, 1, 0, 1, N'es-AR');
-
--- Asignar todos los permisos al rol Administrador
-INSERT INTO rol_permiso_351FI (idRol_351FI, idPermiso_351FI)
-SELECT 1, idPermiso_351FI
-FROM permiso_351FI;
+     0, 1, 0, 1, N'es-AR'),
+    (N'87654321', N'Bibliotecario', N'Prueba', N'bibliotecario@sgb.com', N'bibliotecario',
+     LOWER(CONVERT(varchar(64), HASHBYTES('SHA2_256', 'Biblio!123'), 2)),
+     0, 1, 0, 2, N'es-AR');
 GO

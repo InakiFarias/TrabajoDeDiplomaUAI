@@ -38,7 +38,7 @@ Abrir SSMS, conectarse al servidor y ejecutar los scripts de la carpeta `BD_SQL`
 
 | Orden | Script | Contenido |
 |---|---|---|
-| 1 | `01_seguridad.sql` | Crea la base `bd_sgb`, las tablas de seguridad y el usuario administrador. |
+| 1 | `01_seguridad.sql` | Crea la base `bd_sgb`, las tablas de seguridad, los permisos, familias y roles iniciales, y los usuarios administrador y bibliotecario. |
 | 2 | `02_negocio.sql` | Crea las tablas del negocio (socios, catálogo, préstamos, devoluciones, multas y donaciones). |
 | 3 | `03_carga_inicial.sql` | Carga los socios y el catálogo preexistentes de la biblioteca. |
 | 4 | `04_datos_prueba.sql` | *(Opcional)* Carga préstamos, multas y donaciones de prueba. Los casos están descriptos al inicio del script. |
@@ -71,10 +71,10 @@ En Visual Studio, seleccionar el archivo `.env` → Propiedades → **Copiar en 
 
 # Credenciales iniciales
 
-```text
-Usuario:    admin
-Contraseña: Admin!123
-```
+| Rol | Usuario | Contraseña | Acceso |
+|---|---|---|---|
+| Administrador | `admin` | `Admin!123` | Acciones técnicas y de negocio |
+| Bibliotecario | `bibliotecario` | `Biblio!123` | Solo acciones de negocio |
 
 > Se recomienda cambiar la contraseña desde la opción **Cambiar clave** después del primer inicio de sesión.
 

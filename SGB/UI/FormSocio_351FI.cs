@@ -28,6 +28,9 @@ namespace UI
             colSocDni_351FI.DataPropertyName = "Dni_351FI";
             colSocEstado_351FI.DataPropertyName = "Estado_351FI";
 
+            SER_Usuario_351FI usuario = SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI;
+            btnAlta_351FI.Enabled = usuario.Rol_351FI.TienePermiso_351FI("Alta Socio");
+
             CargarSocios_351FI();
             ActualizarIdioma_351FI();
             this.Shown += FormSocio_351FI_Shown;
@@ -76,11 +79,13 @@ namespace UI
                 return;
             }
 
+            // El botón se habilita si el estado del socio lo permite y el usuario tiene el permiso
+            SER_Usuario_351FI usuario = SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI;
             bool dadoDeBaja = socioSeleccionado_351FI.Estado_351FI == "Baja";
             lblNumero_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormSocio_351FI.lblNumero_351FI")} {socioSeleccionado_351FI.NumeroSocio_351FI} ({socioSeleccionado_351FI.Estado_351FI})";
-            btnModificar_351FI.Enabled = true;
-            btnBaja_351FI.Enabled = !dadoDeBaja;
-            btnReactivar_351FI.Enabled = dadoDeBaja;
+            btnModificar_351FI.Enabled = usuario.Rol_351FI.TienePermiso_351FI("Modificar Socio");
+            btnBaja_351FI.Enabled = !dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Baja Socio");
+            btnReactivar_351FI.Enabled = dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Reactivar Socio");
         }
 
         private void Limpiar_351FI()

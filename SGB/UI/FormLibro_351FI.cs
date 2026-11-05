@@ -44,6 +44,9 @@ namespace UI
             colLibTemas_351FI.DataPropertyName = "Temas";
             colLibEstado_351FI.DataPropertyName = "Estado";
 
+            SER_Usuario_351FI usuario = SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI;
+            btnAlta_351FI.Enabled = usuario.Rol_351FI.TienePermiso_351FI("Alta Libro");
+
             CargarAutores_351FI(new List<int>());
             CargarTemas_351FI(new List<int>());
             CargarLibros_351FI();
@@ -166,10 +169,12 @@ namespace UI
 
         private void MostrarCodigo_351FI()
         {
+            // El botón se habilita si el estado del libro lo permite y el usuario tiene el permiso
+            SER_Usuario_351FI usuario = SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI;
             bool dadoDeBaja = libroSeleccionado_351FI != null && libroSeleccionado_351FI.Estado_351FI == "Baja";
-            btnModificar_351FI.Enabled = libroSeleccionado_351FI != null && !dadoDeBaja;
-            btnBaja_351FI.Enabled = libroSeleccionado_351FI != null && !dadoDeBaja;
-            btnReactivar_351FI.Enabled = dadoDeBaja;
+            btnModificar_351FI.Enabled = libroSeleccionado_351FI != null && !dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Modificar Libro");
+            btnBaja_351FI.Enabled = libroSeleccionado_351FI != null && !dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Baja Libro");
+            btnReactivar_351FI.Enabled = dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Reactivar Libro");
 
             lblCodigo_351FI.Text = libroSeleccionado_351FI == null
                 ? bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.codigoNuevo")

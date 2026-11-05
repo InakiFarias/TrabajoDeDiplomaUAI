@@ -30,6 +30,21 @@ namespace UI
             SER_Usuario_351FI usuario = SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI;
             lblUsuario_351FI.Text = usuario.NombreUsuario_351FI;
 
+            // Negocio
+            btnRegistrarPrestamo_351FI.Visible = TieneAlgun_351FI(usuario, "Registrar Préstamo");
+            btnRegistrarDevolucion_351FI.Visible = TieneAlgun_351FI(usuario, "Registrar Devolución");
+            label2_351FI.Visible = btnRegistrarPrestamo_351FI.Visible || btnRegistrarDevolucion_351FI.Visible;
+
+            btnCobrarMultas_351FI.Visible = TieneAlgun_351FI(usuario, "Cobrar Multa");
+            btnRegistrarDonacion_351FI.Visible = TieneAlgun_351FI(usuario, "Registrar Donación");
+            label3_351FI.Visible = btnCobrarMultas_351FI.Visible || btnRegistrarDonacion_351FI.Visible;
+
+            btnGestionSocios_351FI.Visible = TieneAlgun_351FI(usuario, "Alta Socio", "Modificar Socio", "Baja Socio", "Reactivar Socio");
+            btnGestionLibros_351FI.Visible = TieneAlgun_351FI(usuario, "Alta Libro", "Modificar Libro", "Baja Libro", "Reactivar Libro");
+            btnGestionEjemplares_351FI.Visible = TieneAlgun_351FI(usuario, "Alta Ejemplar", "Baja Ejemplar", "Reactivar Ejemplar");
+            label4_351FI.Visible = btnGestionSocios_351FI.Visible || btnGestionLibros_351FI.Visible || btnGestionEjemplares_351FI.Visible;
+
+            // Técnico
             btnUsuarios_351FI.Visible = TieneAlgun_351FI(usuario, "Crear Usuario", "Modificar Usuario", "Desbloquear Usuario", "Activar Usuario");
             btnGestionRoles_351FI.Visible = TieneAlgun_351FI(usuario, "Crear Rol", "Crear Familia", "Eliminar Rol", "Eliminar Familia");
             btnBitacora_351FI.Visible = TieneAlgun_351FI(usuario, "Consultar Bitácora");

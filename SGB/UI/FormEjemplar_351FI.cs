@@ -127,13 +127,15 @@ namespace UI
 
         private void MostrarCodigo_351FI()
         {
+            // El botón se habilita si el estado del ejemplar lo permite y el usuario tiene el permiso
+            SER_Usuario_351FI usuario = SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI;
             bool dadoDeBaja = ejemplarSeleccionado_351FI != null && ejemplarSeleccionado_351FI.Estado_351FI == "Baja";
             // A un ejemplar existente no se le puede cambiar el libro: con uno seleccionado, el libro es solo de consulta
             txtBuscarLibro_351FI.Enabled = ejemplarSeleccionado_351FI == null;
             cboLibro_351FI.Enabled = ejemplarSeleccionado_351FI == null;
-            btnAlta_351FI.Enabled = ejemplarSeleccionado_351FI == null;
-            btnBaja_351FI.Enabled = ejemplarSeleccionado_351FI != null && !dadoDeBaja;
-            btnReactivar_351FI.Enabled = dadoDeBaja;
+            btnAlta_351FI.Enabled = ejemplarSeleccionado_351FI == null && usuario.Rol_351FI.TienePermiso_351FI("Alta Ejemplar");
+            btnBaja_351FI.Enabled = ejemplarSeleccionado_351FI != null && !dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Baja Ejemplar");
+            btnReactivar_351FI.Enabled = dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Reactivar Ejemplar");
 
             lblCodigo_351FI.Text = ejemplarSeleccionado_351FI == null
                 ? bll_idioma_351FI.Traducir_351FI("FormEjemplar_351FI.codigoNuevo")
