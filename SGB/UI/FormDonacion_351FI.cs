@@ -20,6 +20,7 @@ namespace UI
         BLL_Socio_351FI bll_Socio_351FI;
         BLL_Libro_351FI bll_Libro_351FI;
         BLL_Donacion_351FI bll_Donacion_351FI;
+        BLL_Comprobante_351FI bll_Comprobante_351FI;
         BE_Socio_351FI? socioSeleccionado_351FI;
         List<BE_Libro_351FI> librosActivos_351FI = new List<BE_Libro_351FI>();
         List<BE_Libro_351FI> librosMostrados_351FI = new List<BE_Libro_351FI>();
@@ -37,6 +38,7 @@ namespace UI
             bll_Socio_351FI = new BLL_Socio_351FI();
             bll_Libro_351FI = new BLL_Libro_351FI();
             bll_Donacion_351FI = new BLL_Donacion_351FI();
+            bll_Comprobante_351FI = new BLL_Comprobante_351FI();
 
             dgvSocios_351FI.AutoGenerateColumns = false;
             colSocNumero_351FI.DataPropertyName = "NumeroSocio_351FI";
@@ -187,18 +189,18 @@ namespace UI
                 donacion.Socio_351FI = socioSeleccionado_351FI;
                 donacion.Ejemplares_351FI = detalle_351FI;
 
-                BE_ReciboDonacion_351FI recibo = bll_Donacion_351FI.Registrar_351FI(donacion);
+                bll_Donacion_351FI.Registrar_351FI(donacion);
 
                 string codigos = string.Join(", ", donacion.Ejemplares_351FI.Select(ej => ej.CodigoEjemplar_351FI));
                 MessageBox.Show($"Donación N° {donacion.NumeroDonacion_351FI} registrada correctamente.\nEjemplares dados de alta: {codigos}",
                                 "Donación registrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
                 {
-                    ComprobantesPDF_351FI.ReciboDonacion_351FI(recibo);
+                    bll_Comprobante_351FI.Emitir_351FI(bll_Donacion_351FI.ArmarComprobante_351FI(donacion));
                 }
                 catch (Exception exPdf)
                 {
-                    MessageBox.Show($"La donación quedó registrada, pero no se pudo generar el recibo en PDF.\n{exPdf.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"La donación quedó registrada, pero no se pudo generar el comprobante en PDF.\n{exPdf.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 this.Close();
             }

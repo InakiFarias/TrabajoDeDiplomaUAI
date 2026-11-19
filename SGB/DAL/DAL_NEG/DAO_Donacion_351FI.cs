@@ -52,19 +52,5 @@ namespace DAL
             cm_351FI.ExecuteNonQuery();
             con_351FI.Close();
         }
-
-        public int InsertarRecibo_351FI(int numeroDonacion_351FI, DateTime fechaEmision_351FI)
-        {
-            cm_351FI.Parameters.Clear();
-            cm_351FI.Parameters.Add("@numeroDonacion", SqlDbType.Int).Value = numeroDonacion_351FI;
-            cm_351FI.Parameters.Add("@fechaEmision", SqlDbType.Date).Value = fechaEmision_351FI;
-            cm_351FI.CommandText = @"INSERT INTO ReciboDonacion_351FI (NumeroDonacion_351FI, FechaEmision_351FI)
-                               OUTPUT INSERTED.NumeroRecibo_351FI
-                               VALUES (@numeroDonacion, @fechaEmision)";
-            con_351FI.Open();
-            int numeroRecibo = Convert.ToInt32(cm_351FI.ExecuteScalar());
-            con_351FI.Close();
-            return numeroRecibo;
-        }
     }
 }

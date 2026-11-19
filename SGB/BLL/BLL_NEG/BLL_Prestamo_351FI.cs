@@ -57,7 +57,7 @@ namespace BLL.BLL_NEG
             return consulta.ToList<object>();
         }
 
-        public BE_Comprobante_351FI Registrar_351FI(BE_Prestamo_351FI prestamo_351FI)
+        public void Registrar_351FI(BE_Prestamo_351FI prestamo_351FI)
         {
             if (prestamo_351FI.Socio_351FI == null) throw new Exception("Debe seleccionar un socio.");
             if (prestamo_351FI.Ejemplares_351FI == null || prestamo_351FI.Ejemplares_351FI.Count == 0) throw new Exception("Debe seleccionar al menos un ejemplar.");
@@ -79,18 +79,24 @@ namespace BLL.BLL_NEG
                 bll_dv_351FI.GenerarDVH_351FI("Ejemplar_351FI", ejemplar.CodigoEjemplar_351FI);
             }
 
-            BE_Comprobante_351FI comprobante = new BE_Comprobante_351FI(0, prestamo_351FI, DateTime.Today);
-            comprobante.NumeroComprobante_351FI = map_prestamo_351FI.InsertarComprobante_351FI(comprobante);
-            bll_dv_351FI.GenerarDVH_351FI("Comprobante_351FI", comprobante.NumeroComprobante_351FI);
-
             bll_dv_351FI.GenerarDVV_351FI("Prestamo_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Prestamo_Ejemplar_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Ejemplar_351FI");
-            bll_dv_351FI.GenerarDVV_351FI("Comprobante_351FI");
 
             SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Préstamos", "Registrar préstamo", 2);
             bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
+        }
 
+        // Comprobante del préstamo registrado (CU-NEG-7); no se persiste
+        public BE_Comprobante_351FI ArmarComprobante_351FI(BE_Prestamo_351FI prestamo_351FI)
+        {
+            BE_Comprobante_351FI comprobante = new BE_Comprobante_351FI("Comprobante de préstamo", prestamo_351FI.NumeroPrestamo_351FI, DateTime.Today, prestamo_351FI.Socio_351FI);
+            comprobante.Datos_351FI.Add($"Fecha del préstamo: {prestamo_351FI.FechaPrestamo_351FI:dd/MM/yyyy}");
+            comprobante.Columnas_351FI = new[] { "Código", "Título", "Autor" };
+            foreach (BE_Ejemplar_351FI ejemplar in prestamo_351FI.Ejemplares_351FI)
+                comprobante.Filas_351FI.Add(new[] { ejemplar.CodigoEjemplar_351FI, ejemplar.Libro_351FI.Titulo_351FI, string.Join(", ", ejemplar.Libro_351FI.Autores_351FI.Select(a => a.Nombre_351FI + " " + a.Apellido_351FI)) });
+            comprobante.Pie_351FI.Add($"Fecha de devolución prevista: {prestamo_351FI.FechaDevolucionPrevista_351FI:dd/MM/yyyy}");
+            comprobante.Pie_351FI.Add("La devolución posterior a esta fecha genera una multa por cada día de atraso.");
             return comprobante;
         }
     }

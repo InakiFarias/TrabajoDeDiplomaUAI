@@ -10,6 +10,7 @@ namespace UI
         BLL_Idioma_351FI bll_idioma_351FI = new BLL_Idioma_351FI();
         BLL_Socio_351FI bll_Socio_351FI;
         BLL_Multa_351FI bll_Multa_351FI;
+        BLL_Comprobante_351FI bll_Comprobante_351FI;
         BE_Socio_351FI? socioSeleccionado_351FI;
         List<BE_Multa_351FI> multasPendientes_351FI = new List<BE_Multa_351FI>();
 
@@ -23,6 +24,7 @@ namespace UI
         {
             bll_Socio_351FI = new BLL_Socio_351FI();
             bll_Multa_351FI = new BLL_Multa_351FI();
+            bll_Comprobante_351FI = new BLL_Comprobante_351FI();
 
             CargarMetodosPago_351FI();
 
@@ -177,13 +179,13 @@ namespace UI
                 if (MessageBox.Show($"¿Confirma el cobro del total adeudado de $ {total:N2} con método de pago: {cmbMetodoPago_351FI.Text}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
-                BE_ComprobantePago_351FI comprobante = bll_Multa_351FI.RegistrarPago_351FI(socioSeleccionado_351FI, multasPendientes_351FI, metodoPago);
+                BE_Pago_351FI pago = bll_Multa_351FI.RegistrarPago_351FI(socioSeleccionado_351FI, multasPendientes_351FI, metodoPago);
 
-                MessageBox.Show($"Pago registrado correctamente. Comprobante N° {comprobante.NumeroComprobante_351FI}.",
+                MessageBox.Show($"Pago N° {pago.NumeroPago_351FI} registrado correctamente.",
                                 "Pago registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
                 {
-                    ComprobantesPDF_351FI.ComprobantePago_351FI(comprobante);
+                    bll_Comprobante_351FI.Emitir_351FI(bll_Multa_351FI.ArmarComprobante_351FI(pago));
                 }
                 catch (Exception exPdf)
                 {

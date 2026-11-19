@@ -27,7 +27,7 @@ namespace BLL.BLL_NEG
         }
 
         // Registra la donación y da de alta un ejemplar disponible por cada copia donada
-        public BE_ReciboDonacion_351FI Registrar_351FI(BE_Donacion_351FI donacion_351FI)
+        public void Registrar_351FI(BE_Donacion_351FI donacion_351FI)
         {
             if (donacion_351FI.Socio_351FI == null) throw new Exception("Debe seleccionar al socio donante.");
             if (donacion_351FI.Ejemplares_351FI == null || donacion_351FI.Ejemplares_351FI.Count == 0) throw new Exception("Debe agregar al menos un ejemplar donado.");
@@ -46,19 +46,24 @@ namespace BLL.BLL_NEG
             foreach (BE_Ejemplar_351FI ejemplar in donacion_351FI.Ejemplares_351FI)
                 bll_dv_351FI.GenerarDVH_351FI("Donacion_Ejemplar_351FI", donacion_351FI.NumeroDonacion_351FI, ejemplar.CodigoEjemplar_351FI);
 
-            BE_ReciboDonacion_351FI recibo = new BE_ReciboDonacion_351FI(0, donacion_351FI, DateTime.Today);
-            recibo.NumeroRecibo_351FI = map_donacion_351FI.InsertarRecibo_351FI(recibo);
-            bll_dv_351FI.GenerarDVH_351FI("ReciboDonacion_351FI", recibo.NumeroRecibo_351FI);
-
             bll_dv_351FI.GenerarDVV_351FI("Ejemplar_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Donacion_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Donacion_Ejemplar_351FI");
-            bll_dv_351FI.GenerarDVV_351FI("ReciboDonacion_351FI");
 
             SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Multas y donaciones", "Registrar donación", 3);
             bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
+        }
 
-            return recibo;
+        // Comprobante de la donación registrada (CU-NEG-7); no se persiste
+        public BE_Comprobante_351FI ArmarComprobante_351FI(BE_Donacion_351FI donacion_351FI)
+        {
+            BE_Comprobante_351FI comprobante = new BE_Comprobante_351FI("Comprobante de donación", donacion_351FI.NumeroDonacion_351FI, DateTime.Today, donacion_351FI.Socio_351FI);
+            comprobante.Datos_351FI.Add($"Fecha de la donación: {donacion_351FI.FechaDonacion_351FI:dd/MM/yyyy}");
+            comprobante.Columnas_351FI = new[] { "Código", "Título", "Autor" };
+            foreach (BE_Ejemplar_351FI ejemplar in donacion_351FI.Ejemplares_351FI)
+                comprobante.Filas_351FI.Add(new[] { ejemplar.CodigoEjemplar_351FI, ejemplar.Libro_351FI.Titulo_351FI, string.Join(", ", ejemplar.Libro_351FI.Autores_351FI.Select(a => a.Nombre_351FI + " " + a.Apellido_351FI)) });
+            comprobante.Pie_351FI.Add($"La biblioteca agradece la donación de {donacion_351FI.Ejemplares_351FI.Count} ejemplar(es), que se incorporan a su acervo.");
+            return comprobante;
         }
 
         // Donaciones registradas, de la más reciente a la más antigua

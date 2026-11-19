@@ -43,30 +43,30 @@ namespace DAL
             return cm_351FI.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
-        public int InsertarComprobantePago_351FI(int numeroSocio_351FI, DateTime fechaEmision_351FI, string metodoPago_351FI, decimal total_351FI)
+        public int InsertarPago_351FI(int numeroSocio_351FI, DateTime fechaPago_351FI, string metodoPago_351FI, decimal total_351FI)
         {
             cm_351FI.Parameters.Clear();
             cm_351FI.Parameters.Add("@numeroSocio", SqlDbType.Int).Value = numeroSocio_351FI;
-            cm_351FI.Parameters.Add("@fechaEmision", SqlDbType.Date).Value = fechaEmision_351FI;
+            cm_351FI.Parameters.Add("@fechaPago", SqlDbType.Date).Value = fechaPago_351FI;
             cm_351FI.Parameters.Add("@metodoPago", SqlDbType.VarChar).Value = metodoPago_351FI;
             cm_351FI.Parameters.Add("@total", SqlDbType.Decimal).Value = total_351FI;
-            cm_351FI.CommandText = @"INSERT INTO ComprobantePago_351FI (NumeroSocio_351FI, FechaEmision_351FI, MetodoPago_351FI, Total_351FI)
-                               OUTPUT INSERTED.NumeroComprobante_351FI
-                               VALUES (@numeroSocio, @fechaEmision, @metodoPago, @total)";
+            cm_351FI.CommandText = @"INSERT INTO Pago_351FI (NumeroSocio_351FI, FechaPago_351FI, MetodoPago_351FI, Total_351FI)
+                               OUTPUT INSERTED.NumeroPago_351FI
+                               VALUES (@numeroSocio, @fechaPago, @metodoPago, @total)";
             con_351FI.Open();
-            int numeroComprobante = Convert.ToInt32(cm_351FI.ExecuteScalar());
+            int numeroPago = Convert.ToInt32(cm_351FI.ExecuteScalar());
             con_351FI.Close();
-            return numeroComprobante;
+            return numeroPago;
         }
 
-        public void ActualizarPagoMulta_351FI(int numeroMulta_351FI, DateTime fechaPago_351FI, string estado_351FI, int numeroComprobante_351FI)
+        public void ActualizarPagoMulta_351FI(int numeroMulta_351FI, DateTime fechaPago_351FI, string estado_351FI, int numeroPago_351FI)
         {
             cm_351FI.Parameters.Clear();
             cm_351FI.Parameters.Add("@numeroMulta", SqlDbType.Int).Value = numeroMulta_351FI;
             cm_351FI.Parameters.Add("@fechaPago", SqlDbType.Date).Value = fechaPago_351FI;
             cm_351FI.Parameters.Add("@estado", SqlDbType.VarChar).Value = estado_351FI;
-            cm_351FI.Parameters.Add("@numeroComprobante", SqlDbType.Int).Value = numeroComprobante_351FI;
-            cm_351FI.CommandText = @"UPDATE Multa_351FI SET FechaPago_351FI = @fechaPago, Estado_351FI = @estado, NumeroComprobantePago_351FI = @numeroComprobante
+            cm_351FI.Parameters.Add("@numeroPago", SqlDbType.Int).Value = numeroPago_351FI;
+            cm_351FI.CommandText = @"UPDATE Multa_351FI SET FechaPago_351FI = @fechaPago, Estado_351FI = @estado, NumeroPago_351FI = @numeroPago
                                WHERE NumeroMulta_351FI = @numeroMulta";
             con_351FI.Open();
             cm_351FI.ExecuteNonQuery();

@@ -18,7 +18,5 @@ namespace MAP
         public void ActualizarEstadoEjemplar_351FI(BE_Ejemplar_351FI ejemplar_351FI, string estado_351FI) => dao_devolucion_351FI.ActualizarEstadoEjemplar_351FI(ejemplar_351FI.CodigoEjemplar_351FI, estado_351FI);
 
         public void ActualizarEstadoPrestamo_351FI(BE_Prestamo_351FI prestamo_351FI, string estado_351FI) => dao_devolucion_351FI.ActualizarEstadoPrestamo_351FI(prestamo_351FI.NumeroPrestamo_351FI, estado_351FI);
-
-        public int InsertarComprobante_351FI(BE_ComprobanteDevolucion_351FI comprobante_351FI) => dao_devolucion_351FI.InsertarComprobante_351FI(comprobante_351FI.Devolucion_351FI.NumeroDevolucion_351FI, comprobante_351FI.FechaEmision_351FI);
     }
 }

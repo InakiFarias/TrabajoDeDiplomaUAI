@@ -42,7 +42,7 @@ namespace BLL.BLL_NEG
             return multa;
         }
 
-        public BE_ComprobanteDevolucion_351FI Registrar_351FI(BE_Prestamo_351FI prestamo_351FI, bool recepcionCompleta_351FI)
+        public BE_Devolucion_351FI Registrar_351FI(BE_Prestamo_351FI prestamo_351FI, bool recepcionCompleta_351FI)
         {
             if (prestamo_351FI == null) throw new Exception("Debe buscar un préstamo vigente.");
             if (!recepcionCompleta_351FI) throw new Exception("La devolución debe incluir todos los ejemplares del préstamo. Si el socio no los devuelve todos, la devolución no se registra.");
@@ -70,19 +70,35 @@ namespace BLL.BLL_NEG
             prestamo_351FI.Estado_351FI = "Finalizado";
             bll_dv_351FI.GenerarDVH_351FI("Prestamo_351FI", prestamo_351FI.NumeroPrestamo_351FI);
 
-            BE_ComprobanteDevolucion_351FI comprobante = new BE_ComprobanteDevolucion_351FI(0, devolucion, DateTime.Today);
-            comprobante.NumeroComprobante_351FI = map_devolucion_351FI.InsertarComprobante_351FI(comprobante);
-            bll_dv_351FI.GenerarDVH_351FI("ComprobanteDevolucion_351FI", comprobante.NumeroComprobante_351FI);
-
             bll_dv_351FI.GenerarDVV_351FI("Devolucion_351FI");
             if (devolucion.Multa_351FI != null) bll_dv_351FI.GenerarDVV_351FI("Multa_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Ejemplar_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Prestamo_351FI");
-            bll_dv_351FI.GenerarDVV_351FI("ComprobanteDevolucion_351FI");
 
             SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Préstamos", "Registrar devolución", 2);
             bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
 
+            return devolucion;
+        }
+
+        // Comprobante de la devolución registrada (CU-NEG-7); no se persiste
+        public BE_Comprobante_351FI ArmarComprobante_351FI(BE_Devolucion_351FI devolucion_351FI)
+        {
+            BE_Prestamo_351FI prestamo = devolucion_351FI.Prestamo_351FI;
+            BE_Comprobante_351FI comprobante = new BE_Comprobante_351FI("Comprobante de devolución", devolucion_351FI.NumeroDevolucion_351FI, DateTime.Today, prestamo.Socio_351FI);
+            comprobante.Datos_351FI.Add($"Préstamo N° {prestamo.NumeroPrestamo_351FI}");
+            comprobante.Datos_351FI.Add($"Fecha de devolución prevista: {prestamo.FechaDevolucionPrevista_351FI:dd/MM/yyyy}");
+            comprobante.Datos_351FI.Add($"Fecha de devolución: {devolucion_351FI.FechaDevolucion_351FI:dd/MM/yyyy}");
+            comprobante.Columnas_351FI = new[] { "Código", "Título", "Autor" };
+            foreach (BE_Ejemplar_351FI ejemplar in prestamo.Ejemplares_351FI)
+                comprobante.Filas_351FI.Add(new[] { ejemplar.CodigoEjemplar_351FI, ejemplar.Libro_351FI.Titulo_351FI, string.Join(", ", ejemplar.Libro_351FI.Autores_351FI.Select(a => a.Nombre_351FI + " " + a.Apellido_351FI)) });
+            if (devolucion_351FI.Multa_351FI != null)
+            {
+                comprobante.Pie_351FI.Add($"Multa por atraso: {devolucion_351FI.Multa_351FI.DiasAtraso_351FI} día(s) x $ {devolucion_351FI.Multa_351FI.MontoPorDia_351FI:N2} = $ {devolucion_351FI.Multa_351FI.Monto_351FI:N2}");
+                comprobante.Pie_351FI.Add("La multa queda pendiente de pago. El socio no podrá realizar nuevos préstamos hasta abonarla.");
+            }
+            else
+                comprobante.Pie_351FI.Add("Devolución en término: no se generó multa.");
             return comprobante;
         }
     }

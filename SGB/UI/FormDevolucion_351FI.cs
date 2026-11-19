@@ -19,6 +19,7 @@ namespace UI
         BLL_Idioma_351FI bll_idioma_351FI = new BLL_Idioma_351FI();
         BLL_Prestamo_351FI bll_Prestamo_351FI;
         BLL_Devolucion_351FI bll_Devolucion_351FI;
+        BLL_Comprobante_351FI bll_Comprobante_351FI;
         BLL_Ejemplar_351FI bll_Ejemplar_351FI;
         List<BE_Prestamo_351FI> prestamosMostrados_351FI = new List<BE_Prestamo_351FI>();
         BE_Prestamo_351FI? prestamoSeleccionado_351FI;
@@ -34,6 +35,7 @@ namespace UI
         {
             bll_Prestamo_351FI = new BLL_Prestamo_351FI();
             bll_Devolucion_351FI = new BLL_Devolucion_351FI();
+            bll_Comprobante_351FI = new BLL_Comprobante_351FI();
             bll_Ejemplar_351FI = new BLL_Ejemplar_351FI();
 
             dgvPrestamos_351FI.AutoGenerateColumns = false;
@@ -161,8 +163,7 @@ namespace UI
                 if (MessageBox.Show($"¿Confirma la devolución del préstamo N° {prestamoSeleccionado_351FI.NumeroPrestamo_351FI}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
-                BE_ComprobanteDevolucion_351FI comprobante = bll_Devolucion_351FI.Registrar_351FI(prestamoSeleccionado_351FI, chkRecepcionCompleta_351FI.Checked);
-                BE_Devolucion_351FI devolucion = comprobante.Devolucion_351FI;
+                BE_Devolucion_351FI devolucion = bll_Devolucion_351FI.Registrar_351FI(prestamoSeleccionado_351FI, chkRecepcionCompleta_351FI.Checked);
 
                 string mensaje = $"Devolución N° {devolucion.NumeroDevolucion_351FI} registrada correctamente.";
                 if (devolucion.Multa_351FI != null)
@@ -174,7 +175,7 @@ namespace UI
 
                 try
                 {
-                    ComprobantesPDF_351FI.ComprobanteDevolucion_351FI(comprobante);
+                    bll_Comprobante_351FI.Emitir_351FI(bll_Devolucion_351FI.ArmarComprobante_351FI(devolucion));
                 }
                 catch (Exception exPdf)
                 {

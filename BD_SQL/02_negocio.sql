@@ -102,16 +102,6 @@ CREATE TABLE Prestamo_Ejemplar_351FI (
 );
 GO
 
-CREATE TABLE Comprobante_351FI (
-    NumeroComprobante_351FI int IDENTITY(1,1) NOT NULL,
-    NumeroPrestamo_351FI    int               NOT NULL,
-    FechaEmision_351FI      date              NOT NULL,
-    CONSTRAINT PK_Comprobante PRIMARY KEY (NumeroComprobante_351FI),
-    CONSTRAINT UQ_Comprobante_Prestamo UNIQUE (NumeroPrestamo_351FI),
-    CONSTRAINT FK_Comprobante_Prestamo FOREIGN KEY (NumeroPrestamo_351FI) REFERENCES Prestamo_351FI(NumeroPrestamo_351FI)
-);
-GO
-
 -- =====================================================================
 -- Devoluciones y multas
 -- =====================================================================
@@ -125,28 +115,17 @@ CREATE TABLE Devolucion_351FI (
 );
 GO
 
--- Comprobante que se emite al registrar una devolución
-CREATE TABLE ComprobanteDevolucion_351FI (
-    NumeroComprobante_351FI int IDENTITY(1,1) NOT NULL,
-    NumeroDevolucion_351FI  int               NOT NULL,
-    FechaEmision_351FI      date              NOT NULL,
-    CONSTRAINT PK_ComprobanteDevolucion PRIMARY KEY (NumeroComprobante_351FI),
-    CONSTRAINT UQ_ComprobanteDevolucion_Devolucion UNIQUE (NumeroDevolucion_351FI),
-    CONSTRAINT FK_ComprobanteDevolucion_Devolucion FOREIGN KEY (NumeroDevolucion_351FI) REFERENCES Devolucion_351FI(NumeroDevolucion_351FI)
-);
-GO
-
--- Comprobante que se emite al cobrar el total adeudado de un socio (RF-002)
-CREATE TABLE ComprobantePago_351FI (
-    NumeroComprobante_351FI int IDENTITY(1,1) NOT NULL,
-    NumeroSocio_351FI       int               NOT NULL,
-    FechaEmision_351FI      date              NOT NULL,
-    MetodoPago_351FI        varchar(10)       NOT NULL,
-    Total_351FI             decimal(18,2)     NOT NULL,
-    CONSTRAINT PK_ComprobantePago PRIMARY KEY (NumeroComprobante_351FI),
-    CONSTRAINT FK_ComprobantePago_Socio FOREIGN KEY (NumeroSocio_351FI) REFERENCES Socio_351FI(NumeroSocio_351FI),
-    CONSTRAINT CK_ComprobantePago_MetodoPago CHECK (MetodoPago_351FI IN ('Efectivo', 'Tarjeta')),
-    CONSTRAINT CK_ComprobantePago_Total CHECK (Total_351FI > 0)
+-- Pago del total adeudado de un socio (RF-002); el comprobante de pago no se persiste
+CREATE TABLE Pago_351FI (
+    NumeroPago_351FI  int IDENTITY(1,1) NOT NULL,
+    NumeroSocio_351FI int               NOT NULL,
+    FechaPago_351FI   date              NOT NULL,
+    MetodoPago_351FI  varchar(10)       NOT NULL,
+    Total_351FI       decimal(18,2)     NOT NULL,
+    CONSTRAINT PK_Pago PRIMARY KEY (NumeroPago_351FI),
+    CONSTRAINT FK_Pago_Socio FOREIGN KEY (NumeroSocio_351FI) REFERENCES Socio_351FI(NumeroSocio_351FI),
+    CONSTRAINT CK_Pago_MetodoPago CHECK (MetodoPago_351FI IN ('Efectivo', 'Tarjeta')),
+    CONSTRAINT CK_Pago_Total CHECK (Total_351FI > 0)
 );
 GO
 
@@ -159,10 +138,10 @@ CREATE TABLE Multa_351FI (
     FechaGeneracion_351FI       date              NOT NULL,
     FechaPago_351FI             date              NULL,
     Estado_351FI                varchar(20)       NOT NULL,
-    NumeroComprobantePago_351FI int               NULL,
+    NumeroPago_351FI            int               NULL,
     CONSTRAINT PK_Multa PRIMARY KEY (NumeroMulta_351FI),
     CONSTRAINT FK_Multa_Devolucion FOREIGN KEY (NumeroDevolucion_351FI) REFERENCES Devolucion_351FI(NumeroDevolucion_351FI),
-    CONSTRAINT FK_Multa_ComprobantePago FOREIGN KEY (NumeroComprobantePago_351FI) REFERENCES ComprobantePago_351FI(NumeroComprobante_351FI),
+    CONSTRAINT FK_Multa_Pago FOREIGN KEY (NumeroPago_351FI) REFERENCES Pago_351FI(NumeroPago_351FI),
     CONSTRAINT CK_Multa_Estado CHECK (Estado_351FI IN ('Pendiente de pago', 'Pagada')),
     CONSTRAINT CK_Multa_DiasAtraso CHECK (DiasAtraso_351FI > 0)
 );
@@ -191,12 +170,3 @@ CREATE TABLE Donacion_Ejemplar_351FI (
 );
 GO
 
-CREATE TABLE ReciboDonacion_351FI (
-    NumeroRecibo_351FI   int IDENTITY(1,1) NOT NULL,
-    NumeroDonacion_351FI int               NOT NULL,
-    FechaEmision_351FI   date              NOT NULL,
-    CONSTRAINT PK_ReciboDonacion PRIMARY KEY (NumeroRecibo_351FI),
-    CONSTRAINT UQ_ReciboDonacion_Donacion UNIQUE (NumeroDonacion_351FI),
-    CONSTRAINT FK_ReciboDonacion_Donacion FOREIGN KEY (NumeroDonacion_351FI) REFERENCES Donacion_351FI(NumeroDonacion_351FI)
-);
-GO

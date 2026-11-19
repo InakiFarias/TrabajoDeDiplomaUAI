@@ -20,6 +20,7 @@ namespace UI
         BLL_Socio_351FI bll_Socio_351FI;
         BLL_Ejemplar_351FI bll_Ejemplar_351FI;
         BLL_Prestamo_351FI bll_Prestamo_351FI;
+        BLL_Comprobante_351FI bll_Comprobante_351FI;
         BE_Socio_351FI? socioSeleccionado_351FI;
         BE_Socio_351FI? socioConsultado_351FI;
         string habilitacionConsultada_351FI = "";
@@ -36,6 +37,7 @@ namespace UI
             bll_Socio_351FI = new BLL_Socio_351FI();
             bll_Ejemplar_351FI = new BLL_Ejemplar_351FI();
             bll_Prestamo_351FI = new BLL_Prestamo_351FI();
+            bll_Comprobante_351FI = new BLL_Comprobante_351FI();
             foreach (Control control in this.Controls)
             {
                 if (control is DataGridView)
@@ -212,7 +214,7 @@ namespace UI
                 prestamo.Socio_351FI = socioSeleccionado_351FI;
                 prestamo.Ejemplares_351FI = detalle_351FI;
 
-                BE_Comprobante_351FI comprobante = bll_Prestamo_351FI.Registrar_351FI(prestamo);
+                bll_Prestamo_351FI.Registrar_351FI(prestamo);
 
                 MessageBox.Show($"Préstamo N° {prestamo.NumeroPrestamo_351FI} registrado correctamente.\n" +
                                 $"Devolver antes del: {prestamo.FechaDevolucionPrevista_351FI:dd/MM/yyyy}",
@@ -220,7 +222,7 @@ namespace UI
 
                 try
                 {
-                    ComprobantesPDF_351FI.ComprobantePrestamo_351FI(comprobante);
+                    bll_Comprobante_351FI.Emitir_351FI(bll_Prestamo_351FI.ArmarComprobante_351FI(prestamo));
                 }
                 catch (Exception exPdf)
                 {

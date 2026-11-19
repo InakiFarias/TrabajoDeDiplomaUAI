@@ -64,19 +64,5 @@ namespace DAL
             cm_351FI.ExecuteNonQuery();
             con_351FI.Close();
         }
-
-        public int InsertarComprobante_351FI(int numeroDevolucion_351FI, DateTime fechaEmision_351FI)
-        {
-            cm_351FI.Parameters.Clear();
-            cm_351FI.Parameters.Add("@numeroDevolucion", SqlDbType.Int).Value = numeroDevolucion_351FI;
-            cm_351FI.Parameters.Add("@fechaEmision", SqlDbType.Date).Value = fechaEmision_351FI;
-            cm_351FI.CommandText = @"INSERT INTO ComprobanteDevolucion_351FI (NumeroDevolucion_351FI, FechaEmision_351FI)
-                               OUTPUT INSERTED.NumeroComprobante_351FI
-                               VALUES (@numeroDevolucion, @fechaEmision)";
-            con_351FI.Open();
-            int numeroComprobante = Convert.ToInt32(cm_351FI.ExecuteScalar());
-            con_351FI.Close();
-            return numeroComprobante;
-        }
     }
 }

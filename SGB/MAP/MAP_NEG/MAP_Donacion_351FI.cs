@@ -47,7 +47,5 @@ namespace MAP
                 dao_donacion_351FI.InsertarDetalle_351FI(numeroDonacion, ejemplar.CodigoEjemplar_351FI);
             return numeroDonacion;
         }
-
-        public int InsertarRecibo_351FI(BE_ReciboDonacion_351FI recibo_351FI) => dao_donacion_351FI.InsertarRecibo_351FI(recibo_351FI.Donacion_351FI.NumeroDonacion_351FI, recibo_351FI.FechaEmision_351FI);
     }
 }

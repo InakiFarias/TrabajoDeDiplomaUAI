@@ -61,30 +61,43 @@ namespace BLL.BLL_NEG
             return suma % 10 == 0;
         }
 
-        public BE_ComprobantePago_351FI RegistrarPago_351FI(BE_Socio_351FI socio_351FI, List<BE_Multa_351FI> multas_351FI, string metodoPago_351FI)
+        public BE_Pago_351FI RegistrarPago_351FI(BE_Socio_351FI socio_351FI, List<BE_Multa_351FI> multas_351FI, string metodoPago_351FI)
         {
             if (socio_351FI == null) throw new Exception("Debe seleccionar un socio.");
             if (multas_351FI == null || multas_351FI.Count == 0) throw new Exception("El socio no posee multas pendientes de pago.");
             if (metodoPago_351FI != METODO_EFECTIVO && metodoPago_351FI != METODO_TARJETA) throw new Exception("Seleccione el método de pago.");
 
-            BE_ComprobantePago_351FI comprobante = new BE_ComprobantePago_351FI(0, socio_351FI, DateTime.Today, multas_351FI, metodoPago_351FI, CalcularTotalAdeudado_351FI(multas_351FI));
-            comprobante.NumeroComprobante_351FI = map_multa_351FI.InsertarComprobantePago_351FI(comprobante);
-            bll_dv_351FI.GenerarDVH_351FI("ComprobantePago_351FI", comprobante.NumeroComprobante_351FI);
+            BE_Pago_351FI pago = new BE_Pago_351FI(0, socio_351FI, DateTime.Today, multas_351FI, metodoPago_351FI, CalcularTotalAdeudado_351FI(multas_351FI));
+            pago.NumeroPago_351FI = map_multa_351FI.InsertarPago_351FI(pago);
+            bll_dv_351FI.GenerarDVH_351FI("Pago_351FI", pago.NumeroPago_351FI);
 
             foreach (BE_Multa_351FI multa in multas_351FI)
             {
                 multa.FechaPago_351FI = DateTime.Today;
                 multa.Estado_351FI = "Pagada";
-                map_multa_351FI.ActualizarPagoMulta_351FI(multa, comprobante.NumeroComprobante_351FI);
+                map_multa_351FI.ActualizarPagoMulta_351FI(multa, pago.NumeroPago_351FI);
                 bll_dv_351FI.GenerarDVH_351FI("Multa_351FI", multa.NumeroMulta_351FI);
             }
 
-            bll_dv_351FI.GenerarDVV_351FI("ComprobantePago_351FI");
+            bll_dv_351FI.GenerarDVV_351FI("Pago_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Multa_351FI");
 
             SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Multas y donaciones", "Cobrar multas", 1);
             bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
 
+            return pago;
+        }
+
+        // Comprobante del pago registrado (CU-NEG-7); no se persiste
+        public BE_Comprobante_351FI ArmarComprobante_351FI(BE_Pago_351FI pago_351FI)
+        {
+            BE_Comprobante_351FI comprobante = new BE_Comprobante_351FI("Comprobante de pago de multas", pago_351FI.NumeroPago_351FI, DateTime.Today, pago_351FI.Socio_351FI);
+            comprobante.Datos_351FI.Add($"Fecha de pago: {pago_351FI.FechaPago_351FI:dd/MM/yyyy}");
+            comprobante.Columnas_351FI = new[] { "N° multa", "Préstamo", "Fecha de generación", "Días de atraso", "Monto" };
+            foreach (BE_Multa_351FI multa in pago_351FI.Multas_351FI)
+                comprobante.Filas_351FI.Add(new[] { multa.NumeroMulta_351FI.ToString(), multa.Devolucion_351FI.Prestamo_351FI.NumeroPrestamo_351FI.ToString(), multa.FechaGeneracion_351FI.ToString("dd/MM/yyyy"), multa.DiasAtraso_351FI.ToString(), $"$ {multa.Monto_351FI:N2}" });
+            comprobante.Pie_351FI.Add($"Total abonado: $ {pago_351FI.Total_351FI:N2}");
+            comprobante.Pie_351FI.Add($"Método de pago: {pago_351FI.MetodoPago_351FI}");
             return comprobante;
         }
 

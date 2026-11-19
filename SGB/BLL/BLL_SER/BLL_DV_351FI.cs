@@ -34,14 +34,11 @@ namespace BLL.BLL_SER
             { "Ejemplar_351FI",               new[] { "CodigoEjemplar_351FI" } },
             { "Prestamo_351FI",               new[] { "NumeroPrestamo_351FI" } },
             { "Prestamo_Ejemplar_351FI",      new[] { "NumeroPrestamo_351FI", "CodigoEjemplar_351FI" } },
-            { "Comprobante_351FI",            new[] { "NumeroComprobante_351FI" } },
             { "Devolucion_351FI",             new[] { "NumeroDevolucion_351FI" } },
-            { "ComprobanteDevolucion_351FI",  new[] { "NumeroComprobante_351FI" } },
             { "Multa_351FI",                  new[] { "NumeroMulta_351FI" } },
-            { "ComprobantePago_351FI",        new[] { "NumeroComprobante_351FI" } },
+            { "Pago_351FI",                   new[] { "NumeroPago_351FI" } },
             { "Donacion_351FI",               new[] { "NumeroDonacion_351FI" } },
-            { "Donacion_Ejemplar_351FI",      new[] { "NumeroDonacion_351FI", "CodigoEjemplar_351FI" } },
-            { "ReciboDonacion_351FI",         new[] { "NumeroRecibo_351FI" } }
+            { "Donacion_Ejemplar_351FI",      new[] { "NumeroDonacion_351FI", "CodigoEjemplar_351FI" } }
         };
 
         public BLL_DV_351FI()
