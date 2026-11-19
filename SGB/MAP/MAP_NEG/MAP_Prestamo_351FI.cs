@@ -74,5 +74,9 @@ namespace MAP
             if (fecha == null || fecha == DBNull.Value) return null;
             return Convert.ToDateTime(fecha);
         }
+
+        public int ContarVigentes_351FI(BE_Socio_351FI socio_351FI) => dao_prestamo_351FI.ContarVigentes_351FI(socio_351FI.NumeroSocio_351FI);
+
+        public int ContarVencidos_351FI(BE_Socio_351FI socio_351FI) => dao_prestamo_351FI.ContarVencidos_351FI(socio_351FI.NumeroSocio_351FI);
     }
 }

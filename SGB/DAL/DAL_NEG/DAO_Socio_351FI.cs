@@ -80,45 +80,5 @@ namespace DAL
             cm_351FI.ExecuteNonQuery();
             con_351FI.Close();
         }
-
-        public int ContarPrestamosVigentes_351FI(int numeroSocio_351FI)
-        {
-            cm_351FI.Parameters.Clear();
-            cm_351FI.Parameters.Add("@numeroSocio", SqlDbType.Int).Value = numeroSocio_351FI;
-            cm_351FI.CommandText = "SELECT COUNT(*) FROM Prestamo_351FI WHERE NumeroSocio_351FI = @numeroSocio AND Estado_351FI = 'Vigente'";
-            con_351FI.Open();
-            int cantidad = Convert.ToInt32(cm_351FI.ExecuteScalar());
-            con_351FI.Close();
-            return cantidad;
-        }
-
-        public int ContarPrestamosVencidos_351FI(int numeroSocio_351FI)
-        {
-            cm_351FI.Parameters.Clear();
-            cm_351FI.Parameters.Add("@numeroSocio", SqlDbType.Int).Value = numeroSocio_351FI;
-            cm_351FI.CommandText = @"SELECT COUNT(*) FROM Prestamo_351FI
-                               WHERE NumeroSocio_351FI = @numeroSocio
-                               AND Estado_351FI = 'Vigente'
-                               AND FechaDevolucionPrevista_351FI < CAST(GETDATE() AS date)";
-            con_351FI.Open();
-            int cantidad = Convert.ToInt32(cm_351FI.ExecuteScalar());
-            con_351FI.Close();
-            return cantidad;
-        }
-
-        public int ContarMultasPendientes_351FI(int numeroSocio_351FI)
-        {
-            cm_351FI.Parameters.Clear();
-            cm_351FI.Parameters.Add("@numeroSocio", SqlDbType.Int).Value = numeroSocio_351FI;
-            cm_351FI.CommandText = @"SELECT COUNT(*) FROM Multa_351FI m
-                               INNER JOIN Devolucion_351FI d ON d.NumeroDevolucion_351FI = m.NumeroDevolucion_351FI
-                               INNER JOIN Prestamo_351FI p ON p.NumeroPrestamo_351FI = d.NumeroPrestamo_351FI
-                               WHERE p.NumeroSocio_351FI = @numeroSocio
-                               AND m.Estado_351FI = 'Pendiente de pago'";
-            con_351FI.Open();
-            int cantidad = Convert.ToInt32(cm_351FI.ExecuteScalar());
-            con_351FI.Close();
-            return cantidad;
-        }
     }
 }

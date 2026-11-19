@@ -42,7 +42,6 @@ namespace UI
             colSocApellido_351FI = new DataGridViewTextBoxColumn();
             colSocNombre_351FI = new DataGridViewTextBoxColumn();
             colSocDni_351FI = new DataGridViewTextBoxColumn();
-            colSocMonto_351FI = new DataGridViewTextBoxColumn();
             lblSocio_351FI = new Label();
             crdMultas_351FI = new TarjetaSGB_351FI();
             lblSeccionMultas_351FI = new Label();
@@ -152,7 +151,7 @@ namespace UI
             // 
             // dgvSocios
             // 
-            dgvSocios_351FI.Columns.AddRange(new DataGridViewColumn[] { colSocNumero_351FI, colSocApellido_351FI, colSocNombre_351FI, colSocDni_351FI, colSocMonto_351FI });
+            dgvSocios_351FI.Columns.AddRange(new DataGridViewColumn[] { colSocNumero_351FI, colSocApellido_351FI, colSocNombre_351FI, colSocDni_351FI });
             dgvSocios_351FI.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvSocios_351FI.Location = new Point(20, 116);
             dgvSocios_351FI.Name = "dgvSocios_351FI";
@@ -186,13 +185,6 @@ namespace UI
             colSocDni_351FI.HeaderText = "DNI";
             colSocDni_351FI.Name = "colSocDni_351FI";
             colSocDni_351FI.ReadOnly = true;
-            // 
-            // colSocMonto
-            // 
-            colSocMonto_351FI.FillWeight = 22F;
-            colSocMonto_351FI.HeaderText = "Adeudado ($)";
-            colSocMonto_351FI.Name = "colSocMonto_351FI";
-            colSocMonto_351FI.ReadOnly = true;
             dgvSocios_351FI.CellDoubleClick += dgvSocios_351FI_CellDoubleClick;
             // 
             // lblSocio
@@ -421,7 +413,6 @@ namespace UI
         private DataGridViewTextBoxColumn colSocApellido_351FI;
         private DataGridViewTextBoxColumn colSocNombre_351FI;
         private DataGridViewTextBoxColumn colSocDni_351FI;
-        private DataGridViewTextBoxColumn colSocMonto_351FI;
         private Label lblSocio_351FI;
         private TarjetaSGB_351FI crdMultas_351FI;
         private Label lblSeccionMultas_351FI;

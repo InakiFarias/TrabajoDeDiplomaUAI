@@ -24,10 +24,6 @@ namespace MAP
 
         public void ActualizarEstado_351FI(BE_Socio_351FI socio_351FI, string estado_351FI) => dao_socio_351FI.ActualizarEstado_351FI(socio_351FI.NumeroSocio_351FI, estado_351FI);
 
-        public int ContarPrestamosVigentes_351FI(BE_Socio_351FI socio_351FI) => dao_socio_351FI.ContarPrestamosVigentes_351FI(socio_351FI.NumeroSocio_351FI);
-        public int ContarPrestamosVencidos_351FI(BE_Socio_351FI socio_351FI) => dao_socio_351FI.ContarPrestamosVencidos_351FI(socio_351FI.NumeroSocio_351FI);
-        public int ContarMultasPendientes_351FI(BE_Socio_351FI socio_351FI) => dao_socio_351FI.ContarMultasPendientes_351FI(socio_351FI.NumeroSocio_351FI);
-
         private List<BE_Socio_351FI> Mapear_351FI(SqlDataReader dr_351FI)
         {
             List<BE_Socio_351FI> lista = new List<BE_Socio_351FI>();

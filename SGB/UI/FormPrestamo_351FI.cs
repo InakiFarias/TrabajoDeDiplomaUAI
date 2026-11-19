@@ -104,7 +104,7 @@ namespace UI
         {
             try
             {
-                if (dgvSocios_351FI.Rows.Count == 0) throw new Exception("No existe un socio registrado con el DNI ingresado.");
+                if (dgvSocios_351FI.Rows.Count == 0) throw new Exception("El socio no se encuentra registrado o está dado de baja. Debe registrarse o darse de alta mediante la gestión de socios.");
                 if (dgvSocios_351FI.SelectedRows.Count == 0) throw new Exception("Seleccione un socio.");
 
                 BE_Socio_351FI socio = (BE_Socio_351FI)dgvSocios_351FI.SelectedRows[0].DataBoundItem;

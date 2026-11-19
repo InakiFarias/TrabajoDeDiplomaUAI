@@ -8,7 +8,6 @@ namespace BE
         public string Dni_351FI { get; set; }
         public string Estado_351FI { get; set; }
         public string EstadoHabilitacion_351FI { get; set; }
-        public decimal MontoAdeudado_351FI { get; set; }
 
         public BE_Socio_351FI() { }
 

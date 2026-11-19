@@ -26,6 +26,10 @@ namespace BLL.BLL_NEG
 
         public DateTime? ObtenerFechaDevolucionPrevista_351FI(string codigoEjemplar_351FI) => map_prestamo_351FI.ObtenerFechaDevolucionPrevista_351FI(codigoEjemplar_351FI);
 
+        public int ContarVigentes_351FI(BE_Socio_351FI socio_351FI) => map_prestamo_351FI.ContarVigentes_351FI(socio_351FI);
+
+        public int ContarVencidos_351FI(BE_Socio_351FI socio_351FI) => map_prestamo_351FI.ContarVencidos_351FI(socio_351FI);
+
         public BE_Prestamo_351FI BuscarVigente_351FI(string numeroPrestamo_351FI)
         {
             if (!int.TryParse(numeroPrestamo_351FI?.Trim(), out int numero) || numero <= 0)

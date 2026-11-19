@@ -20,8 +20,7 @@ namespace BLL.BLL_NEG
             bll_dv_351FI = new BLL_DV_351FI();
         }
 
-        // Solo los socios que tienen multas pendientes, con el total adeudado
-        public List<BE_Socio_351FI> BuscarSociosConMultas_351FI(string dni_351FI) => map_multa_351FI.ObtenerSociosConMultas_351FI(dni_351FI?.Trim() ?? "");
+        public int ContarPendientes_351FI(BE_Socio_351FI socio_351FI) => map_multa_351FI.ContarPendientes_351FI(socio_351FI);
 
         public List<BE_Multa_351FI> ObtenerPendientes_351FI(BE_Socio_351FI socio_351FI)
         {

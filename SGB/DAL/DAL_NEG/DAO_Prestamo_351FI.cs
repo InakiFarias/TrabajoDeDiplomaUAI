@@ -105,5 +105,32 @@ namespace DAL
             con_351FI.Close();
             return fecha;
         }
+
+        // Préstamos vigentes del socio (habilitación para préstamos y baja de socio)
+        public int ContarVigentes_351FI(int numeroSocio_351FI)
+        {
+            cm_351FI.Parameters.Clear();
+            cm_351FI.Parameters.Add("@numeroSocio", SqlDbType.Int).Value = numeroSocio_351FI;
+            cm_351FI.CommandText = "SELECT COUNT(*) FROM Prestamo_351FI WHERE NumeroSocio_351FI = @numeroSocio AND Estado_351FI = 'Vigente'";
+            con_351FI.Open();
+            int cantidad = Convert.ToInt32(cm_351FI.ExecuteScalar());
+            con_351FI.Close();
+            return cantidad;
+        }
+
+        // Préstamos vigentes del socio cuya fecha de devolución prevista ya pasó
+        public int ContarVencidos_351FI(int numeroSocio_351FI)
+        {
+            cm_351FI.Parameters.Clear();
+            cm_351FI.Parameters.Add("@numeroSocio", SqlDbType.Int).Value = numeroSocio_351FI;
+            cm_351FI.CommandText = @"SELECT COUNT(*) FROM Prestamo_351FI
+                               WHERE NumeroSocio_351FI = @numeroSocio
+                               AND Estado_351FI = 'Vigente'
+                               AND FechaDevolucionPrevista_351FI < CAST(GETDATE() AS date)";
+            con_351FI.Open();
+            int cantidad = Convert.ToInt32(cm_351FI.ExecuteScalar());
+            con_351FI.Close();
+            return cantidad;
+        }
     }
 }

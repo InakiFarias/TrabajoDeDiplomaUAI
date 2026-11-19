@@ -8,6 +8,7 @@ namespace UI
     public partial class FormMulta_351FI : Form, IObservadorIdioma_351FI
     {
         BLL_Idioma_351FI bll_idioma_351FI = new BLL_Idioma_351FI();
+        BLL_Socio_351FI bll_Socio_351FI;
         BLL_Multa_351FI bll_Multa_351FI;
         BE_Socio_351FI? socioSeleccionado_351FI;
         List<BE_Multa_351FI> multasPendientes_351FI = new List<BE_Multa_351FI>();
@@ -20,19 +21,17 @@ namespace UI
 
         private void FormMulta_351FI_Load(object sender_351FI, EventArgs e_351FI)
         {
+            bll_Socio_351FI = new BLL_Socio_351FI();
             bll_Multa_351FI = new BLL_Multa_351FI();
 
             CargarMetodosPago_351FI();
 
-            // Solo se listan los socios que tienen multas pendientes, con el total que adeudan
+            // Se listan los socios activos; las multas pendientes se obtienen al seleccionar uno
             dgvSocios_351FI.AutoGenerateColumns = false;
             colSocNumero_351FI.DataPropertyName = "NumeroSocio_351FI";
             colSocApellido_351FI.DataPropertyName = "Apellido_351FI";
             colSocNombre_351FI.DataPropertyName = "Nombre_351FI";
             colSocDni_351FI.DataPropertyName = "Dni_351FI";
-            colSocMonto_351FI.DataPropertyName = "MontoAdeudado_351FI";
-            colSocMonto_351FI.DefaultCellStyle.Format = "N2";
-            colSocMonto_351FI.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
             dgvMultas_351FI.AutoGenerateColumns = false;
             colMulNumero_351FI.DataPropertyName = "Numero";
@@ -53,7 +52,7 @@ namespace UI
 
         private void CargarSocios_351FI()
         {
-            Mostrar_351FI(dgvSocios_351FI, bll_Multa_351FI.BuscarSociosConMultas_351FI(txtDni_351FI.Text));
+            Mostrar_351FI(dgvSocios_351FI, bll_Socio_351FI.BuscarActivosPorDni_351FI(txtDni_351FI.Text));
         }
 
         // ------------------------------------------------------------ Socio
@@ -73,12 +72,13 @@ namespace UI
             try
             {
                 LimpiarMultas_351FI();
-                if (dgvSocios_351FI.Rows.Count == 0) throw new Exception("No hay socios con multas pendientes que coincidan con el DNI ingresado.");
+                if (dgvSocios_351FI.Rows.Count == 0) throw new Exception("El socio no se encuentra registrado o está dado de baja. Debe registrarse o darse de alta mediante la gestión de socios.");
                 if (dgvSocios_351FI.SelectedRows.Count == 0) throw new Exception("Seleccione un socio.");
 
                 BE_Socio_351FI socio = (BE_Socio_351FI)dgvSocios_351FI.SelectedRows[0].DataBoundItem;
                 multasPendientes_351FI = bll_Multa_351FI.ObtenerPendientes_351FI(socio);
                 socioSeleccionado_351FI = socio;
+                MostrarSocio_351FI();
                 MostrarMultas_351FI();
             }
             catch (Exception ex)
@@ -87,16 +87,21 @@ namespace UI
             }
         }
 
+        private void MostrarSocio_351FI()
+        {
+            lblSocio_351FI.Text = socioSeleccionado_351FI == null
+                ? $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblSocio_351FI")} —"
+                : $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblSocio_351FI")} {socioSeleccionado_351FI.Apellido_351FI}, {socioSeleccionado_351FI.Nombre_351FI} - {bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.colSocDni_351FI")} {socioSeleccionado_351FI.Dni_351FI}";
+        }
+
         private void MostrarMultas_351FI()
         {
             if (socioSeleccionado_351FI == null)
             {
                 dgvMultas_351FI.DataSource = null;
-                lblSocio_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblSocio_351FI")} —";
                 lblTotal_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblTotal_351FI")} $ {0m:N2}";
                 return;
             }
-            lblSocio_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblSocio_351FI")} {socioSeleccionado_351FI.Apellido_351FI}, {socioSeleccionado_351FI.Nombre_351FI} - {bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.colSocDni_351FI")} {socioSeleccionado_351FI.Dni_351FI}";
             Mostrar_351FI(dgvMultas_351FI, bll_Multa_351FI.ConsultarParaGrilla_351FI(multasPendientes_351FI));
             lblTotal_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblTotal_351FI")} $ {bll_Multa_351FI.CalcularTotalAdeudado_351FI(multasPendientes_351FI):N2}";
         }
@@ -107,6 +112,7 @@ namespace UI
             multasPendientes_351FI = new List<BE_Multa_351FI>();
             cmbMetodoPago_351FI.SelectedIndex = 0;
             txtNumeroTarjeta_351FI.Clear();
+            MostrarSocio_351FI();
             MostrarMultas_351FI();
         }
 
@@ -203,7 +209,6 @@ namespace UI
             colSocApellido_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.colSocApellido_351FI");
             colSocNombre_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.colSocNombre_351FI");
             colSocDni_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.colSocDni_351FI");
-            colSocMonto_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.colSocMonto_351FI");
             lblSeccionMultas_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblSeccionMultas_351FI");
             colMulNumero_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.colMulNumero_351FI");
             colMulPrestamo_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.colMulPrestamo_351FI");
@@ -215,7 +220,11 @@ namespace UI
             CargarMetodosPago_351FI();
             btnConfirmarCobro_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.btnConfirmarCobro_351FI");
             btnNoAbona_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.btnNoAbona_351FI");
-            if (bll_Multa_351FI != null) MostrarMultas_351FI();
+            if (bll_Multa_351FI != null)
+            {
+                MostrarSocio_351FI();
+                MostrarMultas_351FI();
+            }
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

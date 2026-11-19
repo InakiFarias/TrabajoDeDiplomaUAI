@@ -10,11 +10,15 @@ namespace BLL.BLL_NEG
         public const string HABILITADO = "Habilitado";
 
         MAP_Socio_351FI map_socio_351FI;
+        BLL_Prestamo_351FI bll_prestamo_351FI;
+        BLL_Multa_351FI bll_multa_351FI;
         BLL_Bitacora_351FI bll_bitacora_351FI;
         BLL_DV_351FI bll_dv_351FI;
         public BLL_Socio_351FI()
         {
             map_socio_351FI = new MAP_Socio_351FI();
+            bll_prestamo_351FI = new BLL_Prestamo_351FI();
+            bll_multa_351FI = new BLL_Multa_351FI();
             bll_bitacora_351FI = new BLL_Bitacora_351FI();
             bll_dv_351FI = new BLL_DV_351FI();
         }
@@ -43,11 +47,11 @@ namespace BLL.BLL_NEG
 
         public string ValidarHabilitacion_351FI(BE_Socio_351FI socio_351FI)
         {
-            if (map_socio_351FI.ContarPrestamosVencidos_351FI(socio_351FI) > 0)
+            if (bll_prestamo_351FI.ContarVencidos_351FI(socio_351FI) > 0)
                 socio_351FI.EstadoHabilitacion_351FI = "Posee préstamos vencidos";
-            else if (map_socio_351FI.ContarPrestamosVigentes_351FI(socio_351FI) >= BLL_Prestamo_351FI.MAXIMO_PRESTAMOS_VIGENTES)
+            else if (bll_prestamo_351FI.ContarVigentes_351FI(socio_351FI) >= BLL_Prestamo_351FI.MAXIMO_PRESTAMOS_VIGENTES)
                 socio_351FI.EstadoHabilitacion_351FI = $"Alcanzó la cantidad máxima de {BLL_Prestamo_351FI.MAXIMO_PRESTAMOS_VIGENTES} préstamos vigentes";
-            else if (map_socio_351FI.ContarMultasPendientes_351FI(socio_351FI) > 0)
+            else if (bll_multa_351FI.ContarPendientes_351FI(socio_351FI) > 0)
                 socio_351FI.EstadoHabilitacion_351FI = "Posee multas pendientes de pago";
             else
                 socio_351FI.EstadoHabilitacion_351FI = HABILITADO;
@@ -80,8 +84,8 @@ namespace BLL.BLL_NEG
         public void Baja_351FI(BE_Socio_351FI socio_351FI)
         {
             if (socio_351FI.Estado_351FI == "Baja") throw new Exception("El socio ya se encuentra dado de baja.");
-            if (map_socio_351FI.ContarPrestamosVigentes_351FI(socio_351FI) > 0) throw new Exception("No se puede dar de baja al socio porque posee préstamos vigentes.");
-            if (map_socio_351FI.ContarMultasPendientes_351FI(socio_351FI) > 0) throw new Exception("No se puede dar de baja al socio porque posee multas pendientes de pago.");
+            if (bll_prestamo_351FI.ContarVigentes_351FI(socio_351FI) > 0) throw new Exception("No se puede dar de baja al socio porque posee préstamos vigentes.");
+            if (bll_multa_351FI.ContarPendientes_351FI(socio_351FI) > 0) throw new Exception("No se puede dar de baja al socio porque posee multas pendientes de pago.");
 
             map_socio_351FI.ActualizarEstado_351FI(socio_351FI, "Baja");
             socio_351FI.Estado_351FI = "Baja";

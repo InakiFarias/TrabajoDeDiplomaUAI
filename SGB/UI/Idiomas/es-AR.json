@@ -215,7 +215,6 @@
   "FormMulta_351FI.colMulPrestamo_351FI": "Préstamo",
   "FormMulta_351FI.colSocApellido_351FI": "Apellido",
   "FormMulta_351FI.colSocDni_351FI": "DNI",
-  "FormMulta_351FI.colSocMonto_351FI": "Adeudado ($)",
   "FormMulta_351FI.colSocNombre_351FI": "Nombre",
   "FormMulta_351FI.colSocNumero_351FI": "Número",
   "FormMulta_351FI.lblDni_351FI": "DNI del socio con multas (búsqueda incremental)",

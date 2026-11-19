@@ -12,24 +12,7 @@ namespace MAP
             dao_multa_351FI = new DAO_Multa_351FI();
         }
 
-        public List<BE_Socio_351FI> ObtenerSociosConMultas_351FI(string dni_351FI)
-        {
-            List<BE_Socio_351FI> lista = new List<BE_Socio_351FI>();
-            SqlDataReader dr = dao_multa_351FI.ObtenerSociosConMultas_351FI(dni_351FI);
-            while (dr.Read())
-            {
-                BE_Socio_351FI socio = new BE_Socio_351FI(
-                    Convert.ToInt32(dr["NumeroSocio_351FI"]),
-                    Convert.ToString(dr["Nombre_351FI"]),
-                    Convert.ToString(dr["Apellido_351FI"]),
-                    Convert.ToString(dr["Dni_351FI"]),
-                    Convert.ToString(dr["Estado_351FI"]));
-                socio.MontoAdeudado_351FI = Convert.ToDecimal(dr["MontoAdeudado"]);
-                lista.Add(socio);
-            }
-            dr.Close();
-            return lista;
-        }
+        public int ContarPendientes_351FI(BE_Socio_351FI socio_351FI) => dao_multa_351FI.ContarPendientes_351FI(socio_351FI.NumeroSocio_351FI);
 
         public List<BE_Multa_351FI> ObtenerMultasPendientes_351FI(BE_Socio_351FI socio_351FI)
         {

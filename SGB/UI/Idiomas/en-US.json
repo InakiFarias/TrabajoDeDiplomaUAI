@@ -215,7 +215,6 @@
   "FormMulta_351FI.colMulPrestamo_351FI": "Loan",
   "FormMulta_351FI.colSocApellido_351FI": "Last name",
   "FormMulta_351FI.colSocDni_351FI": "ID",
-  "FormMulta_351FI.colSocMonto_351FI": "Owed ($)",
   "FormMulta_351FI.colSocNombre_351FI": "First name",
   "FormMulta_351FI.colSocNumero_351FI": "Number",
   "FormMulta_351FI.lblDni_351FI": "ID of member with fines (search as you type)",
