@@ -338,5 +338,9 @@
   "FormControlCambios_351FI.colSocNombre_351FI": "Nombre",
   "FormControlCambios_351FI.colSocDni_351FI": "DNI",
   "FormControlCambios_351FI.colSocEstado_351FI": "Estado",
-  "FormControlCambios_351FI.btnCerrar_351FI": "Cerrar"
-}
+  "FormControlCambios_351FI.btnCerrar_351FI": "Cerrar",
+  "FormLibro_351FI.btnSerializar_351FI": "Serializar",
+  "FormLibro_351FI.btnDeserializar_351FI": "Deserializar",
+  "FormLibro_351FI.btnActualizar_351FI": "Actualizar",
+  "FormLibro_351FI.modoArchivo": "Archivo XML (solo lectura). Presione Actualizar para volver a los libros de la base."
+}

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,9 @@ namespace UI
     {
         BLL_Idioma_351FI bll_idioma_351FI = new BLL_Idioma_351FI();
         BLL_Libro_351FI bll_Libro_351FI;
+        BLL_Serializador_351FI bll_Serializador_351FI = new BLL_Serializador_351FI();
+        BLL_Deserializador_351FI bll_Deserializador_351FI = new BLL_Deserializador_351FI();
+        bool viendoArchivo_351FI;
         List<BE_Libro_351FI> librosMostrados_351FI = new List<BE_Libro_351FI>();
         BE_Libro_351FI? libroSeleccionado_351FI;
 
@@ -46,6 +50,8 @@ namespace UI
 
             SER_Usuario_351FI usuario = SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI;
             btnAlta_351FI.Enabled = usuario.Rol_351FI.TienePermiso_351FI("Alta Libro");
+            btnSerializar_351FI.Enabled = usuario.Rol_351FI.TienePermiso_351FI("Serializar Libros");
+            btnDeserializar_351FI.Enabled = usuario.Rol_351FI.TienePermiso_351FI("Deserializar Libros");
 
             CargarAutores_351FI(new List<int>());
             CargarTemas_351FI(new List<int>());
@@ -63,9 +69,15 @@ namespace UI
 
         private void CargarLibros_351FI()
         {
+            viendoArchivo_351FI = false;
             librosMostrados_351FI = bll_Libro_351FI.BuscarPorTexto_351FI(txtBuscar_351FI.Text);
+            MostrarLibros_351FI(bll_Libro_351FI.ConsultarParaGrilla_351FI(librosMostrados_351FI));
+        }
+
+        private void MostrarLibros_351FI(List<object> filas_351FI)
+        {
             dgvLibros_351FI.DataSource = null;
-            dgvLibros_351FI.DataSource = bll_Libro_351FI.ConsultarParaGrilla_351FI(librosMostrados_351FI);
+            dgvLibros_351FI.DataSource = filas_351FI;
             dgvLibros_351FI.ClearSelection();
             Limpiar_351FI();
         }
@@ -144,7 +156,7 @@ namespace UI
 
         private void dgvLibros_351FI_SelectionChanged(object sender_351FI, EventArgs e_351FI)
         {
-            if (dgvLibros_351FI.SelectedRows.Count == 0) return;
+            if (dgvLibros_351FI.SelectedRows.Count == 0 || viendoArchivo_351FI) return;
 
             string codigo = dgvLibros_351FI.SelectedRows[0].Cells[colLibCodigo_351FI.Index].Value?.ToString() ?? "";
             libroSeleccionado_351FI = librosMostrados_351FI.FirstOrDefault(l => l.CodigoLibro_351FI == codigo);
@@ -176,7 +188,10 @@ namespace UI
             btnBaja_351FI.Enabled = libroSeleccionado_351FI != null && !dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Baja Libro");
             btnReactivar_351FI.Enabled = dadoDeBaja && usuario.Rol_351FI.TienePermiso_351FI("Reactivar Libro");
 
-            lblCodigo_351FI.Text = libroSeleccionado_351FI == null
+            // Mientras se muestra un archivo XML la grilla es de solo lectura: no hay libro de la base para modificar
+            lblCodigo_351FI.Text = viendoArchivo_351FI
+                ? bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.modoArchivo")
+                : libroSeleccionado_351FI == null
                 ? bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.codigoNuevo")
                 : $"{bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.lblCodigo_351FI")} {libroSeleccionado_351FI.CodigoLibro_351FI} ({libroSeleccionado_351FI.Estado_351FI})";
         }
@@ -302,6 +317,72 @@ namespace UI
             }
         }
 
+        // ------------------------------------------------------------ Serialización XML (CU-SER-18 y CU-SER-19)
+        private void btnSerializar_351FI_Click(object sender_351FI, EventArgs e_351FI)
+        {
+            try
+            {
+                string? ruta = SeleccionarRuta_351FI();
+                if (ruta == null) return;
+
+                bll_Serializador_351FI.SerializarXml_351FI(librosMostrados_351FI, ruta);
+                AbrirArchivo_351FI(ruta);
+                MessageBox.Show("Libros serializados correctamente.", "Serialización", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnDeserializar_351FI_Click(object sender_351FI, EventArgs e_351FI)
+        {
+            try
+            {
+                string? ruta = SeleccionarArchivo_351FI();
+                if (ruta == null) return;
+
+                List<BE_Libro_351FI> libros = bll_Deserializador_351FI.DeserializarXml_351FI(ruta);
+                librosMostrados_351FI = libros;
+                viendoArchivo_351FI = true;
+                MostrarLibros_351FI(bll_Libro_351FI.ConsultarParaGrilla_351FI(libros));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // Vuelve a mostrar los libros de la base de datos
+        private void btnActualizar_351FI_Click(object sender_351FI, EventArgs e_351FI)
+        {
+            CargarLibros_351FI();
+        }
+
+        private string? SeleccionarRuta_351FI()
+        {
+            using SaveFileDialog dialogo = new SaveFileDialog();
+            dialogo.Filter = "Archivos XML (*.xml)|*.xml";
+            dialogo.FileName = $"Libros_{DateTime.Now:ddMMyyyy_HHmmss}.xml";
+            return dialogo.ShowDialog() == DialogResult.OK ? dialogo.FileName : null;
+        }
+
+        private string? SeleccionarArchivo_351FI()
+        {
+            using OpenFileDialog dialogo = new OpenFileDialog();
+            dialogo.Filter = "Archivos XML (*.xml)|*.xml";
+            return dialogo.ShowDialog() == DialogResult.OK ? dialogo.FileName : null;
+        }
+
+        private void AbrirArchivo_351FI(string ruta_351FI)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = ruta_351FI,
+                UseShellExecute = true
+            });
+        }
+
         private void btnCerrar_351FI_Click(object sender_351FI, EventArgs e_351FI)
         {
             this.Close();
@@ -335,6 +416,9 @@ namespace UI
             btnReactivar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.btnReactivar_351FI");
             btnLimpiar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.btnLimpiar_351FI");
             btnCerrar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.btnCerrar_351FI");
+            btnSerializar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.btnSerializar_351FI");
+            btnDeserializar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.btnDeserializar_351FI");
+            btnActualizar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.btnActualizar_351FI");
             MostrarCodigo_351FI();
             MostrarEtiquetaAutores_351FI();
         }

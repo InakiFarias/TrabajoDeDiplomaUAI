@@ -338,5 +338,9 @@
   "FormControlCambios_351FI.colSocNombre_351FI": "First name",
   "FormControlCambios_351FI.colSocDni_351FI": "ID",
   "FormControlCambios_351FI.colSocEstado_351FI": "Status",
-  "FormControlCambios_351FI.btnCerrar_351FI": "Close"
-}
+  "FormControlCambios_351FI.btnCerrar_351FI": "Close",
+  "FormLibro_351FI.btnSerializar_351FI": "Serialize",
+  "FormLibro_351FI.btnDeserializar_351FI": "Deserialize",
+  "FormLibro_351FI.btnActualizar_351FI": "Refresh",
+  "FormLibro_351FI.modoArchivo": "XML file (read only). Press Refresh to go back to the books in the database."
+}

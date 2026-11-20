@@ -64,6 +64,9 @@ namespace UI
             btnBaja_351FI = new BotonSGB_351FI();
             btnReactivar_351FI = new BotonSGB_351FI();
             btnLimpiar_351FI = new BotonSGB_351FI();
+            btnSerializar_351FI = new BotonSGB_351FI();
+            btnDeserializar_351FI = new BotonSGB_351FI();
+            btnActualizar_351FI = new BotonSGB_351FI();
             pnlAcciones_351FI = new FlowLayoutPanel();
             btnCerrar_351FI = new BotonSGB_351FI();
             tlpPrincipal_351FI.SuspendLayout();
@@ -98,6 +101,9 @@ namespace UI
             crdLibros_351FI.Controls.Add(lblBuscar_351FI);
             crdLibros_351FI.Controls.Add(txtBuscar_351FI);
             crdLibros_351FI.Controls.Add(dgvLibros_351FI);
+            crdLibros_351FI.Controls.Add(btnSerializar_351FI);
+            crdLibros_351FI.Controls.Add(btnDeserializar_351FI);
+            crdLibros_351FI.Controls.Add(btnActualizar_351FI);
             crdLibros_351FI.Dock = DockStyle.Fill;
             crdLibros_351FI.Margin = new Padding(8);
             crdLibros_351FI.Name = "crdLibros_351FI";
@@ -145,8 +151,47 @@ namespace UI
             dgvLibros_351FI.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvLibros_351FI.Location = new Point(20, 116);
             dgvLibros_351FI.Name = "dgvLibros_351FI";
-            dgvLibros_351FI.Size = new Size(417, 408);
+            dgvLibros_351FI.Size = new Size(417, 354);
             dgvLibros_351FI.TabIndex = 3;
+            // 
+            // btnSerializar
+            // 
+            btnSerializar_351FI.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnSerializar_351FI.Estilo_351FI = EstiloBoton_351FI.Secundario;
+            btnSerializar_351FI.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnSerializar_351FI.Icono_351FI = "\uE74E";
+            btnSerializar_351FI.Location = new Point(20, 484);
+            btnSerializar_351FI.Name = "btnSerializar_351FI";
+            btnSerializar_351FI.Size = new Size(131, 40);
+            btnSerializar_351FI.TabIndex = 4;
+            btnSerializar_351FI.Text = "Serializar";
+            btnSerializar_351FI.Click += btnSerializar_351FI_Click;
+            // 
+            // btnDeserializar
+            // 
+            btnDeserializar_351FI.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnDeserializar_351FI.Estilo_351FI = EstiloBoton_351FI.Secundario;
+            btnDeserializar_351FI.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnDeserializar_351FI.Icono_351FI = "\uE8E5";
+            btnDeserializar_351FI.Location = new Point(163, 484);
+            btnDeserializar_351FI.Name = "btnDeserializar_351FI";
+            btnDeserializar_351FI.Size = new Size(131, 40);
+            btnDeserializar_351FI.TabIndex = 5;
+            btnDeserializar_351FI.Text = "Deserializar";
+            btnDeserializar_351FI.Click += btnDeserializar_351FI_Click;
+            // 
+            // btnActualizar
+            // 
+            btnActualizar_351FI.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnActualizar_351FI.Estilo_351FI = EstiloBoton_351FI.Secundario;
+            btnActualizar_351FI.Font = new Font("Segoe UI Semibold", 10.5F);
+            btnActualizar_351FI.Icono_351FI = "\uE72C";
+            btnActualizar_351FI.Location = new Point(306, 484);
+            btnActualizar_351FI.Name = "btnActualizar_351FI";
+            btnActualizar_351FI.Size = new Size(131, 40);
+            btnActualizar_351FI.TabIndex = 6;
+            btnActualizar_351FI.Text = "Actualizar";
+            btnActualizar_351FI.Click += btnActualizar_351FI_Click;
             // 
             // colLibCodigo
             // 
@@ -547,6 +592,9 @@ namespace UI
         private BotonSGB_351FI btnBaja_351FI;
         private BotonSGB_351FI btnReactivar_351FI;
         private BotonSGB_351FI btnLimpiar_351FI;
+        private BotonSGB_351FI btnSerializar_351FI;
+        private BotonSGB_351FI btnDeserializar_351FI;
+        private BotonSGB_351FI btnActualizar_351FI;
         private FlowLayoutPanel pnlAcciones_351FI;
         private BotonSGB_351FI btnCerrar_351FI;
     }
