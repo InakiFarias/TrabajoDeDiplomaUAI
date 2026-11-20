@@ -394,6 +394,7 @@ namespace UI
             btnReportes_351FI.Size = new Size(216, 42);
             btnReportes_351FI.TabIndex = 21;
             btnReportes_351FI.Text = "Reportes";
+            btnReportes_351FI.Click += btnReportes_351FI_Click;
             // 
             // btnAyuda
             // 

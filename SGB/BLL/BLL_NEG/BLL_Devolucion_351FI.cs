@@ -80,5 +80,29 @@ namespace BLL.BLL_NEG
                 comprobante.Pie_351FI.Add("Devolución en término: no se generó multa.");
             return comprobante;
         }
+
+        // Tabla de devoluciones del período para el reporte de préstamos y devoluciones (CU-SER-20)
+        public BE_TablaReporte_351FI ArmarTablaReporte_351FI(DateTime desde_351FI, DateTime hasta_351FI)
+        {
+            List<BE_Devolucion_351FI> devoluciones = map_devolucion_351FI.ObtenerDevolucionesPorFecha_351FI(desde_351FI, hasta_351FI);
+            BE_TablaReporte_351FI tabla = new BE_TablaReporte_351FI("Devoluciones", new[] { "N° devolución", "Fecha", "N° préstamo", "Socio", "DNI", "Días de atraso" });
+            int conAtraso = 0;
+            foreach (BE_Devolucion_351FI devolucion in devoluciones)
+            {
+                int dias = CalcularDiasAtraso_351FI(devolucion.Prestamo_351FI, devolucion.FechaDevolucion_351FI);
+                if (dias > 0) conAtraso++;
+                tabla.Filas_351FI.Add(new[]
+                {
+                    devolucion.NumeroDevolucion_351FI.ToString(),
+                    devolucion.FechaDevolucion_351FI.ToString("dd/MM/yyyy"),
+                    devolucion.Prestamo_351FI.NumeroPrestamo_351FI.ToString(),
+                    $"{devolucion.Prestamo_351FI.Socio_351FI.Apellido_351FI}, {devolucion.Prestamo_351FI.Socio_351FI.Nombre_351FI}",
+                    devolucion.Prestamo_351FI.Socio_351FI.Dni_351FI,
+                    dias.ToString()
+                });
+            }
+            tabla.Resumen_351FI = $"Total de devoluciones: {devoluciones.Count} ({conAtraso} con atraso y {devoluciones.Count - conAtraso} en término).";
+            return tabla;
+        }
     }
 }

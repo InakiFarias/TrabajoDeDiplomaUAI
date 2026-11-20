@@ -54,5 +54,28 @@ namespace BLL.BLL_NEG
                 map_multa_351FI.ActualizarPagoMulta_351FI(multa, pago_351FI.NumeroPago_351FI);
             }
         }
+
+        // Tabla de multas del período para el reporte de multas y donaciones (CU-SER-21)
+        public BE_TablaReporte_351FI ArmarTablaReporte_351FI(DateTime desde_351FI, DateTime hasta_351FI)
+        {
+            List<BE_Multa_351FI> multas = map_multa_351FI.ObtenerMultasPorFecha_351FI(desde_351FI, hasta_351FI);
+            BE_TablaReporte_351FI tabla = new BE_TablaReporte_351FI("Multas", new[] { "N° multa", "Generación", "Socio", "N° devolución", "Días de atraso", "Monto", "Estado", "Fecha de pago" });
+            foreach (BE_Multa_351FI multa in multas)
+                tabla.Filas_351FI.Add(new[]
+                {
+                    multa.NumeroMulta_351FI.ToString(),
+                    multa.FechaGeneracion_351FI.ToString("dd/MM/yyyy"),
+                    $"{multa.Devolucion_351FI.Prestamo_351FI.Socio_351FI.Apellido_351FI}, {multa.Devolucion_351FI.Prestamo_351FI.Socio_351FI.Nombre_351FI}",
+                    multa.Devolucion_351FI.NumeroDevolucion_351FI.ToString(),
+                    multa.DiasAtraso_351FI.ToString(),
+                    multa.Monto_351FI.ToString("C2"),
+                    multa.Estado_351FI,
+                    multa.FechaPago_351FI.HasValue ? multa.FechaPago_351FI.Value.ToString("dd/MM/yyyy") : "-"
+                });
+            decimal pendiente = multas.Where(m => m.Estado_351FI == "Pendiente de pago").Sum(m => m.Monto_351FI);
+            decimal pagado = multas.Where(m => m.Estado_351FI == "Pagada").Sum(m => m.Monto_351FI);
+            tabla.Resumen_351FI = $"Total de multas: {multas.Count}. Monto pendiente de pago: {pendiente:C2}. Monto pagado: {pagado:C2}.";
+            return tabla;
+        }
     }
 }

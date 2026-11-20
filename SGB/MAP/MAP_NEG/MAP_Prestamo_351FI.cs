@@ -72,5 +72,27 @@ namespace MAP
         public int ContarVencidos_351FI(BE_Socio_351FI socio_351FI) => dao_prestamo_351FI.ContarVencidos_351FI(socio_351FI.NumeroSocio_351FI);
 
         public void ActualizarEstado_351FI(BE_Prestamo_351FI prestamo_351FI, string estado_351FI) => dao_prestamo_351FI.ActualizarEstado_351FI(prestamo_351FI.NumeroPrestamo_351FI, estado_351FI);
+
+        // Préstamos del período para el reporte: agrupa las filas de la consulta en un préstamo con la lista de sus ejemplares
+        public List<BE_Prestamo_351FI> ObtenerPrestamosPorFecha_351FI(DateTime desde_351FI, DateTime hasta_351FI)
+        {
+            List<BE_Prestamo_351FI> lista = new List<BE_Prestamo_351FI>();
+            SqlDataReader dr = dao_prestamo_351FI.ObtenerPrestamosPorFecha_351FI(desde_351FI, hasta_351FI);
+            while (dr.Read())
+            {
+                int numero = Convert.ToInt32(dr["NumeroPrestamo_351FI"]);
+                BE_Prestamo_351FI? prestamo = lista.FirstOrDefault(p => p.NumeroPrestamo_351FI == numero);
+                if (prestamo == null)
+                {
+                    prestamo = Mapear_351FI(dr);
+                    lista.Add(prestamo);
+                }
+
+                BE_Libro_351FI libro = new BE_Libro_351FI(Convert.ToString(dr["CodigoLibro_351FI"]), Convert.ToString(dr["Titulo_351FI"]), new List<BE_Autor_351FI>(), new List<BE_Tema_351FI>());
+                prestamo.Ejemplares_351FI.Add(new BE_Ejemplar_351FI(Convert.ToString(dr["CodigoEjemplar_351FI"]), libro, Convert.ToString(dr["EstadoEjemplar"])));
+            }
+            dr.Close();
+            return lista;
+        }
     }
 }

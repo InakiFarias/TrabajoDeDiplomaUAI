@@ -80,5 +80,25 @@ namespace BLL.BLL_NEG
                            };
             return consulta.ToList<object>();
         }
+
+        // Tabla de donaciones del período para el reporte de multas y donaciones (CU-SER-21)
+        public BE_TablaReporte_351FI ArmarTablaReporte_351FI(DateTime desde_351FI, DateTime hasta_351FI)
+        {
+            List<BE_Donacion_351FI> donaciones = map_donacion_351FI.ObtenerDonaciones_351FI()
+                .Where(d => d.FechaDonacion_351FI.Date >= desde_351FI.Date && d.FechaDonacion_351FI.Date <= hasta_351FI.Date).ToList();
+            BE_TablaReporte_351FI tabla = new BE_TablaReporte_351FI("Donaciones", new[] { "N° donación", "Fecha", "Socio", "DNI", "Ejemplares", "Libros" });
+            foreach (BE_Donacion_351FI donacion in donaciones)
+                tabla.Filas_351FI.Add(new[]
+                {
+                    donacion.NumeroDonacion_351FI.ToString(),
+                    donacion.FechaDonacion_351FI.ToString("dd/MM/yyyy"),
+                    $"{donacion.Socio_351FI.Apellido_351FI}, {donacion.Socio_351FI.Nombre_351FI}",
+                    donacion.Socio_351FI.Dni_351FI,
+                    donacion.Ejemplares_351FI.Count.ToString(),
+                    string.Join(", ", donacion.Ejemplares_351FI.Select(ej => ej.Libro_351FI.Titulo_351FI).Distinct())
+                });
+            tabla.Resumen_351FI = $"Total de donaciones: {donaciones.Count}. Ejemplares recibidos: {donaciones.Sum(d => d.Ejemplares_351FI.Count)}.";
+            return tabla;
+        }
     }
 }

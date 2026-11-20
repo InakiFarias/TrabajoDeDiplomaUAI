@@ -342,5 +342,14 @@
   "FormLibro_351FI.btnSerializar_351FI": "Serialize",
   "FormLibro_351FI.btnDeserializar_351FI": "Deserialize",
   "FormLibro_351FI.btnActualizar_351FI": "Refresh",
-  "FormLibro_351FI.modoArchivo": "XML file (read only). Press Refresh to go back to the books in the database."
-}
+  "FormLibro_351FI.modoArchivo": "XML file (read only). Press Refresh to go back to the books in the database.",
+  "FormReporte_351FI.Form": "Reports",
+  "FormReporte_351FI.lblSeccionFiltros_351FI": "Report period",
+  "FormReporte_351FI.lblFechaDesde_351FI": "From date",
+  "FormReporte_351FI.lblFechaHasta_351FI": "To date",
+  "FormReporte_351FI.btnReportePrestamos_351FI": "Loans and returns",
+  "FormReporte_351FI.btnReporteMultas_351FI": "Fines and donations",
+  "FormReporte_351FI.lblSeccionVista_351FI": "Preview",
+  "FormReporte_351FI.btnExportar_351FI": "Export to PDF",
+  "FormReporte_351FI.btnCerrar_351FI": "Close"
+}

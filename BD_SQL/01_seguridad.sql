@@ -182,7 +182,10 @@ VALUES
     (29, N'Auditar Control de Cambios'),
     -- Serialización XML de libros (A03)
     (30, N'Serializar Libros'),
-    (31, N'Deserializar Libros');
+    (31, N'Deserializar Libros'),
+    -- Reportes en PDF (A02)
+    (32, N'Generar Reporte Préstamos y Devoluciones'),
+    (33, N'Generar Reporte Multas y Donaciones');
 SET IDENTITY_INSERT permiso_351FI OFF;
 
 -- ---------------------------------------------------------------------
@@ -203,7 +206,9 @@ VALUES
     (8,  N'Gestión de roles'),
     (9,  N'Bitácora'),
     (10, N'Gestión de respaldo'),
-    (11, N'Administración');
+    (11, N'Administración'),
+    -- Reportes
+    (12, N'Reportes');
 SET IDENTITY_INSERT familia_351FI OFF;
 
 INSERT INTO permiso_familia_351FI (idFamilia_351FI, idPermiso_351FI)
@@ -225,7 +230,9 @@ VALUES
     -- Bitácora
     (9, 6), (9, 7),
     -- Gestión de respaldo
-    (10, 10), (10, 11);
+    (10, 10), (10, 11),
+    -- Reportes
+    (12, 32), (12, 33);
 
 -- Subfamilias
 INSERT INTO familia_familia_351FI (idFamiliaPadre_351FI, idFamiliaHija_351FI)
@@ -248,9 +255,9 @@ SET IDENTITY_INSERT rol_351FI OFF;
 INSERT INTO rol_familia_351FI (idRol_351FI, idFamilia_351FI)
 VALUES
     -- Administrador: acciones técnicas y de negocio
-    (1, 11), (1, 1), (1, 2), (1, 6),
+    (1, 11), (1, 1), (1, 2), (1, 6), (1, 12),
     -- Bibliotecario: solo acciones de negocio
-    (2, 1), (2, 2), (2, 6);
+    (2, 1), (2, 2), (2, 6), (2, 12);
 
 -- ---------------------------------------------------------------------
 -- Usuarios iniciales

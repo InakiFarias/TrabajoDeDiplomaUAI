@@ -45,6 +45,9 @@ namespace UI
             btnControlCambios_351FI.Visible = TieneAlgun_351FI(usuario, "Auditar Control de Cambios");
             label4_351FI.Visible = btnGestionSocios_351FI.Visible || btnGestionLibros_351FI.Visible || btnGestionEjemplares_351FI.Visible || btnControlCambios_351FI.Visible;
 
+            // Reportes (A02)
+            btnReportes_351FI.Visible = TieneAlgun_351FI(usuario, "Generar Reporte Préstamos y Devoluciones", "Generar Reporte Multas y Donaciones");
+
             // Técnico
             btnUsuarios_351FI.Visible = TieneAlgun_351FI(usuario, "Crear Usuario", "Modificar Usuario", "Desbloquear Usuario", "Activar Usuario");
             btnGestionRoles_351FI.Visible = TieneAlgun_351FI(usuario, "Crear Rol", "Crear Familia", "Eliminar Rol", "Eliminar Familia");
@@ -148,6 +151,7 @@ namespace UI
         private void btnGestionLibros_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FormLibro_351FI>(btnGestionLibros_351FI);
         private void btnGestionEjemplares_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FormEjemplar_351FI>(btnGestionEjemplares_351FI);
         private void btnControlCambios_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FormControlCambios_351FI>(btnControlCambios_351FI);
+        private void btnReportes_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FormReporte_351FI>(btnReportes_351FI);
         private void btnUsuarios_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FrmGestionUsuarios_351FI>(btnUsuarios_351FI);
         private void btnGestionRoles_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FrmGestionRoles_351FI>(btnGestionRoles_351FI);
         private void btnBitacora_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FrmBitacora_351FI>(btnBitacora_351FI);

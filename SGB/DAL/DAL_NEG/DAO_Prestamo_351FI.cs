@@ -118,5 +118,25 @@ namespace DAL
             cm_351FI.ExecuteNonQuery();
             con_351FI.Close();
         }
+
+        // Préstamos con fecha de préstamo dentro del período, con su socio y sus ejemplares (una fila por ejemplar prestado)
+        public SqlDataReader ObtenerPrestamosPorFecha_351FI(DateTime desde_351FI, DateTime hasta_351FI)
+        {
+            cm_351FI.Parameters.Clear();
+            cm_351FI.Parameters.Add("@desde", SqlDbType.Date).Value = desde_351FI.Date;
+            cm_351FI.Parameters.Add("@hasta", SqlDbType.Date).Value = hasta_351FI.Date;
+            cm_351FI.CommandText = @"SELECT p.NumeroPrestamo_351FI, p.FechaPrestamo_351FI, p.FechaDevolucionPrevista_351FI, p.Estado_351FI AS EstadoPrestamo,
+                                      s.NumeroSocio_351FI, s.Nombre_351FI, s.Apellido_351FI, s.Dni_351FI, s.Estado_351FI AS EstadoSocio,
+                                      e.CodigoEjemplar_351FI, e.Estado_351FI AS EstadoEjemplar, l.CodigoLibro_351FI, l.Titulo_351FI
+                               FROM Prestamo_351FI p
+                               INNER JOIN Socio_351FI s ON s.NumeroSocio_351FI = p.NumeroSocio_351FI
+                               INNER JOIN Prestamo_Ejemplar_351FI pe ON pe.NumeroPrestamo_351FI = p.NumeroPrestamo_351FI
+                               INNER JOIN Ejemplar_351FI e ON e.CodigoEjemplar_351FI = pe.CodigoEjemplar_351FI
+                               INNER JOIN Libro_351FI l ON l.CodigoLibro_351FI = e.CodigoLibro_351FI
+                               WHERE p.FechaPrestamo_351FI BETWEEN @desde AND @hasta
+                               ORDER BY p.FechaPrestamo_351FI, p.NumeroPrestamo_351FI, e.CodigoEjemplar_351FI";
+            con_351FI.Open();
+            return cm_351FI.ExecuteReader(CommandBehavior.CloseConnection);
+        }
     }
-}
+}

@@ -115,5 +115,26 @@ namespace BLL.BLL_NEG
             comprobante.Pie_351FI.Add("La devolución posterior a esta fecha genera una multa por cada día de atraso.");
             return comprobante;
         }
+
+        // Tabla de préstamos del período para el reporte de préstamos y devoluciones (CU-SER-20)
+        public BE_TablaReporte_351FI ArmarTablaReporte_351FI(DateTime desde_351FI, DateTime hasta_351FI)
+        {
+            List<BE_Prestamo_351FI> prestamos = map_prestamo_351FI.ObtenerPrestamosPorFecha_351FI(desde_351FI, hasta_351FI);
+            BE_TablaReporte_351FI tabla = new BE_TablaReporte_351FI("Préstamos", new[] { "N° préstamo", "Fecha", "Socio", "DNI", "Ejemplares", "Devolución prevista", "Estado" });
+            foreach (BE_Prestamo_351FI prestamo in prestamos)
+                tabla.Filas_351FI.Add(new[]
+                {
+                    prestamo.NumeroPrestamo_351FI.ToString(),
+                    prestamo.FechaPrestamo_351FI.ToString("dd/MM/yyyy"),
+                    $"{prestamo.Socio_351FI.Apellido_351FI}, {prestamo.Socio_351FI.Nombre_351FI}",
+                    prestamo.Socio_351FI.Dni_351FI,
+                    prestamo.Ejemplares_351FI.Count.ToString(),
+                    prestamo.FechaDevolucionPrevista_351FI.ToString("dd/MM/yyyy"),
+                    prestamo.Estado_351FI
+                });
+            int vigentes = prestamos.Count(p => p.Estado_351FI == "Vigente");
+            tabla.Resumen_351FI = $"Total de préstamos: {prestamos.Count} ({vigentes} vigentes y {prestamos.Count - vigentes} finalizados). Ejemplares prestados: {prestamos.Sum(p => p.Ejemplares_351FI.Count)}.";
+            return tabla;
+        }
     }
 }

@@ -342,5 +342,14 @@
   "FormLibro_351FI.btnSerializar_351FI": "Serializar",
   "FormLibro_351FI.btnDeserializar_351FI": "Deserializar",
   "FormLibro_351FI.btnActualizar_351FI": "Actualizar",
-  "FormLibro_351FI.modoArchivo": "Archivo XML (solo lectura). Presione Actualizar para volver a los libros de la base."
-}
+  "FormLibro_351FI.modoArchivo": "Archivo XML (solo lectura). Presione Actualizar para volver a los libros de la base.",
+  "FormReporte_351FI.Form": "Reportes",
+  "FormReporte_351FI.lblSeccionFiltros_351FI": "Período del reporte",
+  "FormReporte_351FI.lblFechaDesde_351FI": "Fecha desde",
+  "FormReporte_351FI.lblFechaHasta_351FI": "Fecha hasta",
+  "FormReporte_351FI.btnReportePrestamos_351FI": "Préstamos y devoluciones",
+  "FormReporte_351FI.btnReporteMultas_351FI": "Multas y donaciones",
+  "FormReporte_351FI.lblSeccionVista_351FI": "Vista previa",
+  "FormReporte_351FI.btnExportar_351FI": "Exportar a PDF",
+  "FormReporte_351FI.btnCerrar_351FI": "Cerrar"
+}

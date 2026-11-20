@@ -74,5 +74,24 @@ namespace DAL
             con_351FI.Close();
             return numeroMulta;
         }
+
+        // Multas con fecha de generación dentro del período, con su devolución, préstamo y socio
+        public SqlDataReader ObtenerMultasPorFecha_351FI(DateTime desde_351FI, DateTime hasta_351FI)
+        {
+            cm_351FI.Parameters.Clear();
+            cm_351FI.Parameters.Add("@desde", SqlDbType.Date).Value = desde_351FI.Date;
+            cm_351FI.Parameters.Add("@hasta", SqlDbType.Date).Value = hasta_351FI.Date;
+            cm_351FI.CommandText = @"SELECT m.NumeroMulta_351FI, m.DiasAtraso_351FI, m.MontoPorDia_351FI, m.Monto_351FI, m.FechaGeneracion_351FI, m.FechaPago_351FI, m.Estado_351FI,
+                                      d.NumeroDevolucion_351FI, d.FechaDevolucion_351FI, p.NumeroPrestamo_351FI,
+                                      s.NumeroSocio_351FI, s.Nombre_351FI, s.Apellido_351FI, s.Dni_351FI, s.Estado_351FI AS EstadoSocio
+                               FROM Multa_351FI m
+                               INNER JOIN Devolucion_351FI d ON d.NumeroDevolucion_351FI = m.NumeroDevolucion_351FI
+                               INNER JOIN Prestamo_351FI p ON p.NumeroPrestamo_351FI = d.NumeroPrestamo_351FI
+                               INNER JOIN Socio_351FI s ON s.NumeroSocio_351FI = p.NumeroSocio_351FI
+                               WHERE m.FechaGeneracion_351FI BETWEEN @desde AND @hasta
+                               ORDER BY m.FechaGeneracion_351FI, m.NumeroMulta_351FI";
+            con_351FI.Open();
+            return cm_351FI.ExecuteReader(CommandBehavior.CloseConnection);
+        }
     }
 }
