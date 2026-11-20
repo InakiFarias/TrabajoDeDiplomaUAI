@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Versión** | 0.1 (en desarrollo) |
-| **Fecha de lanzamiento** | Septiembre de 2026 |
+| **Versión** | 0.3 (en desarrollo) |
+| **Fecha de lanzamiento** | Noviembre de 2026 |
 | **Institución** | Biblioteca Popular Rivadavia |
 | **Contexto** | Trabajo de Diploma – Ingeniería de Software – UAI |
 
