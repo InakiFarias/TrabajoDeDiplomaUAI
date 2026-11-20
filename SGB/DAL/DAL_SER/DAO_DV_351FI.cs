@@ -21,6 +21,15 @@ namespace DAL.DAL_SER
             return cm_351FI.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
+        public SqlDataReader ConsultarRegistrosPorColumna_351FI(string nombreTabla_351FI, string[] columnasClave_351FI, string columna_351FI, object valor_351FI)
+        {
+            cm_351FI.Parameters.Clear();
+            cm_351FI.Parameters.AddWithValue("@valor", valor_351FI);
+            cm_351FI.CommandText = $"SELECT * FROM {Identificador_351FI(nombreTabla_351FI)} WHERE {Identificador_351FI(columna_351FI)} = @valor ORDER BY {string.Join(", ", columnasClave_351FI.Select(Identificador_351FI))}";
+            con_351FI.Open();
+            return cm_351FI.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+
         public SqlDataReader ObtenerRegistro_351FI(string nombreTabla_351FI, string[] columnasClave_351FI, object[] valoresClave_351FI)
         {
             if (columnasClave_351FI.Length != valoresClave_351FI.Length)

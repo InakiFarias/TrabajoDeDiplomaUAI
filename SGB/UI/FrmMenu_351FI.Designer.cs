@@ -44,6 +44,7 @@ namespace UI
             btnGestionSocios_351FI = new BotonSGB_351FI();
             btnGestionLibros_351FI = new BotonSGB_351FI();
             btnGestionEjemplares_351FI = new BotonSGB_351FI();
+            btnControlCambios_351FI = new BotonSGB_351FI();
             lblSeccionNav_351FI = new Label();
             btnUsuarios_351FI = new BotonSGB_351FI();
             btnGestionRoles_351FI = new BotonSGB_351FI();
@@ -97,6 +98,7 @@ namespace UI
             flwNavegacion_351FI.Controls.Add(btnGestionSocios_351FI);
             flwNavegacion_351FI.Controls.Add(btnGestionLibros_351FI);
             flwNavegacion_351FI.Controls.Add(btnGestionEjemplares_351FI);
+            flwNavegacion_351FI.Controls.Add(btnControlCambios_351FI);
             flwNavegacion_351FI.Controls.Add(lblSeccionNav_351FI);
             flwNavegacion_351FI.Controls.Add(btnUsuarios_351FI);
             flwNavegacion_351FI.Controls.Add(btnGestionRoles_351FI);
@@ -249,6 +251,18 @@ namespace UI
             btnGestionEjemplares_351FI.TabIndex = 10;
             btnGestionEjemplares_351FI.Text = "Gestionar ejemplares";
             btnGestionEjemplares_351FI.Click += btnGestionEjemplares_351FI_Click;
+            // 
+            // btnControlCambios
+            // 
+            btnControlCambios_351FI.Estilo_351FI = EstiloBoton_351FI.Menu;
+            btnControlCambios_351FI.Font = new Font("Segoe UI", 10.5F);
+            btnControlCambios_351FI.Icono_351FI = "\uE777";
+            btnControlCambios_351FI.Margin = new Padding(12, 2, 0, 2);
+            btnControlCambios_351FI.Name = "btnControlCambios_351FI";
+            btnControlCambios_351FI.Size = new Size(216, 42);
+            btnControlCambios_351FI.TabIndex = 10;
+            btnControlCambios_351FI.Text = "Control de cambios";
+            btnControlCambios_351FI.Click += btnControlCambios_351FI_Click;
             // 
             // lblSeccionNav
             // 
@@ -542,6 +556,7 @@ namespace UI
         private BotonSGB_351FI btnGestionSocios_351FI;
         private BotonSGB_351FI btnGestionLibros_351FI;
         private BotonSGB_351FI btnGestionEjemplares_351FI;
+        private BotonSGB_351FI btnControlCambios_351FI;
         private Label lblSeccionNav_351FI;
         private BotonSGB_351FI btnUsuarios_351FI;
         private BotonSGB_351FI btnGestionRoles_351FI;

@@ -23,6 +23,89 @@ CREATE TABLE Socio_351FI (
 GO
 
 -- =====================================================================
+-- Control de cambios de socios (T06b)
+-- =====================================================================
+-- Tabla copia: acumula todas las versiones de cada socio. Nunca se borran registros,
+-- solo se agregan versiones o se modifica Activo_351FI.
+CREATE TABLE Socio_C_351FI (
+    IdVersion_351FI   int IDENTITY(1,1) NOT NULL,
+    NumeroSocio_351FI int               NOT NULL,
+    Nombre_351FI      varchar(50)       NOT NULL,
+    Apellido_351FI    varchar(50)       NOT NULL,
+    Dni_351FI         varchar(10)       NOT NULL,
+    Estado_351FI      varchar(15)       NOT NULL,
+    Fecha_351FI       date              NOT NULL,
+    Hora_351FI        time(0)           NOT NULL,
+    Activo_351FI      bit               NOT NULL,
+    CONSTRAINT PK_Socio_C PRIMARY KEY (IdVersion_351FI),
+    CONSTRAINT FK_Socio_C_Socio FOREIGN KEY (NumeroSocio_351FI) REFERENCES Socio_351FI(NumeroSocio_351FI),
+    CONSTRAINT CK_Socio_C_Estado CHECK (Estado_351FI IN ('Activo', 'Baja'))
+);
+GO
+
+-- Cada socio tiene una sola versión activa
+CREATE UNIQUE INDEX UQ_Socio_C_VersionActiva ON Socio_C_351FI (NumeroSocio_351FI) WHERE Activo_351FI = 1;
+GO
+
+-- Registro de versiones: cada alta o modificación de un socio genera una versión nueva,
+-- salvo que los datos coincidan con su versión activa (así la restauración no duplica versiones)
+CREATE TRIGGER TR_Socio_RegistrarCambio_351FI ON Socio_351FI
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Socios sin versión activa o cuyos datos difieren de su versión activa
+    DECLARE @Cambios TABLE (NumeroSocio_351FI int PRIMARY KEY);
+    INSERT INTO @Cambios (NumeroSocio_351FI)
+    SELECT i.NumeroSocio_351FI FROM inserted i
+    WHERE NOT EXISTS (
+        SELECT 1 FROM Socio_C_351FI c
+        WHERE c.NumeroSocio_351FI = i.NumeroSocio_351FI
+          AND c.Activo_351FI = 1
+          AND c.Nombre_351FI = i.Nombre_351FI COLLATE Latin1_General_CS_AS
+          AND c.Apellido_351FI = i.Apellido_351FI COLLATE Latin1_General_CS_AS
+          AND c.Dni_351FI = i.Dni_351FI
+          AND c.Estado_351FI = i.Estado_351FI);
+
+    IF NOT EXISTS (SELECT 1 FROM @Cambios) RETURN;
+
+    -- Desactivar la versión vigente
+    UPDATE c SET Activo_351FI = 0
+    FROM Socio_C_351FI c
+    INNER JOIN @Cambios x ON x.NumeroSocio_351FI = c.NumeroSocio_351FI
+    WHERE c.Activo_351FI = 1;
+
+    -- Registrar la versión nueva
+    INSERT INTO Socio_C_351FI (NumeroSocio_351FI, Nombre_351FI, Apellido_351FI, Dni_351FI, Estado_351FI, Fecha_351FI, Hora_351FI, Activo_351FI)
+    SELECT i.NumeroSocio_351FI, i.Nombre_351FI, i.Apellido_351FI, i.Dni_351FI, i.Estado_351FI,
+           CAST(GETDATE() AS date), CAST(GETDATE() AS time(0)), 1
+    FROM inserted i
+    INNER JOIN @Cambios x ON x.NumeroSocio_351FI = i.NumeroSocio_351FI;
+END;
+GO
+
+-- Restauración: cuando una versión pasa de no activa a activa, sus datos vuelven a Socio_351FI
+CREATE TRIGGER TR_Socio_C_Restaurar_351FI ON Socio_C_351FI
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF NOT EXISTS (SELECT 1 FROM inserted i
+                   INNER JOIN deleted d ON d.IdVersion_351FI = i.IdVersion_351FI
+                   WHERE d.Activo_351FI = 0 AND i.Activo_351FI = 1) RETURN;
+
+    UPDATE s SET Nombre_351FI = i.Nombre_351FI, Apellido_351FI = i.Apellido_351FI,
+                 Dni_351FI = i.Dni_351FI, Estado_351FI = i.Estado_351FI
+    FROM Socio_351FI s
+    INNER JOIN inserted i ON i.NumeroSocio_351FI = s.NumeroSocio_351FI
+    INNER JOIN deleted d ON d.IdVersion_351FI = i.IdVersion_351FI
+    WHERE d.Activo_351FI = 0 AND i.Activo_351FI = 1;
+END;
+GO
+
+-- =====================================================================
 -- Catálogo
 -- =====================================================================
 CREATE TABLE Autor_351FI (

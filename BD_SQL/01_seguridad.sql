@@ -177,7 +177,9 @@ VALUES
     (25, N'Reactivar Libro'),
     (26, N'Alta Ejemplar'),
     (27, N'Baja Ejemplar'),
-    (28, N'Reactivar Ejemplar');
+    (28, N'Reactivar Ejemplar'),
+    -- Control de cambios (T06b)
+    (29, N'Auditar Control de Cambios');
 SET IDENTITY_INSERT permiso_351FI OFF;
 
 -- ---------------------------------------------------------------------
@@ -208,7 +210,7 @@ VALUES
     -- Multas y donaciones
     (2, 16), (2, 17),
     -- Gestión de socios
-    (3, 18), (3, 19), (3, 20), (3, 21),
+    (3, 18), (3, 19), (3, 20), (3, 21), (3, 29),
     -- Gestión de libros
     (4, 22), (4, 23), (4, 24), (4, 25),
     -- Gestión de ejemplares

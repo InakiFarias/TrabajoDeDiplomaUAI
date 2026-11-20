@@ -47,9 +47,10 @@ namespace DAL
             cm_351FI.Parameters.Add("@apellido", SqlDbType.VarChar).Value = apellido_351FI;
             cm_351FI.Parameters.Add("@dni", SqlDbType.VarChar).Value = dni_351FI;
             cm_351FI.Parameters.Add("@estado", SqlDbType.VarChar).Value = estado_351FI;
+            // Socio_351FI tiene un trigger (control de cambios), por eso el número se obtiene con SCOPE_IDENTITY y no con OUTPUT
             cm_351FI.CommandText = @"INSERT INTO Socio_351FI (Nombre_351FI, Apellido_351FI, Dni_351FI, Estado_351FI)
-                               OUTPUT INSERTED.NumeroSocio_351FI
-                               VALUES (@nombre, @apellido, @dni, @estado)";
+                               VALUES (@nombre, @apellido, @dni, @estado);
+                               SELECT CAST(SCOPE_IDENTITY() AS int);";
             con_351FI.Open();
             int numeroSocio = Convert.ToInt32(cm_351FI.ExecuteScalar());
             con_351FI.Close();

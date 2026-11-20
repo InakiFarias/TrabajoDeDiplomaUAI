@@ -26,6 +26,19 @@ namespace MAP.MAP_SER
             return registros;
         }
 
+        // Registros de una tabla protegida que tienen un valor determinado en una columna (ej. las versiones de un socio)
+        public List<SER_Registro_351FI> ConsultarRegistrosPorColumna_351FI(string nombreTabla_351FI, string[] columnasClave_351FI, string columna_351FI, object valor_351FI)
+        {
+            List<SER_Registro_351FI> registros = new List<SER_Registro_351FI>();
+            SqlDataReader dr = dao_dv_351FI.ConsultarRegistrosPorColumna_351FI(nombreTabla_351FI, columnasClave_351FI, columna_351FI, valor_351FI);
+            while (dr.Read())
+            {
+                registros.Add(MapearRegistro_351FI(dr, nombreTabla_351FI, columnasClave_351FI));
+            }
+            dr.Close();
+            return registros;
+        }
+
         public SER_Registro_351FI? ObtenerRegistro_351FI(string nombreTabla_351FI, string[] columnasClave_351FI, object[] valoresClave_351FI)
         {
             SER_Registro_351FI? registro = null;

@@ -42,7 +42,8 @@ namespace UI
             btnGestionSocios_351FI.Visible = TieneAlgun_351FI(usuario, "Alta Socio", "Modificar Socio", "Baja Socio", "Reactivar Socio");
             btnGestionLibros_351FI.Visible = TieneAlgun_351FI(usuario, "Alta Libro", "Modificar Libro", "Baja Libro", "Reactivar Libro");
             btnGestionEjemplares_351FI.Visible = TieneAlgun_351FI(usuario, "Alta Ejemplar", "Baja Ejemplar", "Reactivar Ejemplar");
-            label4_351FI.Visible = btnGestionSocios_351FI.Visible || btnGestionLibros_351FI.Visible || btnGestionEjemplares_351FI.Visible;
+            btnControlCambios_351FI.Visible = TieneAlgun_351FI(usuario, "Auditar Control de Cambios");
+            label4_351FI.Visible = btnGestionSocios_351FI.Visible || btnGestionLibros_351FI.Visible || btnGestionEjemplares_351FI.Visible || btnControlCambios_351FI.Visible;
 
             // Técnico
             btnUsuarios_351FI.Visible = TieneAlgun_351FI(usuario, "Crear Usuario", "Modificar Usuario", "Desbloquear Usuario", "Activar Usuario");
@@ -146,6 +147,7 @@ namespace UI
         private void btnGestionSocios_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FormSocio_351FI>(btnGestionSocios_351FI);
         private void btnGestionLibros_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FormLibro_351FI>(btnGestionLibros_351FI);
         private void btnGestionEjemplares_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FormEjemplar_351FI>(btnGestionEjemplares_351FI);
+        private void btnControlCambios_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FormControlCambios_351FI>(btnControlCambios_351FI);
         private void btnUsuarios_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FrmGestionUsuarios_351FI>(btnUsuarios_351FI);
         private void btnGestionRoles_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FrmGestionRoles_351FI>(btnGestionRoles_351FI);
         private void btnBitacora_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FrmBitacora_351FI>(btnBitacora_351FI);
@@ -220,6 +222,7 @@ namespace UI
             btnGestionSocios_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.btnGestionSocios_351FI");
             btnGestionLibros_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.btnGestionLibros_351FI");
             btnGestionEjemplares_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.btnGestionEjemplares_351FI");
+            btnControlCambios_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.btnControlCambios_351FI");
             label5_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.label5_351FI");
             lblSeccionNav_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.lblSeccionNav_351FI");
             label1_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.label1_351FI");

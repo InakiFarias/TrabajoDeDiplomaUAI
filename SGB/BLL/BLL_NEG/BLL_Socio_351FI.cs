@@ -66,8 +66,7 @@ namespace BLL.BLL_NEG
             Validar_351FI(socio_351FI, 0);
             socio_351FI.Estado_351FI = "Activo";
             socio_351FI.NumeroSocio_351FI = map_socio_351FI.InsertarSocio_351FI(socio_351FI);
-            bll_dv_351FI.GenerarDVH_351FI("Socio_351FI", socio_351FI.NumeroSocio_351FI);
-            bll_dv_351FI.GenerarDVV_351FI("Socio_351FI");
+            GenerarDV_351FI(socio_351FI.NumeroSocio_351FI);
             RegistrarBitacora_351FI("Alta de socio", 3);
         }
 
@@ -76,21 +75,18 @@ namespace BLL.BLL_NEG
             if (socio_351FI.NumeroSocio_351FI == 0) throw new Exception("Seleccione el socio a modificar.");
             Validar_351FI(socio_351FI, socio_351FI.NumeroSocio_351FI);
             map_socio_351FI.ModificarSocio_351FI(socio_351FI);
-            bll_dv_351FI.GenerarDVH_351FI("Socio_351FI", socio_351FI.NumeroSocio_351FI);
-            bll_dv_351FI.GenerarDVV_351FI("Socio_351FI");
+            GenerarDV_351FI(socio_351FI.NumeroSocio_351FI);
             RegistrarBitacora_351FI("Modificación de socio", 3);
         }
 
         public void Baja_351FI(BE_Socio_351FI socio_351FI)
         {
             if (socio_351FI.Estado_351FI == "Baja") throw new Exception("El socio ya se encuentra dado de baja.");
-            if (bll_prestamo_351FI.ContarVigentes_351FI(socio_351FI) > 0) throw new Exception("No se puede dar de baja al socio porque posee préstamos vigentes.");
-            if (bll_multa_351FI.ContarPendientes_351FI(socio_351FI) > 0) throw new Exception("No se puede dar de baja al socio porque posee multas pendientes de pago.");
+            ValidarBaja_351FI(socio_351FI);
 
             map_socio_351FI.ActualizarEstado_351FI(socio_351FI, "Baja");
             socio_351FI.Estado_351FI = "Baja";
-            bll_dv_351FI.GenerarDVH_351FI("Socio_351FI", socio_351FI.NumeroSocio_351FI);
-            bll_dv_351FI.GenerarDVV_351FI("Socio_351FI");
+            GenerarDV_351FI(socio_351FI.NumeroSocio_351FI);
             RegistrarBitacora_351FI("Baja de socio", 2);
         }
 
@@ -101,9 +97,28 @@ namespace BLL.BLL_NEG
 
             map_socio_351FI.ActualizarEstado_351FI(socio_351FI, "Activo");
             socio_351FI.Estado_351FI = "Activo";
-            bll_dv_351FI.GenerarDVH_351FI("Socio_351FI", socio_351FI.NumeroSocio_351FI);
-            bll_dv_351FI.GenerarDVV_351FI("Socio_351FI");
+            GenerarDV_351FI(socio_351FI.NumeroSocio_351FI);
             RegistrarBitacora_351FI("Reactivación de socio", 3);
+        }
+
+        // Un socio con préstamos vigentes o multas pendientes de pago no puede quedar dado de baja.
+        // Lo usan la baja y la activación de una versión con estado Baja (CU-SER-10).
+        public void ValidarBaja_351FI(BE_Socio_351FI socio_351FI)
+        {
+            if (bll_prestamo_351FI.ContarVigentes_351FI(socio_351FI) > 0) throw new Exception("No se puede dar de baja al socio porque posee préstamos vigentes.");
+            if (bll_multa_351FI.ContarPendientes_351FI(socio_351FI) > 0) throw new Exception("No se puede dar de baja al socio porque posee multas pendientes de pago.");
+        }
+
+        public bool ExisteDniEnOtroSocio_351FI(string dni_351FI, int numeroSocio_351FI) => map_socio_351FI.ExisteDni_351FI(dni_351FI, numeroSocio_351FI);
+
+        // CU-SER-17: el trigger TR_Socio_RegistrarCambio_351FI pudo agregar una versión en Socio_C_351FI
+        // y desactivar la anterior, así que se regeneran los DVH de todas las versiones del socio
+        private void GenerarDV_351FI(int numeroSocio_351FI)
+        {
+            bll_dv_351FI.GenerarDVH_351FI("Socio_351FI", numeroSocio_351FI);
+            bll_dv_351FI.GenerarDVV_351FI("Socio_351FI");
+            bll_dv_351FI.GenerarDVHPorColumna_351FI("Socio_C_351FI", "NumeroSocio_351FI", numeroSocio_351FI);
+            bll_dv_351FI.GenerarDVV_351FI("Socio_C_351FI");
         }
 
         private void Validar_351FI(BE_Socio_351FI socio_351FI, int numeroSocioExcluido_351FI)

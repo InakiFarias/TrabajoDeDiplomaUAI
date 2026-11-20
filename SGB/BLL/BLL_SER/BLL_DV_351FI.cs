@@ -26,6 +26,7 @@ namespace BLL.BLL_SER
 
             // Negocio
             { "Socio_351FI",                  new[] { "NumeroSocio_351FI" } },
+            { "Socio_C_351FI",                new[] { "IdVersion_351FI" } },
             { "Autor_351FI",                  new[] { "CodigoAutor_351FI" } },
             { "Tema_351FI",                   new[] { "CodigoTema_351FI" } },
             { "Libro_351FI",                  new[] { "CodigoLibro_351FI" } },
@@ -57,6 +58,14 @@ namespace BLL.BLL_SER
                 throw new Exception($"No se encontró el registro {SER_Registro_351FI.ArmarId_351FI(clave_351FI)} de la tabla '{nombreTabla_351FI}' para generar su dígito verificador.");
 
             GuardarDVH_351FI(registro);
+        }
+
+        // Calcula el DVH de todos los registros que tienen un valor en una columna.
+        // Se usa para las versiones de un socio en Socio_C_351FI, que las agrega y desactiva un trigger.
+        public void GenerarDVHPorColumna_351FI(string nombreTabla_351FI, string columna_351FI, object valor_351FI)
+        {
+            foreach (SER_Registro_351FI registro in map_dv_351FI.ConsultarRegistrosPorColumna_351FI(nombreTabla_351FI, ObtenerColumnasClave_351FI(nombreTabla_351FI), columna_351FI, valor_351FI))
+                GuardarDVH_351FI(registro);
         }
 
         // Se usa cuando el registro se borró de la tabla
