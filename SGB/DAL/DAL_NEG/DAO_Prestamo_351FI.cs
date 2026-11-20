@@ -67,17 +67,6 @@ namespace DAL
             con_351FI.Close();
         }
 
-        public void ActualizarEstadoEjemplar_351FI(string codigoEjemplar_351FI, string estado_351FI)
-        {
-            cm_351FI.Parameters.Clear();
-            cm_351FI.Parameters.Add("@codigoEjemplar", SqlDbType.VarChar).Value = codigoEjemplar_351FI;
-            cm_351FI.Parameters.Add("@estado", SqlDbType.VarChar).Value = estado_351FI;
-            cm_351FI.CommandText = "UPDATE Ejemplar_351FI SET Estado_351FI = @estado WHERE CodigoEjemplar_351FI = @codigoEjemplar";
-            con_351FI.Open();
-            cm_351FI.ExecuteNonQuery();
-            con_351FI.Close();
-        }
-
         public object ObtenerFechaDevolucionPrevista_351FI(string codigoEjemplar_351FI)
         {
             cm_351FI.Parameters.Clear();

@@ -13,18 +13,39 @@ namespace BLL.BLL_NEG
         public const int MAXIMO_EJEMPLARES_POR_PRESTAMO = 5;
 
         MAP_Prestamo_351FI map_prestamo_351FI;
+        BLL_Ejemplar_351FI bll_ejemplar_351FI;
         BLL_Bitacora_351FI bll_bitacora_351FI;
         BLL_DV_351FI bll_dv_351FI;
         public BLL_Prestamo_351FI()
         {
             map_prestamo_351FI = new MAP_Prestamo_351FI();
+            bll_ejemplar_351FI = new BLL_Ejemplar_351FI();
             bll_bitacora_351FI = new BLL_Bitacora_351FI();
             bll_dv_351FI = new BLL_DV_351FI();
         }
 
         public DateTime CalcularFechaDevolucionPrevista_351FI(DateTime fechaPrestamo_351FI) => fechaPrestamo_351FI.Date.AddDays(PLAZO_PRESTAMO_DIAS);
 
-        public DateTime? ObtenerFechaDevolucionPrevista_351FI(string codigoEjemplar_351FI) => map_prestamo_351FI.ObtenerFechaDevolucionPrevista_351FI(codigoEjemplar_351FI);
+        // Agrega un ejemplar al detalle del préstamo: valida el máximo por préstamo y que el ejemplar esté disponible (CU-NEG-1)
+        public BE_Ejemplar_351FI AgregarEjemplar_351FI(List<BE_Ejemplar_351FI> detalle_351FI, string codigoEjemplar_351FI)
+        {
+            if (detalle_351FI.Count >= MAXIMO_EJEMPLARES_POR_PRESTAMO)
+                throw new Exception($"Un préstamo puede incluir como máximo {MAXIMO_EJEMPLARES_POR_PRESTAMO} ejemplares.");
+
+            BE_Ejemplar_351FI ejemplar = bll_ejemplar_351FI.BuscarPorCodigo_351FI(codigoEjemplar_351FI);
+            if (ejemplar.Estado_351FI != "Disponible")
+            {
+                DateTime? fecha = map_prestamo_351FI.ObtenerFechaDevolucionPrevista_351FI(codigoEjemplar_351FI);
+                throw new Exception(fecha == null
+                    ? "El ejemplar no se encuentra disponible."
+                    : $"El ejemplar se encuentra prestado. Fecha de devolución prevista: {fecha:dd/MM/yyyy}.");
+            }
+
+            AgregarAlDetalle_351FI(detalle_351FI, ejemplar);
+            return ejemplar;
+        }
+
+        private void AgregarAlDetalle_351FI(List<BE_Ejemplar_351FI> detalle_351FI, BE_Ejemplar_351FI ejemplar_351FI) => detalle_351FI.Add(ejemplar_351FI);
 
         public int ContarVigentes_351FI(BE_Socio_351FI socio_351FI) => map_prestamo_351FI.ContarVigentes_351FI(socio_351FI);
 
@@ -57,6 +78,7 @@ namespace BLL.BLL_NEG
             return consulta.ToList<object>();
         }
 
+        // Registra el préstamo con las fechas calculadas al finalizar la selección y deja los ejemplares en estado prestado (CU-NEG-1)
         public void Registrar_351FI(BE_Prestamo_351FI prestamo_351FI)
         {
             if (prestamo_351FI.Socio_351FI == null) throw new Exception("Debe seleccionar un socio.");
@@ -64,25 +86,24 @@ namespace BLL.BLL_NEG
             if (prestamo_351FI.Ejemplares_351FI.Count > MAXIMO_EJEMPLARES_POR_PRESTAMO)
                 throw new Exception($"Un préstamo puede incluir como máximo {MAXIMO_EJEMPLARES_POR_PRESTAMO} ejemplares.");
 
-            prestamo_351FI.FechaPrestamo_351FI = DateTime.Today;
-            prestamo_351FI.FechaDevolucionPrevista_351FI = CalcularFechaDevolucionPrevista_351FI(prestamo_351FI.FechaPrestamo_351FI);
             prestamo_351FI.Estado_351FI = "Vigente";
             prestamo_351FI.NumeroPrestamo_351FI = map_prestamo_351FI.InsertarPrestamo_351FI(prestamo_351FI);
-            bll_dv_351FI.GenerarDVH_351FI("Prestamo_351FI", prestamo_351FI.NumeroPrestamo_351FI);
 
+            foreach (BE_Ejemplar_351FI ejemplar in prestamo_351FI.Ejemplares_351FI)
+                bll_ejemplar_351FI.ActualizarEstado_351FI(ejemplar, "Prestado");
+
+            // CU-SER-17: dígitos verificadores de las tablas modificadas por el préstamo
+            bll_dv_351FI.GenerarDVH_351FI("Prestamo_351FI", prestamo_351FI.NumeroPrestamo_351FI);
             foreach (BE_Ejemplar_351FI ejemplar in prestamo_351FI.Ejemplares_351FI)
             {
                 bll_dv_351FI.GenerarDVH_351FI("Prestamo_Ejemplar_351FI", prestamo_351FI.NumeroPrestamo_351FI, ejemplar.CodigoEjemplar_351FI);
-
-                map_prestamo_351FI.ActualizarEstadoEjemplar_351FI(ejemplar, "Prestado");
-                ejemplar.Estado_351FI = "Prestado";
                 bll_dv_351FI.GenerarDVH_351FI("Ejemplar_351FI", ejemplar.CodigoEjemplar_351FI);
             }
-
             bll_dv_351FI.GenerarDVV_351FI("Prestamo_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Prestamo_Ejemplar_351FI");
             bll_dv_351FI.GenerarDVV_351FI("Ejemplar_351FI");
 
+            // CU-SER-9
             SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Préstamos", "Registrar préstamo", 2);
             bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
         }

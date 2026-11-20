@@ -25,6 +25,7 @@ namespace UI
         BE_Socio_351FI? socioConsultado_351FI;
         string habilitacionConsultada_351FI = "";
         List<BE_Ejemplar_351FI> detalle_351FI = new List<BE_Ejemplar_351FI>();
+        List<BE_Ejemplar_351FI> resultados_351FI = new List<BE_Ejemplar_351FI>();
 
         public FormPrestamo_351FI()
         {
@@ -49,7 +50,7 @@ namespace UI
             ConfigurarGrillas_351FI();
 
             Mostrar_351FI(dgvSocios_351FI, bll_Socio_351FI.ObtenerActivos_351FI());
-            CargarEjemplares_351FI();
+            BuscarEjemplares_351FI();
             ActualizarIdioma_351FI();
         }
 
@@ -66,6 +67,7 @@ namespace UI
             colResCodigo_351FI.DataPropertyName = "Codigo";
             colResTitulo_351FI.DataPropertyName = "Titulo";
             colResAutor_351FI.DataPropertyName = "Autor";
+            colResEstado_351FI.DataPropertyName = "Estado";
 
             dgvDetalle_351FI.AutoGenerateColumns = false;
             colDetCodigo_351FI.DataPropertyName = "Codigo";
@@ -134,23 +136,42 @@ namespace UI
         // ------------------------------------------------------------ Ejemplares
         private void txtBuscarEjemplar_351FI_TextChanged(object sender_351FI, EventArgs e_351FI)
         {
-            CargarEjemplares_351FI();
+            BuscarEjemplares_351FI();
         }
 
-        // Solo se listan los ejemplares disponibles que todavía no están en el detalle
-        // (con el buscador vacío se listan todos, como en la búsqueda de socios)
-        private void CargarEjemplares_351FI()
+        // Ejemplares que coinciden con la búsqueda (código, título o autor), sin los dados de baja y con su estado
+        private void BuscarEjemplares_351FI()
         {
-            List<BE_Ejemplar_351FI> resultados = bll_Ejemplar_351FI.BuscarDisponibles_351FI(txtBuscarEjemplar_351FI.Text)
+            resultados_351FI = bll_Ejemplar_351FI.BuscarParaPrestamo_351FI(txtBuscarEjemplar_351FI.Text);
+            MostrarResultados_351FI();
+        }
+
+        // No se listan los ejemplares que ya están en el detalle
+        private void MostrarResultados_351FI()
+        {
+            List<BE_Ejemplar_351FI> resultados = resultados_351FI
                 .Where(ej => !detalle_351FI.Any(d => d.CodigoEjemplar_351FI == ej.CodigoEjemplar_351FI))
                 .ToList();
-            Mostrar_351FI(dgvResultados_351FI, bll_Ejemplar_351FI.ConsultarParaGrilla_351FI(resultados));
+            Mostrar_351FI(dgvResultados_351FI, ArmarFilas_351FI(resultados));
+        }
+
+        private List<object> ArmarFilas_351FI(List<BE_Ejemplar_351FI> ejemplares_351FI)
+        {
+            var filas = from ej in ejemplares_351FI
+                        select new
+                        {
+                            Codigo = ej.CodigoEjemplar_351FI,
+                            Titulo = ej.Libro_351FI.Titulo_351FI,
+                            Autor = string.Join(", ", ej.Libro_351FI.Autores_351FI.Select(a => a.Nombre_351FI + " " + a.Apellido_351FI)),
+                            Estado = ej.Estado_351FI
+                        };
+            return filas.ToList<object>();
         }
 
         // Detalle del préstamo: socio elegido y ejemplares agregados
         private void MostrarDetalle_351FI()
         {
-            Mostrar_351FI(dgvDetalle_351FI, bll_Ejemplar_351FI.ConsultarParaGrilla_351FI(detalle_351FI));
+            Mostrar_351FI(dgvDetalle_351FI, ArmarFilas_351FI(detalle_351FI));
             lblDetalleSocio_351FI.Text = socioSeleccionado_351FI == null
                 ? $"{bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.lblDetalleSocio_351FI")} —"
                 : $"{bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.lblDetalleSocio_351FI")} {socioSeleccionado_351FI.Apellido_351FI}, {socioSeleccionado_351FI.Nombre_351FI} - {bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.colSocDni_351FI")} {socioSeleccionado_351FI.Dni_351FI}";
@@ -161,17 +182,14 @@ namespace UI
             try
             {
                 if (socioSeleccionado_351FI == null) throw new Exception("Primero debe agregar un socio habilitado.");
-                if (detalle_351FI.Count >= BLL_Prestamo_351FI.MAXIMO_EJEMPLARES_POR_PRESTAMO)
-                    throw new Exception($"Un préstamo puede incluir como máximo {BLL_Prestamo_351FI.MAXIMO_EJEMPLARES_POR_PRESTAMO} ejemplares.");
-                if (dgvResultados_351FI.Rows.Count == 0) throw new Exception("No hay ejemplares disponibles que coincidan con la búsqueda.");
+                if (dgvResultados_351FI.Rows.Count == 0) throw new Exception("No hay ejemplares que coincidan con la búsqueda.");
                 if (dgvResultados_351FI.SelectedRows.Count == 0) throw new Exception("Seleccione un ejemplar.");
 
                 string codigo = dgvResultados_351FI.SelectedRows[0].Cells[colResCodigo_351FI.Index].Value.ToString();
-                if (detalle_351FI.Any(ej => ej.CodigoEjemplar_351FI == codigo)) throw new Exception("El ejemplar ya está en el detalle.");
 
-                detalle_351FI.Add(bll_Ejemplar_351FI.BuscarPorCodigo_351FI(codigo));
+                bll_Prestamo_351FI.AgregarEjemplar_351FI(detalle_351FI, codigo);
                 MostrarDetalle_351FI();
-                CargarEjemplares_351FI();
+                MostrarResultados_351FI();
             }
             catch (Exception ex)
             {
@@ -189,22 +207,25 @@ namespace UI
             string codigo = dgvDetalle_351FI.SelectedRows[0].Cells[colDetCodigo_351FI.Index].Value.ToString();
             detalle_351FI.RemoveAll(ej => ej.CodigoEjemplar_351FI == codigo);
             MostrarDetalle_351FI();
-            CargarEjemplares_351FI();
+            MostrarResultados_351FI();
         }
 
         // ------------------------------------------------------ Confirmar / Cancelar
 
+        // Finalizar selección: calcula la fecha de devolución prevista, muestra el resumen y, si el bibliotecario confirma, registra el préstamo
         private void btnConfirmar_351FI_Click(object sender_351FI, EventArgs e_351FI)
         {
             try
             {
                 if (socioSeleccionado_351FI == null) throw new Exception("Debe agregar un socio habilitado.");
-                if (detalle_351FI.Count == 0) throw new Exception("Debe agregar al menos un ejemplar.");
+                if (detalle_351FI.Count == 0) throw new Exception("Debe seleccionar al menos un ejemplar.");
 
-                DateTime fechaDevolucion = bll_Prestamo_351FI.CalcularFechaDevolucionPrevista_351FI(DateTime.Today);
+                DateTime fechaPrestamo = DateTime.Today;
+                DateTime fechaDevolucionPrevista = bll_Prestamo_351FI.CalcularFechaDevolucionPrevista_351FI(fechaPrestamo);
                 string resumen = $"Socio: {socioSeleccionado_351FI.Apellido_351FI}, {socioSeleccionado_351FI.Nombre_351FI}\n" +
                                  $"Ejemplares: {detalle_351FI.Count}\n" +
-                                 $"Fecha de devolución prevista: {fechaDevolucion:dd/MM/yyyy}\n\n" +
+                                 $"Fecha del préstamo: {fechaPrestamo:dd/MM/yyyy}\n" +
+                                 $"Fecha de devolución prevista: {fechaDevolucionPrevista:dd/MM/yyyy}\n\n" +
                                  "¿Confirma el préstamo?";
 
                 if (MessageBox.Show(resumen, "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
@@ -213,6 +234,8 @@ namespace UI
                 BE_Prestamo_351FI prestamo = new BE_Prestamo_351FI();
                 prestamo.Socio_351FI = socioSeleccionado_351FI;
                 prestamo.Ejemplares_351FI = detalle_351FI;
+                prestamo.FechaPrestamo_351FI = fechaPrestamo;
+                prestamo.FechaDevolucionPrevista_351FI = fechaDevolucionPrevista;
 
                 bll_Prestamo_351FI.Registrar_351FI(prestamo);
 
@@ -259,6 +282,7 @@ namespace UI
             colResCodigo_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.colResCodigo_351FI");
             colResTitulo_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.colResTitulo_351FI");
             colResAutor_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.colResAutor_351FI");
+            colResEstado_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.colResEstado_351FI");
             lblSeccionDetalle_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.lblSeccionDetalle_351FI");
             colDetCodigo_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.colDetCodigo_351FI");
             colDetTitulo_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormPrestamo_351FI.colDetTitulo_351FI");

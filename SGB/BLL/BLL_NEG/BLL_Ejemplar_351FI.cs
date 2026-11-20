@@ -19,22 +19,21 @@ namespace BLL.BLL_NEG
 
         // ------------------------------------------------ Consultas para las operaciones (sin ejemplares dados de baja)
 
-        // Ejemplares disponibles para prestar (sin texto devuelve todos los disponibles)
-        public List<BE_Ejemplar_351FI> BuscarDisponibles_351FI(string texto_351FI) =>
-            map_ejemplar_351FI.BuscarPorTexto_351FI(texto_351FI?.Trim() ?? "", false).Where(ej => ej.Estado_351FI == "Disponible").ToList();
+        // Ejemplares para el préstamo: todos los que no están dados de baja, con su estado (CU-NEG-1)
+        public List<BE_Ejemplar_351FI> BuscarParaPrestamo_351FI(string texto_351FI) => map_ejemplar_351FI.BuscarPorTexto_351FI(texto_351FI?.Trim() ?? "", false);
 
-        // Ejemplar para un préstamo: debe existir, no estar dado de baja y estar disponible
         public BE_Ejemplar_351FI BuscarPorCodigo_351FI(string codigo_351FI)
         {
             BE_Ejemplar_351FI? ejemplar = map_ejemplar_351FI.BuscarPorCodigo_351FI(codigo_351FI);
             if (ejemplar == null) throw new Exception("El ejemplar no existe.");
-            if (ejemplar.Estado_351FI == "Baja") throw new Exception("El ejemplar fue dado de baja.");
-            if (ejemplar.Estado_351FI == "Prestado")
-            {
-                DateTime? fecha = new BLL_Prestamo_351FI().ObtenerFechaDevolucionPrevista_351FI(codigo_351FI);
-                throw new Exception($"El ejemplar se encuentra prestado. Fecha de devolución prevista: {fecha:dd/MM/yyyy}.");
-            }
             return ejemplar;
+        }
+
+        // Cambio de estado pedido por otra operación (préstamo); los dígitos verificadores y la bitácora los registra la operación que lo invoca
+        public void ActualizarEstado_351FI(BE_Ejemplar_351FI ejemplar_351FI, string estado_351FI)
+        {
+            map_ejemplar_351FI.ActualizarEstado_351FI(ejemplar_351FI, estado_351FI);
+            ejemplar_351FI.Estado_351FI = estado_351FI;
         }
 
         // ------------------------------------------------ Consultas para el ABM (todos los ejemplares)

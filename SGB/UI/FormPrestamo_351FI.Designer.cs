@@ -54,6 +54,7 @@ namespace UI
             colResCodigo_351FI = new DataGridViewTextBoxColumn();
             colResTitulo_351FI = new DataGridViewTextBoxColumn();
             colResAutor_351FI = new DataGridViewTextBoxColumn();
+            colResEstado_351FI = new DataGridViewTextBoxColumn();
             crdDetalle_351FI = new TarjetaSGB_351FI();
             lblSeccionDetalle_351FI = new Label();
             lblDetalleSocio_351FI = new Label();
@@ -297,7 +298,7 @@ namespace UI
             // 
             // dgvResultados
             // 
-            dgvResultados_351FI.Columns.AddRange(new DataGridViewColumn[] { colResCodigo_351FI, colResTitulo_351FI, colResAutor_351FI });
+            dgvResultados_351FI.Columns.AddRange(new DataGridViewColumn[] { colResCodigo_351FI, colResTitulo_351FI, colResAutor_351FI, colResEstado_351FI });
             dgvResultados_351FI.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvResultados_351FI.Location = new Point(20, 116);
             dgvResultados_351FI.Name = "dgvResultados_351FI";
@@ -306,24 +307,31 @@ namespace UI
             // 
             // colResCodigo
             // 
-            colResCodigo_351FI.FillWeight = 20F;
+            colResCodigo_351FI.FillWeight = 16F;
             colResCodigo_351FI.HeaderText = "Código";
             colResCodigo_351FI.Name = "colResCodigo_351FI";
             colResCodigo_351FI.ReadOnly = true;
             // 
             // colResTitulo
             // 
-            colResTitulo_351FI.FillWeight = 48F;
+            colResTitulo_351FI.FillWeight = 38F;
             colResTitulo_351FI.HeaderText = "Título";
             colResTitulo_351FI.Name = "colResTitulo_351FI";
             colResTitulo_351FI.ReadOnly = true;
             // 
             // colResAutor
             // 
-            colResAutor_351FI.FillWeight = 32F;
+            colResAutor_351FI.FillWeight = 28F;
             colResAutor_351FI.HeaderText = "Autor";
             colResAutor_351FI.Name = "colResAutor_351FI";
             colResAutor_351FI.ReadOnly = true;
+            // 
+            // colResEstado
+            // 
+            colResEstado_351FI.FillWeight = 18F;
+            colResEstado_351FI.HeaderText = "Estado";
+            colResEstado_351FI.Name = "colResEstado_351FI";
+            colResEstado_351FI.ReadOnly = true;
             dgvResultados_351FI.CellDoubleClick += dgvResultados_351FI_CellDoubleClick;
             // 
             // crdDetalle
@@ -539,6 +547,7 @@ namespace UI
         private DataGridViewTextBoxColumn colResCodigo_351FI;
         private DataGridViewTextBoxColumn colResTitulo_351FI;
         private DataGridViewTextBoxColumn colResAutor_351FI;
+        private DataGridViewTextBoxColumn colResEstado_351FI;
         private TarjetaSGB_351FI crdDetalle_351FI;
         private Label lblSeccionDetalle_351FI;
         private Label lblDetalleSocio_351FI;

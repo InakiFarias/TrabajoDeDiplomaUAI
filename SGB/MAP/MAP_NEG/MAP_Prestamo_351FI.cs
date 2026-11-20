@@ -64,8 +64,6 @@ namespace MAP
             return numeroPrestamo;
         }
 
-        public void ActualizarEstadoEjemplar_351FI(BE_Ejemplar_351FI ejemplar_351FI, string estado_351FI) => dao_prestamo_351FI.ActualizarEstadoEjemplar_351FI(ejemplar_351FI.CodigoEjemplar_351FI, estado_351FI);
-
         public DateTime? ObtenerFechaDevolucionPrevista_351FI(string codigoEjemplar_351FI)
         {
             object fecha = dao_prestamo_351FI.ObtenerFechaDevolucionPrevista_351FI(codigoEjemplar_351FI);

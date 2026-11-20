@@ -233,6 +233,7 @@
   "FormPrestamo_351FI.colDetCodigo_351FI": "Code",
   "FormPrestamo_351FI.colDetTitulo_351FI": "Title",
   "FormPrestamo_351FI.colResAutor_351FI": "Author",
+  "FormPrestamo_351FI.colResEstado_351FI": "Status",
   "FormPrestamo_351FI.colResCodigo_351FI": "Code",
   "FormPrestamo_351FI.colResTitulo_351FI": "Title",
   "FormPrestamo_351FI.colSocApellido_351FI": "Last name",
