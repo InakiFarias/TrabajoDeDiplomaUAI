@@ -22,4 +22,20 @@
 		</None>
     </ItemGroup>
 
+	<!-- Scripts de creación de la base: se copian a BD_SQL junto al ejecutable (los lee DAO_InicializacionBD_351FI) -->
+	<ItemGroup>
+		<None Include="..\..\BD_SQL\01_seguridad.sql" Link="BD_SQL\01_seguridad.sql">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\..\BD_SQL\02_negocio.sql" Link="BD_SQL\02_negocio.sql">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\..\BD_SQL\03_carga_inicial.sql" Link="BD_SQL\03_carga_inicial.sql">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\..\BD_SQL\04_datos_prueba.sql" Link="BD_SQL\04_datos_prueba.sql">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 </Project>

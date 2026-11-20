@@ -1,5 +1,7 @@
 ﻿using BLL.BLL_SER;
 using Servicio;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace UI
 {
@@ -29,7 +31,8 @@ namespace UI
                 saveDialog.Filter = "Backup SQL Server (*.bak)|*.bak";
                 saveDialog.DefaultExt = "bak";
                 saveDialog.AddExtension = true;
-                saveDialog.FileName = $"bkp_sgvcelulares_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
+                saveDialog.InitialDirectory = CarpetaBackups_351FI();
+                saveDialog.FileName = $"bkp_sgb_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
                     string ruta = saveDialog.FileName;
@@ -49,6 +52,7 @@ namespace UI
             {
                 OpenFileDialog openDialog = new OpenFileDialog();
                 openDialog.Filter = "Backup SQL Server (*.bak)|*.bak";
+                openDialog.InitialDirectory = CarpetaBackups_351FI();
 
                 if (openDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -90,6 +94,30 @@ namespace UI
         {
             bll_idioma_351FI.Desuscribir_351FI(this);
             base.OnFormClosed(e);
+        }
+
+        // El .bak no lo escribe el usuario sino el servicio de SQL Server, que no tiene acceso a Documentos.
+        // Por eso la carpeta de backups le da permiso de modificación al grupo SERVICE (S-1-5-6).
+        private string CarpetaBackups_351FI()
+        {
+            string carpeta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SGB", "Backups");
+            DirectoryInfo directorio = Directory.CreateDirectory(carpeta);
+            try
+            {
+                DirectorySecurity seguridad = directorio.GetAccessControl();
+                seguridad.AddAccessRule(new FileSystemAccessRule(
+                    new SecurityIdentifier(WellKnownSidType.ServiceSid, null),
+                    FileSystemRights.Modify,
+                    InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+                    PropagationFlags.None,
+                    AccessControlType.Allow));
+                directorio.SetAccessControl(seguridad);
+            }
+            catch (Exception)
+            {
+                // Si no se puede dar el permiso, el backup informa el error de SQL Server al intentar escribir
+            }
+            return carpeta;
         }
     }
 }

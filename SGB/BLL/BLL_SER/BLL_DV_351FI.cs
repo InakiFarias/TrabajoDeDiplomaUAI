@@ -110,6 +110,22 @@ namespace BLL.BLL_SER
         // Toma los datos actuales de todas las tablas protegidas como válidos y vuelve a generar sus DVH y DVV
         public void RecalcularDV_351FI()
         {
+            RegenerarDV_351FI();
+
+            // Criticidad alta: se aceptan como válidos datos que pudieron modificarse por fuera del sistema
+            SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Dígitos verificadores", "Recalcular dígitos verificadores", 1);
+            bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
+        }
+
+        // Al crear la base en el primer inicio (BLL_InicializacionBD_351FI): todavía no hay sesión,
+        // así que se generan los DV de los datos de los scripts sin registrar en bitácora
+        public void GenerarDVInicial_351FI()
+        {
+            RegenerarDV_351FI();
+        }
+
+        private void RegenerarDV_351FI()
+        {
             foreach (string nombreTabla in TABLAS_351FI.Keys)
             {
                 List<SER_Registro_351FI> registros = map_dv_351FI.ConsultarRegistros_351FI(nombreTabla, TABLAS_351FI[nombreTabla]);
@@ -126,10 +142,6 @@ namespace BLL.BLL_SER
 
                 GenerarDVV_351FI(nombreTabla);
             }
-
-            // Criticidad alta: se aceptan como válidos datos que pudieron modificarse por fuera del sistema
-            SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Dígitos verificadores", "Recalcular dígitos verificadores", 1);
-            bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
         }
 
         // ------------------------------------------------ Verificación
