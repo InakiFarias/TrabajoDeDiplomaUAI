@@ -10,9 +10,11 @@ namespace UI
         BLL_Idioma_351FI bll_idioma_351FI = new BLL_Idioma_351FI();
         BLL_Socio_351FI bll_Socio_351FI;
         BLL_Multa_351FI bll_Multa_351FI;
+        BLL_Pago_351FI bll_Pago_351FI;
         BLL_Comprobante_351FI bll_Comprobante_351FI;
         BE_Socio_351FI? socioSeleccionado_351FI;
         List<BE_Multa_351FI> multasPendientes_351FI = new List<BE_Multa_351FI>();
+        decimal totalAdeudado_351FI = 0m;
 
         public FormMulta_351FI()
         {
@@ -24,6 +26,7 @@ namespace UI
         {
             bll_Socio_351FI = new BLL_Socio_351FI();
             bll_Multa_351FI = new BLL_Multa_351FI();
+            bll_Pago_351FI = new BLL_Pago_351FI();
             bll_Comprobante_351FI = new BLL_Comprobante_351FI();
 
             CargarMetodosPago_351FI();
@@ -79,6 +82,7 @@ namespace UI
 
                 BE_Socio_351FI socio = (BE_Socio_351FI)dgvSocios_351FI.SelectedRows[0].DataBoundItem;
                 multasPendientes_351FI = bll_Multa_351FI.ObtenerPendientes_351FI(socio);
+                totalAdeudado_351FI = bll_Multa_351FI.CalcularTotalAdeudado_351FI(multasPendientes_351FI);
                 socioSeleccionado_351FI = socio;
                 MostrarSocio_351FI();
                 MostrarMultas_351FI();
@@ -104,14 +108,30 @@ namespace UI
                 lblTotal_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblTotal_351FI")} $ {0m:N2}";
                 return;
             }
-            Mostrar_351FI(dgvMultas_351FI, bll_Multa_351FI.ConsultarParaGrilla_351FI(multasPendientes_351FI));
-            lblTotal_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblTotal_351FI")} $ {bll_Multa_351FI.CalcularTotalAdeudado_351FI(multasPendientes_351FI):N2}";
+            Mostrar_351FI(dgvMultas_351FI, ArmarFilas_351FI(multasPendientes_351FI));
+            lblTotal_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormMulta_351FI.lblTotal_351FI")} $ {totalAdeudado_351FI:N2}";
+        }
+
+        // Filas de la grilla de multas pendientes
+        private List<object> ArmarFilas_351FI(List<BE_Multa_351FI> multas_351FI)
+        {
+            var consulta = from m in multas_351FI
+                           select new
+                           {
+                               Numero = m.NumeroMulta_351FI,
+                               Prestamo = m.Devolucion_351FI.Prestamo_351FI.NumeroPrestamo_351FI,
+                               FechaGeneracion = m.FechaGeneracion_351FI.ToString("dd/MM/yyyy"),
+                               DiasAtraso = m.DiasAtraso_351FI,
+                               Monto = m.Monto_351FI.ToString("N2")
+                           };
+            return consulta.ToList<object>();
         }
 
         private void LimpiarMultas_351FI()
         {
             socioSeleccionado_351FI = null;
             multasPendientes_351FI = new List<BE_Multa_351FI>();
+            totalAdeudado_351FI = 0m;
             cmbMetodoPago_351FI.SelectedIndex = 0;
             txtNumeroTarjeta_351FI.Clear();
             MostrarSocio_351FI();
@@ -133,12 +153,12 @@ namespace UI
             cargandoMetodos_351FI = false;
         }
 
-        private string ObtenerMetodoPago_351FI() => cmbMetodoPago_351FI.SelectedIndex == 1 ? BLL_Multa_351FI.METODO_TARJETA : BLL_Multa_351FI.METODO_EFECTIVO;
+        private string ObtenerMetodoPago_351FI() => cmbMetodoPago_351FI.SelectedIndex == 1 ? BLL_Pago_351FI.METODO_TARJETA : BLL_Pago_351FI.METODO_EFECTIVO;
 
         private void cmbMetodoPago_351FI_SelectedIndexChanged(object sender_351FI, EventArgs e_351FI)
         {
             if (cargandoMetodos_351FI) return;
-            bool tarjeta = ObtenerMetodoPago_351FI() == BLL_Multa_351FI.METODO_TARJETA;
+            bool tarjeta = ObtenerMetodoPago_351FI() == BLL_Pago_351FI.METODO_TARJETA;
             lblNumeroTarjeta_351FI.Visible = tarjeta;
             txtNumeroTarjeta_351FI.Visible = tarjeta;
             if (!tarjeta) txtNumeroTarjeta_351FI.Clear();
@@ -160,32 +180,39 @@ namespace UI
             {
                 if (socioSeleccionado_351FI == null) throw new Exception("Debe seleccionar un socio con multas pendientes de pago.");
 
-                decimal total = bll_Multa_351FI.CalcularTotalAdeudado_351FI(multasPendientes_351FI);
+                if (!MostrarResumen_351FI()) return;
+
                 string metodoPago = ObtenerMetodoPago_351FI();
 
-                // Con tarjeta, primero se procesa el pago con tarjeta; si se rechaza no se registra el pago
-                if (metodoPago == BLL_Multa_351FI.METODO_TARJETA)
+                // Con tarjeta se ejecuta CU-NEG-8; si el pago no es aprobado no se registra
+                if (metodoPago == BLL_Pago_351FI.METODO_TARJETA)
                 {
-                    bool aprobado = bll_Multa_351FI.ProcesarPagoConTarjeta_351FI(txtNumeroTarjeta_351FI.Text, total);
-                    txtNumeroTarjeta_351FI.Clear();
+                    bool aprobado;
+                    try
+                    {
+                        aprobado = bll_Pago_351FI.ProcesarPagoConTarjeta_351FI(txtNumeroTarjeta_351FI.Text, totalAdeudado_351FI);
+                    }
+                    finally
+                    {
+                        DescartarDatosTarjeta_351FI();
+                    }
                     if (!aprobado)
                     {
-                        MessageBox.Show("El pago con tarjeta fue rechazado. No se registró el pago y las multas se mantienen pendientes de pago.",
+                        MessageBox.Show("La entidad bancaria rechazó el pago con tarjeta. No se registró el pago y las multas se mantienen pendientes de pago.",
                                         "Pago rechazado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+                    MessageBox.Show("El pago con tarjeta fue aprobado.", "Pago aprobado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
-                if (MessageBox.Show($"¿Confirma el cobro del total adeudado de $ {total:N2} con método de pago: {cmbMetodoPago_351FI.Text}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                    return;
-
-                BE_Pago_351FI pago = bll_Multa_351FI.RegistrarPago_351FI(socioSeleccionado_351FI, multasPendientes_351FI, metodoPago);
+                BE_Pago_351FI pago = new BE_Pago_351FI(0, socioSeleccionado_351FI, DateTime.Today, multasPendientes_351FI, metodoPago, totalAdeudado_351FI);
+                bll_Pago_351FI.Registrar_351FI(pago);
 
                 MessageBox.Show($"Pago N° {pago.NumeroPago_351FI} registrado correctamente.",
                                 "Pago registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
                 {
-                    bll_Comprobante_351FI.Emitir_351FI(bll_Multa_351FI.ArmarComprobante_351FI(pago));
+                    bll_Comprobante_351FI.Emitir_351FI(bll_Pago_351FI.ArmarComprobante_351FI(pago));
                 }
                 catch (Exception exPdf)
                 {
@@ -197,6 +224,23 @@ namespace UI
             {
                 MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        // Resumen del cobro con el total adeudado y el método de pago; devuelve true si el bibliotecario confirma el cobro
+        private bool MostrarResumen_351FI()
+        {
+            string resumen = $"Socio: {socioSeleccionado_351FI!.Apellido_351FI}, {socioSeleccionado_351FI.Nombre_351FI}\n" +
+                             $"Multas a abonar: {multasPendientes_351FI.Count}\n" +
+                             $"Total adeudado: $ {totalAdeudado_351FI:N2}\n" +
+                             $"Método de pago: {cmbMetodoPago_351FI.Text}\n\n" +
+                             "¿Confirma el cobro del total adeudado?";
+            return MessageBox.Show(resumen, "Confirmar cobro", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+        }
+
+        // Los datos de la tarjeta no se almacenan
+        private void DescartarDatosTarjeta_351FI()
+        {
+            txtNumeroTarjeta_351FI.Clear();
         }
 
         // ------------------------------------------------------------ Idioma

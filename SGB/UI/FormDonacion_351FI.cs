@@ -22,7 +22,6 @@ namespace UI
         BLL_Donacion_351FI bll_Donacion_351FI;
         BLL_Comprobante_351FI bll_Comprobante_351FI;
         BE_Socio_351FI? socioSeleccionado_351FI;
-        List<BE_Libro_351FI> librosActivos_351FI = new List<BE_Libro_351FI>();
         List<BE_Libro_351FI> librosMostrados_351FI = new List<BE_Libro_351FI>();
         // Ejemplares nuevos que se crean al confirmar la donación (uno por copia donada)
         List<BE_Ejemplar_351FI> detalle_351FI = new List<BE_Ejemplar_351FI>();
@@ -64,9 +63,7 @@ namespace UI
             colDonLibros_351FI.DataPropertyName = "Libros";
 
             Mostrar_351FI(dgvSocios_351FI, bll_Socio_351FI.ObtenerActivos_351FI());
-            // Los libros activos se cargan una vez y se filtran en memoria con el buscador
-            librosActivos_351FI = bll_Libro_351FI.ObtenerActivos_351FI();
-            CargarLibros_351FI();
+            BuscarLibros_351FI();
             CargarDonaciones_351FI();
             ActualizarIdioma_351FI();
         }
@@ -122,14 +119,26 @@ namespace UI
         // ------------------------------------------------------------ Libros donados
         private void txtBuscarLibro_351FI_TextChanged(object sender_351FI, EventArgs e_351FI)
         {
-            CargarLibros_351FI();
+            BuscarLibros_351FI();
         }
 
-        // Con el buscador vacío se listan todos los libros activos del catálogo
-        private void CargarLibros_351FI()
+        // Libros activos que coinciden por código, título o autor; con el buscador vacío se listan todos
+        private void BuscarLibros_351FI()
         {
-            librosMostrados_351FI = bll_Libro_351FI.FiltrarLibros_351FI(librosActivos_351FI, txtBuscarLibro_351FI.Text);
-            Mostrar_351FI(dgvLibros_351FI, bll_Libro_351FI.ConsultarParaGrilla_351FI(librosMostrados_351FI));
+            librosMostrados_351FI = bll_Libro_351FI.BuscarActivos_351FI(txtBuscarLibro_351FI.Text);
+            MostrarLibros_351FI();
+        }
+
+        private void MostrarLibros_351FI()
+        {
+            var filas = from l in librosMostrados_351FI
+                        select new
+                        {
+                            Codigo = l.CodigoLibro_351FI,
+                            Titulo = l.Titulo_351FI,
+                            Autores = string.Join(", ", l.Autores_351FI.Select(a => a.Nombre_351FI + " " + a.Apellido_351FI))
+                        };
+            Mostrar_351FI(dgvLibros_351FI, filas.ToList<object>());
         }
 
         private void dgvLibros_351FI_CellDoubleClick(object sender_351FI, DataGridViewCellEventArgs e_351FI)
@@ -148,7 +157,7 @@ namespace UI
                 if (dgvLibros_351FI.SelectedRows.Count == 0) throw new Exception("Seleccione un libro.");
 
                 BE_Libro_351FI libro = librosMostrados_351FI[dgvLibros_351FI.SelectedRows[0].Index];
-                detalle_351FI.Add(bll_Donacion_351FI.CrearEjemplarDonado_351FI(libro));
+                bll_Donacion_351FI.AgregarLibro_351FI(detalle_351FI, libro);
                 MostrarDetalle_351FI();
             }
             catch (Exception ex)
@@ -167,7 +176,15 @@ namespace UI
 
         private void MostrarDetalle_351FI()
         {
-            Mostrar_351FI(dgvDetalle_351FI, bll_Donacion_351FI.ConsultarDetalleParaGrilla_351FI(detalle_351FI));
+            // Los ejemplares todavía no tienen código: se muestra el libro de cada uno
+            var filas = from ej in detalle_351FI
+                        select new
+                        {
+                            Codigo = ej.Libro_351FI.CodigoLibro_351FI,
+                            Titulo = ej.Libro_351FI.Titulo_351FI,
+                            Autor = string.Join(", ", ej.Libro_351FI.Autores_351FI.Select(a => a.Nombre_351FI + " " + a.Apellido_351FI))
+                        };
+            Mostrar_351FI(dgvDetalle_351FI, filas.ToList<object>());
             lblDetalleCantidad_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDonacion_351FI.lblDetalleCantidad_351FI")} {detalle_351FI.Count}";
         }
 
@@ -177,16 +194,13 @@ namespace UI
             try
             {
                 if (socioSeleccionado_351FI == null) throw new Exception("Debe seleccionar al socio donante.");
-                if (detalle_351FI.Count == 0) throw new Exception("Debe agregar al menos un ejemplar donado.");
+                if (detalle_351FI.Count == 0) throw new Exception("Debe seleccionar al menos un libro.");
 
-                string resumen = $"Socio donante: {socioSeleccionado_351FI.Apellido_351FI}, {socioSeleccionado_351FI.Nombre_351FI}\n" +
-                                 $"Ejemplares donados: {detalle_351FI.Count}\n\n" +
-                                 "Se darán de alta los ejemplares en el catálogo.\n¿Confirma la donación?";
-                if (MessageBox.Show(resumen, "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                    return;
+                if (!MostrarResumen_351FI()) return;
 
                 BE_Donacion_351FI donacion = new BE_Donacion_351FI();
                 donacion.Socio_351FI = socioSeleccionado_351FI;
+                donacion.FechaDonacion_351FI = DateTime.Today;
                 donacion.Ejemplares_351FI = detalle_351FI;
 
                 bll_Donacion_351FI.Registrar_351FI(donacion);
@@ -208,6 +222,17 @@ namespace UI
             {
                 MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        // Resumen de la donación; devuelve true si el bibliotecario confirma la donación
+        private bool MostrarResumen_351FI()
+        {
+            string libros = string.Join("\n", detalle_351FI.GroupBy(ej => ej.Libro_351FI.CodigoLibro_351FI)
+                                                          .Select(g => $"  - {g.First().Libro_351FI.Titulo_351FI} ({g.Count()})"));
+            string resumen = $"Socio donante: {socioSeleccionado_351FI!.Apellido_351FI}, {socioSeleccionado_351FI.Nombre_351FI}\n" +
+                             $"Ejemplares donados: {detalle_351FI.Count}\n{libros}\n\n" +
+                             "Se dará de alta un ejemplar disponible por cada libro del detalle.\n¿Confirma la donación?";
+            return MessageBox.Show(resumen, "Confirmar donación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
         }
 
         private void btnCancelar_351FI_Click(object sender_351FI, EventArgs e_351FI)

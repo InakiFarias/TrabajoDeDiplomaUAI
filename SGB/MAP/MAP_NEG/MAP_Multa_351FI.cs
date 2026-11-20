@@ -43,8 +43,6 @@ namespace MAP
             return lista;
         }
 
-        public int InsertarPago_351FI(BE_Pago_351FI pago_351FI) => dao_multa_351FI.InsertarPago_351FI(pago_351FI.Socio_351FI.NumeroSocio_351FI, pago_351FI.FechaPago_351FI, pago_351FI.MetodoPago_351FI, pago_351FI.Total_351FI);
-
         public void ActualizarPagoMulta_351FI(BE_Multa_351FI multa_351FI, int numeroPago_351FI) => dao_multa_351FI.ActualizarPagoMulta_351FI(multa_351FI.NumeroMulta_351FI, multa_351FI.FechaPago_351FI.Value, multa_351FI.Estado_351FI, numeroPago_351FI);
 
         public int InsertarMulta_351FI(BE_Multa_351FI multa_351FI) => dao_multa_351FI.InsertarMulta_351FI(multa_351FI.Devolucion_351FI.NumeroDevolucion_351FI, multa_351FI.DiasAtraso_351FI, multa_351FI.MontoPorDia_351FI, multa_351FI.Monto_351FI, multa_351FI.FechaGeneracion_351FI, multa_351FI.Estado_351FI);

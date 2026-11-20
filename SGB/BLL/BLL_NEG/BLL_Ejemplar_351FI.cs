@@ -39,6 +39,14 @@ namespace BLL.BLL_NEG
             ejemplar_351FI.Estado_351FI = estado_351FI;
         }
 
+        // Alta de un ejemplar donado; los dígitos verificadores y la bitácora los registra la donación (CU-NEG-4)
+        public void AltaPorDonacion_351FI(BE_Ejemplar_351FI ejemplar_351FI)
+        {
+            ejemplar_351FI.CodigoEjemplar_351FI = map_ejemplar_351FI.ObtenerSiguienteCodigo_351FI();
+            ejemplar_351FI.Estado_351FI = "Disponible";
+            map_ejemplar_351FI.InsertarEjemplar_351FI(ejemplar_351FI);
+        }
+
         // ------------------------------------------------ Consultas para el ABM (todos los ejemplares)
 
         public List<BE_Ejemplar_351FI> BuscarParaGestion_351FI(string texto_351FI) => map_ejemplar_351FI.BuscarPorTexto_351FI(texto_351FI?.Trim() ?? "", true);

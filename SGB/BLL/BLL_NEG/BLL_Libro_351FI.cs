@@ -26,6 +26,9 @@ namespace BLL.BLL_NEG
         // Libros activos (para asignarlos a un ejemplar)
         public List<BE_Libro_351FI> ObtenerActivos_351FI() => map_libro_351FI.BuscarPorTexto_351FI("", true);
 
+        // Libros activos que coinciden por código, título o autor (CU-NEG-4)
+        public List<BE_Libro_351FI> BuscarActivos_351FI(string texto_351FI) => map_libro_351FI.BuscarPorTexto_351FI(texto_351FI?.Trim() ?? "", true);
+
         public List<BE_Autor_351FI> ObtenerAutores_351FI() => map_libro_351FI.ObtenerAutores_351FI();
 
         // Filtra por nombre o apellido sin distinguir mayúsculas ni tildes ("garcia" encuentra "García")
