@@ -21,6 +21,7 @@ namespace UI
 
         public static void Aplicar_351FI(Form formulario_351FI, BLL_Idioma_351FI idioma_351FI)
         {
+            if (formulario_351FI.IsDisposed) return;
             ToolTip tooltip = tooltips_351FI.GetValue(formulario_351FI, f => CrearTooltip_351FI());
             string claveForm = formulario_351FI.GetType().Name;
 

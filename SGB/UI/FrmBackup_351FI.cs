@@ -86,5 +86,10 @@ namespace UI
             AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
         private void btnSalir_351FI_Click(object sender_351FI, EventArgs e_351FI) => this.Close();
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            bll_idioma_351FI.Desuscribir_351FI(this);
+            base.OnFormClosed(e);
+        }
     }
 }
