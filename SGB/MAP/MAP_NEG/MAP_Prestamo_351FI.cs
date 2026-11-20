@@ -18,10 +18,6 @@ namespace MAP
             SqlDataReader dr = dao_prestamo_351FI.ObtenerPrestamoVigente_351FI(numeroPrestamo_351FI);
             if (dr.Read()) prestamo = Mapear_351FI(dr);
             dr.Close();
-
-            if (prestamo != null)
-                prestamo.Ejemplares_351FI = new MAP_Ejemplar_351FI().ObtenerPorPrestamo_351FI(prestamo.NumeroPrestamo_351FI);
-
             return prestamo;
         }
 
@@ -74,5 +70,7 @@ namespace MAP
         public int ContarVigentes_351FI(BE_Socio_351FI socio_351FI) => dao_prestamo_351FI.ContarVigentes_351FI(socio_351FI.NumeroSocio_351FI);
 
         public int ContarVencidos_351FI(BE_Socio_351FI socio_351FI) => dao_prestamo_351FI.ContarVencidos_351FI(socio_351FI.NumeroSocio_351FI);
+
+        public void ActualizarEstado_351FI(BE_Prestamo_351FI prestamo_351FI, string estado_351FI) => dao_prestamo_351FI.ActualizarEstado_351FI(prestamo_351FI.NumeroPrestamo_351FI, estado_351FI);
     }
 }

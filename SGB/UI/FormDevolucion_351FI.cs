@@ -19,10 +19,12 @@ namespace UI
         BLL_Idioma_351FI bll_idioma_351FI = new BLL_Idioma_351FI();
         BLL_Prestamo_351FI bll_Prestamo_351FI;
         BLL_Devolucion_351FI bll_Devolucion_351FI;
+        BLL_Multa_351FI bll_Multa_351FI;
         BLL_Comprobante_351FI bll_Comprobante_351FI;
-        BLL_Ejemplar_351FI bll_Ejemplar_351FI;
         List<BE_Prestamo_351FI> prestamosMostrados_351FI = new List<BE_Prestamo_351FI>();
         BE_Prestamo_351FI? prestamoSeleccionado_351FI;
+        // Devolución armada con el resumen (fecha real y multa si hay atraso); se registra al confirmar
+        BE_Devolucion_351FI? devolucion_351FI;
         bool cargandoPrestamos_351FI;
 
         public FormDevolucion_351FI()
@@ -35,8 +37,8 @@ namespace UI
         {
             bll_Prestamo_351FI = new BLL_Prestamo_351FI();
             bll_Devolucion_351FI = new BLL_Devolucion_351FI();
+            bll_Multa_351FI = new BLL_Multa_351FI();
             bll_Comprobante_351FI = new BLL_Comprobante_351FI();
-            bll_Ejemplar_351FI = new BLL_Ejemplar_351FI();
 
             dgvPrestamos_351FI.AutoGenerateColumns = false;
             colPreNumero_351FI.DataPropertyName = "Numero";
@@ -50,7 +52,7 @@ namespace UI
             colTitulo_351FI.DataPropertyName = "Titulo";
             colAutor_351FI.DataPropertyName = "Autor";
 
-            CargarPrestamos_351FI();
+            BuscarPrestamos_351FI();
             ActualizarIdioma_351FI();
             this.Shown += FormDevolucion_351FI_Shown;
         }
@@ -63,13 +65,28 @@ namespace UI
         }
 
         // ------------------------------------------------------------ Préstamos vigentes
-        private void CargarPrestamos_351FI()
+        // Préstamos vigentes que coinciden con el número de préstamo o el DNI del socio
+        private void BuscarPrestamos_351FI()
+        {
+            prestamosMostrados_351FI = bll_Prestamo_351FI.BuscarVigentes_351FI(txtBuscar_351FI.Text);
+            MostrarPrestamos_351FI();
+        }
+
+        private void MostrarPrestamos_351FI()
         {
             // Mientras se recarga la grilla no se cargan préstamos por el cambio de selección
             cargandoPrestamos_351FI = true;
-            prestamosMostrados_351FI = bll_Prestamo_351FI.BuscarVigentes_351FI(txtBuscar_351FI.Text);
+            var filas = from p in prestamosMostrados_351FI
+                        select new
+                        {
+                            Numero = p.NumeroPrestamo_351FI,
+                            Socio = $"{p.Socio_351FI.Apellido_351FI}, {p.Socio_351FI.Nombre_351FI}",
+                            Dni = p.Socio_351FI.Dni_351FI,
+                            FechaPrestamo = p.FechaPrestamo_351FI.ToString("dd/MM/yyyy"),
+                            FechaDevolucionPrevista = p.FechaDevolucionPrevista_351FI.ToString("dd/MM/yyyy")
+                        };
             dgvPrestamos_351FI.DataSource = null;
-            dgvPrestamos_351FI.DataSource = bll_Prestamo_351FI.ConsultarParaGrilla_351FI(prestamosMostrados_351FI);
+            dgvPrestamos_351FI.DataSource = filas.ToList();
             MarcarVencidos_351FI();
             dgvPrestamos_351FI.ClearSelection();
             cargandoPrestamos_351FI = false;
@@ -93,9 +110,10 @@ namespace UI
 
         private void txtBuscar_351FI_TextChanged(object sender_351FI, EventArgs e_351FI)
         {
-            CargarPrestamos_351FI();
+            BuscarPrestamos_351FI();
         }
 
+        // Selección del préstamo: se trae con sus ejemplares y se arma el resumen de la devolución
         private void dgvPrestamos_351FI_SelectionChanged(object sender_351FI, EventArgs e_351FI)
         {
             if (cargandoPrestamos_351FI || dgvPrestamos_351FI.SelectedRows.Count == 0) return;
@@ -106,28 +124,47 @@ namespace UI
             try
             {
                 LimpiarPrestamo_351FI();
-                // Se vuelve a buscar el préstamo para traer sus ejemplares
-                prestamoSeleccionado_351FI = bll_Prestamo_351FI.BuscarVigente_351FI(elegido.NumeroPrestamo_351FI.ToString());
-                MostrarPrestamo_351FI(prestamoSeleccionado_351FI);
+                prestamoSeleccionado_351FI = bll_Prestamo_351FI.BuscarVigente_351FI(elegido.NumeroPrestamo_351FI);
+                MostrarPrestamo_351FI();
+
+                // La fecha actual es la fecha real de devolución; si hay atraso se calcula la multa
+                DateTime fechaDevolucion = DateTime.Today;
+                devolucion_351FI = new BE_Devolucion_351FI(0, prestamoSeleccionado_351FI, fechaDevolucion);
+                int diasAtraso = bll_Devolucion_351FI.CalcularDiasAtraso_351FI(prestamoSeleccionado_351FI, fechaDevolucion);
+                if (diasAtraso > 0)
+                    devolucion_351FI.Multa_351FI = bll_Multa_351FI.CalcularMulta_351FI(diasAtraso, fechaDevolucion);
+                MostrarResumen_351FI();
             }
             catch (Exception ex)
             {
+                LimpiarPrestamo_351FI();
                 MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        private void MostrarPrestamo_351FI(BE_Prestamo_351FI prestamo_351FI)
+        // Socio, fechas y ejemplares del préstamo seleccionado
+        private void MostrarPrestamo_351FI()
         {
-            lblSocio_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblSocio_351FI")} {prestamo_351FI.Socio_351FI.Apellido_351FI}, {prestamo_351FI.Socio_351FI.Nombre_351FI} - {bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.dni")} {prestamo_351FI.Socio_351FI.Dni_351FI}";
-            lblFechaPrestamo_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblFechaPrestamo_351FI")} {prestamo_351FI.FechaPrestamo_351FI:dd/MM/yyyy}";
-            lblFechaDevolucionPrevista_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblFechaDevolucionPrevista_351FI")} {prestamo_351FI.FechaDevolucionPrevista_351FI:dd/MM/yyyy}";
-            dgvEjemplares_351FI.DataSource = bll_Ejemplar_351FI.ConsultarParaGrilla_351FI(prestamo_351FI.Ejemplares_351FI);
+            BE_Prestamo_351FI prestamo = prestamoSeleccionado_351FI!;
+            lblSocio_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblSocio_351FI")} {prestamo.Socio_351FI.Apellido_351FI}, {prestamo.Socio_351FI.Nombre_351FI} - {bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.dni")} {prestamo.Socio_351FI.Dni_351FI}";
+            lblFechaPrestamo_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblFechaPrestamo_351FI")} {prestamo.FechaPrestamo_351FI:dd/MM/yyyy}";
+            lblFechaDevolucionPrevista_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblFechaDevolucionPrevista_351FI")} {prestamo.FechaDevolucionPrevista_351FI:dd/MM/yyyy}";
+            var filas = from ej in prestamo.Ejemplares_351FI
+                        select new
+                        {
+                            Codigo = ej.CodigoEjemplar_351FI,
+                            Titulo = ej.Libro_351FI.Titulo_351FI,
+                            Autor = string.Join(", ", ej.Libro_351FI.Autores_351FI.Select(a => a.Nombre_351FI + " " + a.Apellido_351FI))
+                        };
+            dgvEjemplares_351FI.DataSource = filas.ToList();
+        }
 
-            // Resumen: fecha real de devolución, atraso y multa
-            DateTime hoy = DateTime.Today;
-            BE_Multa_351FI? multa = bll_Devolucion_351FI.CalcularMulta_351FI(prestamo_351FI, hoy);
-            lblFechaDevolucion_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblFechaDevolucion_351FI")} {hoy:dd/MM/yyyy}";
-            lblDiasAtraso_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblDiasAtraso_351FI")} {bll_Devolucion_351FI.CalcularDiasAtraso_351FI(prestamo_351FI, hoy)}";
+        // Resumen: fecha real de devolución, días de atraso y multa
+        private void MostrarResumen_351FI()
+        {
+            BE_Multa_351FI? multa = devolucion_351FI!.Multa_351FI;
+            lblFechaDevolucion_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblFechaDevolucion_351FI")} {devolucion_351FI.FechaDevolucion_351FI:dd/MM/yyyy}";
+            lblDiasAtraso_351FI.Text = $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblDiasAtraso_351FI")} {(multa == null ? 0 : multa.DiasAtraso_351FI)}";
             lblMulta_351FI.Text = multa == null
                 ? $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblMulta_351FI")} {bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.sinMulta")}"
                 : $"{bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.lblMulta_351FI")} $ {multa.Monto_351FI:N2} ({multa.DiasAtraso_351FI} {bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.dias")} x $ {multa.MontoPorDia_351FI:N2})";
@@ -136,6 +173,7 @@ namespace UI
         private void LimpiarPrestamo_351FI()
         {
             prestamoSeleccionado_351FI = null;
+            devolucion_351FI = null;
             dgvEjemplares_351FI.DataSource = null;
             chkRecepcionCompleta_351FI.Checked = false;
             MostrarSinPrestamo_351FI();
@@ -156,26 +194,26 @@ namespace UI
         {
             try
             {
-                if (prestamoSeleccionado_351FI == null) throw new Exception("Seleccione un préstamo vigente de la grilla.");
+                if (devolucion_351FI == null) throw new Exception("Seleccione un préstamo vigente de la grilla.");
                 if (!chkRecepcionCompleta_351FI.Checked)
                     throw new Exception("Debe confirmar que recibió todos los ejemplares del préstamo. Si el socio no los devuelve todos, la devolución no se registra.");
 
-                if (MessageBox.Show($"¿Confirma la devolución del préstamo N° {prestamoSeleccionado_351FI.NumeroPrestamo_351FI}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                if (MessageBox.Show($"¿Confirma la devolución del préstamo N° {devolucion_351FI.Prestamo_351FI.NumeroPrestamo_351FI}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
-                BE_Devolucion_351FI devolucion = bll_Devolucion_351FI.Registrar_351FI(prestamoSeleccionado_351FI, chkRecepcionCompleta_351FI.Checked);
+                bll_Devolucion_351FI.Registrar_351FI(devolucion_351FI, chkRecepcionCompleta_351FI.Checked);
 
-                string mensaje = $"Devolución N° {devolucion.NumeroDevolucion_351FI} registrada correctamente.";
-                if (devolucion.Multa_351FI != null)
+                string mensaje = $"Devolución N° {devolucion_351FI.NumeroDevolucion_351FI} registrada correctamente.";
+                if (devolucion_351FI.Multa_351FI != null)
                 {
-                    mensaje += $"\n\nSe registró una multa de $ {devolucion.Multa_351FI.Monto_351FI:N2} por {devolucion.Multa_351FI.DiasAtraso_351FI} días de atraso." +
+                    mensaje += $"\n\nSe registró una multa de $ {devolucion_351FI.Multa_351FI.Monto_351FI:N2} por {devolucion_351FI.Multa_351FI.DiasAtraso_351FI} días de atraso." +
                                "\nEl socio no podrá realizar nuevos préstamos hasta abonarla.";
                 }
                 MessageBox.Show(mensaje, "Devolución registrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 try
                 {
-                    bll_Comprobante_351FI.Emitir_351FI(bll_Devolucion_351FI.ArmarComprobante_351FI(devolucion));
+                    bll_Comprobante_351FI.Emitir_351FI(bll_Devolucion_351FI.ArmarComprobante_351FI(devolucion_351FI));
                 }
                 catch (Exception exPdf)
                 {
@@ -214,7 +252,11 @@ namespace UI
             colAutor_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.colAutor_351FI");
             btnConfirmar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.btnConfirmar_351FI");
             btnCancelar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormDevolucion_351FI.btnCancelar_351FI");
-            if (prestamoSeleccionado_351FI != null) MostrarPrestamo_351FI(prestamoSeleccionado_351FI);
+            if (prestamoSeleccionado_351FI != null && devolucion_351FI != null)
+            {
+                MostrarPrestamo_351FI();
+                MostrarResumen_351FI();
+            }
             else MostrarSinPrestamo_351FI();
         }
 

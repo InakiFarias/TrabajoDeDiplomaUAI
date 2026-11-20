@@ -29,7 +29,10 @@ namespace BLL.BLL_NEG
             return ejemplar;
         }
 
-        // Cambio de estado pedido por otra operación (préstamo); los dígitos verificadores y la bitácora los registra la operación que lo invoca
+        // Ejemplares de un préstamo (CU-NEG-2)
+        public List<BE_Ejemplar_351FI> ObtenerPorPrestamo_351FI(int numeroPrestamo_351FI) => map_ejemplar_351FI.ObtenerPorPrestamo_351FI(numeroPrestamo_351FI);
+
+        // Cambio de estado pedido por otra operación (préstamo o devolución); los dígitos verificadores y la bitácora los registra la operación que lo invoca
         public void ActualizarEstado_351FI(BE_Ejemplar_351FI ejemplar_351FI, string estado_351FI)
         {
             map_ejemplar_351FI.ActualizarEstado_351FI(ejemplar_351FI, estado_351FI);

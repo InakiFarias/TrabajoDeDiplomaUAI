@@ -51,32 +51,17 @@ namespace BLL.BLL_NEG
 
         public int ContarVencidos_351FI(BE_Socio_351FI socio_351FI) => map_prestamo_351FI.ContarVencidos_351FI(socio_351FI);
 
-        public BE_Prestamo_351FI BuscarVigente_351FI(string numeroPrestamo_351FI)
+        // Préstamo vigente elegido para la devolución, con sus ejemplares (CU-NEG-2)
+        public BE_Prestamo_351FI BuscarVigente_351FI(int numeroPrestamo_351FI)
         {
-            if (!int.TryParse(numeroPrestamo_351FI?.Trim(), out int numero) || numero <= 0)
-                throw new Exception("Ingrese un número de préstamo válido.");
-
-            BE_Prestamo_351FI? prestamo = map_prestamo_351FI.ObtenerPrestamoVigente_351FI(numero);
-            if (prestamo == null) throw new Exception("No se encontró un préstamo vigente con el número ingresado.");
+            BE_Prestamo_351FI? prestamo = map_prestamo_351FI.ObtenerPrestamoVigente_351FI(numeroPrestamo_351FI);
+            if (prestamo == null) throw new Exception("No se encontró un préstamo vigente con el número indicado.");
+            prestamo.Ejemplares_351FI = bll_ejemplar_351FI.ObtenerPorPrestamo_351FI(numeroPrestamo_351FI);
             return prestamo;
         }
 
         // Préstamos vigentes que coinciden con el número de préstamo o el DNI del socio
         public List<BE_Prestamo_351FI> BuscarVigentes_351FI(string texto_351FI) => map_prestamo_351FI.BuscarVigentes_351FI(texto_351FI?.Trim() ?? "");
-
-        public List<object> ConsultarParaGrilla_351FI(List<BE_Prestamo_351FI> prestamos_351FI)
-        {
-            var consulta = from p in prestamos_351FI
-                           select new
-                           {
-                               Numero = p.NumeroPrestamo_351FI,
-                               Socio = $"{p.Socio_351FI.Apellido_351FI}, {p.Socio_351FI.Nombre_351FI}",
-                               Dni = p.Socio_351FI.Dni_351FI,
-                               FechaPrestamo = p.FechaPrestamo_351FI.ToString("dd/MM/yyyy"),
-                               FechaDevolucionPrevista = p.FechaDevolucionPrevista_351FI.ToString("dd/MM/yyyy")
-                           };
-            return consulta.ToList<object>();
-        }
 
         // Registra el préstamo con las fechas calculadas al finalizar la selección y deja los ejemplares en estado prestado (CU-NEG-1)
         public void Registrar_351FI(BE_Prestamo_351FI prestamo_351FI)
@@ -106,6 +91,16 @@ namespace BLL.BLL_NEG
             // CU-SER-9
             SER_Bitacora_351FI bitacora = new SER_Bitacora_351FI(SER_SesionManager_351FI.ObtenerSesion_351FI().Usuario_351FI, DateTime.Now, "Préstamos", "Registrar préstamo", 2);
             bll_bitacora_351FI.RegistrarBitacora_351FI(bitacora);
+        }
+
+        // Finaliza el préstamo devuelto y deja sus ejemplares disponibles; los dígitos verificadores y la bitácora los registra la devolución (CU-NEG-2)
+        public void Finalizar_351FI(BE_Prestamo_351FI prestamo_351FI)
+        {
+            map_prestamo_351FI.ActualizarEstado_351FI(prestamo_351FI, "Finalizado");
+            prestamo_351FI.Estado_351FI = "Finalizado";
+
+            foreach (BE_Ejemplar_351FI ejemplar in prestamo_351FI.Ejemplares_351FI)
+                bll_ejemplar_351FI.ActualizarEstado_351FI(ejemplar, "Disponible");
         }
 
         // Comprobante del préstamo registrado (CU-NEG-7); no se persiste

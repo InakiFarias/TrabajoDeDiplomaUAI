@@ -107,5 +107,16 @@ namespace DAL
             con_351FI.Close();
             return cantidad;
         }
+
+        public void ActualizarEstado_351FI(int numeroPrestamo_351FI, string estado_351FI)
+        {
+            cm_351FI.Parameters.Clear();
+            cm_351FI.Parameters.Add("@numeroPrestamo", SqlDbType.Int).Value = numeroPrestamo_351FI;
+            cm_351FI.Parameters.Add("@estado", SqlDbType.VarChar).Value = estado_351FI;
+            cm_351FI.CommandText = "UPDATE Prestamo_351FI SET Estado_351FI = @estado WHERE NumeroPrestamo_351FI = @numeroPrestamo";
+            con_351FI.Open();
+            cm_351FI.ExecuteNonQuery();
+            con_351FI.Close();
+        }
     }
 }

@@ -72,5 +72,23 @@ namespace DAL
             cm_351FI.ExecuteNonQuery();
             con_351FI.Close();
         }
+
+        public int InsertarMulta_351FI(int numeroDevolucion_351FI, int diasAtraso_351FI, decimal montoPorDia_351FI, decimal monto_351FI, DateTime fechaGeneracion_351FI, string estado_351FI)
+        {
+            cm_351FI.Parameters.Clear();
+            cm_351FI.Parameters.Add("@numeroDevolucion", SqlDbType.Int).Value = numeroDevolucion_351FI;
+            cm_351FI.Parameters.Add("@diasAtraso", SqlDbType.Int).Value = diasAtraso_351FI;
+            cm_351FI.Parameters.Add("@montoPorDia", SqlDbType.Decimal).Value = montoPorDia_351FI;
+            cm_351FI.Parameters.Add("@monto", SqlDbType.Decimal).Value = monto_351FI;
+            cm_351FI.Parameters.Add("@fechaGeneracion", SqlDbType.Date).Value = fechaGeneracion_351FI;
+            cm_351FI.Parameters.Add("@estado", SqlDbType.VarChar).Value = estado_351FI;
+            cm_351FI.CommandText = @"INSERT INTO Multa_351FI (NumeroDevolucion_351FI, DiasAtraso_351FI, MontoPorDia_351FI, Monto_351FI, FechaGeneracion_351FI, Estado_351FI)
+                               OUTPUT INSERTED.NumeroMulta_351FI
+                               VALUES (@numeroDevolucion, @diasAtraso, @montoPorDia, @monto, @fechaGeneracion, @estado)";
+            con_351FI.Open();
+            int numeroMulta = Convert.ToInt32(cm_351FI.ExecuteScalar());
+            con_351FI.Close();
+            return numeroMulta;
+        }
     }
 }
