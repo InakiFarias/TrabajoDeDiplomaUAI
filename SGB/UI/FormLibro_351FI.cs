@@ -421,6 +421,7 @@ namespace UI
             btnActualizar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormLibro_351FI.btnActualizar_351FI");
             MostrarCodigo_351FI();
             MostrarEtiquetaAutores_351FI();
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

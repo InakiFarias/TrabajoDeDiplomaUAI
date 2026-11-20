@@ -19,6 +19,10 @@ namespace UI
         private void FrmLogin_351FI_Load(object sender_351FI, EventArgs e_351FI)
         {
             txtPassword_351FI.UseSystemPasswordChar = true;
+            // En el primer inicio todavía no se cargaron los textos del idioma: se cargan para que la ayuda se vea
+            if (bll_idioma_351FI.Traducir_351FI("FrmLogin_351FI.ayuda") == "FrmLogin_351FI.ayuda")
+                bll_idioma_351FI.CambiarIdioma_351FI(bll_idioma_351FI.IdiomaActual_351FI);
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
             bll_usuario_351FI = new BLL_Usuario_351FI();
         }
         private bool ValidarDatos_351FI(string texto_351FI, string expresionRegular_351FI)
@@ -118,6 +122,7 @@ namespace UI
             lblBienvenida_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmLogin_351FI.lblBienvenida_351FI");
             lblIndicacion_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmLogin_351FI.lblIndicacion_351FI");
             lblPie_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmLogin_351FI.lblPie_351FI");
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {

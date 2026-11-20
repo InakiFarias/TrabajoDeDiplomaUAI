@@ -371,6 +371,7 @@ namespace UI
             btnLogout_351FI.TabIndex = 19;
             btnLogout_351FI.Text = "Cerrar sesión";
             btnLogout_351FI.Click += btnLogout_351FI_Click;
+            btnAyuda_351FI.Click += btnAyuda_351FI_Click;
             // 
             // label5
             // 

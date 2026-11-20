@@ -239,6 +239,7 @@ namespace UI
             if (bll_Libro_351FI == null) return;
             MostrarCodigo_351FI();
             MostrarEtiquetaLibro_351FI();
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

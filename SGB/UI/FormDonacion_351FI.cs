@@ -274,6 +274,7 @@ namespace UI
             btnCancelar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormDonacion_351FI.btnCancelar_351FI");
             MostrarSocio_351FI();
             if (bll_Donacion_351FI != null) MostrarDetalle_351FI();
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

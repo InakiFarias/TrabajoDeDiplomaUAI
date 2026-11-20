@@ -211,6 +211,7 @@ namespace UI
             btnLimpiar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormSocio_351FI.btnLimpiar_351FI");
             btnCerrar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormSocio_351FI.btnCerrar_351FI");
             if (bll_Socio_351FI != null) MostrarEstado_351FI();
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

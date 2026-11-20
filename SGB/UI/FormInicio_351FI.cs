@@ -71,6 +71,7 @@ namespace UI
             lblMontoDetalle_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormInicio_351FI.lblMontoDetalle_351FI");
             if (!errorResumen_351FI) lblAyuda_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormInicio_351FI.lblAyuda_351FI");
             MostrarSaludo_351FI();
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

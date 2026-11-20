@@ -258,6 +258,7 @@ namespace UI
                 MostrarResumen_351FI();
             }
             else MostrarSinPrestamo_351FI();
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

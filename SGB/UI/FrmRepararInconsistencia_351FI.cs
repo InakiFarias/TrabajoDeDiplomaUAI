@@ -126,6 +126,7 @@ namespace UI
             lblDetalle_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmRepararInconsistencia_351FI.lblDetalle_351FI");
             btnSalir_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmRepararInconsistencia_351FI.btnSalir_351FI");
             TraducirColumnas_351FI(grillaInconsistencias_351FI);
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         private void btnSalir_351FI_Click(object sender_351FI, EventArgs e_351FI)

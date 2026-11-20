@@ -154,6 +154,7 @@ namespace UI
             btnExportar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormReporte_351FI.btnExportar_351FI");
             btnCerrar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormReporte_351FI.btnCerrar_351FI");
             if (reporte_351FI == null) lblSeccionVista_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormReporte_351FI.lblSeccionVista_351FI");
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

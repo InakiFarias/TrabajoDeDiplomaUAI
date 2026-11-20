@@ -164,6 +164,7 @@ namespace UI
             colSocDni_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormControlCambios_351FI.colSocDni_351FI");
             colSocEstado_351FI.HeaderText = bll_idioma_351FI.Traducir_351FI("FormControlCambios_351FI.colSocEstado_351FI");
             btnCerrar_351FI.Text = bll_idioma_351FI.Traducir_351FI("FormControlCambios_351FI.btnCerrar_351FI");
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

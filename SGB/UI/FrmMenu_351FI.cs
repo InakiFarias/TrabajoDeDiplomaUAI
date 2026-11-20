@@ -158,6 +158,13 @@ namespace UI
         private void btnGestionRespaldo_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<FrmBackup_351FI>(btnGestionRespaldo_351FI);
         private void btnCambiarClave_351FI_Click(object sender_351FI, EventArgs e_351FI) => Abrir_351FI<frmCambiarClave_351FI>(btnCambiarClave_351FI);
 
+        // Muestra la ayuda de la pantalla que está abierta en el área de contenido
+        private void btnAyuda_351FI_Click(object sender_351FI, EventArgs e_351FI)
+        {
+            if (pantallaActual_351FI != null)
+                AyudaFormulario_351FI.Mostrar_351FI(pantallaActual_351FI, bll_idioma_351FI);
+        }
+
         private void btnLogout_351FI_Click(object sender_351FI, EventArgs e_351FI)
         {
             DialogResult res = MessageBox.Show(
@@ -240,6 +247,7 @@ namespace UI
             btnCambiarClave_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.btnCambiarClave_351FI");
             btnLogout_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmMenu_351FI.btnLogout_351FI");
             if (pantallaActual_351FI != null) lblPantalla_351FI.Text = pantallaActual_351FI.Text;
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

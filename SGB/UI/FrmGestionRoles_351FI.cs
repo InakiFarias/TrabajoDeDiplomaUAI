@@ -181,6 +181,7 @@ namespace UI
             label6_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmGestionRoles_351FI.label6_351FI");
             btnBorrarRol_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmGestionRoles_351FI.btnBorrarRol_351FI");
             btnBorrarFamilia_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmGestionRoles_351FI.btnBorrarFamilia_351FI");
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

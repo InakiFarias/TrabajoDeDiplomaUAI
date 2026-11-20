@@ -83,6 +83,7 @@ namespace UI
             lblTituloBackup_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmBackup_351FI.lblTituloBackup_351FI");
             lblAyudaBackup_351FI.Text = bll_idioma_351FI.Traducir_351FI("FrmBackup_351FI.lblAyudaBackup_351FI");
 
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
         private void btnSalir_351FI_Click(object sender_351FI, EventArgs e_351FI) => this.Close();
     }

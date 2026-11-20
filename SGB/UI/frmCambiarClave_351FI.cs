@@ -65,6 +65,7 @@ namespace UI
             btnConfirmar_351FI.Text = bll_idioma_351FI.Traducir_351FI("frmCambiarClave_351FI.btnConfirmar_351FI");
             lblRequisitos_351FI.Text = bll_idioma_351FI.Traducir_351FI("frmCambiarClave_351FI.lblRequisitos_351FI");
             lblAviso_351FI.Text = bll_idioma_351FI.Traducir_351FI("frmCambiarClave_351FI.lblAviso_351FI");
+            AyudaFormulario_351FI.Aplicar_351FI(this, bll_idioma_351FI);
         }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
